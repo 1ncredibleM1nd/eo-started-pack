@@ -1,16 +1,77 @@
 .chat{
-    
     min-height: 300px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    position: relative;
+    height: 100vh;
+    width: 100%;
 
     .info_center{
         text-align: center;
         font-size: 18px;
     }
+}
 
+.msg_space{
+   min-height: 300px;
+   padding-bottom: 75px;
+   overflow: auto; 
+}
 
+.inputer{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+
+    .input-container{
+        width: calc(100% - 55px);
+        height: 45px;
+        border-radius:10px;
+        padding: 5px;
+        background: #fff;
+        border: 1px solid #00000023;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    .main_input{
+        min-width: 300px;
+        width: 85%;
+        height: 50px;
+        padding: 5px;
+
+        input{
+            outline: none;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+        }
+    }
+    .send_btn{
+        background: rgb(112, 112, 213);
+        color: #fff;
+        width: 45px;
+        height: 45px;
+        border-radius: 10px;
+        font-size: 24px;
+        text-align: center;
+ 
+    }
+    .inputer_btn{
+        height: 36px;
+        width: 36px;
+        border-radius: 16px;
+        border: 1px solid #0000001a;
+    }
 }
 
 

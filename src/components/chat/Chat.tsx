@@ -1,6 +1,7 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
 import IStores, { IChatStore, IMsg, IContactStore, IUserStore } from '@stores/interface';
+import $ from 'jquery'
 import './Chat.scss'
 
 type IProps = {
@@ -15,56 +16,90 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
         const { chatStore, contactStore, userStore } = props;
         const activeContact = contactStore.activeContact;
         const hero = userStore.hero
-
-        console.log('hero', hero)
+        const [draft, setDraft] = useState({})
+        const [render, startRender] = useState(false)
 
         let currentChat: any;
-        if (chatStore.chat && activeContact) currentChat = chatStore.getCurrentChat(activeContact.id)
+        if (chatStore.chat && activeContact) {
+            currentChat = chatStore.getCurrentChat(activeContact.id)
+        }
 
-        console.log('currentChat', currentChat)
+        useEffect(() => {
+            if (activeContact && !draft[activeContact.id]) $('.main_input input').val('');
+        })
+
+        const onChange = (name: string, value: string) => {
+            console.log(draft)
+            setDraft({ ...draft, [name]: value })
+            startRender(!render)
+        }
+
+        const onSend = () => {
+            $('.main_input input').val('');
+            setDraft({ ...draft, [activeContact.id]: '' })
+            chatStore.addMsg(currentChat.id, draft[activeContact.id], hero.id)
+            console.log($(".msg").last().offset().top)
+            $('.msg_space').animate({
+                scrollTop: $(".msg").last().offset().top
+            }, 300);
+
+        }
 
         return (
             <div className="chat">
+
                 {
                     currentChat != undefined ? (<Fragment>
-                        {
-                            currentChat.msg.map((msg: IMsg, index: number) => {
-                                let user = currentChat.person.find((person: any) => person.id === msg.from)
+                        <div className="msg_space">
+                            {
 
-                                if (user.id !== hero.id) {
-                                    return (
-                                        <div key={Math.random()} className="msg">
-                                            <div className="msg_avatar">
-                                                <img src={user.avatar} alt="" />
-                                            </div>
-                                            <div className="msg_content">
-                                                <div className="msg_name">
-                                                    {user.username}
+                                currentChat.msg.map((msg: IMsg, index: number) => {
+                                    let user = currentChat.person.find((person: any) => person.id === msg.from)
+
+                                    if (user.id !== hero.id) {
+                                        return (
+                                            <div key={Math.random()} className="msg">
+                                                <div className="msg_avatar">
+                                                    <img src={user.avatar} alt="" />
                                                 </div>
-                                                {msg.content}
+                                                <div className="msg_content">
+                                                    <div className="msg_name">
+                                                        {user.username}
+                                                    </div>
+                                                    {msg.content}
+                                                </div>
                                             </div>
-                                        </div>
-                                    )
-                                } else {
-                                    return (
-                                        <div key={Math.random()} className="msg hero">
-                                            <div className="msg_content">
-                                                {msg.content}
+                                        )
+                                    } else {
+                                        return (
+                                            <div key={Math.random()} className="msg hero">
+                                                <div className="msg_content">
+                                                    {msg.content}
+                                                </div>
                                             </div>
-                                        </div>
-                                    )
-                                }
+                                        )
+                                    }
 
-                            })
-                        }
-                    </Fragment>) : (<Fragment>
-                        <div className="info_center">
-                            Выберите чат для общения
+                                })
+                            }
                         </div>
 
-                    </Fragment>)
+                        <div className="inputer">
+                            <div className="input-container">
+                                <div className="inputer_btn"></div>
+                                <div className="main_input">
+                                    <input placeholder='Ваше сообщение' type="text" onChange={(e) => onChange(activeContact.id, e.target.value)} value={draft[activeContact.id]} />
+                                </div>
+                                <div className="inputer_btn"></div>
+
+                            </div>
+                            <div onClick={() => onSend()} className="send_btn">
+                                {'->'}
+                            </div>
+                        </div>
+                    </Fragment>) : (<Fragment>Загрузка...</Fragment>)
                 }
-            </div>
+            </div >
         );
     }));
 
