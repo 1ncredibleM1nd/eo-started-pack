@@ -1,5 +1,5 @@
 
-import { action, computed, observable, reaction } from 'mobx'
+import { action, observable, reaction } from 'mobx'
 import { IChat, IChatStore } from '@stores/interface';
 
 export class ChatStore implements IChatStore {

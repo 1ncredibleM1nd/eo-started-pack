@@ -5,7 +5,7 @@ import { ChatLayout, InfoLayout, ContactsLayout } from '@layouts'
 import IStores, { IAppStore } from '@stores/interface';
 
 type IProps = {
-    appStore: IAppStore
+    appStore?: IAppStore
 }
 
 const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(

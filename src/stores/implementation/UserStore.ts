@@ -1,4 +1,4 @@
-import { action, computed, observable, reaction } from 'mobx'
+import { action, observable, reaction } from 'mobx'
 import { IUserStore, IUser } from '@stores/interface';
 
 export class UserStore implements IUserStore {
@@ -16,7 +16,7 @@ export class UserStore implements IUserStore {
     }
 
     @action
-    initHero(data: any) {
+    initHero(data: any): void {
         this.hero = data
     };
 

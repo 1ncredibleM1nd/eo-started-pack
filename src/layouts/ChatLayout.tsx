@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import IStores, { IAppStore } from '@stores/interface';
+import IStores from '@stores/interface';
 import Header from '@components/chat/Header'
 import Chat from '@components/chat/Chat'
 

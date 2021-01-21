@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import IStores, { IAppStore } from '@stores/interface';
+import IStores from '@stores/interface';
 
 type IProps = {
 

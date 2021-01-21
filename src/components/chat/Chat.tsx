@@ -1,12 +1,11 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import { inject, observer } from 'mobx-react';
-import IStores, { IAppStore, IChatStore, IMsg, IContactStore, IUserStore } from '@stores/interface';
+import IStores, { IChatStore, IMsg, IContactStore, IUserStore } from '@stores/interface';
 import './Chat.scss'
 
 type IProps = {
     chatStore?: IChatStore,
     contactStore?: IContactStore,
-    stores?: IAppStore,
     userStore?: IUserStore
 }
 
