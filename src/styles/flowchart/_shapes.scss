@@ -1,0 +1,61 @@
+@import '~@styles/variables';
+
+.shape-footer-service[data-active='false'] {
+  fill: $SERVICE_DISABLED_COLOR;
+}
+
+/** НЕ использовать эти стили. Приоритет StyleConstants */
+/* @deprecated */
+.stencil-menu-icon {
+  path {
+    fill: $shape-icon-color;
+  }
+}
+
+
+/*------------------------------------------universal-shape------*/
+//
+//
+//.universal-shape-icon .shape-icon{
+//  opacity: 1;
+//}
+//
+//.universal-shape-icon-bg {
+//  fill: $universal-port-color;
+//}
+//
+//.universal-shape-header-bg {
+//  fill: $shape-header-bg;
+//}
+//
+//.universal-shape-header-text {
+//  fill: $shape-header-text-color;
+//  font-size: 14px;
+//  text-anchor: middle;
+//}
+//
+//.universal-shape-footer-bg {
+//  fill: $shape-footer-bg;
+//}
+//
+//.universal-shape-footer-text {
+//  fill: $shape-content-color;
+//  font-size: 14px;
+//  line-height: 21px;
+//  text-anchor: middle;
+//}
+//
+//.option-text {
+//  fill: $shape-content-color;
+//  font-size: 14px;
+//  line-height: 21px;
+//}
+
+
+/*
+.shape-port-body {
+  path[circle] {
+    fill: $blue;
+    stroke: $blue;
+  }
+}*/

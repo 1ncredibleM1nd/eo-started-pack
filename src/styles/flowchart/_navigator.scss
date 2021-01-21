@@ -1,0 +1,30 @@
+@import "variables";
+@import '~@styles/media.scss';
+
+#{$NAVIGATOR_SELECTOR} {
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  bottom: 0;
+  opacity: 0.7;
+  border-radius: 10px;
+  @include _768{
+    right: -47px;
+    bottom: 0px;
+    transform: scale(0.6);
+  }
+}
+
+.joint-navigator.joint-theme-default {
+  background-color: #ffffff !important;
+  border: none !important;
+
+  .current-view {
+    border: 1px solid grey !important;
+  }
+}
+
+#navigator .joint-paper.joint-theme-default {
+  background-color: #ffffff !important;
+  border: none !important;
+}

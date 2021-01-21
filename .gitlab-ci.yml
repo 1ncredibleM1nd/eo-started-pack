@@ -1,0 +1,18 @@
+image: node:8
+stages:
+    - build_deploy
+    - build_master
+
+build_deploy:
+    stage: build_deploy
+    only:
+        - dev
+    script:
+        - sshpass ssh -t admin@84.201.139.43 "rm -rf /tmp/config-papabot && git clone git@gitlab.dev-gns.com:configs/papabot.git /tmp/config-papabot && cd web/front.dev.papabot.ru/public_html && npm uninstall prodamus-ui && git checkout -f && git pull origin dev && cp -f /tmp/config-papabot/dev.ts /home/admin/web/front.dev.papabot.ru/public_html/src/config.ts && npm install && npm run build"
+
+build_master:
+    stage: build_master
+    only:
+        - master
+    script:
+        - sshpass ssh -t admin@84.201.139.43 "rm -rf /tmp/config-papabot && git clone git@gitlab.dev-gns.com:configs/papabot.git /tmp/config-papabot && cd web/front.demo.papabot.ru/public_html && npm uninstall prodamus-ui && git checkout -f && git pull git@gitlab.dev-gns.com:prodamus/papabot.git && cp -f /tmp/config-papabot/demo.ts /home/admin/web/front.demo.papabot.ru/public_html/src/config.ts && npm install && npm run build"

@@ -1,0 +1,136 @@
+$light-grey: #ecf0f1;
+$dark-grey: #495C6E;
+$harvard-grey: #607D8B;
+$blue: #3498DB;
+$blue-2: #5DADE2;
+$blue-3: #3a4f65;
+$blue-4: #3598DB;
+$primary-blue: #34495e;
+$primary-blue-dark: #3950697e;
+$blue-hover: #495C6E;
+$green: #27AE60;
+$red: #E74C3C;
+$red-dark: #ae3426;
+$red-light: #ff7061;
+
+// old ^^^^
+
+//new 
+
+$dark-blue-default: #34495e;
+
+$dark-blue-lite: #495c6e;
+$dark-blue-litter: #3A4F65;
+
+$dark-blue-active: #2c3e50;
+$dark-blue-soft: #607d8b;
+
+$grey-blue-active: #95a5a6;
+$grey-blue-default: #c0cecf;
+$grey-blue-lite: #e0e4e4;
+$grey-blue-lite: #f4f5f6;
+
+$grey-active: #262626;
+$grey-default: #595959;
+$grey-lite: #a3a3a3;
+$grey-soft: #d9d9d9;
+
+$yellow-origin: #ffcb17;
+
+$red-origin: #E77674;
+$red-active: #c84444;
+$red-default: #d75746;
+$red-lite: #ef8079;
+$red-soft: #ffdddb;
+
+$orange-origin: #F6c35a;
+$orange-active: #d98500;
+$orange-default: #f39c12;
+$orange-lite: #f8cd88;
+$orange-soft: #ffe9c5;
+
+$green-origin: #7BBB6A;
+$green-active: #4c9562;
+$green-default: #55ab68;
+$green-lite: #6fbb85;
+$green-soft: #b3eaca;
+
+$blue-active: #4078ab;
+$blue-origin: #5c87c2;
+$blue-default: #3498db;
+$blue-lite: #70acdd;
+$blue-soft: #d4e9f7;
+
+
+
+
+
+/** Использовать такие переменные как в StyleConfig */
+$SERVICE_DISABLED_COLOR: #CCC;
+$SERVICE_ENABLED_COLOR: #333;
+
+$sidebar-color: $light-grey;
+$sidebar-background: $primary-blue;
+
+$menu-title-color: $light-grey;
+$menu-title-background: $primary-blue;
+
+$menu-title-hover-color: $blue-2;
+$menu-title-hover-background: $blue-3;
+
+$menu-title-active-color: $blue-2;
+$menu-title-active-background: $blue-3;
+
+
+$icon-color: $harvard-grey;
+
+/*----TABS-----*/
+$settings-pane-color: #fff;
+$settings-border-color: #92A4AF;
+$settings-tab-color: #92A4AF;
+$settings-tab-active-color: #fff;
+
+$settings-underline-background: $blue-4;
+
+
+/** Меню в выпадающем списке */
+$menu-list-background: #fff;
+$menu-list-color: #000;
+$menu-list-border: #D8E0E2;
+$menu-list-item-hover-background: #E4F2FD;
+$menu-list-item-hover-color: inherit;
+$menu-list-item-active-background: #3396D7;
+$menu-list-item-active-color: #fff;
+
+
+/** OLD. DO NOT USE IT */
+$scrollbar-bg: $light-grey;
+
+/*----PORTS-----*/
+$port-fill-color: #fff;
+$in-out-port-color: $blue;
+$negative-port-color: $red;
+$positive-port-color: $green;
+$universal-port-color: #F39C12;
+$hover-port-color: $dark-grey;
+
+/*----LINK------*/
+$link-color: $blue;
+
+/*------SHAPE------*/
+$shape-main-color: (rgba(255,255,255,0.7));
+$shape-stroke-color: #EEEEEE;
+$shape-icon-color:  #fff;
+$shape-content-color: $harvard-grey;
+$shape-header-bg: rgba(69, 90, 100, 0.75);
+$shape-header-text-color: #fff;
+$shape-footer-bg: rgba(207, 216, 220, 0.75);
+
+
+$menu-background: $primary-blue;
+$menu-color: $primary-blue;
+$menu-hover-color: $blue-2;
+$menu-hover-background: $blue-3;
+
+
+$shape-icon-size: 15px;

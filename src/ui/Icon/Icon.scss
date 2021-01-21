@@ -1,0 +1,23 @@
+@import "~@styles/variables.scss";
+
+.icon {
+  width: 16px;
+  height: 16px;
+
+  use {
+    fill: $icon-color;
+  }
+
+  &--is-spin {
+    animation: spin 2s linear infinite;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

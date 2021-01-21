@@ -1,0 +1,19 @@
+.joint-link {
+  path[data-animation='true'] {
+    // больше 2 начинает тормозить в Сафари
+    stroke-dasharray: 10, 2;
+    will-change: stroke-dashoffset;
+    transform: translate3d(0, 0, 0);
+    animation: 1s linear 0s infinite normal none running line-animation
+  }
+}
+
+
+@keyframes line-animation {
+  0% {
+    stroke-dashoffset: 24;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}

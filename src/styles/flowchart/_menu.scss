@@ -1,0 +1,36 @@
+@import "~@styles/variables.scss";
+
+.joint-stencil {
+  position: relative !important;
+  border: none !important;
+}
+
+.joint-stencil>.content {
+  position: relative !important;
+}
+
+[data-category] g[data-category-item]:hover .stencil-menu-body.blue,
+[data-category] g[data-category-item] .stencil-menu-body.blue[data-hover='true'] {
+  fill: $blue-lite;
+}
+
+.blue{
+  fill: $blue-origin;
+}
+
+[data-category] g[data-category-item]:hover .stencil-menu-body.orange,
+[data-category] g[data-category-item] .stencil-menu-body.orange[data-hover='true'] {
+  fill: $orange-lite;
+}
+.orange{
+  fill: $orange-default;
+}
+
+
+[data-category] g[data-category-item]:hover .stencil-menu-body.green,
+[data-category] g[data-category-item] .stencil-menu-body.green[data-hover='true'] {
+  fill: $green-lite;
+}
+.green{
+  fill: $green-default;
+}

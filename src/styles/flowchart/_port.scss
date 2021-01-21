@@ -1,0 +1,13 @@
+@import '~@styles/variables';
+
+[magnet]:not(.joint-element):hover {
+  circle {
+    fill: $hover-port-color !important;
+    stroke: $hover-port-color !important;
+  }
+}
+
+.joint-port-body circle[hovered='true'] {
+  fill: $hover-port-color !important;
+  stroke: $hover-port-color !important;
+}

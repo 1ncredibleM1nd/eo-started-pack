@@ -1,0 +1,48 @@
+@import '../variables';
+
+.ant-menu-submenu-title {
+  display: flex;
+  align-items: center;
+}
+
+.ant-menu.ant-menu-dark, .ant-menu-dark .ant-menu-sub, .ant-layout-sider {
+  background: $sidebar-background;
+}
+
+.ant-menu-submenu-title {
+  margin: 0;
+  line-height: 50px;
+  height: 50px
+}
+
+.ant-menu-submenu-open {
+  .ant-menu-submenu-title {
+    background: $sidebar-background;
+  }
+}
+
+.ant-menu-submenu-popup {
+  display: none;
+}
+
+.ant-menu-sub.ant-menu-inline > .ant-menu-item,
+.ant-menu-sub.ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title {
+  height: auto;
+  line-height: initial;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin: 0 !important;
+}
+
+
+.ant-menu-vertical > .ant-menu-item,
+.ant-menu-vertical-left > .ant-menu-item,
+.ant-menu-vertical-right > .ant-menu-item,
+.ant-menu-inline > .ant-menu-item,
+.ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title,
+.ant-menu-vertical-left > .ant-menu-submenu > .ant-menu-submenu-title,
+.ant-menu-vertical-right > .ant-menu-submenu > .ant-menu-submenu-title,
+.ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title {
+  height: 48px;
+  line-height: 48px;
+}
