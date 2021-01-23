@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react';
 import { Layout } from 'antd';
 import { ChatLayout, InfoLayout, ContactsLayout } from '@layouts'
 import IStores, { IAppStore } from '@stores/interface';
+import '@styles/index.scss'
 
 type IProps = {
     appStore?: IAppStore

@@ -27,6 +27,9 @@ const MenuList = inject((stores: IStores) => ({ contactStore: stores.contactStor
                     ContactsData.map((contact: any, index: number) => {
 
                         const last_msg = chatStore.getLastMsg(contact.id)
+                        const user = contact.user.find((u: any) => u.id === last_msg.from)
+
+                        console.log(user)
 
                         return (
                             <div onClick={() => contactStore.setActiveContact(contact.id)} className="contact_item">
@@ -39,14 +42,16 @@ const MenuList = inject((stores: IStores) => ({ contactStore: stores.contactStor
                                             {contact.name}
                                         </div>
                                         <div className="date_last_msg">
-                                            Date
+                                            {last_msg.time}
                                         </div>
                                     </div>
                                     <div className="last_msg">
-                                        {last_msg}
+                                        <div className="from">
+                                            {user ? user.username + ': ' : 'You: '}
+                                        </div>
+                                        {last_msg.content}
                                     </div>
                                 </div>
-
                             </div>
                         )
                     })

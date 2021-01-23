@@ -16,6 +16,11 @@ export class UserStore implements IUserStore {
     }
 
     @action
+    getUser(id: string) {
+        return this.avaliableUsers.find(u => u.id === id)
+    }
+
+    @action
     initHero(data: any): void {
         this.hero = data
     };

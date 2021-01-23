@@ -28,6 +28,9 @@
       "@ui/*": [
         "ui/*"
       ],
+      "@chat_ui/*": [
+        "chat_ui/*"
+      ],
       "@ui": [
         "ui/index"
       ],

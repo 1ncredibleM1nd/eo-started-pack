@@ -49,9 +49,10 @@ module.exports = {
       '@utils': path.resolve(__dirname, 'src/utils'),
       '@stores': path.resolve(__dirname, 'src/stores'),
       '@hooks': path.resolve(__dirname, 'src/hooks'),
-      '@actions': path.resolve(__dirname, 'src/actions')
+      '@actions': path.resolve(__dirname, 'src/actions'),
+      '@chat_ui': path.resolve(__dirname, 'src/chat_ui')
     },
-    extensions: ['.ts', '.tsx', '.js', '.json', '.scss', '.png', '.jpg', '.gif', '.jpeg', '.otf', '.ttf']
+    extensions: ['.ts', '.tsx', '.js', '.json', '.scss', '.png', '.jpg', '.gif', '.jpeg', '.otf', '.ttf', '.svg']
   },
   module: {
     rules: [

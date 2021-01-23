@@ -55,7 +55,15 @@ export class AppStore implements IAppStore {
                 {
                     contact_id: 'contact_0',
                     id: 'чат_1',
-                    person: [
+                    activeSocial: 'telegram',
+                    role: [
+                        {
+                            id: "user_1",
+                            name: 'Белый маг',
+                            status: 'default'
+                        }
+                    ],
+                    user: [
                         {
                             username: "Гэндальф",
                             avatar: 'https://yt3.ggpht.com/a/AATXAJz4P6N4YZie5K342WgZxFKi4o-1YBRhpSnrWx5j=s900-c-k-c0xffffffff-no-rj-mo',
@@ -71,26 +79,41 @@ export class AppStore implements IAppStore {
                         {
                             id: 'msg_0',
                             from: "user_1",
+                            time: '17:31',
+                            social_media: 'telegram',
+                            smiles: [],
                             content: 'Ты изменился, Бильбо Бэггинс. Ты уже не тот хоббит, который оставил Шир...'
                         },
                         {
                             id: 'msg_1',
                             from: "user_0",
+                            time: '17:31',
+                            social_media: 'telegram',
+                            smiles: [],
                             content: 'Я хотел сказать тебе... Я нашел кое-что в гоблинских туннелях.'
                         },
                         {
                             id: 'msg_2',
                             from: "user_1",
+                            time: '17:32',
+                            social_media: 'telegram',
+                            smiles: [],
                             content: 'Что нашел? Что ты нашел?'
                         },
                         {
                             id: 'msg_3',
                             from: "user_0",
+                            time: '17:33',
+                            social_media: 'telegram',
+                            smiles: [],
                             content: 'Свою храбрость.'
                         },
                         {
                             id: 'msg_4',
                             from: "user_1",
+                            time: '17:33',
+                            social_media: 'telegram',
+                            smiles: [],
                             content: 'Хорошо. Очень хорошо. Тебе пригодится.'
                         }
                     ]
@@ -98,7 +121,15 @@ export class AppStore implements IAppStore {
                 {
                     contact_id: 'contact_1',
                     id: 'чат_2',
-                    person: [
+                    activeSocial: 'instagram',
+                    role: [
+                        {
+                            id: "user_2",
+                            name: 'Т-1000',
+                            status: 'default'
+                        }
+                    ],
+                    user: [
                         {
                             username: "Терминатор",
                             avatar: 'http://img.crazys.info/files/i/2010.10.10/1286708601_t800_18.jpg',
@@ -119,16 +150,25 @@ export class AppStore implements IAppStore {
                         {
                             id: 'msg_0',
                             from: "user_3",
+                            social_media: 'instagram',
+                            smiles: [],
+                            time: '12:11',
                             content: 'Ты можешь обучаться тому, что в тебя не заложено? Чтобы ты был больше похож на человека? А не быть такой дубиной все время.'
                         },
                         {
                             id: 'msg_1',
                             from: "user_2",
+                            social_media: 'instagram',
+                            smiles: [],
+                            time: '12:12',
                             content: 'Во мне нейро-сетевой процессор, способный к обучению. Чем больше я общаюсь с людьми, тем больше я о них узнаю.'
                         },
                         {
                             id: 'msg_2',
                             from: "user_0",
+                            social_media: 'instagram',
+                            smiles: [],
+                            time: '14:51',
                             content: 'Это вообще моя вселенная?'
                         },
                     ]

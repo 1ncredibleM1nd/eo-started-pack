@@ -1,4 +1,287 @@
-.chat{
+@import '@styles/variables.scss';
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+    display: none;
+}
+
+.smile_realization {
+    max-height: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    bottom: -15px;
+    position: relative;
+}
+
+.smile_msg {
+    margin: 0 5px;
+    border: 1px solid $grey_blue_litter;
+    border-radius: 30px;
+    background: $white;
+    font-size: 18px;
+    width: 32px;
+    height: 32px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.swiper-button-next {
+    width: 18px;
+    height: 18px;
+    z-index: 10;
+    top: 82%;
+    right: -2px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.swiper-button-prev {
+    width: 18px;
+    height: 18px;
+    top: 82%;
+    left: -2px;
+    z-index: 10;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.swiper-slide {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.smile_menu {
+    position: relative;
+    width: 300px;
+
+    .smile_swiper_item {
+        width: 42px;
+        height: 42px;
+        font-size: 32px;
+        margin: 0 5px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+    }
+}
+
+
+.message-status.self {
+    position: absolute;
+    bottom: -22px;
+    right: 5px;
+    font-size: 12px;
+    color: $grey_blue_active;
+}
+
+.message-status {
+    display: flex !important;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+
+}
+
+.msg-role {
+    font-size: 13px;
+    color: $blue_origin;
+
+    &:hover {
+        color: $blue_default;
+    }
+}
+
+.message-status>* {
+    padding: 0 5px;
+}
+
+.msg_header {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-bottom: 4px;
+
+    span {
+        padding: 0 5px;
+        cursor: pointer;
+    }
+
+}
+
+
+.social_media_icon {
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    bottom: -8px;
+    right: 0;
+    box-shadow: 0 0 0 2px $white_chat;
+    border-radius: 15px;
+
+    &.instagram {
+        border-radius: 4px;
+    }
+
+    &.vk {
+        border-radius: 4px;
+    }
+
+    &.facebook {
+        border-radius: 4px;
+    }
+
+    svg {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+}
+
+.message.self {
+
+    .message-wrapper {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end !important;
+        align-items: center;
+    }
+
+    padding-right: 10px !important;
+    padding-left: 0rem !important;
+
+    .message-content {
+        margin-left: 3rem !important;
+        border-radius: 10px 10px 0px 10px !important;
+        margin-right: 0.25rem !important;
+        background: $blue-lite !important;
+        padding-left: 1rem !important;
+        left: 0px !important;
+    }
+}
+
+
+.message {
+    padding-left: 10px !important;
+    padding-right: 0rem !important;
+    margin-bottom: 5px;
+
+    .message-wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start !important;
+        align-items: flex-start;
+    }
+
+    .msg_header {
+        position: relative;
+        left: 25px;
+        font-size: 13px;
+    }
+
+    .message-content {
+        margin-right: 4rem !important;
+        font-size: 16px;
+        left: 35px;
+        position: relative;
+        padding-left: 5px;
+        color: $white !important;
+        background: $grey_default !important;
+        padding-left: 0rem !important;
+
+
+
+
+        .smile {
+            position: absolute;
+            right: -28px;
+            top: 0px;
+            cursor: pointer;
+            opacity: .4;
+
+            &:hover {
+                opacity: .7;
+            }
+        }
+
+        span {
+            position: relative;
+            z-index: 10;
+        }
+
+        .inset_border_container {
+            position: absolute;
+            z-index: 0;
+            width: 44px;
+            height: 100%;
+            left: -35px;
+            bottom: 0;
+            border-radius: 5px;
+            overflow: hidden;
+
+            .border_hero {
+                position: absolute;
+                background: transparent;
+                width: 55px;
+                height: 43px;
+                border-radius: 37px;
+                left: -30px;
+                bottom: -26px;
+                box-shadow: 0 0 0 150px $grey_default;
+            }
+
+            .dummy {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 32px;
+                height: 50%;
+                background: $grey_default;
+
+            }
+        }
+    }
+
+    .message-options {
+        .avatar {
+            cursor: pointer;
+            position: relative;
+            z-index: 10;
+        }
+
+        .dropdown-trigger {
+            opacity: 0.4;
+            cursor: pointer;
+
+            &:hover {
+                opacity: 0.7;
+            }
+        }
+    }
+}
+
+
+.chat {
     min-height: 300px;
     display: flex;
     flex-direction: column;
@@ -7,19 +290,21 @@
     height: 100vh;
     width: 100%;
 
-    .info_center{
+    .info_center {
         text-align: center;
         font-size: 18px;
     }
 }
 
-.msg_space{
-   min-height: 300px;
-   padding-bottom: 75px;
-   overflow: auto; 
+.msg_space {
+    min-height: 300px;
+    padding-bottom: 75px;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
-.inputer{
+.inputer {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -30,10 +315,10 @@
     align-items: center;
     padding: 10px;
 
-    .input-container{
+    .input-container {
         width: calc(100% - 55px);
-        height: 45px;
-        border-radius:10px;
+        min-height: 50px;
+        border-radius: 10px;
         padding: 5px;
         background: #fff;
         border: 1px solid #00000023;
@@ -42,13 +327,19 @@
         justify-content: flex-start;
         align-items: center;
     }
-    .main_input{
+
+    .main_input {
         min-width: 300px;
         width: 85%;
-        height: 50px;
+        min-height: 45px;
         padding: 5px;
 
-        input{
+        textarea {
+            outline: none !important;
+            box-shadow: none !important;
+            font-size: 15px;
+            overflow: hidden;
+            resize: none;
             outline: none;
             width: 100%;
             height: 100%;
@@ -56,7 +347,8 @@
             border: none;
         }
     }
-    .send_btn{
+
+    .send_btn {
         background: rgb(112, 112, 213);
         color: #fff;
         width: 45px;
@@ -64,61 +356,30 @@
         border-radius: 10px;
         font-size: 24px;
         text-align: center;
- 
+
     }
-    .inputer_btn{
+
+    .inputer_btn {
         height: 36px;
         width: 36px;
         border-radius: 16px;
-        border: 1px solid #0000001a;
+        border: 1px solid $grey_blue_litter;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 }
 
 
 
-    .msg.hero{
-        margin: 10px 0;
-        justify-content: flex-end;
-        padding: 10px 23px;
-        padding-bottom: 0;
-        .msg_content{
-            background: #688eca;
-        }
-    }
+.msg.hero {
+    margin: 10px 0;
+    justify-content: flex-end;
+    padding: 10px 23px;
+    padding-bottom: 0;
 
-    .msg{
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        position: relative;
-        margin-bottom: 1px;
-        padding: 23px 23px;
-        padding-bottom: 0;
-        .msg_name{
-            top: -20px;
-            left: 5px;
-            position: absolute;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        .msg_avatar{
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            img{
-                width: 32px;
-                height: 32px;
-                border-radius: 11px;
-            }
-        }
-        .msg_content{
-            max-width: 70%;
-            background: #c4c4c4;
-            position: relative;
-            margin-left: 15px;
-            font-size: 13px;
-            padding: 5px 10px;
-            
-            border-radius: 5px;
-        }
+    .msg_content {
+        background: #688eca;
     }
+}
