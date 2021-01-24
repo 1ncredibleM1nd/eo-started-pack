@@ -2,7 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import IStores from '@stores/interface';
 import Search from '@components/contacts/Search'
-import MenuList from '@components/contacts/MenuList'
+import ContactList from '@components/contacts/ContactList'
 
 type IProps = {
 
@@ -17,7 +17,7 @@ const ContactLayout = inject((stores: IStores) => ({}))(
         return (
             <div className="contact_layout">
                 <Search />
-                <MenuList />
+                <ContactList />
             </div>
         );
     }));

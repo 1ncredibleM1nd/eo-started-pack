@@ -64,6 +64,20 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 70px !important;
+    height: 100%;
+    position: relative;
+    margin: 0 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: .05s;
+
+
+    &:hover {
+        transform: scale(1.05) translateY(-2px);
+        text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12);
+    }
+
 }
 
 .smile_menu {
@@ -73,14 +87,13 @@
     .smile_swiper_item {
         width: 42px;
         height: 42px;
-        font-size: 32px;
+        font-size: 30px;
         margin: 0 5px;
         text-align: center;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-
     }
 }
 
@@ -91,6 +104,23 @@
     right: 5px;
     font-size: 12px;
     color: $grey_blue_active;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    cursor: pointer;
+
+    .dropdown-trigger {
+        margin-right: 5px;
+    }
+
+    svg {
+        opacity: .4;
+
+        &:hover {
+            opacity: .7;
+        }
+    }
 }
 
 .message-status {
@@ -99,7 +129,18 @@
     justify-content: flex-start;
     align-items: center;
 
+    .dropdown-trigger {
+        margin-right: 5px;
+    }
 
+    svg {
+        cursor: pointer;
+        opacity: .4;
+
+        &:hover {
+            opacity: .7;
+        }
+    }
 }
 
 .msg-role {
@@ -177,6 +218,15 @@
         background: $blue-lite !important;
         padding-left: 1rem !important;
         left: 0px !important;
+
+        .reply {
+            border-left: 2px solid $blue_active;
+            padding-left: 6px;
+        }
+
+        .editted_icon {
+            left: -28px;
+        }
     }
 }
 
@@ -194,6 +244,7 @@
     }
 
     .msg_header {
+        max-width: 25rem;
         position: relative;
         left: 25px;
         font-size: 13px;
@@ -209,6 +260,20 @@
         background: $grey_default !important;
         padding-left: 0rem !important;
 
+        .reply {
+            border-left: 2px solid $dark_blue_soft;
+            padding-left: 6px;
+            margin-bottom: 5px;
+        }
+
+
+        .editted_icon {
+            width: 24px;
+            height: 24px;
+            position: absolute;
+            right: -28px;
+        }
+
 
 
 
@@ -218,6 +283,10 @@
             top: 0px;
             cursor: pointer;
             opacity: .4;
+
+            &.active {
+                opacity: .7;
+            }
 
             &:hover {
                 opacity: .7;
@@ -268,15 +337,6 @@
             position: relative;
             z-index: 10;
         }
-
-        .dropdown-trigger {
-            opacity: 0.4;
-            cursor: pointer;
-
-            &:hover {
-                opacity: 0.7;
-            }
-        }
     }
 }
 
@@ -285,7 +345,8 @@
     min-height: 300px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
+    padding-bottom: 50px;
     position: relative;
     height: 100vh;
     width: 100%;
@@ -295,6 +356,7 @@
         font-size: 18px;
     }
 }
+
 
 .msg_space {
     min-height: 300px;
@@ -306,33 +368,48 @@
 
 .inputer {
     position: absolute;
+    z-index: 100;
     bottom: 0;
     left: 0;
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
     padding: 10px;
 
     .input-container {
-        width: calc(100% - 55px);
+        width: calc(100% - 58px);
         min-height: 50px;
         border-radius: 10px;
         padding: 5px;
         background: #fff;
-        border: 1px solid #00000023;
+        box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.08);
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
-        align-items: center;
+        align-items: flex-end;
+
+
     }
 
     .main_input {
         min-width: 300px;
-        width: 85%;
-        min-height: 45px;
+        width: 100%;
+        min-height: 40px;
         padding: 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+
+        .selected-container {
+            width: 100%;
+            margin-bottom: 5px;
+            min-height: 28px;
+            border-left: 2px solid $blue_lite;
+            padding-left: 6px;
+        }
+
 
         textarea {
             outline: none !important;
@@ -351,23 +428,36 @@
     .send_btn {
         background: rgb(112, 112, 213);
         color: #fff;
-        width: 45px;
-        height: 45px;
+        width: 53px;
+        height: 53px;
         border-radius: 10px;
         font-size: 24px;
         text-align: center;
-
-    }
-
-    .inputer_btn {
-        height: 36px;
-        width: 36px;
-        border-radius: 16px;
-        border: 1px solid $grey_blue_litter;
+        box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.08);
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+
+        &:hover {
+            box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.08);
+        }
+    }
+
+    .inputer_btn {
+        height: 42px;
+        width: 42px;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.08);
+        cursor: pointer;
+
+        &:hover {
+            box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.08);
+        }
     }
 }
 

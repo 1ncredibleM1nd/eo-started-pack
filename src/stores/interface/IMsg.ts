@@ -5,6 +5,9 @@ export default interface IMsg {
     time: string;
     social_media: string;
     content: string;
+    reply: IMsg;
     smiles: string[];
+    editted: boolean;
     addSmile: (smile: string) => void;
+    editMsg: (value: string) => void;
 }

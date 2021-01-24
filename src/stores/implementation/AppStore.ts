@@ -81,6 +81,7 @@ export class AppStore implements IAppStore {
                             from: "user_1",
                             time: '17:31',
                             social_media: 'telegram',
+                            editted: false,
                             smiles: [],
                             content: 'Ты изменился, Бильбо Бэггинс. Ты уже не тот хоббит, который оставил Шир...'
                         },
@@ -89,6 +90,7 @@ export class AppStore implements IAppStore {
                             from: "user_0",
                             time: '17:31',
                             social_media: 'telegram',
+                            editted: false,
                             smiles: [],
                             content: 'Я хотел сказать тебе... Я нашел кое-что в гоблинских туннелях.'
                         },
@@ -97,6 +99,7 @@ export class AppStore implements IAppStore {
                             from: "user_1",
                             time: '17:32',
                             social_media: 'telegram',
+                            editted: false,
                             smiles: [],
                             content: 'Что нашел? Что ты нашел?'
                         },
@@ -105,6 +108,7 @@ export class AppStore implements IAppStore {
                             from: "user_0",
                             time: '17:33',
                             social_media: 'telegram',
+                            editted: false,
                             smiles: [],
                             content: 'Свою храбрость.'
                         },
@@ -113,6 +117,7 @@ export class AppStore implements IAppStore {
                             from: "user_1",
                             time: '17:33',
                             social_media: 'telegram',
+                            editted: false,
                             smiles: [],
                             content: 'Хорошо. Очень хорошо. Тебе пригодится.'
                         }
@@ -151,6 +156,7 @@ export class AppStore implements IAppStore {
                             id: 'msg_0',
                             from: "user_3",
                             social_media: 'instagram',
+                            editted: false,
                             smiles: [],
                             time: '12:11',
                             content: 'Ты можешь обучаться тому, что в тебя не заложено? Чтобы ты был больше похож на человека? А не быть такой дубиной все время.'
@@ -159,6 +165,7 @@ export class AppStore implements IAppStore {
                             id: 'msg_1',
                             from: "user_2",
                             social_media: 'instagram',
+                            editted: false,
                             smiles: [],
                             time: '12:12',
                             content: 'Во мне нейро-сетевой процессор, способный к обучению. Чем больше я общаюсь с людьми, тем больше я о них узнаю.'
@@ -167,6 +174,7 @@ export class AppStore implements IAppStore {
                             id: 'msg_2',
                             from: "user_0",
                             social_media: 'instagram',
+                            editted: false,
                             smiles: [],
                             time: '14:51',
                             content: 'Это вообще моя вселенная?'

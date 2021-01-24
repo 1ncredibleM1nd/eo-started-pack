@@ -43,39 +43,39 @@ const SmileMenu = inject((stores: IStores) => ({}))(
                 >
                     <SwiperSlide onClick={() => selectSocial('instagram')}>
                         <div className="smile_swiper_item">
-                            <Icon className='icon_s lite-grey' name={`social_media_instagram`} />
+                            <Icon className='icon_l lite-grey' name={`social_media_instagram`} />
                         </div>
                     </SwiperSlide>
                     <SwiperSlide onClick={() => selectSocial('facebook')}>
                         <div className="smile_swiper_item">
-                            <Icon className='icon_s lite-grey' name={`social_media_facebook`} />
+                            <Icon className='icon_l lite-grey' name={`social_media_facebook`} />
                         </div>
                     </SwiperSlide>
                     <SwiperSlide onClick={() => selectSocial('email')}>
                         <div className="smile_swiper_item">
-                            <Icon className='icon_s lite-grey' name={`social_media_email`} />
+                            <Icon className='icon_l lite-grey' name={`social_media_email`} />
                         </div>
                     </SwiperSlide>
                     <SwiperSlide onClick={() => selectSocial('ok')}>
                         <div className="smile_swiper_item">
-                            <Icon className='icon_s lite-grey' name={`social_media_ok`} />
+                            <Icon className='icon_l lite-grey' name={`social_media_ok`} />
                         </div>
                     </SwiperSlide>
                     <SwiperSlide onClick={() => selectSocial('vk')}>
                         <div className="smile_swiper_item">
-                            <Icon className='icon_s lite-grey' name={`social_media_vk`} />
+                            <Icon className='icon_l lite-grey' name={`social_media_vk`} />
                         </div>
                     </SwiperSlide>
                     <SwiperSlide onClick={() => selectSocial('telegram')}>
                         <div className="smile_swiper_item">
-                            <Icon className='icon_s lite-grey' name={`social_media_telegram`} />
+                            <Icon className='icon_l lite-grey' name={`social_media_telegram`} />
                         </div>
                     </SwiperSlide>
                     <div className="swiper-button-next">
-                        <Icon className='icon_s lite-grey' name={`solid_chevron-right`} />
+                        <Icon className='icon_l lite-grey' name={`solid_chevron-right`} />
                     </div>
                     <div className="swiper-button-prev">
-                        <Icon className='icon_s lite-grey' name={`solid_chevron-left`} />
+                        <Icon className='icon_l lite-grey' name={`solid_chevron-left`} />
                     </div>
                 </Swiper>
             </div >

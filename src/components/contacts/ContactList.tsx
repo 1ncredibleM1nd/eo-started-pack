@@ -8,14 +8,22 @@ type IProps = {
     stores?: IAppStore,
     userStore?: IUserStore
     chatStore?: IChatStore
-    appStore?: IAppStore
+    appStore?: IAppStore,
+    onSelect?: () => void | null;
 }
 
-const MenuList = inject((stores: IStores) => ({ contactStore: stores.contactStore, userStore: stores.userStore, chatStore: stores.chatStore, appStore: stores.appStore }))(
+const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactStore, userStore: stores.userStore, chatStore: stores.chatStore, appStore: stores.appStore }))(
     observer((props: IProps) => {
 
-        const { contactStore, chatStore, appStore } = props;
+        const { contactStore, chatStore, appStore, onSelect } = props;
         const ContactsData = contactStore.contact
+
+
+        const selectContact = (id: any) => {
+            if (onSelect) onSelect()
+            contactStore.setActiveContact(id)
+            chatStore.setActiveChat(id)
+        }
 
 
         if (!appStore.loaded) {
@@ -29,10 +37,9 @@ const MenuList = inject((stores: IStores) => ({ contactStore: stores.contactStor
                         const last_msg = chatStore.getLastMsg(contact.id)
                         const user = contact.user.find((u: any) => u.id === last_msg.from)
 
-                        console.log(user)
 
                         return (
-                            <div onClick={() => contactStore.setActiveContact(contact.id)} className="contact_item">
+                            <div onClick={() => selectContact(contact.id)} className="contact_item">
                                 <div className="avatar">
                                     <img src={contact.avatar} alt="" />
                                 </div>
@@ -60,4 +67,4 @@ const MenuList = inject((stores: IStores) => ({ contactStore: stores.contactStor
         );
     }));
 
-export default MenuList;
+export default ContactList;

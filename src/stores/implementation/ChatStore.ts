@@ -5,6 +5,8 @@ import moment from 'moment'
 
 export class ChatStore implements IChatStore {
     @observable chat: IChat[] = [];
+    @observable activeChat: IChat;
+    @observable activeMsg: IMsg;
 
     constructor() {
         reaction(() => {
@@ -14,6 +16,7 @@ export class ChatStore implements IChatStore {
             }
         })
     }
+
     changeSocial: (social: string) => void;
 
     @action
@@ -26,13 +29,11 @@ export class ChatStore implements IChatStore {
 
     @action
     getChat(id: string): IChat {
-        return this.chat.find((chat_item: IChat) => chat_item.id === id)
+        const chat = this.chat.find((chat_item: IChat) => chat_item.id === id)
+        this.activeChat = chat;
+        return chat
     }
 
-    @action
-    getCurrentChat(id: string): IChat {
-        return this.chat.find((chat_item: IChat) => chat_item.contact_id === id)
-    }
 
     @action
     getLastMsg(id: string): any {
@@ -43,7 +44,7 @@ export class ChatStore implements IChatStore {
     }
 
     @action
-    addMsg(chat_id: string, content: string, from: any, social_media: string) {
+    addMsg(chat_id: string, content: string, from: any, social_media: string, reply: any) {
         let chat = this.chat.find((chat_item: IChat) => {
             return chat_item.id === chat_id
         })
@@ -56,23 +57,67 @@ export class ChatStore implements IChatStore {
             content: content,
             time: moment().format('hh:mm'),
             smiles: [],
+            reply: reply,
+            editted: false,
             addSmile(smile) {
                 this.smiles.push(smile);
+            },
+            editMsg(value: string) {
+                this.content = value;
+                this.editted = true;
             }
         }
         chat.msg.push(msg)
     }
 
 
+    @action
+    deleteMsg(id: string, chat_id: string) {
+
+        for (let index = 0; index < this.chat.length; index++) {
+            let chat = this.chat[index];
+
+            if (chat.id === chat_id) {
+                chat.msg = chat.msg.filter((msg: any) => msg.id !== id)
+                console.log(chat)
+            }
+            this.chat[index] = chat
+        }
+    }
+
+    @action
+    setActiveMsg(msg: IMsg, chat_id: string) {
+        if (msg) {
+            let chat = this.chat.find((chat_item: IChat) => chat_item.id === chat_id)
+            this.activeMsg = msg
+            chat.setActiveMsg(msg)
+        } else {
+            let chat = this.chat.find((chat_item: IChat) => chat_item.id === chat_id)
+            this.activeMsg = null
+            chat.setActiveMsg(null)
+        }
+
+    }
+
+
+    setActiveChat(id: string) {
+        let chat = this.chat.find((chat_item: IChat) => chat_item.contact_id === id)
+        this.activeChat = chat
+    }
+
+
 
     @action
     async init(data: IChat[]) {
-        console.log('init', data)
         let chat = [];
         for (let index = 0; index < data.length; index++) {
             const chat_item: IChat = data[index];
             const initChat: IChat = {
                 ...chat_item,
+                active_msg: null,
+                setActiveMsg(msg: IMsg) {
+                    this.active_msg = msg;
+                },
                 changeSocial(social) {
                     this.activeSocial = social;
                 }
@@ -83,6 +128,10 @@ export class ChatStore implements IChatStore {
 
                 let msg: IMsg = {
                     ...chat_item.msg[i],
+                    editMsg(value: string) {
+                        this.content = value;
+                        this.editted = true;
+                    },
                     addSmile(smile) {
                         this.smiles.push(smile);
                     }
