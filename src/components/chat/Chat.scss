@@ -31,6 +31,8 @@
 }
 
 .swiper-button-next {
+    margin-top: -20px;
+    position: absolute;
     width: 18px;
     height: 18px;
     z-index: 10;
@@ -45,6 +47,8 @@
 }
 
 .swiper-button-prev {
+    margin-top: -20px;
+    position: absolute;
     width: 18px;
     height: 18px;
     top: 82%;
