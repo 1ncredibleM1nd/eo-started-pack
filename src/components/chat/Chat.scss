@@ -1,5 +1,48 @@
 @import '@styles/variables.scss';
 
+.ant-btn-primary {
+    color: $blue_default !important;
+    font-size: 21px;
+    line-height: 1;
+    background: transparent !important;
+    border: none;
+    box-shadow: none !important;
+
+    &:hover {
+        color: $blue_accent !important;
+        font-size: 21px;
+        line-height: 1;
+        background: transparent !important;
+        border: none;
+        box-shadow: none !important;
+    }
+}
+
+.date_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    margin: 25px 0;
+    padding: 0 20px;
+}
+
+.ant-divider-horizontal.ant-divider-with-text::before,
+.ant-divider-horizontal.ant-divider-with-text::after {
+    border-top: 1px solid #a9d1e0;
+}
+
+.date {
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: $grey_active;
+    opacity: 0.7;
+    min-width: 50px;
+    text-align: center;
+}
+
 .swiper-button-next:after,
 .swiper-button-prev:after {
     display: none;
@@ -203,6 +246,10 @@
 }
 
 .message.self {
+    margin-bottom: 20px;
+    padding-right: 10px !important;
+    padding-left: 0rem !important;
+
 
     .message-wrapper {
         position: relative;
@@ -212,15 +259,13 @@
         align-items: center;
     }
 
-    padding-right: 10px !important;
-    padding-left: 0rem !important;
-
     .message-content {
         margin-left: 3rem !important;
         border-radius: 10px 10px 0px 10px !important;
         margin-right: 0.25rem !important;
         background: $blue-lite !important;
         padding-left: 1rem !important;
+        padding-right: 1.8rem;
         left: 0px !important;
 
         .reply {
@@ -254,6 +299,8 @@
         font-size: 13px;
     }
 
+
+
     .message-content {
         margin-right: 4rem !important;
         font-size: 16px;
@@ -263,6 +310,13 @@
         color: $white !important;
         background: $grey_default !important;
         padding-left: 0rem !important;
+
+        .readed-status {
+            position: absolute;
+            right: 8px;
+            bottom: 3px;
+            opacity: 0.7;
+        }
 
         .reply {
             border-left: 2px solid $dark_blue_soft;
@@ -333,6 +387,17 @@
 
             }
         }
+    }
+
+    .message-content.not-main {
+        left: 0px;
+        padding-left: 1.2rem !important;
+    }
+
+
+
+    .message-content.not-main>.inset_border_container {
+        display: none;
     }
 
     .message-options {
@@ -430,7 +495,7 @@
     }
 
     .send_btn {
-        background: rgb(112, 112, 213);
+        background: $blue_default;
         color: #fff;
         width: 53px;
         height: 53px;
@@ -443,8 +508,10 @@
         justify-content: center;
         align-items: center;
 
+        cursor: pointer;
+
         &:hover {
-            box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.08);
+            background: $blue_accent;
         }
     }
 

@@ -6,7 +6,9 @@ export default interface IChatStore {
     chat: IChat[];
     activeChat: IChat;
     activeMsg: IMsg;
+    readAllMsg: (id: string) => void;
     setActiveMsg: (msg: IMsg, chat_id: string) => void;
+    getUnreadCount: (id: string) => number;
     init: (data: any) => void;
     addMsg: (chat_id: string, content: string, from: any, social_media: string, status: string) => void;
     getMsg: (id: string, chat_id: string) => IMsg;

@@ -4,6 +4,7 @@ import IStores, { IChatStore, IUserStore } from '@stores/interface';
 import { Modal } from 'antd';
 import ContactList from '../contacts/ContactList'
 import './Header.scss'
+// import { Icon } from '@ui'
 
 type IProps = {
     chatStore?: IChatStore,
@@ -72,8 +73,27 @@ const Header = inject((stores: IStores) => ({ chatStore: stores.chatStore, userS
                                     <div className="header_user_name">
                                         {user.username}
                                     </div>
+                                    <div className="social-online">
+                                        {/* {
+                                            user.online ? (<Fragment>
+                                                {
+                                                    Object.keys(user.online).map(function (key, index) {
+                                                        return (
+                                                            <div className="online_item">
+                                                                <Icon className='icon_s active-grey' name={`social_media_${key}`} />
+                                                                <span>{user.online[key]}</span>
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+                                            </Fragment>) : (<Fragment></Fragment>)
+                                        } */}
+
+                                    </div>
                                 </div>
-                            </Fragment>) : (<Fragment></Fragment>)
+                            </Fragment>) : (<Fragment>
+
+                            </Fragment>)
                         }
 
                     </Fragment>)

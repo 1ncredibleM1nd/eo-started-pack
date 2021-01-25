@@ -14,8 +14,6 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
 
         const { appStore } = props;
 
-        console.log(appStore)
-
         useEffect(() => {
             async function init() {
                 try {

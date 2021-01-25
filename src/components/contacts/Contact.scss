@@ -1,5 +1,133 @@
 @import '@styles/variables.scss';
 
+
+.social-online {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 14px;
+}
+
+.online_item {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 8px;
+
+    span {
+        margin-left: 5px;
+    }
+}
+
+.channel-container {
+    margin-bottom: 10px;
+}
+
+.radio_btn {
+    &.all {
+        width: 38%;
+    }
+}
+
+.ant-collapse-content>.ant-collapse-content-box {
+    padding: 8px;
+}
+
+.ant-input-group-wrapper {
+    height: 100%;
+}
+
+.ant-input-group {
+    height: 100%;
+}
+
+.ant-collapse {
+    background: #f4f5f6 !important;
+    background-color: #f4f5f6 !important;
+}
+
+.search .search-input {
+    input {
+        margin: 0 !important;
+    }
+}
+
+.ant-collapse-borderless>.ant-collapse-item:last-child,
+.ant-collapse-borderless>.ant-collapse-item:last-child .ant-collapse-header {
+    border: none !important;
+}
+
+.ant-collapse-content-box {
+    border: none !important;
+    background: transparent !important;
+}
+
+.ant-collapse>.ant-collapse-item>.ant-collapse-header {
+    padding: 0;
+    overflow: hidden;
+    border: none !important;
+    background: transparent !important;
+}
+
+.ant-input-group-addon {
+    background: transparent !important;
+}
+
+
+.channel-container {
+    display: flex;
+    height: 70px;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.channel-item {
+    width: 25%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+        margin-right: 5px;
+    }
+}
+
+.ant-radio-group {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.ant-radio-button-wrapper {
+    padding: 0;
+    background: transparent !important;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #dfdfdf !important;
+
+    &:hover {
+        background: $blue_soft !important;
+    }
+}
+
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+    background: $blue_soft !important;
+    border-color: #1890ffa8 !important;
+}
+
+
+.filter_container {
+    display: none;
+    padding: 10px 0;
+}
+
 .search {
     width: 100%;
     height: 45px;
@@ -63,6 +191,7 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+    position: relative;
     cursor: pointer;
 
     &:hover {
@@ -70,7 +199,6 @@
     }
 
     .avatar {
-        overflow: hidden;
         width: 36px !important;
         height: 36px !important;
         min-width: 36px !important;
@@ -80,6 +208,19 @@
         align-items: center;
         justify-content: flex-start;
 
+        .online_dot {
+            .ant-badge-dot {
+                background: $blue_accent;
+            }
+
+            .ant-badge-count,
+            .ant-badge-dot,
+            .ant-badge .ant-scroll-number-custom-component {
+                top: 29px;
+                transform: none !important;
+            }
+        }
+
         img {
             border-radius: 14px !important;
             width: 36px !important;
@@ -87,8 +228,19 @@
         }
     }
 
+    .unreaded_count {
+        background: $blue_active;
+        padding: 0px 10px;
+        border-radius: 10px;
+        color: $white;
+        position: absolute;
+        right: 10px;
+        font-size: 12px;
+        bottom: 10px;
+    }
+
     .content {
-        width: 80%;
+        width: 83%;
         display: flex;
         flex-direction: column;
 
@@ -109,6 +261,10 @@
             color: $grey_default;
         }
 
+        .last_msg.unread {
+            width: 85%;
+        }
+
         .last_msg {
             width: 100%;
             overflow: hidden;
@@ -117,12 +273,14 @@
             overflow: hidden;
             text-overflow: ellipsis;
 
+
+
             .from {
                 margin-right: 5px;
                 display: inline-block;
                 color: $blue_origin;
             }
         }
-
     }
+
 }
