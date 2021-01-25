@@ -69,11 +69,11 @@ const Search = inject((stores: IStores) => ({ contactStore: stores.contactStore 
                                 <Switch size="small" defaultChecked={channel['telegram']} onChange={() => onChangeSocial('telegram')} />
                             </div>
                             <div className='channel-item'>
-                                <Icon name='social_media_telegram' className='icon_s' />
+                                <Icon name='social_media_whatsapp' className='icon_s' />
                                 <Switch size="small" defaultChecked={channel['whatsapp']} onChange={() => onChangeSocial('whatsapp')} />
                             </div>
                             <div className='channel-item'>
-                                <Icon name='social_media_telegram' className='icon_s' />
+                                <Icon name='social_media_viber' className='icon_s' />
                                 <Switch size="small" defaultChecked={channel['viber']} onChange={() => onChangeSocial('viber')} />
                             </div>
                             <div className='channel-item'>
