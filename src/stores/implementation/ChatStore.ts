@@ -10,6 +10,7 @@ export class ChatStore implements IChatStore {
     @observable chat: IChat[] = [];
     @observable activeChat: IChat;
     @observable activeMsg: IMsg;
+    @observable modalWindow: string = 'close'
 
     constructor() {
         reaction(() => {
@@ -33,6 +34,11 @@ export class ChatStore implements IChatStore {
         const chat = this.chat.find((chat_item: IChat) => chat_item.id === id)
         this.activeChat = chat;
         return chat
+    }
+
+    @action
+    setModalWindow(status: string) {
+        this.modalWindow = status
     }
 
 

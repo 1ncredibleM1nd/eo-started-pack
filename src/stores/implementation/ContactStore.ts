@@ -30,6 +30,11 @@ export class ContactStore implements IContactStore {
     }
 
     @action
+    getContact(id: string) {
+        return this.contact.find((contact_item: IContact) => contact_item.id === id)
+    }
+
+    @action
     setLastMsg(id: string, msg_id: string) {
         let contact = this.contact.find((contact_item: IContact) => contact_item.id === id)
         contact.setLastMsg(msg_id)
@@ -63,7 +68,7 @@ export class ContactStore implements IContactStore {
                     this.status = status
                 },
                 setLastMsg(msg_id: string) {
-                    this.last_msg = msg_id
+                    this.last_message_id = msg_id
                 },
             }
             dataContact.push(initContact)

@@ -41,11 +41,6 @@ const Search = inject((stores: IStores) => ({ contactStore: stores.contactStore 
         //     //contactStore.setFilter('type', type)
         // }
 
-
-
-
-
-
         const { Panel } = Collapse;
         const { Search } = Input;
 

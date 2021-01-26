@@ -38,8 +38,8 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
                     }
                 }
 
-
-                contact.user.find((user: any) => {
+                contact.user.find((id: any) => {
+                    let user = userStore.getUser(id)
                     let splitByWord = user.username.split(' ')
                     for (let i = 0; i < splitByWord.length; i++) {
                         const word = splitByWord[i];
@@ -79,12 +79,15 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
                 {
                     ContactsData.map((contact: any, index: number) => {
 
-                        const last_msg = chatStore.getMsg(contact.last_msg, contact.chat_id);
-                        let user = contact.user.find((u: any) => u.id === last_msg.from)
-                        if (user && hero.id === user.id) user = false
+                        const last_message_id = chatStore.getMsg(contact.last_message_id, contact.chat_id);
+                        const userId = contact.user.find((id: any) => id === last_message_id.from)
+                        let user = userStore.getUser(userId)
+                        const status = contact.status;
 
                         let unreadedCount = 0;
-                        const status = contact.status;
+                        let online = Object.keys(user.online).find(key => user.online[key] === 'В сети')
+
+                        if (user && hero.id === user.id) user = undefined
                         if (status === 'unread') unreadedCount = chatStore.getUnreadCount(contact.id)
 
                         return (
@@ -92,7 +95,7 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
 
 
                                 <div className="avatar">
-                                    <Badge className='online_dot' dot={contact.online}>
+                                    <Badge className='online_dot' dot={Boolean(online)}>
                                         <img src={contact.avatar} alt="" />
                                     </Badge>
                                 </div>
@@ -103,14 +106,14 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
                                             {contact.name}
                                         </div>
                                         <div className={`date_last_msg`}>
-                                            {last_msg.time}
+                                            {last_message_id.time}
                                         </div>
                                     </div>
                                     <div className={`last_msg ${status}`}>
                                         <div className="from">
                                             {user ? user.username + ': ' : 'You: '}
                                         </div>
-                                        {last_msg.content}
+                                        {last_message_id.content}
                                     </div>
                                     {
                                         status === 'unread' ? (<Fragment>

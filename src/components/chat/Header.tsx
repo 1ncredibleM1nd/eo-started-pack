@@ -1,32 +1,40 @@
 import React, { Fragment, useState } from 'react';
+import ModalWindow from './ModalWindow'
 import { inject, observer } from 'mobx-react';
-import IStores, { IChatStore, IUserStore } from '@stores/interface';
-import { Modal } from 'antd';
-import ContactList from '../contacts/ContactList'
+import IStores, { IChatStore, IContactStore, IUserStore, } from '@stores/interface';
+import { Button, Popover, Menu } from 'antd';
 import './Header.scss'
-// import { Icon } from '@ui'
+import { Icon } from '@ui'
+
 
 type IProps = {
     chatStore?: IChatStore,
     userStore?: IUserStore,
+    contactStore?: IContactStore
 }
 
-const Header = inject((stores: IStores) => ({ chatStore: stores.chatStore, userStore: stores.userStore }))(
+const Header = inject((stores: IStores) => ({ chatStore: stores.chatStore, userStore: stores.userStore, contactStore: stores.contactStore }))(
     observer((props: IProps) => {
 
-        const { chatStore, userStore } = props;
+        const { chatStore, userStore, contactStore } = props;
         const [modal, setModal] = useState(false);
 
+        let hero = userStore.hero
         const chat = chatStore.activeChat
         let activeMsg: any;
-        let hero: any;
         let user: any;
+        let chatTitle: any;
 
         if (chat) {
             activeMsg = chat.active_msg
-            hero = userStore.hero
-            user = chat.user.find((user: any) => user.id !== hero.id)
+            let contact = contactStore.getContact(chat.contact_id)
+            chatTitle = contact.name
+            if (chat.user && chat.user.length <= 2) {
+                let userId = chat.user.find((id: any) => id !== hero.id)
+                user = userStore.getUser(userId)
+            }
         }
+
 
         const onDelete = () => {
             chatStore.deleteMsg(activeMsg.id, chat.id)
@@ -37,13 +45,86 @@ const Header = inject((stores: IStores) => ({ chatStore: stores.chatStore, userS
             chat.setActiveMsg(null)
         }
 
-        const handleSelect = () => {
+
+        const openProfile = (type: string) => {
+            chatStore.setModalWindow(type)
             setModal(false)
-            chat.setActiveMsg(null)
         }
 
-        const handleCancel = () => {
+        const editContact = () => {
 
+        }
+
+        const deleteContact = () => {
+
+        }
+
+        const deleteChat = () => {
+
+        }
+
+        const clearHistory = () => {
+
+        }
+
+        const blockUser = () => {
+
+        }
+
+        const deleteExit = () => {
+
+        }
+
+
+        const DropDownMenu = (msg: any) => {
+
+            if (user) {
+                return (
+                    <Menu>
+                        <Menu.Item onClick={() => openProfile('user')}>
+                            Профиль
+                        </Menu.Item>
+                        <Menu.Item onClick={() => editContact()}>
+                            Редакт. Контакт
+                    </Menu.Item>
+                        <Menu.Item onClick={() => deleteContact()}>
+                            Удалить Контакт
+                    </Menu.Item>
+                        <Menu.Item onClick={() => deleteChat()} >
+                            Удалить чат
+                    </Menu.Item>
+                        <Menu.Item onClick={() => clearHistory()} >
+                            Очистить историю
+                    </Menu.Item>
+                        <Menu.Item onClick={() => blockUser()} >
+                            Заблокировать
+                    </Menu.Item>
+                        {/* <Menu.Item onClick={() => replyMsg(msg.id)} >
+                        Экспортировать чат
+                    </Menu.Item> */}
+                    </Menu>
+                )
+            } else {
+                return (
+                    <Menu>
+                        <Menu.Item onClick={() => openProfile('group')}>
+                            Настройки группы
+                    </Menu.Item>
+                        <Menu.Item onClick={() => deleteExit()}>
+                            Удалить и выйти
+                    </Menu.Item>
+                        <Menu.Item onClick={() => deleteChat()} >
+                            Удалить чат
+                    </Menu.Item>
+                        <Menu.Item onClick={() => clearHistory()} >
+                            Очистить историю
+                    </Menu.Item>
+                        {/* <Menu.Item onClick={() => replyMsg(msg.id)} >
+                        Экспортировать чат
+                    </Menu.Item> */}
+                    </Menu>
+                )
+            }
         }
 
         return (
@@ -68,45 +149,50 @@ const Header = inject((stores: IStores) => ({ chatStore: stores.chatStore, userS
                         </div>
                     </Fragment>) : (<Fragment>
                         {
-                            user ? (<Fragment>
+                            chatTitle || user ? (<Fragment>
                                 <div className="header_content">
-                                    <div className="header_user_name">
-                                        {user.username}
+                                    <div className={`header_title ${user ? 'user' : ''}`}>
+                                        {chatTitle}
+                                        <div className="social-online">
+                                            {
+                                                user ? (<Fragment>
+                                                    {
+                                                        Object.keys(user.online).map(function (key, index) {
+                                                            return (
+                                                                <div className="online_item">
+                                                                    <Icon className='icon_s active-grey' name={`social_media_${key}`} />
+                                                                    <span>
+                                                                        {
+                                                                            user.online[key] === 'В сети' ? (<Fragment>
+                                                                                <div className="online_dot_header"></div>
+                                                                            </Fragment>) : (<Fragment>{user.online[key]}</Fragment>)
+                                                                        }
+                                                                    </span>
+                                                                </div>
+                                                            )
+                                                        })
+                                                    }
+                                                </Fragment>) : (<Fragment></Fragment>)
+                                            }
+                                        </div>
                                     </div>
-                                    <div className="social-online">
-                                        {/* {
-                                            user.online ? (<Fragment>
-                                                {
-                                                    Object.keys(user.online).map(function (key, index) {
-                                                        return (
-                                                            <div className="online_item">
-                                                                <Icon className='icon_s active-grey' name={`social_media_${key}`} />
-                                                                <span>{user.online[key]}</span>
-                                                            </div>
-                                                        )
-                                                    })
-                                                }
-                                            </Fragment>) : (<Fragment></Fragment>)
-                                        } */}
-
+                                    <div className="header_settings">
+                                        <div className="trigger">
+                                            <Popover visible={modal} content={<DropDownMenu />} trigger="click">
+                                                <Button onClick={() => setModal(!modal)} className='transparent'>
+                                                    <Icon className='icon_s lite-grey rotated' name={`regular_three-dots`} />
+                                                </Button>
+                                            </Popover>
+                                        </div>
                                     </div>
                                 </div>
                             </Fragment>) : (<Fragment>
 
                             </Fragment>)
                         }
-
                     </Fragment>)
                 }
-
-
-                <Modal title="Выберите диалог" visible={modal} onOk={handleSelect} onCancel={handleCancel} footer={[
-                    <Fragment></Fragment>
-                ]}>
-                    <div className="reply_contact">
-                        <ContactList onSelect={() => handleSelect()} />
-                    </div>
-                </Modal>
+                <ModalWindow />
             </div>
         );
     }));

@@ -38,7 +38,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
             } else {
                 setSelectedMsg(null)
             }
-            $(".msg_space").animate({ scrollTop: $('.msg_space').prop("scrollHeight") }, 300);
+            $(".msg_space").animate({ scrollTop: $('.msg_space').prop("scrollHeight") }, 0);
 
             if (activeContact && !draft[activeContact.id + status]) $('.main_input input').val('');
         })
@@ -148,46 +148,29 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                         <div className="msg_space">
                             {
                                 currentChat.msg.map((msg: IMsg, index: number) => {
-                                    let user = currentChat.user.find((user: any) => user.id === msg.from)
+                                    let userId = currentChat.user.find((id: any) => id === msg.from)
+                                    let user = userStore.getUser(userId)
                                     let role = currentChat.role.find((role: any) => role.id === msg.from)
-                                    let flowMsgNext = false
-                                    let center = false;
-                                    let flowMsgPrev = false
-                                    let prevUser: any;
-                                    let nextUser: any;
-                                    let prevMsg: any
-                                    let nextMsg: any;
-                                    let prevReaded: boolean;
-                                    let date: any;
+                                    let flowMsgNext, flowMsgPrev, center = false
+                                    let prevUser, nextUser, prevMsg, nextMsg, prevReaded, date: any;
 
                                     if (currentChat.msg[index - 1]) {
                                         prevReaded = msg.readed
                                         prevMsg = currentChat.msg[index - 1]
-                                        if (prevMsg) {
-                                            prevUser = currentChat.user.find((user: any) => user.id === prevMsg.from)
-                                        }
+                                        if (prevMsg) prevUser = userStore.getUser(prevMsg.from)
                                     } else {
                                         date = msg.date
                                         prevMsg = currentChat.msg[index - 1]
-                                        if (prevMsg) {
-                                            prevReaded = prevMsg.readed
-                                        }
+                                        if (prevMsg) prevReaded = prevMsg.readed
                                     }
-
                                     if (currentChat.msg[index + 1]) {
                                         nextMsg = currentChat.msg[index + 1]
-                                        nextUser = currentChat.user.find((user: any) => user.id === nextMsg.from)
+                                        nextUser = userStore.getUser(nextMsg.from)
                                     }
                                     if (currentChat.msg[index - 1] && currentChat.msg[index - 1].date !== msg.date) date = msg.date
-
-                                    if (nextUser && nextUser.id === user.id) flowMsgNext = true
-                                    if (prevUser && prevUser.id === user.id) flowMsgPrev = true
-
-                                    if (flowMsgNext && flowMsgPrev) {
-                                        if (prevUser.id === user.id && nextUser.id === user.id) center = true
-                                    }
-
-                                    console.log(flowMsgPrev, flowMsgNext, center)
+                                    if (nextUser && nextUser.id === userId) flowMsgNext = true
+                                    if (prevUser && prevUser.id === userId) flowMsgPrev = true
+                                    if (flowMsgNext && flowMsgPrev) if (prevUser.id === user.id && nextUser.id === user.id) center = true
 
                                     if (user.id !== hero.id) {
                                         return (
@@ -304,7 +287,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                                         </Fragment>) : (<Fragment></Fragment>)
                                                                     }
                                                                     <div className="msg_time">{msg.time}</div>
-                                                                    <Dropdown overlay={<DropDownMenu id={msg.id} />} placement="bottomLeft" >
+                                                                    <Dropdown overlay={<DropDownMenu id={msg.id} />} placement="bottomLeft" trigger={['click']}>
                                                                         <span className='dropdown-trigger'>
                                                                             <Icon className='active-grey' name={`regular_three-dots`} />
                                                                         </span>

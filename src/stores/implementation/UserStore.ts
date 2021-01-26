@@ -21,6 +21,19 @@ export class UserStore implements IUserStore {
     }
 
     @action
+    async init(data: IUser[]) {
+        let users = [];
+        for (let index = 0; index < data.length; index++) {
+            const user_item: IUser = data[index];
+            const initUser: IUser = {
+                ...user_item,
+            }
+            users.push(initUser)
+        }
+        this.avaliableUsers = users
+    }
+
+    @action
     initHero(data: any): void {
         this.hero = data
     };

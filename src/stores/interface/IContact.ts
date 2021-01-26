@@ -4,9 +4,9 @@ export default interface IContact {
     find(arg0: (user: any) => boolean): any;
     online: boolean;
     chat_id: string;
-    username: string,
+    name: string,
     status: string;
-    last_msg: string;
+    last_message_id: string;
     id: string,
     setLastMsg: (msg_id: string) => void;
     setStatus: (status: string) => void;

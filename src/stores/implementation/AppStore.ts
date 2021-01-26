@@ -11,179 +11,312 @@ export class AppStore implements IAppStore {
         try {
             //const res = await getData();
 
+
+            const userData = [
+                {
+                    username: "Бильбо Бэггинс",
+                    avatar: 'https://i.pinimg.com/736x/9a/bd/a5/9abda5b52a61284f7e39101cd84edfd2--hobbit--lord-of-the-rings.jpg',
+                    id: "user_0",
+                    avaliableSocial: {
+                        "whatsapp": true,
+                        "instagram": true,
+                        "vk": true,
+                        "ok": true,
+                        "viber": false,
+                        "facebook": true,
+                        "telegram": true,
+                        "email": true
+                    },
+                    online: {
+                        "whatsapp": 'В сети',
+                        "instagram": '20д',
+                        "vk": '10м',
+                        "ok": '5м',
+                        "facebook": '20м',
+                        "telegram": '2ч',
+                    },
+
+                },
+                {
+                    username: "Гэндальф",
+                    avatar: 'https://yt3.ggpht.com/a/AATXAJz4P6N4YZie5K342WgZxFKi4o-1YBRhpSnrWx5j=s900-c-k-c0xffffffff-no-rj-mo',
+                    id: "user_1",
+                    avaliableSocial: {
+                        "whatsapp": false,
+                        "instagram": true,
+                        "vk": false,
+                        "ok": false,
+                        "viber": false,
+                        "facebook": false,
+                        "telegram": true,
+                        "email": false
+                    },
+                    online: {
+                        "whatsapp": 'В сети',
+                        "instagram": '20д',
+                        "vk": '10м',
+                        "ok": '5м',
+                        "facebook": '20м',
+                        "telegram": '2ч',
+                    },
+                    info: {
+                        instagram: {
+                            nickname: 'gendalf_white',
+                            about: 'Гэндальф предстаёт мудрым, могучим чародеем, состоящим в Совете Мудрых и помогающим слабым.'
+                        },
+                        telegram: {
+                            nickname: '@gendalf',
+                            phone: '+420 782 331 331',
+                            about: 'Гэндальф предстаёт мудрым, могучим чародеем, состоящим в Совете Мудрых и помогающим слабым.'
+                        },
+                        whatsapp: {
+                            nickname: 'Гэндальф Белый',
+                            phone: '+420 782 331 331',
+                        },
+                        vk: {
+                            nickname: 'Гэндальф Белый',
+                            link: 'https://vk.com/gendalf',
+                        },
+                        ok: {
+                            nickname: 'Гэндальф Белый',
+                            link: 'https://ok.ru/',
+                        },
+                        facebook: {
+                            nickname: 'Гэндальф Белый',
+                            link: 'https://facebook.com',
+                        }
+                    }
+                },
+                {
+                    username: "Терминатор",
+                    avatar: 'http://img.crazys.info/files/i/2010.10.10/1286708601_t800_18.jpg',
+                    id: "user_2",
+                    avaliableSocial: {
+                        "whatsapp": true,
+                        "instagram": true,
+                        "vk": true,
+                        "ok": true,
+                        "viber": true,
+                        "facebook": true,
+                        "telegram": true,
+                        "email": true
+                    },
+                    online: {
+                        "whatsapp": '1ч',
+                        "instagram": 'В сети',
+                        "vk": '3ч',
+                        "ok": 'В сети',
+                        "facebook": 'В сети',
+                        "viber": '20м',
+                        "telegram": '5м',
+                    },
+                    info: {
+                        instagram: {
+                            nickname: 'i_will_be_back',
+                        },
+                        telegram: {
+                            nickname: '@i_will_be_back',
+                            phone: '+420 782 331 331',
+                            about: 'Главный антагонист фильма «Терминатор 2: Судный день» и один из антагонистов в фильме «Терминатор: Генезис».'
+                        },
+                        whatsapp: {
+                            nickname: 'Терминатор Т-1000',
+                            phone: '+420 782 331 331',
+                        },
+                        vk: {
+                            nickname: 'Терминатор Т-1000',
+                            link: 'https://vk.com/gendalf',
+                        },
+                        ok: {
+                            nickname: 'Терминатор Т-1000',
+                            link: 'https://ok.ru/',
+                        },
+                        facebook: {
+                            nickname: 'Терминатор Т-1000',
+                            link: 'https://facebook.com',
+                            about: 'Главный антагонист фильма «Терминатор 2: Судный день» и один из антагонистов в фильме «Терминатор: Генезис».'
+                        }
+                    }
+                },
+                {
+                    username: "Джон Конор",
+                    avatar: 'https://img.filmsactu.net/datas/films/t/e/terminator-6-dark-fate/xl/terminator-6-dark-fate-5d30d97b7f96a.jpg',
+                    id: "user_3",
+                    avaliableSocial: {
+                        "whatsapp": false,
+                        "instagram": true,
+                        "vk": false,
+                        "ok": false,
+                        "viber": false,
+                        "facebook": false,
+                        "telegram": false,
+                        "email": false
+                    },
+                    online: {
+                        "whatsapp": '5д',
+                        "instagram": '20д',
+                        "vk": '10м',
+                        "ok": '5м',
+                        "facebook": '20м',
+                        "telegram": '2ч',
+                    },
+
+                    info: {
+                        instagram: {
+                            nickname: 'jonh_connor',
+                            about: 'После ядерной войны, которую в недалёком будущем развязал искусственный интеллект министерства обороны США «Скайнет», человечество было порабощено машинами и оказалось на грани уничтожения. '
+                        },
+                        telegram: {
+                            nickname: '@jonh_connor',
+                            phone: '+420 782 331 331',
+                        },
+                        whatsapp: {
+                            nickname: 'Джон Конор',
+                            phone: '+420 782 331 331',
+                        },
+                        vk: {
+                            nickname: 'Джон Конор',
+                            link: 'https://vk.com/gendalf',
+                            about: 'После ядерной войны, которую в недалёком будущем развязал искусственный интеллект министерства обороны США «Скайнет», человечество было порабощено машинами и оказалось на грани уничтожения. '
+                        },
+                        ok: {
+                            nickname: 'Джон Конор',
+                            link: 'https://ok.ru/',
+                            about: 'После ядерной войны, которую в недалёком будущем развязал искусственный интеллект министерства обороны США «Скайнет», человечество было порабощено машинами и оказалось на грани уничтожения. '
+                        },
+                        facebook: {
+                            nickname: 'Джон Конор',
+                            link: 'https://facebook.com',
+                            about: 'После ядерной войны, которую в недалёком будущем развязал искусственный интеллект министерства обороны США «Скайнет», человечество было порабощено машинами и оказалось на грани уничтожения. '
+                        }
+                    }
+                },
+            ]
+
             const contactData = [
                 {
                     name: "Гэндальф",
                     user: [
-                        {
-                            username: "Бильбо Бэггинс",
-                            avatar: 'https://i.pinimg.com/736x/9a/bd/a5/9abda5b52a61284f7e39101cd84edfd2--hobbit--lord-of-the-rings.jpg',
-                            id: "user_0",
-                            avaliableSocial: {
-                                "whatsapp": true,
-                                "instagram": true,
-                                "vk": true,
-                                "ok": true,
-                                "viber": false,
-                                "facebook": true,
-                                "telegram": true,
-                                "email": true
-                            },
-                            online: {
-                                "whatsapp": '5д назад',
-                                "instagram": '20д назад',
-                                "vk": '10м назад',
-                                "ok": '5м назад',
-                                "facebook": '20м назад',
-                                "telegram": '2ч назад',
-                            },
-                        },
-                        {
-                            username: "Гэндальф",
-                            avatar: 'https://yt3.ggpht.com/a/AATXAJz4P6N4YZie5K342WgZxFKi4o-1YBRhpSnrWx5j=s900-c-k-c0xffffffff-no-rj-mo',
-                            id: "user_1",
-                            avaliableSocial: {
-                                "whatsapp": false,
-                                "instagram": true,
-                                "vk": false,
-                                "ok": false,
-                                "viber": false,
-                                "facebook": false,
-                                "telegram": true,
-                                "email": false
-                            },
-                            online: {
-                                "whatsapp": '5д назад',
-                                "instagram": '20д назад',
-                                "vk": '10м назад',
-                                "ok": '5м назад',
-                                "facebook": '20м назад',
-                                "telegram": '2ч назад',
-                            },
-                        },
+                        "user_0",
+                        "user_1",
                     ],
-                    last_msg: 'msg_4',
+                    last_message_id: 'msg_4',
                     status: 'readed',
                     online: false,
                     chat_id: 'чат_1',
                     avatar: 'https://yt3.ggpht.com/a/AATXAJz4P6N4YZie5K342WgZxFKi4o-1YBRhpSnrWx5j=s900-c-k-c0xffffffff-no-rj-mo',
-                    id: "contact_0"
+                    id: "contact_0",
+                    attachments: [
+                        {
+                            url: 'https://mota.ru/upload/wallpapers/source/2017/01/23/09/01/51630/mota.ru_2017012314.jpg',
+                            'social_media': 'viber',
+                            time: '18:59',
+                            date: '02.01.21',
+                        },
+                        {
+                            url: 'https://static.novayagazeta.ru/storage/content/pictures/378/content_001_________4.jpg',
+                            'social_media': 'whatsapp',
+                            time: '18:59',
+                            date: '12.01.21',
+                        },
+                        {
+                            url: 'https://sun9-5.userapi.com/orVHrCycrUQoYA4sDC6NIrJ7VIStWORmdIlBKw/uk_-Bfsdu3o.jpg',
+                            'social_media': 'telegram',
+                            time: '18:59',
+                            date: '14.01.21',
+                        },
+                        {
+                            url: 'https://million-wallpapers.ru/wallpapers/1/65/15650858132982218467/movie-film-the-lord-of-the-rings-vlastelin-kolec-frodo.jpg',
+                            'social_media': 'facebook',
+                            time: '18:59',
+                            date: '25.09.11',
+                        },
+                        {
+                            url: 'https://cdn.wccftech.com/wp-content/uploads/2020/02/Daedalic-Entertainment-Struggling-Lord-of-the-Rings-Gollum-in-Trouble-01-Gollum-Header.jpg',
+                            'social_media': 'instagram',
+                            time: '18:59',
+                            date: '15.11.20',
+                        }
+                    ],
                 },
                 {
                     user: [
-                        {
-                            username: "Терминатор",
-                            avatar: 'http://img.crazys.info/files/i/2010.10.10/1286708601_t800_18.jpg',
-                            id: "user_2",
-                            avaliableSocial: {
-                                "whatsapp": true,
-                                "instagram": true,
-                                "vk": true,
-                                "ok": true,
-                                "viber": true,
-                                "facebook": true,
-                                "telegram": true,
-                                "email": true
-                            },
-                            online: {
-                                "whatsapp": 'В сети',
-                                "instagram": 'В сети',
-                                "vk": 'В сети',
-                                "ok": 'В сети',
-                                "facebook": 'В сети',
-                                "viber": 'В сети',
-                                "telegram": 'В сети',
-                            },
-                        },
-                        {
-                            username: "Джон Конор",
-                            avatar: 'https://img.filmsactu.net/datas/films/t/e/terminator-6-dark-fate/xl/terminator-6-dark-fate-5d30d97b7f96a.jpg',
-                            id: "user_3",
-                            avaliableSocial: {
-                                "whatsapp": false,
-                                "instagram": true,
-                                "vk": false,
-                                "ok": false,
-                                "viber": false,
-                                "facebook": false,
-                                "telegram": false,
-                                "email": false
-                            },
-                            online: {
-                                "whatsapp": '5д назад',
-                                "instagram": '20д назад',
-                                "vk": '10м назад',
-                                "ok": '5м назад',
-                                "facebook": '20м назад',
-                                "telegram": '2ч назад',
-                            },
-                        },
+                        "user_2",
+                        "user_3",
+                        "user_0"
                     ],
                     chat_id: 'чат_2',
                     status: 'readed',
-                    last_msg: 'msg_16',
+                    last_message_id: 'msg_16',
                     online: false,
                     name: 'Терминатор CLUB',
                     avatar: 'http://img.crazys.info/files/i/2010.10.10/1286708601_t800_18.jpg',
-                    id: "contact_1"
+                    id: "contact_1",
+                    attachments: [
+                        {
+                            url: 'https://s1.1zoom.ru/big3/973/Terminator_Genisys_504993.jpg',
+                            'social_media': 'whatsapp',
+                            time: '18:59',
+                            date: '12.01.21',
+                        },
+                        {
+                            url: 'https://avatars.mds.yandex.net/get-zen_doc/1716911/pub_5de407294e057700b07136a0_5de40aa9d7859b00b1892d6f/orig',
+                            'social_media': 'telegram',
+                            time: '18:59',
+                            date: '14.01.21',
+                        },
+                        {
+                            url: 'https://ovideo.ru/images/gallery/0005/0898/0003.jpg',
+                            'social_media': 'facebook',
+                            time: '18:59',
+                            date: '25.09.11',
+                        },
+                        {
+                            url: 'https://wp.stanforddaily.com/wp-content/uploads/2015/07/terminator.jpg',
+                            'social_media': 'instagram',
+                            time: '18:59',
+                            date: '15.11.20',
+                        }
+                    ],
                 },
                 {
                     user: [
-                        {
-                            username: "Терминатор",
-                            avatar: 'http://img.crazys.info/files/i/2010.10.10/1286708601_t800_18.jpg',
-                            id: "user_2",
-                            avaliableSocial: {
-                                "whatsapp": true,
-                                "instagram": true,
-                                "vk": true,
-                                "ok": true,
-                                "viber": true,
-                                "facebook": true,
-                                "telegram": true,
-                                "email": true
-                            },
-                            online: {
-                                "whatsapp": 'В сети',
-                                "instagram": 'В сети',
-                                "vk": 'В сети',
-                                "ok": 'В сети',
-                                "facebook": 'В сети',
-                                "viber": 'В сети',
-                                "telegram": 'В сети',
-                            },
-                        },
-                        {
-                            username: "Бильбо Бэггинс",
-                            avatar: 'https://i.pinimg.com/736x/9a/bd/a5/9abda5b52a61284f7e39101cd84edfd2--hobbit--lord-of-the-rings.jpg',
-                            id: "user_0",
-                            avaliableSocial: {
-                                "whatsapp": true,
-                                "instagram": true,
-                                "vk": true,
-                                "ok": true,
-                                "viber": false,
-                                "facebook": true,
-                                "telegram": true,
-                                "email": true
-                            },
-                            online: {
-                                "whatsapp": '5д назад',
-                                "instagram": '20д назад',
-                                "vk": '10м назад',
-                                "ok": '5м назад',
-                                "facebook": '20м назад',
-                                "telegram": 'В сети',
-                            },
-                        },
+                        "user_2",
+                        "user_0"
                     ],
                     chat_id: 'чат_3',
                     status: 'unread',
-                    last_msg: 'msg_2',
+                    last_message_id: 'msg_2',
                     online: true,
                     name: 'Терминатор',
                     avatar: 'http://img.crazys.info/files/i/2010.10.10/1286708601_t800_18.jpg',
-                    id: "contact_2"
+                    id: "contact_2",
+                    attachments: [
+                        {
+                            url: 'https://s1.1zoom.ru/big3/973/Terminator_Genisys_504993.jpg',
+                            'social_media': 'whatsapp',
+                            time: '18:59',
+                            date: '12.01.21',
+                        },
+                        {
+                            url: 'https://avatars.mds.yandex.net/get-zen_doc/1716911/pub_5de407294e057700b07136a0_5de40aa9d7859b00b1892d6f/orig',
+                            'social_media': 'telegram',
+                            time: '18:59',
+                            date: '14.01.21',
+                        },
+                        {
+                            url: 'https://ovideo.ru/images/gallery/0005/0898/0003.jpg',
+                            'social_media': 'facebook',
+                            time: '18:59',
+                            date: '25.09.11',
+                        },
+                        {
+                            url: 'https://wp.stanforddaily.com/wp-content/uploads/2015/07/terminator.jpg',
+                            'social_media': 'instagram',
+                            time: '18:59',
+                            date: '15.11.20',
+                        }
+                    ],
                 }
             ]
 
@@ -200,52 +333,8 @@ export class AppStore implements IAppStore {
                         }
                     ],
                     user: [
-                        {
-                            username: "Гэндальф",
-                            avatar: 'https://yt3.ggpht.com/a/AATXAJz4P6N4YZie5K342WgZxFKi4o-1YBRhpSnrWx5j=s900-c-k-c0xffffffff-no-rj-mo',
-                            id: "user_1",
-                            avaliableSocial: {
-                                "whatsapp": false,
-                                "instagram": true,
-                                "vk": false,
-                                "ok": false,
-                                "viber": false,
-                                "facebook": false,
-                                "telegram": true,
-                                "email": false
-                            },
-                            online: {
-                                "whatsapp": '5д назад',
-                                "instagram": '20д назад',
-                                "vk": '10м назад',
-                                "ok": '5м назад',
-                                "facebook": '20м назад',
-                                "telegram": 'В сети',
-                            },
-                        },
-                        {
-                            username: "Бильбо Бэггинс",
-                            avatar: 'https://i.pinimg.com/736x/9a/bd/a5/9abda5b52a61284f7e39101cd84edfd2--hobbit--lord-of-the-rings.jpg',
-                            id: "user_0",
-                            avaliableSocial: {
-                                "whatsapp": true,
-                                "instagram": true,
-                                "vk": true,
-                                "ok": true,
-                                "viber": false,
-                                "facebook": true,
-                                "telegram": true,
-                                "email": true
-                            },
-                            online: {
-                                "whatsapp": '5д назад',
-                                "instagram": '20д назад',
-                                "vk": '10м назад',
-                                "ok": '5м назад',
-                                "facebook": '20м назад',
-                                "telegram": 'В сети',
-                            },
-                        },
+                        "user_1",
+                        "user_0"
                     ],
                     msg: [
                         {
@@ -317,21 +406,9 @@ export class AppStore implements IAppStore {
                         }
                     ],
                     user: [
-                        {
-                            username: "Терминатор",
-                            avatar: 'http://img.crazys.info/files/i/2010.10.10/1286708601_t800_18.jpg',
-                            id: "user_2"
-                        },
-                        {
-                            username: "Джон Конор",
-                            avatar: 'https://img.filmsactu.net/datas/films/t/e/terminator-6-dark-fate/xl/terminator-6-dark-fate-5d30d97b7f96a.jpg',
-                            id: "user_3"
-                        },
-                        {
-                            username: "Бильбо Бэггинс",
-                            avatar: 'https://i.pinimg.com/736x/9a/bd/a5/9abda5b52a61284f7e39101cd84edfd2--hobbit--lord-of-the-rings.jpg',
-                            id: "user_0"
-                        },
+                        "user_2",
+                        "user_3",
+                        "user_0"
                     ],
                     msg: [
                         {
@@ -535,54 +612,8 @@ export class AppStore implements IAppStore {
                         }
                     ],
                     user: [
-                        {
-                            username: "Терминатор",
-                            avatar: 'http://img.crazys.info/files/i/2010.10.10/1286708601_t800_18.jpg',
-                            id: "user_2",
-                            avaliableSocial: {
-                                "whatsapp": true,
-                                "instagram": true,
-                                "vk": true,
-                                "ok": true,
-                                "viber": true,
-                                "facebook": true,
-                                "telegram": true,
-                                "email": true
-                            },
-                            online: {
-                                "whatsapp": 'В сети',
-                                "instagram": 'В сети',
-                                "vk": 'В сети',
-                                "ok": 'В сети',
-                                "facebook": 'В сети',
-                                "viber": 'В сети',
-                                "telegram": 'В сети',
-                            },
-                        },
-                        {
-                            username: "Бильбо Бэггинс",
-                            avatar: 'https://i.pinimg.com/736x/9a/bd/a5/9abda5b52a61284f7e39101cd84edfd2--hobbit--lord-of-the-rings.jpg',
-                            id: "user_0",
-                            avaliableSocial: {
-                                "whatsapp": true,
-                                "instagram": true,
-                                "vk": true,
-                                "ok": true,
-                                "viber": false,
-                                "facebook": true,
-                                "telegram": true,
-                                "email": true
-                            },
-                            online: {
-                                "whatsapp": 'В сети',
-                                "instagram": 'В сети',
-                                "vk": 'В сети',
-                                "ok": 'В сети',
-                                "facebook": 'В сети',
-                                "viber": 'В сети',
-                                "telegram": 'В сети',
-                            },
-                        },
+                        "user_2",
+                        "user_0"
                     ],
                     msg: [
                         {
@@ -629,6 +660,7 @@ export class AppStore implements IAppStore {
             }
 
             await userStore.initHero(hero)
+            await userStore.init(userData)
             await contactStore.init(contactData);
             await chatStore.init(chatData)
             this.loaded = true

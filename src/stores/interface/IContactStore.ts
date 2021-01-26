@@ -5,7 +5,7 @@ export default interface IContactStore {
     activeContact: IContact;
     filter: any;
     search: string;
-
+    getContact: (id: string) => IContact;
     setActiveContact: (id: string) => void;
     setSearch: (id: string) => void;
     setStatus: (id: string, status: string) => void;

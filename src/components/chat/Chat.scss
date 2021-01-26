@@ -54,7 +54,8 @@
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
-    bottom: -15px;
+    bottom: -10px;
+    left: 30px;
     position: relative;
 }
 
@@ -64,6 +65,7 @@
     border-radius: 30px;
     background: $white;
     font-size: 18px;
+    z-index: 10;
     width: 32px;
     height: 32px;
     text-align: center;
@@ -221,10 +223,15 @@
     width: 18px;
     height: 18px;
     position: absolute;
+    z-index: 100;
     bottom: -8px;
     right: 0;
     box-shadow: 0 0 0 2px $white_chat;
     border-radius: 15px;
+
+    &.white {
+        box-shadow: 0 0 0 2px $white;
+    }
 
     &.instagram {
         border-radius: 4px;
@@ -415,7 +422,6 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding-bottom: 50px;
     position: relative;
     height: 100vh;
     width: 100%;
@@ -429,14 +435,15 @@
 
 .msg_space {
     min-height: 300px;
-    padding-bottom: 75px;
     width: 100%;
     overflow-x: hidden;
     overflow-y: auto;
+    position: relative;
+    padding-bottom: 30px;
 }
 
 .inputer {
-    position: absolute;
+    position: relative;
     z-index: 100;
     bottom: 0;
     left: 0;
@@ -491,6 +498,11 @@
             height: 100%;
             background: transparent;
             border: none;
+
+            max-height: 400px !important;
+            overflow: auto;
+
+
         }
     }
 

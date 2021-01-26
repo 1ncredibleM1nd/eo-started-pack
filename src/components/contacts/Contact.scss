@@ -1,26 +1,6 @@
 @import '@styles/variables.scss';
 
 
-.social-online {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    font-size: 14px;
-}
-
-.online_item {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    margin-left: 8px;
-
-    span {
-        margin-left: 5px;
-    }
-}
 
 .channel-container {
     margin-bottom: 10px;

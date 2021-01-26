@@ -35,6 +35,9 @@
     fill: $white;
   }
 
+  &.rotated {
+    transform: rotate(90deg)
+  }
 
   &.accent {
     fill: $blue_accent;
