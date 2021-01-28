@@ -1,7 +1,8 @@
-import React, { useState, Fragment } from 'react';
+
+import React, { Fragment } from 'react';
 import { inject, observer } from 'mobx-react';
 import IStores, { IContactStore, IUserStore } from '@stores/interface';
-import { Icon } from '@ui'
+
 
 
 type IProps = {
@@ -254,3 +255,4 @@ ICon
     }));
 
 export default AllContacts;
+

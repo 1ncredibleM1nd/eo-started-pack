@@ -17,7 +17,6 @@ export class AppStore implements IAppStore {
         } else {
             this.info_tab = tab;
         }
-
     }
 
     @action

@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Layout } from 'antd';
 import IStores, { IAppStore } from '@stores/interface';
@@ -12,7 +12,7 @@ type IProps = {
 const NavBarLayout = inject((stores: IStores) => ({ appStore: stores.appStore }))(
     observer((props: IProps) => {
 
-        const { appStore } = props;
+
 
         const activeMenu = 'chat'
 

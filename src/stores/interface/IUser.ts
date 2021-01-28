@@ -1,8 +1,10 @@
 export default interface IUser {
-    unic: ReactNode;
-    id: string;
-    username: string;
-    avatar: string;
-    avaliableSocial: any;
-    online: any;
+
+    unic?: string;
+    id?: string;
+    username?: string;
+    avatar?: string;
+    avaliableSocial?: any;
+    online?: any;
+
 }

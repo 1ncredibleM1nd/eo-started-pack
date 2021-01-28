@@ -25,8 +25,6 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
             }
             init();
         }, []);
-
-
         return (
             <Layout>
                 <Layout className="site-layout">
