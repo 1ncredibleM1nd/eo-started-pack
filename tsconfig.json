@@ -25,6 +25,9 @@
       "@script/*": [
         "script/*"
       ],
+      "@pages/*": [
+        "pages/*"
+      ],
       "@ui/*": [
         "ui/*"
       ],

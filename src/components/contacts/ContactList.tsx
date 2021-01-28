@@ -2,7 +2,8 @@ import React, { Fragment } from 'react';
 import { inject, observer } from 'mobx-react';
 import IStores, { IAppStore, IChatStore, IContactStore, IUserStore } from '@stores/interface';
 import { Badge } from 'antd';
-
+import './ContactList.scss'
+import './Contact.scss'
 
 type IProps = {
     contactStore?: IContactStore,
@@ -76,57 +77,73 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
 
         return (
             <div className="menu_list">
-                {
-                    ContactsData.map((contact: any, index: number) => {
-
-                        const last_message_id = chatStore.getMsg(contact.last_message_id, contact.chat_id);
-                        const userId = contact.user.find((id: any) => id === last_message_id.from)
-                        let user = userStore.getUser(userId)
-                        const status = contact.status;
-
-                        let unreadedCount = 0;
-                        let online = Object.keys(user.online).find(key => user.online[key] === 'В сети')
-
-                        if (user && hero.id === user.id) user = undefined
-                        if (status === 'unread') unreadedCount = chatStore.getUnreadCount(contact.id)
-
-                        return (
-                            <div onClick={() => selectContact(contact.id)} className="contact_item">
-
-
-                                <div className="avatar">
-                                    <Badge className='online_dot' dot={Boolean(online)}>
-                                        <img src={contact.avatar} alt="" />
-                                    </Badge>
-                                </div>
-
-                                <div className="content">
-                                    <div className="header">
-                                        <div className="name">
-                                            {contact.name}
-                                        </div>
-                                        <div className={`date_last_msg`}>
-                                            {last_message_id.time}
-                                        </div>
-                                    </div>
-                                    <div className={`last_msg ${status}`}>
-                                        <div className="from">
-                                            {user ? user.username + ': ' : 'You: '}
-                                        </div>
-                                        {last_message_id.content}
-                                    </div>
+                <div className="tab-content">
+                    <div className="tab-pane active" id="chats-content">
+                        <div className="d-flex flex-column h-100">
+                            <div className="hide-scrollbar h-100" id="chatContactsList">
+                                <ul
+                                    className="contacts-list"
+                                    id="chatContactTab"
+                                    data-chat-list=""
+                                >
                                     {
-                                        status === 'unread' ? (<Fragment>
-                                            <div className="unreaded_count">
-                                                {unreadedCount}
-                                            </div>
-                                        </Fragment>) : (<Fragment></Fragment>)
+                                        ContactsData.map((contact: any, index: number) => {
+
+                                            const last_message_id = chatStore.getMsg(contact.last_message_id, contact.chat_id);
+                                            const userId = contact.user.find((id: any) => id === last_message_id.from)
+                                            let user = userStore.getUser(userId)
+                                            const status = contact.status;
+
+                                            let unreadedCount = 0;
+                                            let online = Object.keys(user.online).find(key => user.online[key] === 'В сети')
+
+                                            if (user && hero.id === user.id) user = undefined
+                                            if (status === 'unread') unreadedCount = chatStore.getUnreadCount(contact.id)
+
+
+                                            return (
+                                                <li onClick={() => selectContact(contact.id)} className="contacts-item friends">
+                                                    <div className="avatar">
+                                                        <Badge className='online_dot' dot={Boolean(online)}>
+                                                            <img src={contact.avatar} alt="" />
+                                                        </Badge>
+                                                    </div>
+                                                    <div className="contacts-content">
+                                                        <div className="contacts-info">
+                                                            <h4 className="chat-name">{contact.name}</h4>
+                                                            <div className="chat-time">
+                                                                <span>{last_message_id.time}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div className="contacts-texts">
+                                                            <div className={`last_msg ${status}`}>
+                                                                <div className="from">
+                                                                    {user ? user.username + ': ' : 'You: '}
+                                                                </div>
+                                                                {last_message_id.content}
+                                                            </div>
+                                                            {
+                                                                status === 'unread' ? (<Fragment>
+                                                                    <div className="unreaded_count">
+
+                                                                    </div>
+                                                                    <div className="badge badge-rounded badge-primary ml-1">
+                                                                        {unreadedCount}
+                                                                    </div>
+                                                                </Fragment>) : (<Fragment></Fragment>)
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            )
+
+                                        })
                                     }
-                                </div>
+                                </ul>
                             </div>
-                        )
-                    })
-                }
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }));

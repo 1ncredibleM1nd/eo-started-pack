@@ -304,21 +304,55 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                         return (
                                             <Fragment>
                                                 {
-                                                    date ? (<Fragment>
-                                                        <div className="date_container">
-                                                            <Divider orientation="center" className='date_divider'>
-                                                                <div className="date">
-                                                                    {msg.date}
+                                                    msg.readed ? (<Fragment>
+                                                        {
+                                                            date ? (<Fragment>
+                                                                <div className="date_container">
+                                                                    <Divider orientation="center" className='date_divider'>
+                                                                        <div className="date">
+                                                                            {msg.date}
+                                                                        </div>
+                                                                    </Divider>
                                                                 </div>
-                                                            </Divider>
-                                                        </div>
-
+                                                            </Fragment>) : (<Fragment>
+                                                            </Fragment>)
+                                                        }
                                                     </Fragment>) : (<Fragment>
+                                                        {
+                                                            prevReaded !== msg.readed ? (<Fragment>
+                                                                <div className="date_container unread">
+                                                                    <Divider orientation="center" className='date_divider unread'>
+                                                                        <div className="date unread">
+                                                                            Непрочитанные сообщения
+                                                                        </div>
+                                                                    </Divider>
+                                                                </div>
+                                                            </Fragment>) : (<Fragment>
+                                                            </Fragment>)
+                                                        }
                                                     </Fragment>)
                                                 }
-                                                <div key={Math.random()} className="message self">
+
+                                                <div key={Math.random()} className={`message self ${flowMsgNext ? 'not-main' : ''} `} >
+                                                    {
+                                                        !flowMsgPrev && flowMsgNext && !center ? (<Fragment>
+                                                            <div className="msg_header">
+                                                                <span>{user.username}</span>
+                                                                <span className="msg-role">{role ? role.name : ''}</span>
+                                                            </div>
+                                                        </Fragment>) : (<Fragment></Fragment>)
+                                                    }
+                                                    {
+                                                        !flowMsgNext && !flowMsgPrev ? (<Fragment>
+                                                            <div className="msg_header">
+                                                                <span>{user.username}</span>
+                                                                <span className="msg-role">{role ? role.name : ''}</span>
+                                                            </div>
+                                                        </Fragment>) : (<Fragment></Fragment>)
+                                                    }
+
                                                     <div className="message-wrapper">
-                                                        <div className="message-content">
+                                                        <div className={`message-content ${flowMsgNext ? 'not-main' : ''} `}>
                                                             {
                                                                 msg.reply ? (<Fragment>
                                                                     <div className="reply">
@@ -328,9 +362,35 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                                     </div>
                                                                 </Fragment>) : (<Fragment></Fragment>)
                                                             }
+                                                            <div className="inset_border_container">
+                                                                <div className="dummy"></div>
+                                                                <div className="border_hero"></div>
+                                                            </div>
                                                             <span>
                                                                 {msg.content}
                                                             </span>
+                                                            <div className={`smile ${switcher === msg.id ? 'active' : ''}`}>
+                                                                <Popover onVisibleChange={(e) => { e ? {} : setSwitcher('') }} visible={switcher === msg.id} content={<SmileMenu id={msg.id} chat_id={currentChat.id} switcherOff={switcherOff} />} trigger="click">
+                                                                    <Button onClick={() => { switcher === msg.id ? setSwitcher('') : setSwitcher(msg.id) }} className='transparent'>
+                                                                        <Icon className={`icon_s active-grey`} name='regular_smile' />
+                                                                    </Button>
+                                                                </Popover>
+                                                            </div>
+                                                            <div className="smile_realization">
+                                                                {
+                                                                    msg.smiles && msg.smiles.length ? (<Fragment>
+                                                                        {
+                                                                            msg.smiles.map((smile: string) => {
+                                                                                return (
+                                                                                    <div className="smile_msg">
+                                                                                        {smile}
+                                                                                    </div>
+                                                                                )
+                                                                            })
+                                                                        }
+                                                                    </Fragment>) : (<Fragment></Fragment>)
+                                                                }
+                                                            </div>
                                                             <div className="readed-status">
                                                                 {
                                                                     msg.readed ? (<Fragment>
@@ -339,33 +399,40 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                                         <Icon className='white' name={`solid_check-msg`} />
                                                                     </Fragment>)
                                                                 }
-
-
-
-
                                                             </div>
                                                         </div>
-                                                        <span className="message-status self">
-                                                            <Dropdown overlay={<DropDownMenu id={msg.id} />} placement="bottomLeft" >
-                                                                <span className='dropdown-trigger'>
-                                                                    <Icon className='active-grey' name={`regular_three-dots`} />
-                                                                </span>
-                                                            </Dropdown>
-                                                            {msg.time}
-                                                            {
-                                                                msg.editted ? (<Fragment>
-                                                                    <div className="editted_icon">
-                                                                        <Icon className='active-grey' name={`solid_pencil-alt`} />
-                                                                        {' '}
-                                                                    Редак.
-                                                                </div>
-                                                                </Fragment>) : (<Fragment></Fragment>)
-                                                            }
-                                                        </span>
                                                     </div>
+                                                    {
+                                                        !flowMsgNext ? (<Fragment>
+                                                            <div className="message-options">
+                                                                <div className="avatar avatar-sm">
+                                                                    <div className={`social_media_icon ${msg.social_media}`}>
+                                                                        <Icon className='icon_s' name={`social_media_${msg.social_media}`} />
+                                                                    </div>
+                                                                    <img src={user.avatar} alt="" />
+                                                                </div>
+                                                                <span className="message-status">
+                                                                    {
+                                                                        msg.editted ? (<Fragment>
+                                                                            <div className="editted_icon">
+                                                                                <Icon className='active-grey' name={`solid_pencil-alt`} />
+                                                                                {' '}
+                                                                    Редак.
+                                                                            </div>
+                                                                        </Fragment>) : (<Fragment></Fragment>)
+                                                                    }
+                                                                    <div className="msg_time">{msg.time}</div>
+                                                                    <Dropdown overlay={<DropDownMenu id={msg.id} />} placement="bottomLeft" trigger={['click']}>
+                                                                        <span className='dropdown-trigger'>
+                                                                            <Icon className='active-grey' name={`regular_three-dots`} />
+                                                                        </span>
+                                                                    </Dropdown>
+                                                                </span>
+                                                            </div>
+                                                        </Fragment>) : (<Fragment></Fragment>)
+                                                    }
                                                 </div>
                                             </Fragment>
-
                                         )
                                     }
                                 })
@@ -396,11 +463,29 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                 </div>
                             </div>
                             <div onClick={() => onSend()} className="send_btn">
-                                <Icon className='icon_x white' name='solid_arrow-send' />
+                                <Icon className='icon_x white' name='solid_another-arrow' />
                             </div>
                         </div>
                     </Fragment>) : (
-                            <Fragment></Fragment>
+                            <Fragment>
+                                <main className="main">
+                                    <div className="chats">
+                                        <div className="d-flex flex-column justify-content-center text-center h-100 w-100">
+                                            <div className="container">
+                                                <div className="avatar avatar-lg mb-2">
+                                                    <img className="avatar-img" src={hero ? hero.avatar : 'https://via.placeholder.com/150'} alt=""></img>
+                                                </div>
+                                                <h5>
+                                                    Привет, {hero ? hero.username : 'Пользователь'}
+                                                </h5>
+                                                <p className="text-muted">
+                                                    Выбирай контакт слева чтобы начать общаться
+                                        </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </main>
+                            </Fragment>
                         )
                 }
             </div >

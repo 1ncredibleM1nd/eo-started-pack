@@ -1,0 +1,16 @@
+.contacts-list {
+    padding: 0 !important;
+
+    .contacts-content {
+        padding-left: 10px;
+    }
+
+    .contacts-item {
+        margin: 0 !important;
+        padding: 10px !important;
+
+        &:hover {
+            background: #1111110a;
+        }
+    }
+}

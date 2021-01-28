@@ -1,5 +1,51 @@
 @import '@styles/variables.scss';
 
+.menu_list {
+    width: 100%;
+}
+
+.avatar {
+    span {
+        img {
+            border-radius: 40%;
+        }
+    }
+
+}
+
+.online_dot {
+    .ant-badge-dot {
+        background: $blue_accent;
+        width: 7px;
+        height: 7px;
+        box-shadow: 0 0 0 2px $white;
+    }
+
+    .ant-badge-count,
+    .ant-badge-dot,
+    .ant-badge .ant-scroll-number-custom-component {
+        top: 5px !important;
+        right: 5px !important;
+    }
+}
+
+
+
+.last_msg {
+    width: 100%;
+    overflow: hidden;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    .from {
+        margin-right: 5px;
+        display: inline-block;
+        color: $blue_origin;
+    }
+}
+
 
 
 .channel-container {
@@ -162,6 +208,10 @@
     }
 }
 
+.contacts-item {
+    border-bottom: 1px solid $grey_blue_lite;
+}
+
 .contact_item {
     width: 100%;
     height: 60px;
@@ -245,22 +295,7 @@
             width: 85%;
         }
 
-        .last_msg {
-            width: 100%;
-            overflow: hidden;
-            font-size: 14px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
 
-
-
-            .from {
-                margin-right: 5px;
-                display: inline-block;
-                color: $blue_origin;
-            }
-        }
     }
 
 }

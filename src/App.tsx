@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
 import { Layout } from 'antd';
-import { ChatLayout, InfoLayout, ContactsLayout } from '@layouts'
 import IStores, { IAppStore } from '@stores/interface';
+import Chats from '@pages/Chat'
+import { NavBarLayout } from '@layouts'
 import '@styles/index.scss'
 
 type IProps = {
@@ -18,7 +19,6 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
             async function init() {
                 try {
                     await appStore.initialization();
-
                 } catch (e) {
                     throw new Error(e);
                 }
@@ -30,9 +30,12 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
         return (
             <Layout>
                 <Layout className="site-layout">
-                    <ContactsLayout />
-                    <ChatLayout />
-                    <InfoLayout />
+                    <div className="chats-tab-open h-100">
+                        <div className={"main-layout h-100"}>
+                            <Chats />
+                            <NavBarLayout />
+                        </div>
+                    </div>
                 </Layout>
             </Layout>
         );

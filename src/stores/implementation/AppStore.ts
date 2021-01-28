@@ -5,12 +5,25 @@ import { contactStore, chatStore, userStore } from '@stores/implementation';
 export class AppStore implements IAppStore {
 
     @observable loaded: boolean = false;
+    @observable info_tab: string = 'none'
 
     @action.bound
+
+
+    @action
+    setInfoTab(tab: string) {
+        if (this.info_tab === tab) {
+            this.info_tab = 'none';
+        } else {
+            this.info_tab = tab;
+        }
+
+    }
+
+    @action
     async initialization() {
         try {
             //const res = await getData();
-
 
             const userData = [
                 {
@@ -572,7 +585,7 @@ export class AppStore implements IAppStore {
                             editted: false,
                             readed: true,
                             smiles: [],
-                            date: '21.01.21',
+                            date: '22.01.21',
                             time: '14:51',
                             content: 'Эпоха, это удалось установить по характеру спектра, доступна. '
                         },
@@ -656,8 +669,10 @@ export class AppStore implements IAppStore {
             const hero = {
                 username: "Бильбо Бэггинс",
                 avatar: 'https://i.pinimg.com/736x/9a/bd/a5/9abda5b52a61284f7e39101cd84edfd2--hobbit--lord-of-the-rings.jpg',
-                id: "user_0"
+                id: "user_0",
+                unic: '@bilbo_beggins'
             }
+
 
             await userStore.initHero(hero)
             await userStore.init(userData)

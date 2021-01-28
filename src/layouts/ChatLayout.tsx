@@ -18,6 +18,7 @@ const ChatLayout = inject((stores: IStores) => ({}))(
             <div className="chat_layout">
                 <Header />
                 <Chat />
+
             </div>
         );
     }));

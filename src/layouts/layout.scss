@@ -1,6 +1,37 @@
 @import '@styles/variables.scss';
 
 
+
+.chats-tab-open {
+    width: 100%;
+}
+
+.ant-layout-sider-zero-width-trigger {
+    top: 0;
+    height: 50px;
+    width: 72px;
+    right: -72px;
+}
+
+.navbar_layout {
+    width: 10%;
+    max-width: 70px;
+}
+
+.main-layout {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.chat_page {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
 .site-layout {
     display: flex;
     flex-direction: row;
@@ -12,9 +43,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    min-width: 5%;
-    width: 300px;
-    max-width: 30%;
+    width: 100%;
 }
 
 
@@ -22,10 +51,8 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    min-width: 300px;
-    width: 300px;
-    max-width: 40%;
-
+    width: 700px;
+    border-right: 1px solid $grey_blue_lite;
 }
 
 
@@ -33,10 +60,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    width: 50%;
-    min-width: 50%;
-    width: 50%;
-    max-width: 70%;
+    width: 100%;
     background: $white_chat;
 
     .header {
