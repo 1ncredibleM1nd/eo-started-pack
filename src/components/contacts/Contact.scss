@@ -1,6 +1,11 @@
 @import '@styles/variables.scss';
 
 
+.ant-layout-sider {
+    width: 100%;
+    height: 100%;
+}
+
 .chat-name {
     font-size: 16px !important;
     font-weight: 600;

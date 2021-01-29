@@ -17,13 +17,22 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
 
         // const collapsed_info = appStore.info_tab
 
-        // const { Sider } = Layout;
+        const { Sider } = Layout;
+
+
 
         return (
             <Layout hasSider={true} className='chat_page'>
                 <Row>
                     <Col xs={0} sm={10} md={10} lg={8} xl={8}>
-                        <ContactsLayout />
+                        <Sider className="sidebar"
+                            breakpoint={"xs"}
+                            theme="light"
+                            width='100%'
+                            collapsedWidth={0}
+                            trigger={<div className='contact_trigger'>Trigger</div>}>
+                            <ContactsLayout />
+                        </Sider>
                     </Col>
                     <Col xs={24} sm={14} md={14} lg={11} xl={11}>
                         <ChatLayout />

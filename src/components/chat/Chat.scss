@@ -1,6 +1,7 @@
 @import '@styles/variables.scss';
+@import '@styles/media.scss';
 
-
+.contact_trigger {}
 
 .ant-btn-primary {
     color: $blue_default !important;
@@ -505,9 +506,10 @@
     min-height: 300px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: flex-start;
     position: relative;
-    height: 100vh;
+    max-height: calc(100vh - 60px);
+    height: calc(100vh - 60px);
     width: 100%;
 
     .info_center {
@@ -524,9 +526,11 @@
     overflow-y: auto;
     position: relative;
     padding-bottom: 30px;
+    max-height: calc(100% - 73px);
 }
 
 .inputer {
+    max-height: 55%;
     position: relative;
     z-index: 100;
     bottom: 0;
@@ -540,6 +544,7 @@
     background: #fff;
 
     .input-container {
+        max-height: 45%;
         width: calc(100% - 58px);
         min-height: 50px;
         border-radius: 10px;
