@@ -14,7 +14,7 @@ function getMessages(chat_id: string) {
 }
 
 function getConversations() {
-    return axios.get(`https://backend.chat.dev.prodamus.pro/v1/conversation/get-conversations?school_id=${1}`).then(response => {
+    return axios.get(`https://backend.chat.dev.prodamus.pro/v1/conversation/get-conversations?school_id=${8192}`).then(response => {
 
         console.log('getConversations', response)
 
