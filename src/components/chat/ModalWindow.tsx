@@ -1,9 +1,9 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import { inject, observer } from 'mobx-react';
 import IStores, { IChatStore, IContactStore, IUserStore, } from '@stores/interface';
-import { Modal, Button, Popover, Menu, Divider, Switch, Collapse, Badge } from 'antd';
+// import { Modal, Button, Popover, Menu, Divider, Switch, Collapse, Badge } from 'antd';
 import './ModalWindow.scss'
-import { Icon } from '@ui'
+// import { Icon } from '@ui'
 
 type IProps = {
     chatStore?: IChatStore,
@@ -14,120 +14,120 @@ type IProps = {
 const ModalWindow = inject((stores: IStores) => ({ chatStore: stores.chatStore, userStore: stores.userStore, contactStore: stores.contactStore }))(
     observer((props: IProps) => {
 
-        const { chatStore, userStore, contactStore } = props;
+        const { chatStore, contactStore } = props;
 
-        const [switcher, setSwitcher] = useState(false)
-        const [attachmentLimit, setAttachmentLimit] = useState(4)
+        // const [switcher, setSwitcher] = useState(false)
+        // const [attachmentLimit, setAttachmentLimit] = useState(4)
 
-        const status = chatStore.modalWindow
+        //const status = chatStore.modalWindow
         const chat = chatStore.activeChat
-        let hero = userStore.hero
+        //let hero = userStore.hero
         let contact: any
-        let user: any;
+        // let user: any;
 
         if (chat) {
             if (chat.user && chat.user.length <= 2) {
-                let userId = chat.user.find((id: any) => id !== hero.id)
-                user = userStore.getUser(userId)
+                //let userId = chat.user.find((id: any) => id !== hero.id)
+                //user = userStore.getUser(userId)
             }
             contact = contactStore.getContact(chat.contact_id)
         }
 
 
-        const handleSelect = () => {
+        // const handleSelect = () => {
 
-        }
+        // }
 
-        const handleCancel = () => {
-            chatStore.setModalWindow('close')
-        }
+        // const handleCancel = () => {
+        //     chatStore.setModalWindow('close')
+        // }
 
-        const editContact = () => {
+        // const editContact = () => {
 
-        }
-        const deleteContact = () => {
+        // }
+        // const deleteContact = () => {
 
-        }
-        const blockUser = () => {
+        // }
+        // const blockUser = () => {
 
-        }
+        // }
 
-        const addFavorite = () => {
+        // const addFavorite = () => {
 
-        }
+        // }
 
-        const shareContact = () => {
+        // const shareContact = () => {
 
-        }
+        // }
 
-        const editUser = () => {
+        // const editUser = () => {
 
-        }
+        // }
 
-        const exitDelete = () => {
+        // const exitDelete = () => {
 
-        }
+        // }
 
-        const openUser = (userId: string) => {
+        // const openUser = (userId: string) => {
 
-        }
+        // }
 
-        const addUser = () => {
+        // const addUser = () => {
 
-        }
+        // }
 
 
-        const DropDownMenu = () => {
+        // const DropDownMenu = () => {
 
-            if (status === 'group') {
-                return (
-                    <Menu>
-                        <Menu.Item onClick={() => shareContact()} >
-                            Поделится группой
-                        </Menu.Item>
-                        <Menu.Item onClick={() => deleteContact()}>
-                            Очистить историю
-                    </Menu.Item>
-                        <Menu.Item onClick={() => addFavorite()} >
-                            Удалить чат
-                    </Menu.Item>
-                        <Menu.Item onClick={() => blockUser()} >
-                            Удалить и выйти
-                    </Menu.Item>
-                    </Menu>
-                )
-            }
-            if (status === 'user') {
-                return (
-                    <Menu>
-                        <Menu.Item onClick={() => shareContact()} >
-                            Поделится контактом
-                        </Menu.Item>
-                        <Menu.Item onClick={() => editContact()}>
-                            Редакт. Контакт
-                        </Menu.Item>
-                        <Menu.Item onClick={() => deleteContact()}>
-                            Удалить контакт
-                        </Menu.Item>
-                        <Menu.Item onClick={() => addFavorite()} >
-                            Добавить в избранное
-                        </Menu.Item>
-                        <Menu.Item onClick={() => blockUser()} >
-                            Заблокировать
-                        </Menu.Item>
-                    </Menu>
-                )
-            }
-            return null
-        }
+        //     if (status === 'group') {
+        //         return (
+        //             <Menu>
+        //                 <Menu.Item onClick={() => shareContact()} >
+        //                     Поделится группой
+        //                 </Menu.Item>
+        //                 <Menu.Item onClick={() => deleteContact()}>
+        //                     Очистить историю
+        //             </Menu.Item>
+        //                 <Menu.Item onClick={() => addFavorite()} >
+        //                     Удалить чат
+        //             </Menu.Item>
+        //                 <Menu.Item onClick={() => blockUser()} >
+        //                     Удалить и выйти
+        //             </Menu.Item>
+        //             </Menu>
+        //         )
+        //     }
+        //     if (status === 'user') {
+        //         return (
+        //             <Menu>
+        //                 <Menu.Item onClick={() => shareContact()} >
+        //                     Поделится контактом
+        //                 </Menu.Item>
+        //                 <Menu.Item onClick={() => editContact()}>
+        //                     Редакт. Контакт
+        //                 </Menu.Item>
+        //                 <Menu.Item onClick={() => deleteContact()}>
+        //                     Удалить контакт
+        //                 </Menu.Item>
+        //                 <Menu.Item onClick={() => addFavorite()} >
+        //                     Добавить в избранное
+        //                 </Menu.Item>
+        //                 <Menu.Item onClick={() => blockUser()} >
+        //                     Заблокировать
+        //                 </Menu.Item>
+        //             </Menu>
+        //         )
+        //     }
+        //     return null
+        // }
 
-        const { Panel } = Collapse;
+        // const { Panel } = Collapse;
 
         console.log('contact', contact)
 
         return (
             <Fragment>
-
+                {/* 
                 <Modal title="Настройки группы" visible={status === 'group'} onOk={handleSelect} onCancel={handleCancel} footer={[<Fragment></Fragment>]}>
                     {
                         contact ? (<Fragment>
@@ -311,6 +311,7 @@ const ModalWindow = inject((stores: IStores) => ({ chatStore: stores.chatStore, 
                                                                     </span>
                                                                 </Fragment>)
                                                             }
+
                                                         </Fragment>} key={index}>
                                                             {
                                                                 Object.keys(user.info[key]).map((key2, index) => {
@@ -386,9 +387,7 @@ const ModalWindow = inject((stores: IStores) => ({ chatStore: stores.chatStore, 
                             </div >
                         </Fragment>) : (<Fragment></Fragment>)
                     }
-
-
-                </Modal >
+                </Modal > */}
             </Fragment >
 
         );

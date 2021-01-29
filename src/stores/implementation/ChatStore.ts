@@ -131,6 +131,7 @@ export class ChatStore implements IChatStore {
     @action
     setActiveChat(id: string) {
         let chat = this.chat.find((chat_item: IChat) => chat_item.contact_id === id)
+
         this.activeChat = chat
     }
 

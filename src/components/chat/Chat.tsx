@@ -33,6 +33,10 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
             currentChat = chatStore.activeChat
         }
 
+
+        console.log('currentChat', currentChat)
+
+
         useEffect(() => {
             if (activeMsg) {
                 setSelectedMsg(activeMsg)
@@ -152,31 +156,34 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                         <div className="msg_space">
                             {
                                 currentChat.msg.map((msg: IMsg, index: number) => {
-                                    let userId = currentChat.user.find((id: any) => id === msg.from)
-                                    let user = userStore.getUser(userId)
+                                    //let userId = currentChat.user.find((id: any) => id === msg.from)
+                                    // let user = userStore.getUser(userId)
                                     let role = currentChat.role.find((role: any) => role.id === msg.from)
                                     let flowMsgNext, flowMsgPrev, center = false
-                                    let prevUser, nextUser, prevMsg, nextMsg, prevReaded, date: any;
+                                    //let prevUser, nextMsg,, nextUser: any
+
+                                    let prevMsg, prevReaded, date: any;
 
                                     if (currentChat.msg[index - 1]) {
                                         prevReaded = msg.readed
                                         prevMsg = currentChat.msg[index - 1]
-                                        if (prevMsg) prevUser = userStore.getUser(prevMsg.from)
+                                        // if (prevMsg) prevUser = userStore.getUser(prevMsg.from)
                                     } else {
                                         date = msg.date
                                         prevMsg = currentChat.msg[index - 1]
                                         if (prevMsg) prevReaded = prevMsg.readed
                                     }
                                     if (currentChat.msg[index + 1]) {
-                                        nextMsg = currentChat.msg[index + 1]
-                                        nextUser = userStore.getUser(nextMsg.from)
+                                        //nextMsg = currentChat.msg[index + 1]
+                                        // nextUser = userStore.getUser(nextMsg.from)
                                     }
-                                    if (currentChat.msg[index - 1] && currentChat.msg[index - 1].date !== msg.date) date = msg.date
-                                    if (nextUser && nextUser.id === userId) flowMsgNext = true
-                                    if (prevUser && prevUser.id === userId) flowMsgPrev = true
-                                    if (flowMsgNext && flowMsgPrev) if (prevUser.id === user.id && nextUser.id === user.id) center = true
 
-                                    if (user.id !== hero.id) {
+                                    // if (currentChat.msg[index - 1] && currentChat.msg[index - 1].date !== msg.date) date = msg.date
+                                    // if (nextUser && nextUser.id === userId) flowMsgNext = true
+                                    // if (prevUser && prevUser.id === userId) flowMsgPrev = true
+                                    // if (flowMsgNext && flowMsgPrev) if (prevUser.id === user.id && nextUser.id === user.id) center = true
+
+                                    if (msg.from !== hero.id) {
                                         return (
                                             <Fragment>
 
@@ -214,7 +221,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                     {
                                                         !flowMsgPrev && flowMsgNext && !center ? (<Fragment>
                                                             <div className="msg_header">
-                                                                <span>{user.username}</span>
+                                                                {/* <span>{user.username}</span> */}
                                                                 <span className="msg-role">{role ? role.name : ''}</span>
                                                             </div>
                                                         </Fragment>) : (<Fragment></Fragment>)
@@ -223,7 +230,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                     {
                                                         !flowMsgNext && !flowMsgPrev ? (<Fragment>
                                                             <div className="msg_header">
-                                                                <span>{user.username}</span>
+                                                                {/* <span>{user.username}</span> */}
                                                                 <span className="msg-role">{role ? role.name : ''}</span>
                                                             </div>
                                                         </Fragment>) : (<Fragment></Fragment>)
@@ -278,7 +285,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                                     <div className={`social_media_icon ${msg.social_media}`}>
                                                                         <Icon className='icon_s' name={`social_media_${msg.social_media}`} />
                                                                     </div>
-                                                                    <img src={user.avatar} alt="" />
+                                                                    {/* <img src={user.avatar} alt="" /> */}
                                                                 </div>
                                                                 <span className="message-status">
                                                                     {
@@ -286,7 +293,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                                             <div className="editted_icon">
                                                                                 <Icon className='active-grey' name={`solid_pencil-alt`} />
                                                                                 {' '}
-                                                                    Редак.
+                                                                                Редак.
                                                                             </div>
                                                                         </Fragment>) : (<Fragment></Fragment>)
                                                                     }
@@ -341,7 +348,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                     {
                                                         !flowMsgPrev && flowMsgNext && !center ? (<Fragment>
                                                             <div className="msg_header">
-                                                                <span>{user.username}</span>
+                                                                {/* <span>{user.username}</span> */}
                                                                 <span className="msg-role">{role ? role.name : ''}</span>
                                                             </div>
                                                         </Fragment>) : (<Fragment></Fragment>)
@@ -349,7 +356,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                     {
                                                         !flowMsgNext && !flowMsgPrev ? (<Fragment>
                                                             <div className="msg_header">
-                                                                <span>{user.username}</span>
+                                                                {/* <span>{user.username}</span> */}
                                                                 <span className="msg-role">{role ? role.name : ''}</span>
                                                             </div>
                                                         </Fragment>) : (<Fragment></Fragment>)
@@ -413,7 +420,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                                     <div className={`social_media_icon ${msg.social_media}`}>
                                                                         <Icon className='icon_s' name={`social_media_${msg.social_media}`} />
                                                                     </div>
-                                                                    <img src={user.avatar} alt="" />
+                                                                    {/* <img src={user.avatar} alt="" /> */}
                                                                 </div>
                                                                 <span className="message-status">
                                                                     {

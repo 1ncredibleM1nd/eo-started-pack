@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { inject, observer } from 'mobx-react';
 import IStores, { IAppStore, IChatStore, IContactStore, IUserStore } from '@stores/interface';
 import { Badge } from 'antd';
+// import { getMessages } from '@actions'
 import './ContactList.scss'
 import './Contact.scss'
 
@@ -22,7 +23,7 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
         const search = contactStore.search
         const hero = userStore.hero
 
-
+        console.log('ContactsData', ContactsData)
 
         if (search) {
 
@@ -89,13 +90,21 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
                                     {
                                         ContactsData.map((contact: any, index: number) => {
 
-                                            const last_message_id = chatStore.getMsg(contact.last_message_id, contact.chat_id);
-                                            const userId = contact.user.find((id: any) => id === last_message_id.from)
+                                            //const last_message_id = chatStore.getMsg(contact.last_message_id, contact.chat_id);
+
+                                            console.log('contact', contact)
+
+                                            // const last_message = getMessages(contact.id)
+
+                                            const last_message = contact.last_message
+                                            let online = contact.online
+
+                                            const userId = contact.user.find((id: any) => id === last_message.from)
                                             let user = userStore.getUser(userId)
                                             const status = contact.status;
 
                                             let unreadedCount = 0;
-                                            let online = Object.keys(user.online).find(key => user.online[key] === 'В сети')
+                                            //let online = Object.keys(user.online).find(key => user.online[key] === 'В сети')
 
                                             if (user && hero.id === user.id) user = undefined
                                             if (status === 'unread') unreadedCount = chatStore.getUnreadCount(contact.id)
@@ -112,7 +121,7 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
                                                         <div className="contacts-info">
                                                             <h4 className="chat-name">{contact.name}</h4>
                                                             <div className="chat-time">
-                                                                <span>{last_message_id.time}</span>
+                                                                <span>{last_message.time}</span>
                                                             </div>
                                                         </div>
                                                         <div className="contacts-texts">
@@ -120,7 +129,7 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
                                                                 <div className="from">
                                                                     {user ? user.username + ': ' : 'You: '}
                                                                 </div>
-                                                                {last_message_id.content}
+                                                                {last_message.content}
                                                             </div>
                                                             {
                                                                 status === 'unread' ? (<Fragment>
