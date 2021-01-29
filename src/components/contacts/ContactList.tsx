@@ -97,9 +97,15 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
                                             const last_message = contact.last_message
                                             let online = contact.online
 
-                                            const userId = contact.user.find((id: any) => id === last_message.from)
-                                            let user = userStore.getUser(userId)
-                                            const status = contact.status;
+
+                                            let userId, user, status: any;
+
+
+                                            if (last_message) {
+                                                userId = contact.user.find((id: any) => id === last_message.from)
+                                                user = userStore.getUser(userId)
+                                                status = contact.status;
+                                            }
 
                                             let unreadedCount = 0;
                                             //let online = Object.keys(user.online).find(key => user.online[key] === 'В сети')
@@ -119,23 +125,32 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
                                                         <div className="contacts-info">
                                                             <h4 className="chat-name">{contact.name}</h4>
                                                             <div className="chat-time">
-                                                                <span>{last_message.time}</span>
+                                                                {
+                                                                    last_message ? (<Fragment>
+                                                                        <span>{last_message.time}</span>
+                                                                    </Fragment>) : (<Fragment></Fragment>)
+                                                                }
+
                                                             </div>
                                                         </div>
                                                         <div className="contacts-texts">
-                                                            <div className={`last_msg ${status}`}>
-                                                                <div className="from">
-                                                                    {user ? user.username + ': ' : 'You: '}
-                                                                </div>
-                                                                {last_message.content}
-                                                            </div>
                                                             {
-                                                                status === 'unread' ? (<Fragment>
-                                                                    <div className="unreaded_count">
+                                                                last_message ? (<Fragment>
+                                                                    <div className={`last_msg ${status}`}>
+                                                                        <div className="from">
+                                                                            {user ? user.username + ': ' : 'You: '}
+                                                                        </div>
+                                                                        {last_message.content}
+                                                                        {
+                                                                            status === 'unread' ? (<Fragment>
+                                                                                <div className="unreaded_count">
 
-                                                                    </div>
-                                                                    <div className="badge badge-rounded badge-primary ml-1">
-                                                                        {unreadedCount}
+                                                                                </div>
+                                                                                <div className="badge badge-rounded badge-primary ml-1">
+                                                                                    {unreadedCount}
+                                                                                </div>
+                                                                            </Fragment>) : (<Fragment></Fragment>)
+                                                                        }
                                                                     </div>
                                                                 </Fragment>) : (<Fragment></Fragment>)
                                                             }

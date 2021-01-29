@@ -684,7 +684,7 @@ export class AppStore implements IAppStore {
                 let messages = msg_res.menu
                 let chat: any = {
                     contact_id: contact_item.id,
-                    id: contact_item.id + '_чат',
+                    id: contact_item.id,
                     activeSocial: 'telegram',
                     role: [],
                     user: contact_item.user,
