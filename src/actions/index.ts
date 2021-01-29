@@ -31,7 +31,7 @@ function sendMsg(chat_id: string, message: string) {
         message
     }
 
-    return axios.post(`https://f49032254288.ngrok.io/v1/conversation/send1-message`, body).then(response => {
+    return axios.post(`https://f49032254288.ngrok.io/v1/conversation/send-message`, body).then(response => {
 
         console.log('sendMsg', response)
 
