@@ -1,6 +1,8 @@
 @import '@styles/variables.scss';
 
-
+.ant-row {
+    width: 100% !important;
+}
 
 .chats-tab-open {
     width: 100%;
@@ -26,7 +28,7 @@
 }
 
 .chat_page {
-    width: 90%;
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -43,9 +45,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    width: 30%;
-    min-width: 50px;
-    max-width: 30%;
+    width: 100%;
 }
 
 
@@ -53,7 +53,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    width: 700px;
+    width: 100%;
     border-right: 1px solid $grey_blue_lite;
 }
 
