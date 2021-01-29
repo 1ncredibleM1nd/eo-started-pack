@@ -79,13 +79,12 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
         }
 
         const onSend = () => {
-
+            console.log('onSend')
             switch (status) {
                 case 'default':
                     if (draft[activeContact.id + status].length) {
                         chatStore.addMsg(currentChat.id, draft[activeContact.id + status], hero.id, currentChat.activeSocial, null)
-
-                        console.log('Отправка сообщения chat.tsx')
+                        console.log('Отправка сообщения chat.tsx', currentChat.id, draft[activeContact.id + status])
                         sendMsg(currentChat.id, draft[activeContact.id + status])
                     }
                     setDraft({ ...draft, [activeContact.id + status]: '' })

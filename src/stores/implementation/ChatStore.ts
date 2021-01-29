@@ -70,8 +70,8 @@ export class ChatStore implements IChatStore {
         let chat = this.chat.find((chat_item: IChat) => {
             return chat_item.id === chat_id
         })
-        let id = chat.msg[chat.msg.length - 1].id.split('_')[1] + 1
-
+        // let id = chat.msg[chat.msg.length - 1].id.split('_')[1] + 1
+        let id = 'msg_' + Math.random()
 
         contactStore.setLastMsg(chat.contact_id, `msg_${id}`)
 

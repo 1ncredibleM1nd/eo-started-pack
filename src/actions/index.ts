@@ -25,7 +25,13 @@ function getConversations() {
 }
 
 function sendMsg(chat_id: string, message: string) {
-    return axios.get(`https://f49032254288.ngrok.io/v1/conversation/send_msg?chat_id=${chat_id}`).then(response => {
+
+    let body = {
+        chat_id,
+        message
+    }
+
+    return axios.post(`https://f49032254288.ngrok.io/v1/conversation/send1-message`, body).then(response => {
 
         console.log('sendMsg', response)
 
