@@ -7,6 +7,7 @@ import { Input, Menu, Dropdown, Button, Popover, Divider } from 'antd';
 import SmileMenu from './comp/SmileMenu'
 import './Chat.scss'
 import SocialMenu from './comp/SocialMenu'
+import { sendMsg } from '@actions'
 
 type IProps = {
     chatStore?: IChatStore,
@@ -79,6 +80,9 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                 case 'default':
                     if (draft[activeContact.id + status].length) {
                         chatStore.addMsg(currentChat.id, draft[activeContact.id + status], hero.id, currentChat.activeSocial, null)
+
+                        console.log('Отправка сообщения chat.tsx')
+                        sendMsg(currentChat.id, draft[activeContact.id + status])
                     }
                     setDraft({ ...draft, [activeContact.id + status]: '' })
                     break;

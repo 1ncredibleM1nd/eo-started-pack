@@ -1,6 +1,7 @@
 import { action, observable } from "mobx";
 import { IAppStore } from '@stores/interface';
 import { contactStore, chatStore, userStore } from '@stores/implementation';
+import { getConversations, getMessages } from '@actions'
 
 export class AppStore implements IAppStore {
 
@@ -23,6 +24,12 @@ export class AppStore implements IAppStore {
     async initialization() {
         try {
             //const res = await getData();
+
+            const conversations = await getConversations()
+
+            console.log('conversations', conversations)
+            //const msg_res = await getMessages()
+
 
             const userData = [
                 {
