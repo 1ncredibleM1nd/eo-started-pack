@@ -1,5 +1,12 @@
 @import '@styles/variables.scss';
 
+
+.chat-name {
+    font-size: 16px !important;
+    font-weight: 600;
+    color: $dark_blue_litter;
+}
+
 .menu_list {
     width: 100%;
 }
@@ -34,7 +41,7 @@
 .last_msg {
     width: 100%;
     overflow: hidden;
-    font-size: 14px;
+    font-size: 15px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

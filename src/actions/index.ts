@@ -3,7 +3,7 @@ import axios from './axios';
 
 
 function getMessages(chat_id: string) {
-    return axios.get(`https://f49032254288.ngrok.io/v1/conversation/get-messages?chat_id=${chat_id}`).then(response => {
+    return axios.get(`https://776465f4f73e.ngrok.io/v1/conversation/get-messages?chat_id=${chat_id}`).then(response => {
 
         console.log('getMessages', response)
 
@@ -14,7 +14,7 @@ function getMessages(chat_id: string) {
 }
 
 function getConversations() {
-    return axios.get(`https://f49032254288.ngrok.io/v1/conversation/get-conversations?school_id=${1}`).then(response => {
+    return axios.get(`https://776465f4f73e.ngrok.io/v1/conversation/get-conversations?school_id=${1}`).then(response => {
 
         console.log('getConversations', response)
 
@@ -31,7 +31,7 @@ function sendMsg(chat_id: string, message: string) {
         message
     }
 
-    return axios.post(`https://f49032254288.ngrok.io/v1/conversation/send-message`, body).then(response => {
+    return axios.post(`https://776465f4f73e.ngrok.io/v1/conversation/send-message`, body).then(response => {
 
         console.log('sendMsg', response)
 
