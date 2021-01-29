@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Row, Col, Layout } from 'antd';
 import { ChatLayout, InfoLayout, ContactsLayout } from '@layouts'
@@ -38,7 +38,7 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
                     <Col xs={24} sm={14} md={14} lg={10} xl={10}>
                         <ChatLayout />
                     </Col>
-                    <Col xs={0} sm={0} md={0} lg={7} xl={7}>
+                    <Col xs={0} sm={0} md={0} lg={7} xl={7} >
                         <InfoLayout />
                     </Col>
                 </Row>
