@@ -1,7 +1,7 @@
 import { action, observable } from "mobx";
 import { IAppStore } from '@stores/interface';
 import { contactStore, chatStore, userStore } from '@stores/implementation';
-import { getConversations, getMessages } from '@actions'
+import { getConversations } from '@actions'
 
 export class AppStore implements IAppStore {
 
