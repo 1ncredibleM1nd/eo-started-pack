@@ -152,7 +152,11 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
                                                                             </Fragment>) : (<Fragment></Fragment>)
                                                                         }
                                                                     </div>
-                                                                </Fragment>) : (<Fragment></Fragment>)
+                                                                </Fragment>) : (<Fragment>
+                                                                    <div className={`last_msg ${status}`}>
+                                                                        *Добавлен в контакты*
+                                                                    </div>
+                                                                </Fragment>)
                                                             }
                                                         </div>
                                                     </div>
