@@ -23,10 +23,7 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
             <Layout hasSider={true} className='chat_page'>
                 <Row>
                     <Col xs={0} sm={10} md={10} lg={8} xl={8}>
-
-                        <Sider>
-                            <ContactsLayout />
-                        </Sider>
+                        <ContactsLayout />
                     </Col>
                     <Col xs={24} sm={14} md={14} lg={11} xl={11}>
                         <ChatLayout />
