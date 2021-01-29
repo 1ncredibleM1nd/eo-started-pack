@@ -132,6 +132,26 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
         }
 
 
+        const DropDownAttacments = () => {
+            return (
+                <Menu>
+                    <Menu.Item >
+                        Фотография
+                    </Menu.Item>
+                    <Menu.Item>
+                        Видео
+                    </Menu.Item>
+                    <Menu.Item >
+                        Документ
+                    </Menu.Item>
+                    <Menu.Item >
+                        Аудио
+                    </Menu.Item>
+                </Menu>
+            )
+        }
+
+
         const selectSocial = (social: string) => {
             currentChat.changeSocial(social)
             switcherOff()
@@ -453,9 +473,14 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                         </div>
                         <div className="inputer">
                             <div className="input-container">
-                                <div className="inputer_btn">
-                                    <Icon className='icon_m blue-lite' name='solid_paperclip' />
-                                </div>
+                                <Popover onVisibleChange={(e) => { e ? {} : setSwitcher('') }} visible={switcher === 'attacments'} content={<DropDownAttacments />} trigger="click">
+                                    <Button onClick={() => { switcher === 'attacments' ? setSwitcher('') : setSwitcher('attacments') }} className='transparent'>
+                                        <div className="inputer_btn">
+                                            <Icon className='icon_m blue-lite' name='solid_paperclip' />
+                                        </div>
+                                    </Button>
+                                </Popover>
+
                                 <div className="main_input">
                                     {
                                         selectedMsg ? (<Fragment>

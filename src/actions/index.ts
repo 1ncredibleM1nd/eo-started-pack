@@ -14,7 +14,7 @@ function getMessages(chat_id: string) {
 }
 
 function getConversations() {
-    return axios.get(`https://776465f4f73e.ngrok.io/v1/conversation/get-conversations?school_id=${1}`).then(response => {
+    return axios.get(`https://776465f4f73e.ngrok.io/v1/conversation/get-conversations`).then(response => {
 
         console.log('getConversations', response)
 
