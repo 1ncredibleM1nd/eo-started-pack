@@ -17,9 +17,9 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
 
         // const collapsed_info = appStore.info_tab
 
-        const [switcher, setSwitcher] = useState(false)
+        // const [switcher, setSwitcher] = useState(false)
 
-        const { Sider } = Layout;
+        // const { Sider } = Layout;
 
 
 
@@ -28,17 +28,17 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
         return (
             <Layout hasSider={true} className='chat_page'>
                 <Row>
-                    <div className={`contact_layout_container ${switcher ? 'active' : ''}`}>
-                        <Col xs={24} sm={10} md={10} lg={8} xl={8}>
-                            <ContactsLayout />
-                        </Col>
-                        <div onClick={() => setSwitcher(!switcher)} className='contact_trigger'>Trigger</div>
-                    </div>
+                    {/* <div className={`contact_layout_container ${switcher ? 'active' : ''}`}> */}
+                    <Col xs={24} sm={10} md={10} lg={7} xl={7}>
+                        <ContactsLayout />
+                    </Col>
+                    {/* <div onClick={() => setSwitcher(!switcher)} className='contact_trigger'>Trigger</div>
+                    </div> */}
 
-                    <Col xs={24} sm={14} md={14} lg={11} xl={11}>
+                    <Col xs={24} sm={14} md={14} lg={10} xl={10}>
                         <ChatLayout />
                     </Col>
-                    <Col xs={0} sm={0} md={0} lg={6} xl={6}>
+                    <Col xs={0} sm={0} md={0} lg={7} xl={7}>
                         <InfoLayout />
                     </Col>
                 </Row>
