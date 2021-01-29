@@ -1,7 +1,35 @@
 @import '@styles/variables.scss';
 @import '@styles/media.scss';
 
-.contact_trigger {}
+.ant-col-xs-24 {
+    height: 100%;
+}
+
+.contact_layout_container {
+    position: relative;
+
+    @include _650 {
+        position: absolute;
+        height: 100vh;
+        width: 100vw;
+        top: 0;
+        left: -100vw;
+        z-index: 100;
+
+        &.active {
+            left: 0;
+        }
+    }
+}
+
+.contact_trigger {
+    z-index: 100;
+    position: absolute;
+    top: 0;
+    left: -100px;
+    width: 50px;
+    height: 50px;
+}
 
 .ant-btn-primary {
     color: $blue_default !important;

@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { inject, observer } from 'mobx-react';
 import { Row, Col, Layout } from 'antd';
 import { ChatLayout, InfoLayout, ContactsLayout } from '@layouts'
@@ -17,23 +17,24 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
 
         // const collapsed_info = appStore.info_tab
 
+        const [switcher, setSwitcher] = useState(false)
+
         const { Sider } = Layout;
+
+
 
 
 
         return (
             <Layout hasSider={true} className='chat_page'>
                 <Row>
-                    <Col xs={0} sm={10} md={10} lg={8} xl={8}>
-                        <Sider className="sidebar"
-                            breakpoint={"xs"}
-                            theme="light"
-                            width='100%'
-                            collapsedWidth={0}
-                            trigger={<div className='contact_trigger'>Trigger</div>}>
+                    <div className={`contact_layout_container ${switcher ? 'active' : ''}`}>
+                        <Col xs={24} sm={10} md={10} lg={8} xl={8}>
                             <ContactsLayout />
-                        </Sider>
-                    </Col>
+                        </Col>
+                        <div onClick={() => setSwitcher(!switcher)} className='contact_trigger'>Trigger</div>
+                    </div>
+
                     <Col xs={24} sm={14} md={14} lg={11} xl={11}>
                         <ChatLayout />
                     </Col>
@@ -44,7 +45,7 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
 
 
 
-            </Layout>
+            </Layout >
         );
     }));
 
