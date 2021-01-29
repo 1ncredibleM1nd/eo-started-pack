@@ -42,7 +42,6 @@ const NavBarLayout = inject((stores: IStores) => ({ appStore: stores.appStore })
                         </li>
                     </ul>
                 </div>
-
             </Layout>
         );
     }));

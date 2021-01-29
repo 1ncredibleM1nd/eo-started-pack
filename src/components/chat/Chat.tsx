@@ -163,6 +163,8 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
 
                                     let prevMsg, prevReaded, date: any;
 
+
+
                                     if (currentChat.msg[index - 1]) {
                                         prevReaded = msg.readed
                                         prevMsg = currentChat.msg[index - 1]
@@ -284,6 +286,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                                     <div className={`social_media_icon ${msg.social_media}`}>
                                                                         <Icon className='icon_s' name={`social_media_${msg.social_media}`} />
                                                                     </div>
+                                                                    <img src={msg.avatar} alt="" />
                                                                     {/* <img src={user.avatar} alt="" /> */}
                                                                 </div>
                                                                 <span className="message-status">
@@ -450,7 +453,6 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                         </div>
                         <div className="inputer">
                             <div className="input-container">
-
                                 <div className="inputer_btn">
                                     <Icon className='icon_m blue-lite' name='solid_paperclip' />
                                 </div>
@@ -490,7 +492,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                 </h5>
                                                 <p className="text-muted">
                                                     Выбирай контакт слева чтобы начать общаться
-                                        </p>
+                                                </p>
                                             </div>
                                         </div>
                                     </div>

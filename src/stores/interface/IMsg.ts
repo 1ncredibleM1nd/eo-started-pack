@@ -10,6 +10,7 @@ export default interface IMsg {
     reply: IMsg;
     smiles: string[];
     editted: boolean;
+    avatar?: string;
     addSmile: (smile: string) => void;
     editMsg: (value: string) => void;
     read: () => void;

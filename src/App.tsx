@@ -3,7 +3,6 @@ import { inject, observer } from 'mobx-react';
 import { Layout } from 'antd';
 import IStores, { IAppStore } from '@stores/interface';
 import Chats from '@pages/Chat'
-import { NavBarLayout } from '@layouts'
 import '@styles/index.scss'
 
 type IProps = {
@@ -31,7 +30,7 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
                     <div className="chats-tab-open h-100">
                         <div className={"main-layout h-100"}>
                             <Chats />
-                            <NavBarLayout />
+                            {/* <NavBarLayout /> */}
                         </div>
                     </div>
                 </Layout>

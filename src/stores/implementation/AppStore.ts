@@ -674,21 +674,28 @@ export class AppStore implements IAppStore {
                 unic: '@bilbo_beggins'
             }
 
-
             const conversations = await getConversations()
             let serverChat = []
 
             for (let i = 0; i < conversations.menu.length; i++) {
                 const contact_item = conversations.menu[i];
                 const msg_res = await getMessages(contact_item.id)
-                let messages = msg_res.menu
+                let msgArray: any = []
+                msg_res.menu.forEach((msg_item: any) => {
+                    const msg = {
+                        ...msg_item,
+                        avatar: contact_item.avatar
+                    }
+                    msgArray.push(msg)
+                });
+
                 let chat: any = {
                     contact_id: contact_item.id,
                     id: contact_item.id,
                     activeSocial: 'telegram',
                     role: [],
                     user: contact_item.user,
-                    msg: messages
+                    msg: msgArray
                 }
                 serverChat.push(chat)
             }

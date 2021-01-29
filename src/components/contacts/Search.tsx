@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from 'react';
 import { inject, observer } from 'mobx-react';
 import IStores, { IContactStore, IUserStore } from '@stores/interface';
-import { Input, Radio, Switch, Collapse, Button, message, Drawer } from 'antd'
+import { Input, Radio, Switch, Collapse, Button, Drawer } from 'antd'
 import Settings from './comp/Settings'
 import AllContacts from './comp/AllContacts'
 import './Search.scss'
@@ -16,11 +16,11 @@ type IProps = {
 const Search = inject((stores: IStores) => ({ contactStore: stores.contactStore, userStore: stores.userStore }))(
     observer((props: IProps) => {
 
-        const { contactStore, userStore } = props;
+        const { contactStore } = props;
         const [searchText, setSearchText] = useState('')
         const [drawer, setDrawer] = useState('')
         const [switcher, setSwitcher] = useState(false)
-        let hero = userStore.hero
+        // let hero = userStore.hero
 
 
         const filter = contactStore.filter
@@ -45,17 +45,17 @@ const Search = inject((stores: IStores) => ({ contactStore: stores.contactStore,
         //     //contactStore.setFilter('type', type)
         // }
 
-        const addChat = () => {
-            setDrawer('contacts')
-        }
+        // const addChat = () => {
+        //     setDrawer('contacts')
+        // }
 
-        const copiedProfile = () => {
-            message.success('Логин скопирован');
-        }
+        // const copiedProfile = () => {
+        //     message.success('Логин скопирован');
+        // }
 
-        const openSettings = () => {
-            setDrawer('settings')
-        }
+        // const openSettings = () => {
+        //     setDrawer('settings')
+        // }
 
         const onDrawerClose = () => {
 
@@ -113,7 +113,7 @@ const Search = inject((stores: IStores) => ({ contactStore: stores.contactStore,
                         <AllContacts />
                     </Drawer>
 
-                    <div className="search_header">
+                    {/* <div className="search_header">
                         <div className="settings_profile">
                             <Button onClick={() => openSettings()} className='transparent'>
                                 <Icon name='solid_cog' className={`icon_s lite-grey`} />
@@ -132,11 +132,11 @@ const Search = inject((stores: IStores) => ({ contactStore: stores.contactStore,
                                 </Button>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
                     <div className="search">
                         <div onClick={() => setSwitcher(!switcher)} className="search-filter">
-                            <Icon name='solid_sliders-h' className={`icon_s ${switcher ? 'accent' : 'blue-lite'}`} />
+                            <Icon name='solid_cog' className={`icon_s ${switcher ? 'accent' : 'blue-lite'}`} />
                         </div>
                         <div className="search-input">
                             <Search placeholder="Поиск..." value={searchText} onChange={(e) => onChange(e.target.value)} enterButton />
