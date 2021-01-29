@@ -1,5 +1,7 @@
 @import '@styles/variables.scss';
 
+
+
 .ant-btn-primary {
     color: $blue_default !important;
     font-size: 21px;
@@ -289,6 +291,13 @@
         padding-right: 1.8rem;
         left: -51px !important;
 
+        .msg_text_container {
+            max-width: 300rem;
+            word-wrap: break-word;
+            z-index: 10;
+            position: relative;
+        }
+
         &.not-main {
             left: -16px !important;
             padding-left: 1.2rem !important;
@@ -331,7 +340,7 @@
                 border-radius: 37px;
                 left: -30px;
                 bottom: -26px;
-                box-shadow: 0 0 0 300px $blue-lite;
+                box-shadow: 0 0 0 500px $blue-lite;
             }
 
             .dummy {
@@ -347,6 +356,11 @@
     }
 }
 
+
+.msg_text_container {
+    max-width: 25rem;
+
+}
 
 .message {
     padding-left: 10px !important;
@@ -378,6 +392,13 @@
         color: $white !important;
         background: $grey_default !important;
         padding-left: 0rem !important;
+
+        .msg_text_container {
+            max-width: 300rem;
+            word-wrap: break-word;
+            z-index: 10;
+            position: relative;
+        }
 
         .readed-status {
             position: absolute;
@@ -442,20 +463,22 @@
                 border-radius: 37px;
                 left: -30px;
                 bottom: -26px;
-                box-shadow: 0 0 0 150px $grey_default;
+                box-shadow: 0 0 0 500px $grey_default;
             }
 
             .dummy {
                 position: absolute;
                 top: 0;
                 left: 0;
-                width: 32px;
+                width: 45px;
                 height: 50%;
                 background: $grey_default;
 
             }
         }
     }
+
+
 
     .message-content.not-main {
         left: 0px;

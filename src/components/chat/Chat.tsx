@@ -272,9 +272,9 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                                 <div className="dummy"></div>
                                                                 <div className="border_hero"></div>
                                                             </div>
-                                                            <span>
+                                                            <div className='msg_text_container'>
                                                                 {msg.content}
-                                                            </span>
+                                                            </div>
                                                             <div className={`smile ${switcher === msg.id ? 'active' : ''}`}>
                                                                 <Popover onVisibleChange={(e) => { e ? {} : setSwitcher('') }} visible={switcher === msg.id} content={<SmileMenu id={msg.id} chat_id={currentChat.id} switcherOff={switcherOff} />} trigger="click">
                                                                     <Button onClick={() => { switcher === msg.id ? setSwitcher('') : setSwitcher(msg.id) }} className='transparent'>
