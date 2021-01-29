@@ -17,7 +17,7 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
 
         // const collapsed_info = appStore.info_tab
 
-        const { Sider } = Layout;
+        // const { Sider } = Layout;
 
         return (
             <Layout hasSider={true} className='chat_page'>
