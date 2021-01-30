@@ -26,12 +26,24 @@
 }
 
 .online_dot {
+
     .ant-badge-dot {
         background: $blue_accent;
         width: 7px;
         height: 7px;
-        box-shadow: 0 0 0 2px $white;
+        box-shadow: 0 0 0 3px $ui-white;
     }
+
+    &.active {
+        .ant-badge-dot {
+            background: $blue_accent;
+            width: 7px;
+            height: 7px;
+            box-shadow: 0 0 0 3px $grey_blue_lite;
+        }
+    }
+
+
 
     .ant-badge-count,
     .ant-badge-dot,
@@ -166,62 +178,24 @@
     padding: 10px 0;
 }
 
-.search {
-    width: 100%;
-    height: 45px;
-    padding: 0px;
-    position: relative;
-    background-repeat: no-repeat;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    background: $grey_blue_litter;
+.ant-input-search-enter-button+.ant-input-group-addon,
+.ant-input-search-enter-button input+.ant-input-group-addon {
+    width: 60px;
+    height: 60px;
+}
 
-    .search-input {
-        width: 100%;
-        height: 100%;
-
-        input {
-            width: 100%;
-            height: 100%;
-            border: none;
-            background: none;
-            margin: 0 10px;
-            outline: none;
-        }
-    }
-
-    .search-filter {
-        width: 45px;
-        height: 45px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-        &:hover {
-            svg {
-                fill: $blue_accent;
-            }
-        }
-
-        cursor: pointer;
-    }
-
-    .search-btn {
-        position: absolute;
-        right: 10px;
-        height: 100%;
-        cursor: pointer;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
+.ant-input-search-enter-button+.ant-input-group-addon .ant-input-search-button,
+.ant-input-search-enter-button input+.ant-input-group-addon .ant-input-search-button {
+    width: 60px;
+    height: 60px;
 }
 
 .contacts-item {
     border-bottom: 1px solid $grey_blue_lite;
+
+    &.active {
+        background: $grey_blue_lite;
+    }
 }
 
 .contact_item {
@@ -237,8 +211,9 @@
     cursor: pointer;
 
     &:hover {
-        background: #11111107;
+        background: $grey_blue_lite;
     }
+
 
     .avatar {
         width: 36px !important;

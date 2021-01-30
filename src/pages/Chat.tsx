@@ -13,7 +13,9 @@ type IProps = {
 const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
     observer((props: IProps) => {
 
-        // const { appStore } = props;
+        const { appStore } = props;
+
+        const layout = appStore.layout
 
         // const collapsed_info = appStore.info_tab
 
@@ -29,16 +31,28 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
             <Layout hasSider={true} className='chat_page'>
                 <Row>
                     {/* <div className={`contact_layout_container ${switcher ? 'active' : ''}`}> */}
-                    <Col xs={24} sm={10} md={10} lg={7} xl={7}>
+                    <Col
+                        xs={layout === 'contact' ? 24 : 0}
+                        sm={layout === 'contact' ? 24 : 0}
+                        md={layout === 'contact' ? 10 : 0}
+                        lg={6} xl={6}>
                         <ContactsLayout />
                     </Col>
                     {/* <div onClick={() => setSwitcher(!switcher)} className='contact_trigger'>Trigger</div>
                     </div> */}
 
-                    <Col xs={24} sm={14} md={14} lg={10} xl={10}>
+                    <Col
+                        xs={layout === 'chat' ? 24 : 0}
+                        sm={layout === 'chat' ? 24 : 0}
+                        md={14}
+                        lg={12} xl={12}>
                         <ChatLayout />
                     </Col>
-                    <Col xs={0} sm={0} md={0} lg={7} xl={7} >
+                    <Col
+                        xs={layout === 'info' ? 24 : 0}
+                        sm={layout === 'info' ? 24 : 0}
+                        md={layout === 'info' ? 10 : 0}
+                        lg={6} xl={6} >
                         <InfoLayout />
                     </Col>
                 </Row>

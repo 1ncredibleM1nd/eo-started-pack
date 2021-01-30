@@ -7,8 +7,7 @@ export class AppStore implements IAppStore {
 
     @observable loaded: boolean = false;
     @observable info_tab: string = 'none'
-
-    @action.bound
+    @observable layout: string = 'contact'
 
 
     @action
@@ -17,6 +16,16 @@ export class AppStore implements IAppStore {
             this.info_tab = 'none';
         } else {
             this.info_tab = tab;
+        }
+    }
+
+    @action
+    setLayout(value: string) {
+        console.log(value)
+        if (this.layout === value) {
+            this.layout = 'none';
+        } else {
+            this.layout = value;
         }
     }
 

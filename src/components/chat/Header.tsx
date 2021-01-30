@@ -1,22 +1,24 @@
 import React, { Fragment, useState } from 'react';
 import ModalWindow from './ModalWindow'
 import { inject, observer } from 'mobx-react';
-import IStores, { IChatStore, IContactStore, IUserStore, } from '@stores/interface';
+import IStores, { IChatStore, IContactStore, IUserStore, IAppStore } from '@stores/interface';
 import { Button, Popover, Menu } from 'antd';
 import './Header.scss'
 import { Icon } from '@ui'
+
 
 
 type IProps = {
     chatStore?: IChatStore,
     userStore?: IUserStore,
     contactStore?: IContactStore
+    appStore?: IAppStore
 }
 
-const Header = inject((stores: IStores) => ({ chatStore: stores.chatStore, userStore: stores.userStore, contactStore: stores.contactStore }))(
+const Header = inject((stores: IStores) => ({ appStore: stores.appStore, chatStore: stores.chatStore, userStore: stores.userStore, contactStore: stores.contactStore }))(
     observer((props: IProps) => {
 
-        const { chatStore, userStore, contactStore } = props;
+        const { chatStore, userStore, contactStore, appStore } = props;
         const [modal, setModal] = useState(false);
 
         let hero = userStore.hero
@@ -127,6 +129,18 @@ const Header = inject((stores: IStores) => ({ chatStore: stores.chatStore, userS
             }
         }
 
+        const closeConctact = () => {
+            if (appStore.layout === 'contact') {
+                appStore.setLayout('info')
+            } else if (appStore.layout === 'info') {
+                appStore.setLayout('contact')
+            } else if (appStore.layout === 'chat') {
+                contactStore.setActiveContact(null)
+                appStore.setLayout('contact')
+            }
+        }
+
+
         return (
             <div className="chat_header">
                 {
@@ -151,8 +165,17 @@ const Header = inject((stores: IStores) => ({ chatStore: stores.chatStore, userS
                         {
                             chatTitle || user ? (<Fragment>
                                 <div className="header_content">
+
+                                    <div className={`back_trigger ${appStore.layout !== 'contact' ? 'active' : ''}`}>
+                                        <Button onClick={() => closeConctact()} className='transparent'>
+                                            <Icon className='icon_s blue-lite' name={`solid_arrow-left`} />
+                                        </Button>
+                                    </div>
+
                                     <div className={`header_title ${user ? 'user' : ''}`}>
-                                        {chatTitle}
+                                        <div className='title'>
+                                            {chatTitle}
+                                        </div>
                                         <div className="social-online">
                                             {
                                                 user ? (<Fragment>
@@ -175,15 +198,21 @@ const Header = inject((stores: IStores) => ({ chatStore: stores.chatStore, userS
                                                 </Fragment>) : (<Fragment></Fragment>)
                                             }
                                         </div>
-                                    </div>
-                                    <div className="header_settings">
-                                        <div className="trigger">
-                                            <Popover visible={modal} content={<DropDownMenu />} trigger="click">
-                                                <Button onClick={() => setModal(!modal)} className='transparent'>
-                                                    <Icon className='icon_s lite-grey rotated' name={`regular_three-dots`} />
-                                                </Button>
-                                            </Popover>
+                                        <div className="header_settings">
+                                            <div className="trigger">
+                                                <Popover visible={modal} content={<DropDownMenu />} trigger="click">
+                                                    <Button onClick={() => setModal(!modal)} className='transparent'>
+                                                        <Icon className='icon_s lite-grey rotated' name={`regular_three-dots`} />
+                                                    </Button>
+                                                </Popover>
+                                            </div>
                                         </div>
+                                    </div>
+
+                                    <div className="header_info">
+                                        <Button onClick={() => appStore.setLayout('info')} className='transparent'>
+                                            <Icon className='icon_l lite-grey' name={`solid_users-cog`} />
+                                        </Button>
                                     </div>
                                 </div>
                             </Fragment>) : (<Fragment>

@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react';
 import IStores, { IAppStore, IChatStore, IContactStore, IUserStore } from '@stores/interface';
 import { Badge } from 'antd';
 // import { getMessages } from '@actions'
+import $ from 'jquery'
 import './ContactList.scss'
 import './Contact.scss'
 
@@ -20,48 +21,48 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
 
         const { contactStore, chatStore, appStore, onSelect, userStore } = props;
         let ContactsData = contactStore.contact
+        let activeContact = contactStore.activeContact
         const search = contactStore.search
         const hero = userStore.hero
 
         console.log('ContactsData', ContactsData)
 
         if (search) {
+            // ContactsData = ContactsData.filter((contact: any) => {
+            //     let match = false;
+            //     let nameSplit = contact.name.toLowerCase().split('')
+            //     let searchSplit = search.toLowerCase().split('')
+            //     for (let i = 0; i < search.length; i++) {
+            //         if (nameSplit[i] === searchSplit[i]) {
+            //             match = true
+            //         } else {
+            //             match = false
+            //             break;
+            //         }
+            //     }
 
-            ContactsData = ContactsData.filter((contact: any) => {
-                let match = false;
-                let nameSplit = contact.name.toLowerCase().split('')
-                let searchSplit = search.toLowerCase().split('')
-                for (let i = 0; i < search.length; i++) {
-                    if (nameSplit[i] === searchSplit[i]) {
-                        match = true
-                    } else {
-                        match = false
-                        break;
-                    }
-                }
+            //     contact.user.find((id: any) => {
+            //         let user = userStore.getUser(id)
+            //         let splitByWord = user.username.split(' ')
+            //         for (let i = 0; i < splitByWord.length; i++) {
+            //             const word = splitByWord[i];
 
-                contact.user.find((id: any) => {
-                    let user = userStore.getUser(id)
-                    let splitByWord = user.username.split(' ')
-                    for (let i = 0; i < splitByWord.length; i++) {
-                        const word = splitByWord[i];
-
-                        let wordSplit = word.toLowerCase().split('')
-                        let searchSplit = search.toLowerCase().split('')
-                        if (!match) {
-                            for (let i = 0; i < search.length; i++) {
-                                if (wordSplit[i] === searchSplit[i]) {
-                                    match = true
-                                } else {
-                                    match = false
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                })
-                return match
-            })
+            //             let wordSplit = word.toLowerCase().split('')
+            //             let searchSplit = search.toLowerCase().split('')
+            //             if (!match) {
+            //                 for (let i = 0; i < search.length; i++) {
+            //                     if (wordSplit[i] === searchSplit[i]) {
+            //                         match = true
+            //                     } else {
+            //                         match = false
+            //                         break;
+            //                     }
+            //                 }
+            //             }
+            //         }
+            //     })
+            //     return match
+            // })
         }
 
 
@@ -69,6 +70,10 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
             if (onSelect) onSelect()
             contactStore.setActiveContact(id)
             chatStore.setActiveChat(id)
+
+            if ($(window).width() < 768) {
+                appStore.setLayout('chat')
+            }
         }
 
         if (!appStore.loaded) {
@@ -112,12 +117,10 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
 
                                             if (user && hero.id === user.id) user = undefined
                                             if (status === 'unread') unreadedCount = chatStore.getUnreadCount(contact.id)
-
-
                                             return (
-                                                <li onClick={() => selectContact(contact.id)} className="contacts-item friends">
+                                                <li onClick={() => selectContact(contact.id)} className={`contacts-item friends ${activeContact && activeContact.id === contact.id ? 'active' : ''}`}>
                                                     <div className="avatar">
-                                                        <Badge className='online_dot' dot={Boolean(online)}>
+                                                        <Badge className={`online_dot ${activeContact && activeContact.id === contact.id ? 'active' : ''}`} dot={Boolean(online)}>
                                                             <img src={contact.avatar} alt="" />
                                                         </Badge>
                                                     </div>
@@ -146,7 +149,9 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
                                                                                 <div className="unreaded_count">
 
                                                                                 </div>
-                                                                                <div className="badge badge-rounded badge-primary ml-1">
+                                                                                <div
+
+                                                                                    className="badge badge-rounded badge-primary ml-1">
                                                                                     {unreadedCount}
                                                                                 </div>
                                                                             </Fragment>) : (<Fragment></Fragment>)

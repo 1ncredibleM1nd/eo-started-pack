@@ -48,7 +48,11 @@ export class ContactStore implements IContactStore {
 
     @action
     setActiveContact(id: string) {
-        this.activeContact = this.contact.find(item => item.id === id);
+        if (id === null) {
+            this.activeContact = null
+        } else {
+            this.activeContact = this.contact.find(item => item.id === id);
+        }
     }
 
     @action

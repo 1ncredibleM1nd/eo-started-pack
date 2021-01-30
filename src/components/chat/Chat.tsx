@@ -4,10 +4,11 @@ import IStores, { IChatStore, IMsg, IContactStore, IUserStore } from '@stores/in
 import { Icon } from '@ui'
 import $ from 'jquery'
 import { Input, Menu, Dropdown, Button, Popover, Divider } from 'antd';
-import SmileMenu from './comp/SmileMenu'
+// import SmileMenu from './comp/SmileMenu'
 import './Chat.scss'
 import SocialMenu from './comp/SocialMenu'
 import { sendMsg } from '@actions'
+
 
 type IProps = {
     chatStore?: IChatStore,
@@ -162,8 +163,15 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
         }
 
 
+
         const onFocusInput = () => {
             chatStore.readAllMsg(currentChat.id)
+        }
+
+        const handleScroll = () => {
+            if (switcher !== 'social') {
+                switcherOff()
+            }
         }
 
         const { TextArea } = Input;
@@ -172,7 +180,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
             <div className="chat">
                 {
                     currentChat != undefined ? (<Fragment>
-                        <div className="msg_space">
+                        <div onScroll={() => handleScroll()} className="msg_space">
                             {
                                 currentChat.msg.map((msg: IMsg, index: number) => {
                                     //let userId = currentChat.user.find((id: any) => id === msg.from)
@@ -275,14 +283,14 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                             <div className='msg_text_container'>
                                                                 {msg.content}
                                                             </div>
-                                                            <div className={`smile ${switcher === msg.id ? 'active' : ''}`}>
+                                                            {/* <div className={`smile ${switcher === msg.id ? 'active' : ''}`}>
                                                                 <Popover onVisibleChange={(e) => { e ? {} : setSwitcher('') }} visible={switcher === msg.id} content={<SmileMenu id={msg.id} chat_id={currentChat.id} switcherOff={switcherOff} />} trigger="click">
                                                                     <Button onClick={() => { switcher === msg.id ? setSwitcher('') : setSwitcher(msg.id) }} className='transparent'>
                                                                         <Icon className={`icon_s active-grey`} name='regular_smile' />
                                                                     </Button>
                                                                 </Popover>
-                                                            </div>
-                                                            <div className="smile_realization">
+                                                            </div> */}
+                                                            {/* <div className="smile_realization">
                                                                 {
                                                                     msg.smiles && msg.smiles.length ? (<Fragment>
                                                                         {
@@ -296,7 +304,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                                         }
                                                                     </Fragment>) : (<Fragment></Fragment>)
                                                                 }
-                                                            </div>
+                                                            </div> */}
                                                         </div>
                                                     </div>
                                                     {
@@ -402,14 +410,14 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                             <span>
                                                                 {msg.content}
                                                             </span>
-                                                            <div className={`smile ${switcher === msg.id ? 'active' : ''}`}>
+                                                            {/* <div className={`smile ${switcher === msg.id ? 'active' : ''}`}>
                                                                 <Popover onVisibleChange={(e) => { e ? {} : setSwitcher('') }} visible={switcher === msg.id} content={<SmileMenu id={msg.id} chat_id={currentChat.id} switcherOff={switcherOff} />} trigger="click">
                                                                     <Button onClick={() => { switcher === msg.id ? setSwitcher('') : setSwitcher(msg.id) }} className='transparent'>
                                                                         <Icon className={`icon_s active-grey`} name='regular_smile' />
                                                                     </Button>
                                                                 </Popover>
-                                                            </div>
-                                                            <div className="smile_realization">
+                                                            </div> */}
+                                                            {/* <div className="smile_realization">
                                                                 {
                                                                     msg.smiles && msg.smiles.length ? (<Fragment>
                                                                         {
@@ -423,7 +431,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                                         }
                                                                     </Fragment>) : (<Fragment></Fragment>)
                                                                 }
-                                                            </div>
+                                                            </div> */}
                                                             <div className="readed-status">
                                                                 {
                                                                     msg.readed ? (<Fragment>
@@ -473,13 +481,13 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                         </div>
                         <div className="inputer">
                             <div className="input-container">
-                                <Popover onVisibleChange={(e) => { e ? {} : setSwitcher('') }} visible={switcher === 'attacments'} content={<DropDownAttacments />} trigger="click">
-                                    <Button onClick={() => { switcher === 'attacments' ? setSwitcher('') : setSwitcher('attacments') }} className='transparent'>
-                                        <div className="inputer_btn">
+                                <div className="inputer_btn">
+                                    <Popover onVisibleChange={(e) => { e ? {} : setSwitcher('') }} visible={switcher === 'attacments'} content={<DropDownAttacments />} trigger="click">
+                                        <Button onClick={() => { switcher === 'attacments' ? setSwitcher('') : setSwitcher('attacments') }} className='transparent'>
                                             <Icon className='icon_m blue-lite' name='solid_paperclip' />
-                                        </div>
-                                    </Button>
-                                </Popover>
+                                        </Button>
+                                    </Popover>
+                                </div>
 
                                 <div className="main_input">
                                     {
@@ -505,23 +513,17 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                         </div>
                     </Fragment>) : (
                             <Fragment>
-                                <main className="main">
-                                    <div className="chats">
-                                        <div className="d-flex flex-column justify-content-center text-center h-100 w-100">
-                                            <div className="container">
-                                                <div className="avatar avatar-lg mb-2">
-                                                    <img className="avatar-img" src={hero ? hero.avatar : 'https://via.placeholder.com/150'} alt=""></img>
-                                                </div>
-                                                <h5>
-                                                    Привет, {hero ? hero.username : 'Пользователь'}
-                                                </h5>
-                                                <p className="text-muted">
-                                                    Выбирай контакт слева чтобы начать общаться
-                                                </p>
-                                            </div>
-                                        </div>
+                                <div className="start_chat_page">
+                                    <div className="avatar avatar-lg mb-2">
+                                        <img className="avatar-img" src={hero ? hero.avatar : 'https://via.placeholder.com/150'} alt=""></img>
                                     </div>
-                                </main>
+                                    <h5>
+                                        Привет, {hero ? hero.username : 'Пользователь'}
+                                    </h5>
+                                    <p className="text-muted">
+                                        Выбирай контакт слева чтобы начать общаться
+                                    </p>
+                                </div>
                             </Fragment>
                         )
                 }

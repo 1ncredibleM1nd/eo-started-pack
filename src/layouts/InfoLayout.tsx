@@ -1,20 +1,26 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import IStores from '@stores/interface';
+import IStores, { IAppStore } from '@stores/interface';
+import { Button } from 'antd'
+import { Icon } from '@ui'
 
 type IProps = {
-
+    appStore?: IAppStore
 }
 
-const InfoLayout = inject((stores: IStores) => ({}))(
+const InfoLayout = inject((stores: IStores) => ({ appStore: stores.appStore }))(
     observer((props: IProps) => {
 
-        // const { } = props;
-
+        const { appStore } = props;
 
         return (
             <div className="info_layout">
-                INFO LAYOUT
+                INFO SECTION
+                <div className="back_trigger info">
+                    <Button onClick={() => appStore.setLayout('chat')} className='transparent'>
+                        <Icon className='icon_s blue-lite' name={`solid_arrow-left`} />
+                    </Button>
+                </div>
             </div>
         );
     }));
