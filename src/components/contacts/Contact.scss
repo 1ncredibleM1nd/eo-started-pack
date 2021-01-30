@@ -1,5 +1,5 @@
 @import '@styles/variables.scss';
-
+@import '@styles/media.scss';
 
 .ant-layout-sider {
     width: 100%;
@@ -192,6 +192,11 @@
 
 .contacts-item {
     border-bottom: 1px solid $grey_blue_lite;
+    padding: 10px 20px !important;
+
+    @include _990 {
+        padding: 10px !important;
+    }
 
     &.active {
         background: $grey_blue_lite;

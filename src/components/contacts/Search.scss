@@ -1,4 +1,5 @@
 @import '@styles/variables.scss';
+@import '@styles/media.scss';
 
 .all_contacts_item {
     display: flex;
@@ -8,7 +9,12 @@
 }
 
 .contact_header {
+    padding: 0 10px;
     border-bottom: 1px solid $grey_blue_lite;
+
+    @include _990 {
+        padding: 0 5px;
+    }
 }
 
 .settings_title {

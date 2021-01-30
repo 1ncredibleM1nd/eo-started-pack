@@ -176,9 +176,9 @@ const Header = inject((stores: IStores) => ({ appStore: stores.appStore, chatSto
                                         <div className='title'>
                                             {chatTitle}
                                         </div>
-                                        <div className="social-online">
-                                            {
-                                                user ? (<Fragment>
+                                        {
+                                            user ? (<Fragment>
+                                                <div className="social-online">
                                                     {
                                                         Object.keys(user.online).map(function (key, index) {
                                                             return (
@@ -195,9 +195,9 @@ const Header = inject((stores: IStores) => ({ appStore: stores.appStore, chatSto
                                                             )
                                                         })
                                                     }
-                                                </Fragment>) : (<Fragment></Fragment>)
-                                            }
-                                        </div>
+                                                </div>
+                                            </Fragment>) : (<Fragment></Fragment>)
+                                        }
                                         <div className="header_settings">
                                             <div className="trigger">
                                                 <Popover visible={modal} content={<DropDownMenu />} trigger="click">

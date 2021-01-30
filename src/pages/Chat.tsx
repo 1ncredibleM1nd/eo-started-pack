@@ -24,6 +24,10 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
         // const { Sider } = Layout;
 
 
+        const breakpoints = {
+
+        }
+
 
 
 
@@ -35,7 +39,7 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
                         xs={layout === 'contact' ? 24 : 0}
                         sm={layout === 'contact' ? 24 : 0}
                         md={layout === 'contact' ? 10 : 0}
-                        lg={6} xl={6}>
+                        lg={7} xl={6} xxl={6}>
                         <ContactsLayout />
                     </Col>
                     {/* <div onClick={() => setSwitcher(!switcher)} className='contact_trigger'>Trigger</div>
@@ -45,14 +49,14 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
                         xs={layout === 'chat' ? 24 : 0}
                         sm={layout === 'chat' ? 24 : 0}
                         md={14}
-                        lg={12} xl={12}>
+                        lg={10} xl={12} xxl={12}>
                         <ChatLayout />
                     </Col>
                     <Col
                         xs={layout === 'info' ? 24 : 0}
                         sm={layout === 'info' ? 24 : 0}
                         md={layout === 'info' ? 10 : 0}
-                        lg={6} xl={6} >
+                        lg={7} xl={6} xxl={6}>
                         <InfoLayout />
                     </Col>
                 </Row>

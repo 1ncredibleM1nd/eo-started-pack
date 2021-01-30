@@ -596,6 +596,10 @@
     padding: 10px;
     background: #fff;
 
+    @include _375 {
+        padding: 10px 5px !important;
+    }
+
     .input-container {
         max-height: 45%;
         width: calc(100% - 58px);
@@ -603,11 +607,14 @@
         border-radius: 10px;
         padding: 5px;
         background: #fff;
-
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: flex-end;
+
+        @include _375 {
+            width: calc(100% - 38px);
+        }
     }
 
     .main_input {
@@ -618,6 +625,11 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
+
+        @include _375 {
+            min-width: 200px;
+        }
+
 
         .selected-container {
             width: 100%;
@@ -661,6 +673,19 @@
         justify-content: center;
         align-items: center;
 
+        @include _375 {
+            height: 42px;
+            width: 42px;
+            position: relative;
+            top: -5px;
+
+            .icon_x {
+                width: 25px !important;
+                height: 15px !important;
+            }
+
+        }
+
         cursor: pointer;
 
         &:hover {
@@ -678,6 +703,11 @@
         align-items: center;
         // box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.08);
         cursor: pointer;
+
+        @include _375 {
+            height: 42px;
+            width: 42px;
+        }
 
         &:hover {
             // box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.08);
