@@ -24,13 +24,6 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
         // const { Sider } = Layout;
 
 
-        const breakpoints = {
-
-        }
-
-
-
-
         return (
             <Layout hasSider={true} className='chat_page'>
                 <Row>
