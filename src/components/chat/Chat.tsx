@@ -10,6 +10,7 @@ import SocialMenu from './comp/SocialMenu'
 import { sendMsg } from '@actions'
 
 
+
 type IProps = {
     chatStore?: IChatStore,
     contactStore?: IContactStore,
@@ -29,14 +30,80 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
         const [reRender, setReRender] = useState(false)
         const [selectedMsg, setSelectedMsg] = useState(null)
 
+
+        const [keys, setKeys] = useState({
+            shift: false,
+            alt: false,
+            ctrl: false
+        })
+
+
+        const handleKeyDown = (e: any) => {
+
+
+            switch (e.key) {
+                case 'Control':
+                    setKeys({ ...keys, ctrl: true })
+                    break;
+                case 'Shift':
+                    setKeys({ ...keys, shift: true })
+                    break;
+                case 'Alt':
+                    setKeys({ ...keys, alt: true })
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        const handleKeyUp = (e: any) => {
+
+
+            switch (e.key) {
+                case 'Control':
+                    setKeys({ ...keys, ctrl: false })
+                    break;
+                case 'Shift':
+                    setKeys({ ...keys, shift: false })
+                    break;
+                case 'Alt':
+                    setKeys({ ...keys, alt: false })
+                    break;
+                default:
+                    break;
+            }
+
+
+        }
+
+
+        const handleEnter = () => {
+
+            if (keys.alt || keys.shift || keys.ctrl) {
+                let text = draft[activeContact.id + status] + '\n'
+                setDraft({ ...draft, [activeContact.id + status]: text })
+
+            } else {
+
+                console.log('keys', keys)
+
+                if (draft[activeContact.id + status] && draft[activeContact.id + status].length) {
+                    chatStore.addMsg(currentChat.id, draft[activeContact.id + status], hero.id, currentChat.activeSocial, null)
+                    sendMsg(currentChat.id, draft[activeContact.id + status])
+                }
+                setDraft({ ...draft, [activeContact.id + status]: '' })
+            }
+
+
+
+
+        }
+
+
         let currentChat: any;
         if (chatStore.chat && activeContact) {
             currentChat = chatStore.activeChat
         }
-
-
-        console.log('currentChat', currentChat)
-
 
         useEffect(() => {
             if (activeMsg) {
@@ -45,13 +112,11 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                 setSelectedMsg(null)
             }
             $(".msg_space").animate({ scrollTop: $('.msg_space').prop("scrollHeight") }, 0);
-
             if (activeContact && !draft[activeContact.id + status]) $('.main_input input').val('');
         })
 
 
-
-        const onChange = (name: string, value: string) => {
+        const onChange = (name: string, value: string, event: any) => {
             setDraft({ ...draft, [name + status]: value })
         }
 
@@ -178,6 +243,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
 
         return (
             <div className="chat">
+
                 {
                     currentChat != undefined ? (<Fragment>
                         <div onScroll={() => handleScroll()} className="msg_space">
@@ -490,6 +556,8 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                 </div>
 
                                 <div className="main_input">
+
+
                                     {
                                         selectedMsg ? (<Fragment>
                                             <div className="selected-container">
@@ -497,7 +565,9 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                             </div>
                                         </Fragment>) : (<Fragment></Fragment>)
                                     }
-                                    <TextArea onFocus={() => onFocusInput()} autoSize placeholder='Ваше сообщение' onChange={(e) => onChange(activeContact.id, e.target.value)} value={draft[activeContact.id + status]} />
+
+                                    <TextArea onKeyDown={(e) => handleKeyDown(e)} onKeyUp={(e) => handleKeyUp(e)} onPressEnter={() => handleEnter()} onFocus={() => onFocusInput()} autoSize placeholder='Ваше сообщение' onChange={(e) => onChange(activeContact.id, e.target.value, e)} value={draft[activeContact.id + status]} />
+
                                 </div>
                                 <div className="inputer_btn">
                                     <Popover onVisibleChange={(e) => { e ? {} : setSwitcher('') }} visible={switcher === 'social'} content={<SocialMenu selectSocial={selectSocial} />} trigger="click">
@@ -527,6 +597,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                             </Fragment>
                         )
                 }
+
             </div >
         );
     }));

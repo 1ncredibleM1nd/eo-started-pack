@@ -129,6 +129,8 @@ const Header = inject((stores: IStores) => ({ appStore: stores.appStore, chatSto
             }
         }
 
+
+
         const closeConctact = () => {
             if (appStore.layout === 'contact') {
                 appStore.setLayout('info')

@@ -3,11 +3,12 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Row, Col, Layout } from 'antd';
 import { ChatLayout, InfoLayout, ContactsLayout } from '@layouts'
-import IStores, { IAppStore } from '@stores/interface';
+import IStores, { IAppStore, IContactStore } from '@stores/interface';
 import '@styles/index.scss'
 
 type IProps = {
-    appStore?: IAppStore
+    appStore?: IAppStore,
+    contactStore?: IContactStore
 }
 
 const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
@@ -24,6 +25,7 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
         // const { Sider } = Layout;
 
 
+
         return (
             <Layout hasSider={true} className='chat_page'>
                 <Row>
@@ -37,7 +39,6 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
                     </Col>
                     {/* <div onClick={() => setSwitcher(!switcher)} className='contact_trigger'>Trigger</div>
                     </div> */}
-
                     <Col
                         xs={layout === 'chat' ? 24 : 0}
                         sm={layout === 'chat' ? 24 : 0}

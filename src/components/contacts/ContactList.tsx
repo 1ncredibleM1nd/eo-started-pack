@@ -2,6 +2,8 @@ import React, { Fragment } from 'react';
 import { inject, observer } from 'mobx-react';
 import IStores, { IAppStore, IChatStore, IContactStore, IUserStore } from '@stores/interface';
 import { Badge } from 'antd';
+import HashLoader from "react-spinners/HashLoader";
+
 // import { getMessages } from '@actions'
 import $ from 'jquery'
 import './ContactList.scss'
@@ -77,7 +79,9 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
         }
 
         if (!appStore.loaded) {
-            return <div className="loading">Загрузка...</div>
+            return <div className="loading">
+                <HashLoader color='#3498db' size={50} />
+            </div>
         }
 
 

@@ -21,7 +21,9 @@
     "react": "^16.12.0",
     "react-custom-scrollbars": "^4.2.1",
     "react-dom": "^16.12.0",
+    "react-hotkeys": "^2.0.0",
     "react-onscroll": "^1.0.4",
+    "react-spinners": "^0.10.4",
     "swiper": "^6.4.8"
   },
   "devDependencies": {
