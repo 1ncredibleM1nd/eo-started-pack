@@ -3,11 +3,9 @@ import { inject, observer } from 'mobx-react';
 import IStores, { IAppStore, IChatStore, IContactStore, IUserStore } from '@stores/interface';
 import { Badge } from 'antd';
 import HashLoader from "react-spinners/HashLoader";
-
-// import { getMessages } from '@actions'
-import $ from 'jquery'
 import './ContactList.scss'
 import './Contact.scss'
+// import { getMessages } from '@actions'
 
 type IProps = {
     contactStore?: IContactStore,
