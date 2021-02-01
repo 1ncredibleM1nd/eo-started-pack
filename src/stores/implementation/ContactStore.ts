@@ -9,9 +9,9 @@ export class ContactStore implements IContactStore {
     @observable filter: any = {
         channel: {
             "whatsapp": true,
-            "instangram": true,
-            "vk": true,
-            "ok": true,
+            "instagram": true,
+            "vkontakte": true,
+            "odnoklassniki": true,
             "viber": true,
             "facebook": true,
             "telegram": true,
@@ -62,6 +62,8 @@ export class ContactStore implements IContactStore {
     @action
     async init(data: any) {
 
+
+
         const dataContact = []
         for (let index = 0; index < data.length; index++) {
             const contact_item = data[index]
@@ -74,6 +76,7 @@ export class ContactStore implements IContactStore {
                     this.last_message_id = msg_id
                 },
             }
+
             dataContact.push(initContact)
         }
         this.contact = dataContact;

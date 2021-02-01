@@ -294,7 +294,7 @@
         border-radius: 4px;
     }
 
-    &.vk {
+    &.vkontakte {
         border-radius: 4px;
     }
 
@@ -576,7 +576,7 @@
 
 
 .msg_space {
-    min-height: 300px;
+    min-height: 100px;
     width: 100%;
     overflow-x: hidden;
     overflow-y: auto;
@@ -587,6 +587,7 @@
 
 .inputer {
     max-height: 55%;
+    min-height: 60px;
     position: relative;
     z-index: 100;
     bottom: 0;

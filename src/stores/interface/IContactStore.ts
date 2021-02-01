@@ -3,6 +3,7 @@ import IContact from './IContact'
 export default interface IContactStore {
     contact: IContact[];
     activeContact: IContact;
+
     filter: any;
     search: string;
     getContact: (id: string) => IContact;

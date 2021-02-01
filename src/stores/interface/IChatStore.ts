@@ -8,7 +8,7 @@ export default interface IChatStore {
     activeMsg: IMsg;
     modalWindow: string;
     loaded: boolean;
-    loadMessages: (id: string) => void;
+    loadMessages: (contact_id: string, numPages: number) => any;
     setModalWindow: (status: string) => void;
     readAllMsg: (id: string) => void;
     setActiveMsg: (msg: IMsg, chat_id: string) => void;

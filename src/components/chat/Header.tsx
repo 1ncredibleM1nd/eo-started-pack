@@ -27,6 +27,8 @@ const Header = inject((stores: IStores) => ({ appStore: stores.appStore, chatSto
         let user: any;
         let chatTitle: any;
 
+        console.log('activeChat', chat)
+
         if (chat) {
             activeMsg = chat.active_msg
             let contact = contactStore.getContact(chat.contact_id)
@@ -137,7 +139,6 @@ const Header = inject((stores: IStores) => ({ appStore: stores.appStore, chatSto
             } else if (appStore.layout === 'info') {
                 appStore.setLayout('contact')
             } else if (appStore.layout === 'chat') {
-                contactStore.setActiveContact(null)
                 appStore.setLayout('contact')
             }
         }

@@ -15,7 +15,6 @@ const InfoLayout = inject((stores: IStores) => ({ appStore: stores.appStore }))(
 
         return (
             <div className="info_layout">
-                INFO SECTION
                 <div className="back_trigger info">
                     <Button onClick={() => appStore.setLayout('chat')} className='transparent'>
                         <Icon className='icon_s blue-lite' name={`solid_arrow-left`} />
@@ -24,5 +23,8 @@ const InfoLayout = inject((stores: IStores) => ({ appStore: stores.appStore }))(
             </div>
         );
     }));
+
+
+
 
 export default InfoLayout;

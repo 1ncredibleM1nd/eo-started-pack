@@ -20,11 +20,7 @@ export class AppStore implements IAppStore {
 
     @action
     setLayout(value: string) {
-        if (this.layout === value) {
-            this.layout = 'none';
-        } else {
-            this.layout = value;
-        }
+        this.layout = value;
     }
 
     @action

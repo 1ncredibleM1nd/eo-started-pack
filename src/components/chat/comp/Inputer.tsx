@@ -41,9 +41,6 @@ const Inputer = inject((stores: IStores) => ({ chatStore: stores.chatStore, cont
       $(".msg_space").animate({ scrollTop: $('.msg_space').prop("scrollHeight") }, 0);
       if (activeContact && !draft[activeContact.id + status]) $('.main_input input').val('');
 
-      if (currentChat && !currentChat.msg.length) {
-        chatStore.loadMessages(activeContact.id)
-      }
     })
 
 
@@ -91,16 +88,16 @@ const Inputer = inject((stores: IStores) => ({ chatStore: stores.chatStore, cont
     const handleEnter = (e: any) => {
 
       e.preventDefault();
-
       if (keys.alt || keys.shift || keys.ctrl) {
         let text = ''
         if (draft[activeContact.id + status]) text = draft[activeContact.id + status] + '\n'
         setDraft({ ...draft, [activeContact.id + status]: text })
-
       } else {
         if (draft[activeContact.id + status] && draft[activeContact.id + status].length) {
           chatStore.addMsg(currentChat.id, draft[activeContact.id + status], hero.id, currentChat.activeSocial, null)
           sendMsg(currentChat.id, draft[activeContact.id + status])
+          // sendMsg(currentChat.id, draft[activeContact.id + status])
+
         }
         setDraft({ ...draft, [activeContact.id + status]: '' })
       }
@@ -116,7 +113,9 @@ const Inputer = inject((stores: IStores) => ({ chatStore: stores.chatStore, cont
         case 'default':
           if (draft[activeContact.id + status] && draft[activeContact.id + status].length) {
             chatStore.addMsg(currentChat.id, draft[activeContact.id + status], hero.id, currentChat.activeSocial, null)
+            // sendMsg(currentChat.id, draft[activeContact.id + status], activeContact.conversation_source_account_id)
             sendMsg(currentChat.id, draft[activeContact.id + status])
+
           }
           setDraft({ ...draft, [activeContact.id + status]: '' })
           break;
@@ -169,7 +168,7 @@ const Inputer = inject((stores: IStores) => ({ chatStore: stores.chatStore, cont
     }
 
     const onFocusInput = () => {
-      chatStore.readAllMsg(currentChat.id)
+      // chatStore.readAllMsg(currentChat.id)
     }
 
     const { TextArea } = Input;

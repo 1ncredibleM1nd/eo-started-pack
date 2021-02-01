@@ -25,11 +25,17 @@ export class ChatStore implements IChatStore {
 
     changeSocial: (social: string) => void;
 
+
     @action
     async loadMessages(contact_id: string) {
+
+        // const msg_res = await getMessages(contact_id, numPages)
         const msg_res = await getMessages(contact_id)
+
         let chat = this.getChat_contactId(contact_id)
-        let msgArray: any = []
+        let msgArray: any = [...chat.msg]
+
+        console.log('msg_res', msg_res)
 
         msg_res.messages.forEach((msg_item: any, index: number) => {
             //let userId = currentChat.user.find((id: any) => id === msg.from)
@@ -81,6 +87,8 @@ export class ChatStore implements IChatStore {
             msgArray.push(msg)
         });
         chat.msg = msgArray
+
+        return msg_res
     }
 
     @action
@@ -224,6 +232,9 @@ export class ChatStore implements IChatStore {
         let chatArray: any = [];
         for (let i = 0; i < data.length; i++) {
             const contact_item = data[i];
+
+            console.log(contact_item.last_message.social_media)
+
             let chat: any = {
                 contact_id: contact_item.id,
                 id: contact_item.id,

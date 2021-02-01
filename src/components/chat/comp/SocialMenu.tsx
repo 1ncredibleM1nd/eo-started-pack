@@ -24,11 +24,11 @@ const SmileMenu = inject((stores: IStores) => ({}))(
                 <div onClick={() => selectSocial('email')} className="smile_swiper_item social">
                     <Icon className='icon_l lite-grey' name={`social_media_email`} />
                 </div>
-                <div onClick={() => selectSocial('ok')} className="smile_swiper_item social">
-                    <Icon className='icon_l lite-grey' name={`social_media_ok`} />
+                <div onClick={() => selectSocial('odnoklassniki')} className="smile_swiper_item social">
+                    <Icon className='icon_l lite-grey' name={`social_media_odnoklassniki`} />
                 </div>
-                <div onClick={() => selectSocial('vk')} className="smile_swiper_item social">
-                    <Icon className='icon_l lite-grey' name={`social_media_vk`} />
+                <div onClick={() => selectSocial('vkontakte')} className="smile_swiper_item social">
+                    <Icon className='icon_l lite-grey' name={`social_media_vkontakte`} />
                 </div>
                 <div onClick={() => selectSocial('telegram')} className="smile_swiper_item social">
                     <Icon className='icon_l lite-grey' name={`social_media_telegram`} />

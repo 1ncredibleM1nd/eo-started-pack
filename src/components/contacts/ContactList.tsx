@@ -69,7 +69,6 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
             if (onSelect) onSelect()
             contactStore.setActiveContact(id)
             chatStore.setActiveChat(id)
-
             appStore.setLayout('chat')
         }
 

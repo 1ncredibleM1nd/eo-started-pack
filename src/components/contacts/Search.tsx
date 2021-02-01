@@ -162,19 +162,19 @@ const Search = inject((stores: IStores) => ({ contactStore: stores.contactStore,
                                 </div>
                                 <div className='channel-item'>
                                     <Icon name='social_media_instagram' className='icon_s' />
-                                    <Switch size="small" defaultChecked={channel['instangram']} onChange={() => onChangeSocial('instangram')} />
+                                    <Switch size="small" defaultChecked={channel['instagram']} onChange={() => onChangeSocial('instagram')} />
                                 </div>
                                 <div className='channel-item'>
-                                    <Icon name='social_media_vk' className='icon_s' />
-                                    <Switch size="small" defaultChecked={channel['vk']} onChange={() => onChangeSocial('vk')} />
+                                    <Icon name='social_media_vkontakte' className='icon_s' />
+                                    <Switch size="small" defaultChecked={channel['vkontakte']} onChange={() => onChangeSocial('vkontakte')} />
                                 </div>
                                 <div className='channel-item'>
                                     <Icon name='social_media_facebook' className='icon_s' />
                                     <Switch size="small" defaultChecked={channel['facebook']} onChange={() => onChangeSocial('facebook')} />
                                 </div>
                                 <div className='channel-item'>
-                                    <Icon name='social_media_ok' className='icon_s' />
-                                    <Switch size="small" defaultChecked={channel['ok']} onChange={() => onChangeSocial('ok')} />
+                                    <Icon name='social_media_odnoklassniki' className='icon_s' />
+                                    <Switch size="small" defaultChecked={channel['odnoklassniki']} onChange={() => onChangeSocial('odnoklassniki')} />
                                 </div>
                                 <div className='channel-item'>
                                     <Icon name='social_media_email' className='icon_s' />

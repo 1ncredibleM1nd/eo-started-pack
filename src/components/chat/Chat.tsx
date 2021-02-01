@@ -29,7 +29,8 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
         const [status, setStatus] = useState('default')
         const [reRender, setReRender] = useState(false)
         const [selectedMsg, setSelectedMsg] = useState(null)
-
+        const [numPages, setNumPages] = useState(1)
+        const [localActiveContact, setLocalActiveContact] = useState({})
 
         console.log(selectedMsg)
 
@@ -44,9 +45,12 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
             } else {
                 setSelectedMsg(null)
             }
-            $(".msg_space").animate({ scrollTop: $('.msg_space').prop("scrollHeight") }, 0);
+
             if (activeContact && !draft[activeContact.id + status]) $('.main_input input').val('');
+
         })
+
+
 
         const editMsg = (id: string) => {
             let msg = chatStore.getMsg(id, currentChat.id)
@@ -94,14 +98,20 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
             setSwitcher('')
         }
 
-        const handleScroll = () => {
+        const handleScroll = async () => {
+            if ($('.msg_space').scrollTop() <= 10) {
+                let res = await chatStore.loadMessages(activeContact.id, numPages + 1)
+                if (res.messages.length) {
+                    setNumPages(numPages + 1)
+                }
+            }
             if (switcher !== 'social') {
                 switcherOff()
             }
         }
 
         if (currentChat && !currentChat.msg.length && activeContact) {
-            chatStore.loadMessages(activeContact.id)
+            chatStore.loadMessages(activeContact.id, numPages)
             return (
                 <div className="chat">
                     <div className="loading chat_loading">
@@ -109,6 +119,11 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                     </div>
                 </div>
             )
+        }
+
+        if (localActiveContact !== activeContact) {
+            $(".msg_space").animate({ scrollTop: $('.msg_space').prop("scrollHeight") }, 50);
+            setLocalActiveContact(activeContact)
         }
 
         return (
