@@ -14,7 +14,7 @@ type IProps = {
 const ModalWindow = inject((stores: IStores) => ({ chatStore: stores.chatStore, userStore: stores.userStore, contactStore: stores.contactStore }))(
     observer((props: IProps) => {
 
-        const { chatStore, contactStore } = props;
+        const { chatStore } = props;
 
         // const [switcher, setSwitcher] = useState(false)
         // const [attachmentLimit, setAttachmentLimit] = useState(4)
@@ -22,7 +22,7 @@ const ModalWindow = inject((stores: IStores) => ({ chatStore: stores.chatStore, 
         //const status = chatStore.modalWindow
         const chat = chatStore.activeChat
         //let hero = userStore.hero
-        let contact: any
+        //let contact: any
         // let user: any;
 
         if (chat) {
@@ -30,7 +30,7 @@ const ModalWindow = inject((stores: IStores) => ({ chatStore: stores.chatStore, 
                 //let userId = chat.user.find((id: any) => id !== hero.id)
                 //user = userStore.getUser(userId)
             }
-            contact = contactStore.getContact(chat.contact_id)
+            //contact = contactStore.getContact(chat.contact_id)
         }
 
 
@@ -122,8 +122,6 @@ const ModalWindow = inject((stores: IStores) => ({ chatStore: stores.chatStore, 
         // }
 
         // const { Panel } = Collapse;
-
-        console.log('contact', contact)
 
         return (
             <Fragment>

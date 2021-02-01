@@ -1,7 +1,7 @@
 import { action, observable } from "mobx";
 import { IAppStore } from '@stores/interface';
 import { contactStore, chatStore, userStore } from '@stores/implementation';
-import { getConversations, getMessages } from '@actions'
+import { getConversations } from '@actions'
 
 export class AppStore implements IAppStore {
 
@@ -21,7 +21,6 @@ export class AppStore implements IAppStore {
 
     @action
     setLayout(value: string) {
-        console.log(value)
         if (this.layout === value) {
             this.layout = 'none';
         } else {
@@ -684,35 +683,11 @@ export class AppStore implements IAppStore {
             }
 
             const conversations = await getConversations()
-            let serverChat = []
-
-            for (let i = 0; i < conversations.menu.length; i++) {
-                const contact_item = conversations.menu[i];
-                const msg_res = await getMessages(contact_item.id)
-                let msgArray: any = []
-                msg_res.menu.forEach((msg_item: any) => {
-                    const msg = {
-                        ...msg_item,
-                        avatar: contact_item.avatar
-                    }
-                    msgArray.push(msg)
-                });
-
-                let chat: any = {
-                    contact_id: contact_item.id,
-                    id: contact_item.id,
-                    activeSocial: 'telegram',
-                    role: [],
-                    user: contact_item.user,
-                    msg: msgArray
-                }
-                serverChat.push(chat)
-            }
 
             await userStore.initHero(hero)
             await userStore.init(userData)
-            await contactStore.init(conversations);
-            await chatStore.init(serverChat);
+            await contactStore.init(conversations.data);
+            await chatStore.init(conversations.data);
             this.loaded = true
         } catch (e) {
             console.error(e);

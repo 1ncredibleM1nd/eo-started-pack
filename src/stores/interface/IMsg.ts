@@ -11,6 +11,12 @@ export default interface IMsg {
     smiles: string[];
     editted: boolean;
     avatar?: string;
+    flowMsgNext?: any;
+    role?: any;
+    flowMsgPrev?: any;
+    center?: any;
+    prevReaded?: any;
+    time_scope?: any;
     addSmile: (smile: string) => void;
     editMsg: (value: string) => void;
     read: () => void;

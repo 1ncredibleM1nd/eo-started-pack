@@ -2,6 +2,7 @@
 import { action, observable, reaction } from 'mobx'
 import { IChat, IChatStore, IMsg } from '@stores/interface';
 import { contactStore } from '@stores/implementation';
+import { getMessages } from '@actions'
 import moment from 'moment'
 import 'moment/locale/ru'
 moment.locale('ru')
@@ -24,9 +25,74 @@ export class ChatStore implements IChatStore {
     changeSocial: (social: string) => void;
 
     @action
+    async loadMessages(contact_id: string) {
+        const msg_res = await getMessages(contact_id)
+        let chat = this.getChat_contactId(contact_id)
+        let msgArray: any = []
+
+        msg_res.messages.forEach((msg_item: any, index: number) => {
+            //let userId = currentChat.user.find((id: any) => id === msg.from)
+            // let user = userStore.getUser(userId)
+            //let role = chat.role.find((role: any) => role.id === msg.from)
+            //let prevUser, nextUser: any
+
+            let prevMsg: any;
+            let flowMsgNext, flowMsgPrev, center = false
+            let prevReaded, time_scope: any = null
+
+            if (msg_res.messages[index - 1]) {
+                prevMsg = msg_res.messages[index - 1]
+                if (prevMsg) prevReaded = prevMsg.readed
+            }
+            if (msg_res.messages[index + 1]) {
+                //nextMsg = msg_res.messages[index + 1]
+                //nextUser = userStore.getUser(nextMsg.from)
+            }
+            if (prevMsg && prevMsg.date !== msg_item.date) {
+                time_scope = msg_item.date
+            } else {
+                time_scope = null
+            }
+
+            // if (nextUser && nextUser.id === userId) flowMsgNext = true
+            // if (prevUser && prevUser.id === userId) flowMsgPrev = true
+            // if (flowMsgNext && flowMsgPrev) if (prevUser.id === user.id && nextUser.id === user.id) center = true
+
+            const msg = {
+                time_scope,
+                prevReaded,
+                flowMsgNext,
+                flowMsgPrev,
+                center,
+                ...msg_item,
+                read() {
+                    this.readed = true
+                },
+                addSmile(smile: any) {
+                    this.smiles.push(smile);
+                },
+                editMsg(value: string) {
+                    this.content = value;
+                    this.editted = true;
+                }
+                // avatar: contact_item.avatar
+            }
+            msgArray.push(msg)
+        });
+        chat.msg = msgArray
+    }
+
+    @action
     getMsg(id: string, chat_id: string): IMsg {
         let chat = this.chat.find((chat_item: IChat) => chat_item.id === chat_id)
         return chat.msg.find((msg: IMsg) => msg.id === id)
+    }
+
+    @action
+    getChat_contactId(contact_id: string): IChat {
+        const chat = this.chat.find((chat_item: IChat) => chat_item.contact_id === contact_id)
+        this.activeChat = chat;
+        return chat
     }
 
     @action
@@ -148,50 +214,34 @@ export class ChatStore implements IChatStore {
             }
         }
         contactStore.setStatus(chat.contact_id, 'readed')
-        console.log('chat after read All', chat)
     }
 
 
 
     @action
-    async init(data: IChat[]) {
-        let chat = [];
-        for (let index = 0; index < data.length; index++) {
-            const chat_item: IChat = data[index];
-            const initChat: IChat = {
-                ...chat_item,
+    async init(data: any) {
+        let chatArray: any = [];
+        for (let i = 0; i < data.length; i++) {
+            const contact_item = data[i];
+            let chat: any = {
+                contact_id: contact_item.id,
+                id: contact_item.id,
+                activeSocial: contact_item.last_message.social_media,
+                role: [],
+                user: contact_item.user,
+                msg: [],
                 active_msg: null,
                 setActiveMsg(msg: IMsg) {
                     this.active_msg = msg;
                 },
-                changeSocial(social) {
+                changeSocial(social: any) {
                     this.activeSocial = social;
                 }
             }
-
-            chat.push(initChat)
-            for (let i = 0; i < chat_item.msg.length; i++) {
-
-                let msg: IMsg = {
-                    ...chat_item.msg[i],
-                    read() {
-                        this.readed = true
-                    },
-                    editMsg(value: string) {
-                        this.content = value;
-                        this.editted = true;
-                    },
-                    addSmile(smile) {
-                        this.smiles.push(smile);
-                    }
-                }
-
-                chat[index].msg[i] = msg
-            }
-
+            chatArray.push(chat)
         }
 
-        this.chat = chat
+        this.chat = chatArray
     }
 
 

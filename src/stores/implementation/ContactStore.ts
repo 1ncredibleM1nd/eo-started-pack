@@ -63,14 +63,12 @@ export class ContactStore implements IContactStore {
     @action
     async init(data: any) {
 
-        console.log(data, 'data')
-
         const dataContact = []
-        for (let index = 0; index < data.menu.length; index++) {
+        for (let index = 0; index < data.length; index++) {
 
 
 
-            const contact_item = data.menu[index]
+            const contact_item = data[index]
             const initContact: IContact = {
                 ...contact_item,
                 setStatus(status: string) {
@@ -81,12 +79,10 @@ export class ContactStore implements IContactStore {
                 },
             }
 
-            console.log('initContact', initContact)
 
             dataContact.push(initContact)
         }
 
-        console.log('dataContact', dataContact)
 
         this.contact = dataContact;
     }

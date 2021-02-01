@@ -27,7 +27,6 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
         const search = contactStore.search
         const hero = userStore.hero
 
-        console.log('ContactsData', ContactsData)
 
         if (search) {
             // ContactsData = ContactsData.filter((contact: any) => {
@@ -100,7 +99,6 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
                                         ContactsData.map((contact: any, index: number) => {
 
                                             //const last_message_id = chatStore.getMsg(contact.last_message_id, contact.chat_id);
-                                            console.log('contact', contact)
                                             // const last_message = getMessages(contact.id)
 
                                             const last_message = contact.last_message

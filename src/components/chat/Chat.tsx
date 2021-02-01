@@ -3,12 +3,10 @@ import { inject, observer } from 'mobx-react';
 import IStores, { IChatStore, IMsg, IContactStore, IUserStore } from '@stores/interface';
 import { Icon } from '@ui'
 import $ from 'jquery'
-import { Input, Menu, Dropdown, Button, Popover, Divider } from 'antd';
+import { Menu, Dropdown, Divider } from 'antd';
 // import SmileMenu from './comp/SmileMenu'
 import './Chat.scss'
-import SocialMenu from './comp/SocialMenu'
-import { sendMsg } from '@actions'
-
+import Inputer from './comp/Inputer'
 
 
 type IProps = {
@@ -30,75 +28,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
         const [reRender, setReRender] = useState(false)
         const [selectedMsg, setSelectedMsg] = useState(null)
 
-
-        const [keys, setKeys] = useState({
-            shift: false,
-            alt: false,
-            ctrl: false
-        })
-
-
-        const handleKeyDown = (e: any) => {
-
-
-            switch (e.key) {
-                case 'Control':
-                    setKeys({ ...keys, ctrl: true })
-                    break;
-                case 'Shift':
-                    setKeys({ ...keys, shift: true })
-                    break;
-                case 'Alt':
-                    setKeys({ ...keys, alt: true })
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        const handleKeyUp = (e: any) => {
-
-
-            switch (e.key) {
-                case 'Control':
-                    setKeys({ ...keys, ctrl: false })
-                    break;
-                case 'Shift':
-                    setKeys({ ...keys, shift: false })
-                    break;
-                case 'Alt':
-                    setKeys({ ...keys, alt: false })
-                    break;
-                default:
-                    break;
-            }
-
-
-        }
-
-
-        const handleEnter = () => {
-
-            if (keys.alt || keys.shift || keys.ctrl) {
-                let text = draft[activeContact.id + status] + '\n'
-                setDraft({ ...draft, [activeContact.id + status]: text })
-
-            } else {
-
-                console.log('keys', keys)
-
-                if (draft[activeContact.id + status] && draft[activeContact.id + status].length) {
-                    chatStore.addMsg(currentChat.id, draft[activeContact.id + status], hero.id, currentChat.activeSocial, null)
-                    sendMsg(currentChat.id, draft[activeContact.id + status])
-                }
-                setDraft({ ...draft, [activeContact.id + status]: '' })
-            }
-
-
-
-
-        }
-
+        console.log(selectedMsg)
 
         let currentChat: any;
         if (chatStore.chat && activeContact) {
@@ -113,13 +43,11 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
             }
             $(".msg_space").animate({ scrollTop: $('.msg_space').prop("scrollHeight") }, 0);
             if (activeContact && !draft[activeContact.id + status]) $('.main_input input').val('');
+
+            if (currentChat && !currentChat.msg.length) {
+                chatStore.loadMessages(activeContact.id)
+            }
         })
-
-
-        const onChange = (name: string, value: string, event: any) => {
-            setDraft({ ...draft, [name + status]: value })
-        }
-
 
         const editMsg = (id: string) => {
             let msg = chatStore.getMsg(id, currentChat.id)
@@ -144,40 +72,6 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
             setReRender(!reRender)
         }
 
-        const onSend = () => {
-            console.log('onSend')
-            switch (status) {
-                case 'default':
-                    if (draft[activeContact.id + status].length) {
-                        chatStore.addMsg(currentChat.id, draft[activeContact.id + status], hero.id, currentChat.activeSocial, null)
-                        console.log('Отправка сообщения chat.tsx', currentChat.id, draft[activeContact.id + status])
-                        sendMsg(currentChat.id, draft[activeContact.id + status])
-                    }
-                    setDraft({ ...draft, [activeContact.id + status]: '' })
-                    break;
-                case 'edit':
-                    activeMsg.editMsg(draft[activeContact.id + status])
-                    setDraft({ ...draft, [activeContact.id + status]: '' })
-                    chatStore.setActiveMsg(null, currentChat.id)
-                    setStatus('default')
-                    break;
-                case 'reply':
-                    chatStore.addMsg(currentChat.id, draft[activeContact.id + status], hero.id, currentChat.activeSocial, selectedMsg)
-                    setDraft({ ...draft, [activeContact.id + 'default']: '', [activeContact.id + status]: '' })
-                    chatStore.setActiveMsg(null, currentChat.id)
-                    setStatus('default')
-                    break;
-                default:
-                    break;
-            }
-
-
-            $('.main_input input').val('');
-
-            $(".msg_space").animate({ scrollTop: $('.msg_space').prop("scrollHeight") }, 300);
-
-        }
-
         const DropDownMenu = (msg: any) => {
             return (
                 <Menu>
@@ -197,40 +91,8 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
             )
         }
 
-
-        const DropDownAttacments = () => {
-            return (
-                <Menu>
-                    <Menu.Item >
-                        Фотография
-                    </Menu.Item>
-                    <Menu.Item>
-                        Видео
-                    </Menu.Item>
-                    <Menu.Item >
-                        Документ
-                    </Menu.Item>
-                    <Menu.Item >
-                        Аудио
-                    </Menu.Item>
-                </Menu>
-            )
-        }
-
-
-        const selectSocial = (social: string) => {
-            currentChat.changeSocial(social)
-            switcherOff()
-        }
-
         const switcherOff = () => {
             setSwitcher('')
-        }
-
-
-
-        const onFocusInput = () => {
-            chatStore.readAllMsg(currentChat.id)
         }
 
         const handleScroll = () => {
@@ -239,57 +101,27 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
             }
         }
 
-        const { TextArea } = Input;
+        console.log('Render')
 
         return (
             <div className="chat">
-
                 {
                     currentChat != undefined ? (<Fragment>
                         <div onScroll={() => handleScroll()} className="msg_space">
                             {
-                                currentChat.msg.map((msg: IMsg, index: number) => {
-                                    //let userId = currentChat.user.find((id: any) => id === msg.from)
-                                    // let user = userStore.getUser(userId)
-                                    let role = currentChat.role.find((role: any) => role.id === msg.from)
-                                    let flowMsgNext, flowMsgPrev, center = false
-                                    //let prevUser, nextMsg,, nextUser: any
-
-                                    let prevMsg, prevReaded, date: any;
-
-
-
-                                    if (currentChat.msg[index - 1]) {
-                                        prevReaded = msg.readed
-                                        prevMsg = currentChat.msg[index - 1]
-                                        // if (prevMsg) prevUser = userStore.getUser(prevMsg.from)
-                                    } else {
-                                        date = msg.date
-                                        prevMsg = currentChat.msg[index - 1]
-                                        if (prevMsg) prevReaded = prevMsg.readed
-                                    }
-                                    if (currentChat.msg[index + 1]) {
-                                        //nextMsg = currentChat.msg[index + 1]
-                                        // nextUser = userStore.getUser(nextMsg.from)
-                                    }
-
-                                    // if (currentChat.msg[index - 1] && currentChat.msg[index - 1].date !== msg.date) date = msg.date
-                                    // if (nextUser && nextUser.id === userId) flowMsgNext = true
-                                    // if (prevUser && prevUser.id === userId) flowMsgPrev = true
-                                    // if (flowMsgNext && flowMsgPrev) if (prevUser.id === user.id && nextUser.id === user.id) center = true
+                                currentChat.msg.map((msg: IMsg) => {
 
                                     if (msg.from !== hero.id) {
                                         return (
                                             <Fragment>
-
                                                 {
                                                     msg.readed ? (<Fragment>
                                                         {
-                                                            date ? (<Fragment>
+                                                            msg.time_scope ? (<Fragment>
                                                                 <div className="date_container">
                                                                     <Divider orientation="center" className='date_divider'>
                                                                         <div className="date">
-                                                                            {msg.date}
+                                                                            {msg.time_scope}
                                                                         </div>
                                                                     </Divider>
                                                                 </div>
@@ -298,7 +130,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                         }
                                                     </Fragment>) : (<Fragment>
                                                         {
-                                                            prevReaded !== msg.readed ? (<Fragment>
+                                                            msg.prevReaded !== msg.readed ? (<Fragment>
                                                                 <div className="date_container unread">
                                                                     <Divider orientation="center" className='date_divider unread'>
                                                                         <div className="date unread">
@@ -311,28 +143,25 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                         }
                                                     </Fragment>)
                                                 }
-
                                                 <div key={Math.random()} className="message">
                                                     {
-                                                        !flowMsgPrev && flowMsgNext && !center ? (<Fragment>
+                                                        !msg.flowMsgPrev && msg.flowMsgNext && !msg.center ? (<Fragment>
                                                             <div className="msg_header">
                                                                 {/* <span>{user.username}</span> */}
-                                                                <span className="msg-role">{role ? role.name : ''}</span>
+                                                                <span className="msg-role">{msg.role ? msg.role.name : ''}</span>
                                                             </div>
                                                         </Fragment>) : (<Fragment></Fragment>)
                                                     }
-
                                                     {
-                                                        !flowMsgNext && !flowMsgPrev ? (<Fragment>
+                                                        !msg.flowMsgNext && !msg.flowMsgPrev ? (<Fragment>
                                                             <div className="msg_header">
                                                                 {/* <span>{user.username}</span> */}
-                                                                <span className="msg-role">{role ? role.name : ''}</span>
+                                                                <span className="msg-role">{msg.role ? msg.role.name : ''}</span>
                                                             </div>
                                                         </Fragment>) : (<Fragment></Fragment>)
                                                     }
-
                                                     <div className="message-wrapper">
-                                                        <div className={`message-content ${flowMsgNext ? 'not-main' : ''} `}>
+                                                        <div className={`message-content ${msg.flowMsgNext ? 'not-main' : ''} `}>
                                                             {
                                                                 msg.reply ? (<Fragment>
                                                                     <div className="reply">
@@ -350,7 +179,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                                 {msg.content}
                                                             </div>
                                                             {/* <div className={`smile ${switcher === msg.id ? 'active' : ''}`}>
-                                                                <Popover onVisibleChange={(e) => { e ? {} : setSwitcher('') }} visible={switcher === msg.id} content={<SmileMenu id={msg.id} chat_id={currentChat.id} switcherOff={switcherOff} />} trigger="click">
+                                                                <Popover onVisibleChange={(e) => { e ? {} : setSwitcher('') }} visible={switcher === msg.id} content={<SmileMenu id={msg.id} chat_id={currentChat.id} switcherOff={switcherOff} /trigger="click">
                                                                     <Button onClick={() => { switcher === msg.id ? setSwitcher('') : setSwitcher(msg.id) }} className='transparent'>
                                                                         <Icon className={`icon_s active-grey`} name='regular_smile' />
                                                                     </Button>
@@ -374,7 +203,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                         </div>
                                                     </div>
                                                     {
-                                                        !flowMsgNext ? (<Fragment>
+                                                        !msg.flowMsgNext ? (<Fragment>
                                                             <div className="message-options">
                                                                 <div className="avatar avatar-sm">
                                                                     <div className={`social_media_icon ${msg.social_media}`}>
@@ -413,7 +242,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                 {
                                                     msg.readed ? (<Fragment>
                                                         {
-                                                            date ? (<Fragment>
+                                                            msg.date ? (<Fragment>
                                                                 <div className="date_container">
                                                                     <Divider orientation="center" className='date_divider'>
                                                                         <div className="date">
@@ -426,7 +255,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                         }
                                                     </Fragment>) : (<Fragment>
                                                         {
-                                                            prevReaded !== msg.readed ? (<Fragment>
+                                                            msg.prevReaded !== msg.readed ? (<Fragment>
                                                                 <div className="date_container unread">
                                                                     <Divider orientation="center" className='date_divider unread'>
                                                                         <div className="date unread">
@@ -440,26 +269,26 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                     </Fragment>)
                                                 }
 
-                                                <div key={Math.random()} className={`message self ${flowMsgNext ? 'not-main' : ''} `} >
+                                                <div key={Math.random()} className={`message self ${msg.flowMsgNext ? 'not-main' : ''} `} >
                                                     {
-                                                        !flowMsgPrev && flowMsgNext && !center ? (<Fragment>
+                                                        !msg.flowMsgPrev && msg.flowMsgNext && !msg.center ? (<Fragment>
                                                             <div className="msg_header">
                                                                 {/* <span>{user.username}</span> */}
-                                                                <span className="msg-role">{role ? role.name : ''}</span>
+                                                                <span className="msg-role">{msg.role ? msg.role.name : ''}</span>
                                                             </div>
                                                         </Fragment>) : (<Fragment></Fragment>)
                                                     }
                                                     {
-                                                        !flowMsgNext && !flowMsgPrev ? (<Fragment>
+                                                        !msg.flowMsgNext && !msg.flowMsgPrev ? (<Fragment>
                                                             <div className="msg_header">
                                                                 {/* <span>{user.username}</span> */}
-                                                                <span className="msg-role">{role ? role.name : ''}</span>
+                                                                <span className="msg-role">{msg.role ? msg.role.name : ''}</span>
                                                             </div>
                                                         </Fragment>) : (<Fragment></Fragment>)
                                                     }
 
                                                     <div className="message-wrapper">
-                                                        <div className={`message-content ${flowMsgNext ? 'not-main' : ''} `}>
+                                                        <div className={`message-content ${msg.flowMsgNext ? 'not-main' : ''} `}>
                                                             {
                                                                 msg.reply ? (<Fragment>
                                                                     <div className="reply">
@@ -510,7 +339,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                         </div>
                                                     </div>
                                                     {
-                                                        !flowMsgNext ? (<Fragment>
+                                                        !msg.flowMsgNext ? (<Fragment>
                                                             <div className="message-options">
                                                                 <div className="avatar avatar-sm">
                                                                     <div className={`social_media_icon ${msg.social_media}`}>
@@ -545,42 +374,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                 })
                             }
                         </div>
-                        <div className="inputer">
-                            <div className="input-container">
-                                <div className="inputer_btn">
-                                    <Popover onVisibleChange={(e) => { e ? {} : setSwitcher('') }} visible={switcher === 'attacments'} content={<DropDownAttacments />} trigger="click">
-                                        <Button onClick={() => { switcher === 'attacments' ? setSwitcher('') : setSwitcher('attacments') }} className='transparent'>
-                                            <Icon className='icon_m blue-lite' name='solid_paperclip' />
-                                        </Button>
-                                    </Popover>
-                                </div>
-
-                                <div className="main_input">
-
-
-                                    {
-                                        selectedMsg ? (<Fragment>
-                                            <div className="selected-container">
-                                                {selectedMsg['content']}
-                                            </div>
-                                        </Fragment>) : (<Fragment></Fragment>)
-                                    }
-
-                                    <TextArea onKeyDown={(e) => handleKeyDown(e)} onKeyUp={(e) => handleKeyUp(e)} onPressEnter={() => handleEnter()} onFocus={() => onFocusInput()} autoSize placeholder='Ваше сообщение' onChange={(e) => onChange(activeContact.id, e.target.value, e)} value={draft[activeContact.id + status]} />
-
-                                </div>
-                                <div className="inputer_btn">
-                                    <Popover onVisibleChange={(e) => { e ? {} : setSwitcher('') }} visible={switcher === 'social'} content={<SocialMenu selectSocial={selectSocial} />} trigger="click">
-                                        <Button onClick={() => setSwitcher('social')} className='transparent'>
-                                            <Icon className='icon_l' name={`social_media_${currentChat.activeSocial}`} />
-                                        </Button>
-                                    </Popover>
-                                </div>
-                            </div>
-                            <div onClick={() => onSend()} className="send_btn">
-                                <Icon className='icon_x white' name='solid_another-arrow' />
-                            </div>
-                        </div>
+                        <Inputer />
                     </Fragment>) : (
                             <Fragment>
                                 <div className="start_chat_page">
