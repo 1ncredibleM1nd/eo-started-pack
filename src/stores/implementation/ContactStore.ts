@@ -6,7 +6,6 @@ export class ContactStore implements IContactStore {
     @observable contact: IContact[] = [];
     @observable activeContact: IContact;
     @observable search: string;
-
     @observable filter: any = {
         channel: {
             "whatsapp": true,
@@ -65,9 +64,6 @@ export class ContactStore implements IContactStore {
 
         const dataContact = []
         for (let index = 0; index < data.length; index++) {
-
-
-
             const contact_item = data[index]
             const initContact: IContact = {
                 ...contact_item,
@@ -78,12 +74,8 @@ export class ContactStore implements IContactStore {
                     this.last_message_id = msg_id
                 },
             }
-
-
             dataContact.push(initContact)
         }
-
-
         this.contact = dataContact;
     }
 
@@ -92,6 +84,8 @@ export class ContactStore implements IContactStore {
     get avaliableContacts() {
         return this.contact;
     }
+
+
 }
 
 export const contactStore = new ContactStore()

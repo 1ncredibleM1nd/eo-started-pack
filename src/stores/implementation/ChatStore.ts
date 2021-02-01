@@ -8,7 +8,8 @@ import 'moment/locale/ru'
 moment.locale('ru')
 
 export class ChatStore implements IChatStore {
-    @observable chat: IChat[] = [];
+    chat: IChat[] = [];
+    @observable loaded: boolean = false
     @observable activeChat: IChat;
     @observable activeMsg: IMsg;
     @observable modalWindow: string = 'close'
@@ -241,6 +242,7 @@ export class ChatStore implements IChatStore {
             chatArray.push(chat)
         }
 
+        this.loaded = true
         this.chat = chatArray
     }
 

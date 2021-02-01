@@ -8,8 +8,6 @@ import SocialMenu from './SocialMenu'
 // import SmileMenu from './comp/SmileMenu'
 import { sendMsg } from '@actions'
 
-
-
 type IProps = {
   chatStore?: IChatStore,
   contactStore?: IContactStore,
@@ -30,7 +28,7 @@ const Inputer = inject((stores: IStores) => ({ chatStore: stores.chatStore, cont
 
 
     let currentChat: any;
-    if (chatStore.chat && activeContact) {
+    if (chatStore.loaded && activeContact) {
       currentChat = chatStore.activeChat
     }
 
@@ -90,9 +88,13 @@ const Inputer = inject((stores: IStores) => ({ chatStore: stores.chatStore, cont
     }
 
 
-    const handleEnter = () => {
+    const handleEnter = (e: any) => {
+
+      e.preventDefault();
+
       if (keys.alt || keys.shift || keys.ctrl) {
-        let text = draft[activeContact.id + status] + '\n'
+        let text = ''
+        if (draft[activeContact.id + status]) text = draft[activeContact.id + status] + '\n'
         setDraft({ ...draft, [activeContact.id + status]: text })
 
       } else {
@@ -194,7 +196,7 @@ const Inputer = inject((stores: IStores) => ({ chatStore: stores.chatStore, cont
               </Fragment>) : (<Fragment></Fragment>)
             }
 
-            <TextArea onKeyDown={(e) => handleKeyDown(e)} onKeyUp={(e) => handleKeyUp(e)} onPressEnter={() => handleEnter()} onFocus={() => onFocusInput()} autoSize placeholder='Ваше сообщение' onChange={(e) => onChange(activeContact.id, e.target.value, e)} value={draft[activeContact.id + status]} />
+            <TextArea onKeyDown={(e) => handleKeyDown(e)} onKeyUp={(e) => handleKeyUp(e)} onPressEnter={(e) => handleEnter(e)} onFocus={() => onFocusInput()} autoSize placeholder='Ваше сообщение' onChange={(e) => onChange(activeContact.id, e.target.value, e)} value={draft[activeContact.id + status]} />
 
           </div>
           <div className="inputer_btn">

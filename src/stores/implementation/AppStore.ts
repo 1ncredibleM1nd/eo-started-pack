@@ -4,7 +4,6 @@ import { contactStore, chatStore, userStore } from '@stores/implementation';
 import { getConversations } from '@actions'
 
 export class AppStore implements IAppStore {
-
     @observable loaded: boolean = false;
     @observable info_tab: string = 'none'
     @observable layout: string = 'contact'
@@ -32,8 +31,6 @@ export class AppStore implements IAppStore {
     async initialization() {
         try {
             //const res = await getData();
-
-
             const userData = [
                 {
                     username: "Бильбо Бэггинс",

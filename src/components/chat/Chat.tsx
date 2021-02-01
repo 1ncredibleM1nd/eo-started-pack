@@ -100,8 +100,6 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
             }
         }
 
-        console.log('Render')
-
         if (currentChat && !currentChat.msg.length && activeContact) {
             chatStore.loadMessages(activeContact.id)
             return (
@@ -112,7 +110,6 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                 </div>
             )
         }
-
 
         return (
             <div className="chat">
