@@ -27,8 +27,6 @@ const Header = inject((stores: IStores) => ({ appStore: stores.appStore, chatSto
         let user: any;
         let chatTitle: any;
 
-        console.log('activeChat', chat)
-
         if (chat) {
             activeMsg = chat.active_msg
             let contact = contactStore.getContact(chat.contact_id)
@@ -168,13 +166,11 @@ const Header = inject((stores: IStores) => ({ appStore: stores.appStore, chatSto
                         {
                             chatTitle || user ? (<Fragment>
                                 <div className="header_content">
-
                                     <div className={`back_trigger ${appStore.layout !== 'contact' ? 'active' : ''}`}>
                                         <Button onClick={() => closeConctact()} className='transparent'>
                                             <Icon className='icon_s blue-lite' name={`solid_arrow-left`} />
                                         </Button>
                                     </div>
-
                                     <div className={`header_title ${user ? 'user' : ''}`}>
                                         <div className='title'>
                                             {chatTitle}
@@ -203,7 +199,7 @@ const Header = inject((stores: IStores) => ({ appStore: stores.appStore, chatSto
                                         }
                                         <div className="header_settings">
                                             <div className="trigger">
-                                                <Popover visible={modal} content={<DropDownMenu />} trigger="click">
+                                                <Popover onVisibleChange={(e) => { e ? {} : setModal(false) }} visible={modal} content={<DropDownMenu />} trigger="click">
                                                     <Button onClick={() => setModal(!modal)} className='transparent'>
                                                         <Icon className='icon_s lite-grey rotated' name={`regular_three-dots`} />
                                                     </Button>

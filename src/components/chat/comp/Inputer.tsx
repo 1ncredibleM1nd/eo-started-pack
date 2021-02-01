@@ -24,7 +24,6 @@ const Inputer = inject((stores: IStores) => ({ chatStore: stores.chatStore, cont
     const [draft, setDraft] = useState({})
     const [switcher, setSwitcher] = useState('')
     const [status, setStatus] = useState('default')
-    const [selectedMsg, setSelectedMsg] = useState(null)
 
 
     let currentChat: any;
@@ -33,14 +32,8 @@ const Inputer = inject((stores: IStores) => ({ chatStore: stores.chatStore, cont
     }
 
     useEffect(() => {
-      if (activeMsg) {
-        setSelectedMsg(activeMsg)
-      } else {
-        setSelectedMsg(null)
-      }
       $(".msg_space").animate({ scrollTop: $('.msg_space').prop("scrollHeight") }, 0);
       if (activeContact && !draft[activeContact.id + status]) $('.main_input input').val('');
-
     })
 
 
@@ -126,7 +119,7 @@ const Inputer = inject((stores: IStores) => ({ chatStore: stores.chatStore, cont
           setStatus('default')
           break;
         case 'reply':
-          chatStore.addMsg(currentChat.id, draft[activeContact.id + status], hero.id, currentChat.activeSocial, selectedMsg)
+          chatStore.addMsg(currentChat.id, draft[activeContact.id + status], hero.id, currentChat.activeSocial, activeMsg['content'])
           setDraft({ ...draft, [activeContact.id + 'default']: '', [activeContact.id + status]: '' })
           chatStore.setActiveMsg(null, currentChat.id)
           setStatus('default')
@@ -186,11 +179,10 @@ const Inputer = inject((stores: IStores) => ({ chatStore: stores.chatStore, cont
 
           <div className="main_input">
 
-
             {
-              selectedMsg ? (<Fragment>
+              activeMsg ? (<Fragment>
                 <div className="selected-container">
-                  {selectedMsg['content']}
+                  {activeMsg['content']}
                 </div>
               </Fragment>) : (<Fragment></Fragment>)
             }

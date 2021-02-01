@@ -212,10 +212,14 @@
 
 .contacts-item {
     border-bottom: 1px solid $grey_blue_lite;
-    padding: 10px 20px !important;
+    padding: 10px 25px !important;
 
     @include _990 {
         padding: 10px !important;
+    }
+
+    @include _768 {
+        padding: 10px 25px !important;
     }
 
     &.active {

@@ -8,8 +8,7 @@ import { Menu, Dropdown, Divider } from 'antd';
 import './Chat.scss'
 import Inputer from './comp/Inputer'
 import PuffLoader from "react-spinners/PuffLoader";
-
-
+import ChatPlaceholder from './comp/ChatPlaceholder'
 
 type IProps = {
     chatStore?: IChatStore,
@@ -22,35 +21,19 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
 
         const { chatStore, contactStore, userStore } = props;
         const activeContact = contactStore.activeContact;
-        const activeMsg = chatStore.activeMsg
         const hero = userStore.hero
         const [draft, setDraft] = useState({})
         const [switcher, setSwitcher] = useState('')
         const [status, setStatus] = useState('default')
         const [reRender, setReRender] = useState(false)
-        const [selectedMsg, setSelectedMsg] = useState(null)
         const [numPages, setNumPages] = useState(1)
         const [localActiveContact, setLocalActiveContact] = useState({})
 
-        console.log(selectedMsg)
 
         let currentChat: any;
         if (chatStore.chat && activeContact) {
             currentChat = chatStore.activeChat
         }
-
-        useEffect(() => {
-            if (activeMsg) {
-                setSelectedMsg(activeMsg)
-            } else {
-                setSelectedMsg(null)
-            }
-
-            if (activeContact && !draft[activeContact.id + status]) $('.main_input input').val('');
-
-        })
-
-
 
         const editMsg = (id: string) => {
             let msg = chatStore.getMsg(id, currentChat.id)
@@ -399,19 +382,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                         </div>
                         <Inputer />
                     </Fragment>) : (
-                            <Fragment>
-                                <div className="start_chat_page">
-                                    <div className="avatar avatar-lg mb-2">
-                                        <img className="avatar-img" src={hero ? hero.avatar : 'https://via.placeholder.com/150'} alt=""></img>
-                                    </div>
-                                    <h5>
-                                        Привет, {hero ? hero.username : 'Пользователь'}
-                                    </h5>
-                                    <p className="text-muted">
-                                        Выбирай контакт слева чтобы начать общаться
-                                    </p>
-                                </div>
-                            </Fragment>
+                            <ChatPlaceholder />
                         )
                 }
 
