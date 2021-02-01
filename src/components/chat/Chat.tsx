@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState } from 'react';
 import { inject, observer } from 'mobx-react';
 import IStores, { IChatStore, IMsg, IContactStore, IUserStore } from '@stores/interface';
 import { Icon } from '@ui'
