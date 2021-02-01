@@ -24,17 +24,17 @@ function getConversations() {
     })
 }
 
-function sendMsg(chat_id: string, message: string) {
+function sendMsg(conversationId: string, message: string) {
 
     let school = 'prodamus'
 
     let body = {
-        chat_id,
+        conversationId,
         school,
         message
     }
 
-    return axios.post(`https://backend.chat.dev.prodamus.pro/v1/conversation/send-message?conversationId`, body).then(response => {
+    return axios.post(`https://backend.chat.dev.prodamus.pro/v1/conversation/send-message?conversationId=${conversationId}`, body).then(response => {
         console.log('sendMsg', response)
 
         return {

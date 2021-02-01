@@ -49,7 +49,7 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
                     <Col
                         xs={layout === 'info' ? 24 : 0}
                         sm={layout === 'info' ? 24 : 0}
-                        md={layout === 'info' ? 10 : 0}
+                        md={layout === 'info' || layout === 'chat' ? 10 : 0}
                         lg={7} xl={6} xxl={6}>
                         <InfoLayout />
                     </Col>

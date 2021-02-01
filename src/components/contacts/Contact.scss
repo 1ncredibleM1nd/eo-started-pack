@@ -8,6 +8,17 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    .chat_loading {
+        min-height: 300px;
+        display: flex;
+        position: relative;
+        max-height: calc(100vh - 60px);
+        height: calc(100vh - 60px);
+        justify-content: center;
+        background: $white_chat;
+    }
+
 }
 
 .ant-layout-sider {

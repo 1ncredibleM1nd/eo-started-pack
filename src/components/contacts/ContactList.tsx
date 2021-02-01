@@ -72,9 +72,7 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
             contactStore.setActiveContact(id)
             chatStore.setActiveChat(id)
 
-            if ($(window).width() < 768) {
-                appStore.setLayout('chat')
-            }
+            appStore.setLayout('chat')
         }
 
         if (!appStore.loaded) {

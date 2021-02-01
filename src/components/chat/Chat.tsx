@@ -7,6 +7,8 @@ import { Menu, Dropdown, Divider } from 'antd';
 // import SmileMenu from './comp/SmileMenu'
 import './Chat.scss'
 import Inputer from './comp/Inputer'
+import PuffLoader from "react-spinners/PuffLoader";
+
 
 
 type IProps = {
@@ -28,6 +30,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
         const [reRender, setReRender] = useState(false)
         const [selectedMsg, setSelectedMsg] = useState(null)
 
+
         console.log(selectedMsg)
 
         let currentChat: any;
@@ -43,10 +46,6 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
             }
             $(".msg_space").animate({ scrollTop: $('.msg_space').prop("scrollHeight") }, 0);
             if (activeContact && !draft[activeContact.id + status]) $('.main_input input').val('');
-
-            if (currentChat && !currentChat.msg.length) {
-                chatStore.loadMessages(activeContact.id)
-            }
         })
 
         const editMsg = (id: string) => {
@@ -102,6 +101,18 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
         }
 
         console.log('Render')
+
+        if (currentChat && !currentChat.msg.length && activeContact) {
+            chatStore.loadMessages(activeContact.id)
+            return (
+                <div className="chat">
+                    <div className="loading chat_loading">
+                        <PuffLoader color='#3498db' size={50} />
+                    </div>
+                </div>
+            )
+        }
+
 
         return (
             <div className="chat">

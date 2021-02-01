@@ -112,7 +112,7 @@ const Inputer = inject((stores: IStores) => ({ chatStore: stores.chatStore, cont
     const onSend = () => {
       switch (status) {
         case 'default':
-          if (draft[activeContact.id + status].length) {
+          if (draft[activeContact.id + status] && draft[activeContact.id + status].length) {
             chatStore.addMsg(currentChat.id, draft[activeContact.id + status], hero.id, currentChat.activeSocial, null)
             sendMsg(currentChat.id, draft[activeContact.id + status])
           }
