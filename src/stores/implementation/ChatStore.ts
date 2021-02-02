@@ -27,10 +27,10 @@ export class ChatStore implements IChatStore {
 
 
     @action
-    async loadMessages(contact_id: string) {
+    async loadMessages(contact_id: string, numPages: number) {
 
-        // const msg_res = await getMessages(contact_id, numPages)
-        const msg_res = await getMessages(contact_id)
+        const msg_res = await getMessages(contact_id, numPages)
+        //const msg_res = await getMessages(contact_id)
 
         let chat = this.getChat_contactId(contact_id)
         let msgArray: any = [...chat.msg]

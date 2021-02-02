@@ -27,13 +27,14 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
         const [status, setStatus] = useState('default')
         const [reRender, setReRender] = useState(false)
         const [numPages, setNumPages] = useState(1)
-        const [localActiveContact, setLocalActiveContact] = useState({})
 
 
         let currentChat: any;
         if (chatStore.chat && activeContact) {
             currentChat = chatStore.activeChat
         }
+
+
 
         const editMsg = (id: string) => {
             let msg = chatStore.getMsg(id, currentChat.id)
@@ -104,10 +105,18 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
             )
         }
 
-        if (localActiveContact !== activeContact) {
-            $(".msg_space").animate({ scrollTop: $('.msg_space').prop("scrollHeight") }, 50);
-            setLocalActiveContact(activeContact)
-        }
+
+
+
+
+
+
+
+
+
+        console.log('rerender inputer')
+
+
 
         return (
             <div className="chat">

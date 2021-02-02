@@ -20,8 +20,8 @@ const Chat = inject((stores: IStores) => ({ userStore: stores.userStore }))(
         <div className="start_chat_page">
 
           <Skeleton.Avatar style={{ width: 80, height: 80 }} active={true} size={'large'} shape='circle' />
-          <Skeleton.Input style={{ width: 100, height: 25 }} active={true} size='default' />
-          <Skeleton.Input style={{ width: 200, height: 25 }} active={true} size='default' />
+          <Skeleton.Input style={{ width: 150, height: 25 }} active={true} size='default' />
+          <Skeleton.Input style={{ width: 225, height: 25 }} active={true} size='default' />
 
 
         </div>

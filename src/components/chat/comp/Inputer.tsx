@@ -11,7 +11,7 @@ import { sendMsg } from '@actions'
 type IProps = {
   chatStore?: IChatStore,
   contactStore?: IContactStore,
-  userStore?: IUserStore
+  userStore?: IUserStore,
 }
 
 const Inputer = inject((stores: IStores) => ({ chatStore: stores.chatStore, contactStore: stores.contactStore, userStore: stores.userStore }))(
@@ -32,9 +32,12 @@ const Inputer = inject((stores: IStores) => ({ chatStore: stores.chatStore, cont
     }
 
     useEffect(() => {
-      $(".msg_space").animate({ scrollTop: $('.msg_space').prop("scrollHeight") }, 0);
-      if (activeContact && !draft[activeContact.id + status]) $('.main_input input').val('');
-    })
+      if (currentChat && currentChat.msg.length) {
+        $(".msg_space").animate({ scrollTop: $('.msg_space').prop("scrollHeight") }, 0);
+        if (activeContact && !draft[activeContact.id + status]) $('.main_input input').val('');
+      }
+    }, [])
+
 
 
 
@@ -88,8 +91,8 @@ const Inputer = inject((stores: IStores) => ({ chatStore: stores.chatStore, cont
       } else {
         if (draft[activeContact.id + status] && draft[activeContact.id + status].length) {
           chatStore.addMsg(currentChat.id, draft[activeContact.id + status], hero.id, currentChat.activeSocial, null)
-          sendMsg(currentChat.id, draft[activeContact.id + status])
-          // sendMsg(currentChat.id, draft[activeContact.id + status])
+          sendMsg(currentChat.id, draft[activeContact.id + status], activeContact.conversation_source_account_id)
+          //sendMsg(currentChat.id, draft[activeContact.id + status])
 
         }
         setDraft({ ...draft, [activeContact.id + status]: '' })
@@ -101,14 +104,14 @@ const Inputer = inject((stores: IStores) => ({ chatStore: stores.chatStore, cont
     }
 
 
-    const onSend = () => {
+    const onSend = async () => {
       switch (status) {
         case 'default':
           if (draft[activeContact.id + status] && draft[activeContact.id + status].length) {
             chatStore.addMsg(currentChat.id, draft[activeContact.id + status], hero.id, currentChat.activeSocial, null)
-            // sendMsg(currentChat.id, draft[activeContact.id + status], activeContact.conversation_source_account_id)
-            sendMsg(currentChat.id, draft[activeContact.id + status])
-
+            sendMsg(currentChat.id, draft[activeContact.id + status], activeContact.conversation_source_account_id)
+            //sendMsg(currentChat.id, draft[activeContact.id + status])
+            await chatStore.loadMessages(activeContact.id, 1)
           }
           setDraft({ ...draft, [activeContact.id + status]: '' })
           break;
@@ -128,7 +131,7 @@ const Inputer = inject((stores: IStores) => ({ chatStore: stores.chatStore, cont
           break;
       }
       $('.main_input input').val('');
-      $(".msg_space").animate({ scrollTop: $('.msg_space').prop("scrollHeight") }, 300);
+      $(".msg_space").animate({ scrollTop: $('.msg_space').prop("scrollHeight") }, 0);
     }
 
 
@@ -165,6 +168,8 @@ const Inputer = inject((stores: IStores) => ({ chatStore: stores.chatStore, cont
     }
 
     const { TextArea } = Input;
+
+    console.log('rerender inputer')
 
     return (
       <div className="inputer">
