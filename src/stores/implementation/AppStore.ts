@@ -7,6 +7,7 @@ export class AppStore implements IAppStore {
     @observable loaded: boolean = false;
     @observable info_tab: string = 'none'
     @observable layout: string = 'contact'
+    @observable school: string = 'bro'
 
 
     @action
@@ -675,7 +676,18 @@ export class AppStore implements IAppStore {
                 unic: '@bilbo_beggins'
             }
 
-            const conversations = await getConversations()
+
+
+            var paramsString = document.location.search;
+            var searchParams = new URLSearchParams(paramsString);
+
+
+            this.school = searchParams.get("school");
+            if (!this.school) this.school = 'bro'
+
+            const conversations = await getConversations(this.school)
+
+
 
             await userStore.initHero(hero)
             await userStore.init(userData)

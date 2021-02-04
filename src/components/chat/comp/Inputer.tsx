@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
-import IStores, { IChatStore, IContactStore, IUserStore } from '@stores/interface';
+import IStores, { IChatStore, IContactStore, IUserStore, IAppStore } from '@stores/interface';
 import { Icon } from '@ui'
 import $ from 'jquery'
 import { Input, Menu, Button, Popover } from 'antd';
@@ -12,12 +12,13 @@ type IProps = {
   chatStore?: IChatStore,
   contactStore?: IContactStore,
   userStore?: IUserStore,
+  appStore?: IAppStore
 }
 
-const Inputer = inject((stores: IStores) => ({ chatStore: stores.chatStore, contactStore: stores.contactStore, userStore: stores.userStore }))(
+const Inputer = inject((stores: IStores) => ({ chatStore: stores.chatStore, contactStore: stores.contactStore, userStore: stores.userStore, appStore: stores.appStore }))(
   observer((props: IProps) => {
 
-    const { chatStore, contactStore, userStore } = props;
+    const { chatStore, contactStore, userStore, appStore } = props;
     const activeContact = contactStore.activeContact;
     const activeMsg = chatStore.activeMsg
     const hero = userStore.hero
@@ -91,7 +92,7 @@ const Inputer = inject((stores: IStores) => ({ chatStore: stores.chatStore, cont
       } else {
         if (draft[activeContact.id + status] && draft[activeContact.id + status].length) {
           chatStore.addMsg(currentChat.id, draft[activeContact.id + status], hero.id, currentChat.activeSocial, null)
-          sendMsg(currentChat.id, draft[activeContact.id + status], activeContact.conversation_source_account_id)
+          sendMsg(currentChat.id, draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.school)
           //sendMsg(currentChat.id, draft[activeContact.id + status])
 
         }
@@ -109,7 +110,7 @@ const Inputer = inject((stores: IStores) => ({ chatStore: stores.chatStore, cont
         case 'default':
           if (draft[activeContact.id + status] && draft[activeContact.id + status].length) {
             chatStore.addMsg(currentChat.id, draft[activeContact.id + status], hero.id, currentChat.activeSocial, null)
-            sendMsg(currentChat.id, draft[activeContact.id + status], activeContact.conversation_source_account_id)
+            sendMsg(currentChat.id, draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.school)
             //sendMsg(currentChat.id, draft[activeContact.id + status])
             await chatStore.loadMessages(activeContact.id, 1)
           }

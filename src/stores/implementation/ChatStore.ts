@@ -1,7 +1,7 @@
 
 import { action, observable, reaction } from 'mobx'
 import { IChat, IChatStore, IMsg } from '@stores/interface';
-import { contactStore } from '@stores/implementation';
+import { contactStore, appStore } from '@stores/implementation';
 import { getMessages } from '@actions'
 import moment from 'moment'
 import 'moment/locale/ru'
@@ -29,7 +29,7 @@ export class ChatStore implements IChatStore {
     @action
     async loadMessages(contact_id: string, numPages: number) {
 
-        const msg_res = await getMessages(contact_id, numPages)
+        const msg_res = await getMessages(contact_id, numPages, appStore.school)
         //const msg_res = await getMessages(contact_id)
 
         let chat = this.getChat_contactId(contact_id)

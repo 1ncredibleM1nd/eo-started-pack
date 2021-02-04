@@ -3,11 +3,11 @@ import axios from './axios';
 let origin = 'https://backend.chat.dev.prodamus.pro'
 
 
-function getMessages(conversationId: string, page: number) {
+function getMessages(conversationId: string, page: number, school: string) {
 
     console.log(page)
 
-    return axios.get(`${origin}/v1/conversation/get-messages?conversationId=${conversationId}&page=${page}&school=${'bro'}`).then(response => {
+    return axios.get(`${origin}/v1/conversation/get-messages?conversationId=${conversationId}&page=${page}&school=${school}`).then(response => {
 
         console.log('getMessages', response)
 
@@ -17,8 +17,8 @@ function getMessages(conversationId: string, page: number) {
     })
 }
 
-function getConversations() {
-    return axios.get(`${origin}/v1/conversation/get-conversations?school=${'bro'}&page=${1}`).then(response => {
+function getConversations(school: string) {
+    return axios.get(`${origin}/v1/conversation/get-conversations?school=${school}&page=${1}`).then(response => {
 
         console.log('getConversations', response)
 
@@ -28,9 +28,7 @@ function getConversations() {
     })
 }
 
-function sendMsg(conversationId: string, message: string, conversationSourceAccountId: any) {
-
-    let school = 'bro'
+function sendMsg(conversationId: string, message: string, conversationSourceAccountId: any, school: string) {
 
     let body = {
         conversationSourceAccountId,
