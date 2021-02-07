@@ -1,6 +1,7 @@
 
 import { action, computed, observable, reaction } from 'mobx'
 import { IContactStore, IContact } from '@stores/interface';
+import { chatStore } from '@stores/implementation';
 
 export class ContactStore implements IContactStore {
     @observable contact: IContact[] = [];
@@ -49,8 +50,11 @@ export class ContactStore implements IContactStore {
     setActiveContact(id: string) {
         if (id === null) {
             this.activeContact = null
+        } else if (this.activeContact && this.activeContact.id === id) {
+            this.activeContact = null
         } else {
             this.activeContact = this.contact.find(item => item.id === id);
+            chatStore.init(this.activeContact)
         }
     }
 
@@ -76,10 +80,13 @@ export class ContactStore implements IContactStore {
                     this.last_message_id = msg_id
                 },
             }
-
             dataContact.push(initContact)
         }
-        this.contact = dataContact;
+
+        if (JSON.stringify(this.contact) !== JSON.stringify(dataContact)) {
+            console.log('Подгрузка контактов')
+            this.contact = dataContact;
+        }
     }
 
 

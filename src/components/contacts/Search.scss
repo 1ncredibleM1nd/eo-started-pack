@@ -183,6 +183,10 @@
         justify-content: center;
         align-items: center;
 
+        .transparent {
+            width: 60px;
+        }
+
         &:hover {
             svg {
                 fill: $blue_accent;

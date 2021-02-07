@@ -6,6 +6,9 @@ import { getMessages } from '@actions'
 import moment from 'moment'
 import 'moment/locale/ru'
 moment.locale('ru')
+import { sendMsg } from '@actions'
+import $ from 'jquery'
+
 
 export class ChatStore implements IChatStore {
     chat: IChat[] = [];
@@ -13,6 +16,8 @@ export class ChatStore implements IChatStore {
     @observable activeChat: IChat;
     @observable activeMsg: IMsg;
     @observable modalWindow: string = 'close'
+    sendingMsg: boolean = false
+
 
     constructor() {
         reaction(() => {
@@ -25,24 +30,27 @@ export class ChatStore implements IChatStore {
 
     changeSocial: (social: string) => void;
 
+    @action
+    async sendMessage(message: string, conversationSourceAccountId: any, school: string) {
+        this.sendingMsg = true
+        await sendMsg(this.activeChat.id, message, conversationSourceAccountId, school)
+        this.sendingMsg = false
+    }
+
 
     @action
     async loadMessages(contact_id: string, numPages: number) {
 
-        const msg_res = await getMessages(contact_id, numPages, appStore.school)
-        //const msg_res = await getMessages(contact_id)
+        if (this.sendingMsg) return null
 
-        let chat = this.getChat_contactId(contact_id)
-        let msgArray: any = [...chat.msg]
+        const msg_res = await getMessages(contact_id, 4, appStore.school)
+        let msgArray: any = []
 
-        console.log('msg_res', msg_res)
-
-        msg_res.messages.forEach((msg_item: any, index: number) => {
+        await msg_res.messages.forEach((msg_item: any, index: number) => {
             //let userId = currentChat.user.find((id: any) => id === msg.from)
             // let user = userStore.getUser(userId)
             //let role = chat.role.find((role: any) => role.id === msg.from)
             //let prevUser, nextUser: any
-
             let prevMsg: any;
             let flowMsgNext, flowMsgPrev, center = false
             let prevReaded, time_scope: any = null
@@ -60,11 +68,9 @@ export class ChatStore implements IChatStore {
             } else {
                 time_scope = null
             }
-
             // if (nextUser && nextUser.id === userId) flowMsgNext = true
             // if (prevUser && prevUser.id === userId) flowMsgPrev = true
             // if (flowMsgNext && flowMsgPrev) if (prevUser.id === user.id && nextUser.id === user.id) center = true
-
             const msg = {
                 time_scope,
                 prevReaded,
@@ -82,14 +88,15 @@ export class ChatStore implements IChatStore {
                     this.content = value;
                     this.editted = true;
                 }
-                // avatar: contact_item.avatar
+                //avatar: contact_item.avatar
             }
             msgArray.push(msg)
         });
-        chat.msg = msgArray
-
-        return msg_res
+        return msgArray
     }
+
+
+
 
     @action
     getMsg(id: string, chat_id: string): IMsg {
@@ -141,38 +148,36 @@ export class ChatStore implements IChatStore {
     }
 
     @action
-    addMsg(chat_id: string, content: string, from: any, social_media: string, reply: any) {
-        let chat = this.chat.find((chat_item: IChat) => {
-            return chat_item.id === chat_id
-        })
-        // let id = chat.msg[chat.msg.length - 1].id.split('_')[1] + 1
-        let id = 'msg_' + Math.random()
-
-        contactStore.setLastMsg(chat.contact_id, `msg_${id}`)
-
-        let msg: IMsg = {
-            id: `msg_${id}`,
-            from: from,
-            social_media: social_media,
-            content: content,
-            time: moment().format('hh:mm'),
-            date: moment().format('DD MMM'),
-            readed: false,
-            smiles: [],
-            reply: reply,
-            editted: false,
-            read() {
-                this.readed = true
-            },
-            addSmile(smile) {
-                this.smiles.push(smile);
-            },
-            editMsg(value: string) {
-                this.content = value;
-                this.editted = true;
+    async addMsg(content: string, from: any, social_media: string, reply: any) {
+        if (this.activeChat) {
+            let id = 'msg_' + Math.random()
+            contactStore.setLastMsg(this.activeChat.contact_id, `msg_${id}`)
+            let msg: IMsg = {
+                id: `msg_${id}`,
+                from: from,
+                social_media: social_media,
+                content: content,
+                time: moment().format('hh:mm'),
+                date: moment().format('DD MMM'),
+                readed: false,
+                smiles: [],
+                reply: reply,
+                editted: false,
+                read() {
+                    this.readed = true
+                },
+                addSmile(smile) {
+                    this.smiles.push(smile);
+                },
+                editMsg(value: string) {
+                    this.content = value;
+                    this.editted = true;
+                }
             }
+            this.activeChat.msg.push(msg)
+            $(".msg_space").animate({ scrollTop: $('.msg_space').prop("scrollHeight") }, 0);
+
         }
-        chat.msg.push(msg)
     }
 
 
@@ -228,20 +233,18 @@ export class ChatStore implements IChatStore {
 
 
     @action
-    async init(data: any) {
-        let chatArray: any = [];
-        for (let i = 0; i < data.length; i++) {
-            const contact_item = data[i];
-
-            console.log(contact_item.last_message.social_media)
+    async init(activeContact: any) {
+        if (activeContact) {
+            let messages: any = []
+            if (contactStore.activeContact) messages = await this.loadMessages(activeContact.id, 2)
 
             let chat: any = {
-                contact_id: contact_item.id,
-                id: contact_item.id,
-                activeSocial: contact_item.last_message.social_media,
+                contact_id: activeContact.id,
+                id: activeContact.id,
+                activeSocial: activeContact.last_message.social_media,
                 role: [],
-                user: contact_item.user,
-                msg: [],
+                user: activeContact.user,
+                msg: messages,
                 active_msg: null,
                 setActiveMsg(msg: IMsg) {
                     this.active_msg = msg;
@@ -250,11 +253,14 @@ export class ChatStore implements IChatStore {
                     this.activeSocial = social;
                 }
             }
-            chatArray.push(chat)
-        }
 
-        this.loaded = true
-        this.chat = chatArray
+            if (JSON.stringify(this.activeChat) !== JSON.stringify(chat)) {
+                console.log('Подгрузка чата')
+                this.loaded = true
+                this.activeChat = chat
+                $(".msg_space").animate({ scrollTop: $('.msg_space').prop("scrollHeight") }, 0);
+            }
+        }
     }
 
 

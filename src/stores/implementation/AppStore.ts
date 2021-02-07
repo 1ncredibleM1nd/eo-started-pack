@@ -684,15 +684,21 @@ export class AppStore implements IAppStore {
 
             this.school = searchParams.get("school");
             if (!this.school) this.school = 'bro'
+            let conversations = await getConversations(this.school)
 
-            const conversations = await getConversations(this.school)
-
-
+            try {
+                setInterval(async () => {
+                    conversations = await getConversations(this.school)
+                    await contactStore.init(conversations.data);
+                    await chatStore.init(contactStore.activeContact);
+                }, 1000)
+            } catch (e) {
+                throw new Error(e);
+            }
 
             await userStore.initHero(hero)
             await userStore.init(userData)
-            await contactStore.init(conversations.data);
-            await chatStore.init(conversations.data);
+
             this.loaded = true
         } catch (e) {
             console.error(e);

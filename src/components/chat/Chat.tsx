@@ -9,6 +9,9 @@ import './Chat.scss'
 import Inputer from './comp/Inputer'
 import PuffLoader from "react-spinners/PuffLoader";
 import ChatPlaceholder from './comp/ChatPlaceholder'
+import ElementQueries from 'css-element-queries/src/ElementQueries'
+import { ResizeSensor } from 'css-element-queries';
+
 
 type IProps = {
     chatStore?: IChatStore,
@@ -28,11 +31,17 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
         const [reRender, setReRender] = useState(false)
         const [numPages, setNumPages] = useState(1)
 
+        ElementQueries.listen();
+
 
         let currentChat: any;
         if (chatStore.chat && activeContact) {
             currentChat = chatStore.activeChat
         }
+
+
+
+
 
 
 
@@ -83,18 +92,22 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
         }
 
         const handleScroll = async () => {
-            if ($('.msg_space').scrollTop() <= 10) {
-                let res = await chatStore.loadMessages(activeContact.id, numPages + 1)
-                if (res.messages.length) {
-                    setNumPages(numPages + 1)
-                }
-            }
+
+            // Пагинация сообщений включается здесь
+
+            // if ($('.msg_space').scrollTop() <= 50) {
+            //     let res = await chatStore.loadMessages(activeContact.id, numPages + 1)
+            //     if (res.messages.length) {
+            //         setNumPages(numPages + 1)
+            //     }
+            // }
+
             if (switcher !== 'social') {
                 switcherOff()
             }
         }
 
-        if (currentChat && !currentChat.msg.length && activeContact) {
+        if (currentChat && !currentChat.msg && activeContact) {
             chatStore.loadMessages(activeContact.id, numPages)
             return (
                 <div className="chat">
@@ -105,24 +118,18 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
             )
         }
 
+        new ResizeSensor($(`.msg_space`), function () {
+            console.log('resize')
+            $(".msg_space").animate({ scrollTop: $('.msg_space').prop("scrollHeight") }, 0);
+        });
 
-
-
-
-
-
-
-
-
-        console.log('rerender inputer')
-
-
+        console.log('rerender chat')
 
         return (
             <div className="chat">
                 {
-                    currentChat != undefined ? (<Fragment>
-                        <div onScroll={() => handleScroll()} className="msg_space">
+                    currentChat !== undefined ? (<Fragment>
+                        <div onScroll={() => handleScroll()} className="msg_space" id={activeContact.id}>
                             {
                                 currentChat.msg.map((msg: IMsg) => {
 
