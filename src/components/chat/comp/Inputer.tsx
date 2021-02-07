@@ -6,7 +6,6 @@ import $ from 'jquery'
 import { Input, Menu, Button, Popover } from 'antd';
 import SocialMenu from './SocialMenu'
 // import SmileMenu from './comp/SmileMenu'
-import { sendMsg } from '@actions'
 
 type IProps = {
   chatStore?: IChatStore,

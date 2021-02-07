@@ -2,15 +2,12 @@ import React, { Fragment, useState } from 'react';
 import { inject, observer } from 'mobx-react';
 import IStores, { IChatStore, IMsg, IContactStore, IUserStore } from '@stores/interface';
 import { Icon } from '@ui'
-import $ from 'jquery'
 import { Menu, Dropdown, Divider } from 'antd';
 // import SmileMenu from './comp/SmileMenu'
 import './Chat.scss'
 import Inputer from './comp/Inputer'
 import PuffLoader from "react-spinners/PuffLoader";
 import ChatPlaceholder from './comp/ChatPlaceholder'
-import ElementQueries from 'css-element-queries/src/ElementQueries'
-import { ResizeSensor } from 'css-element-queries';
 
 
 type IProps = {
@@ -31,7 +28,6 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
         const [reRender, setReRender] = useState(false)
         const [numPages, setNumPages] = useState(1)
 
-        ElementQueries.listen();
 
 
         let currentChat: any;
@@ -102,6 +98,8 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
             //     }
             // }
 
+            setNumPages(1)
+
             if (switcher !== 'social') {
                 switcherOff()
             }
@@ -118,10 +116,6 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
             )
         }
 
-        new ResizeSensor($(`.msg_space`), function () {
-            console.log('resize')
-            $(".msg_space").animate({ scrollTop: $('.msg_space').prop("scrollHeight") }, 0);
-        });
 
         console.log('rerender chat')
 
