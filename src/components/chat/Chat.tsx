@@ -238,7 +238,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                                             </div>
                                                                         </Fragment>) : (<Fragment></Fragment>)
                                                                     }
-                                                                    <div className="msg_time">{msg.time}</div>
+                                                                    <div className="msg_time">{msg.time} {msg.date}</div>
                                                                     <Dropdown overlay={<DropDownMenu id={msg.id} />} placement="bottomLeft" trigger={['click']}>
                                                                         <span className='dropdown-trigger'>
                                                                             <Icon className='active-grey' name={`regular_three-dots`} />
@@ -373,7 +373,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
                                                                             </div>
                                                                         </Fragment>) : (<Fragment></Fragment>)
                                                                     }
-                                                                    <div className="msg_time">{msg.time}</div>
+                                                                    <div className="msg_time">{msg.time} {msg.date}</div>
                                                                     <Dropdown overlay={<DropDownMenu id={msg.id} />} placement="bottomLeft" trigger={['click']}>
                                                                         <span className='dropdown-trigger'>
                                                                             <Icon className='active-grey' name={`regular_three-dots`} />
