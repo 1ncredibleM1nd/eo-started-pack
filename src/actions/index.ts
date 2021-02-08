@@ -4,6 +4,9 @@ let origin = 'https://backend.chat.dev.prodamus.pro'
 
 
 function getMessages(conversationId: string, page: number, school: string) {
+
+    console.log('page', page)
+
     return axios.get(`${origin}/v1/conversation/get-messages?conversationId=${conversationId}&page=${page}&school=${school}`).then(response => {
         // console.log('getMessages', response)
         return {
@@ -14,7 +17,6 @@ function getMessages(conversationId: string, page: number, school: string) {
 
 function getConversations(school: string) {
     return axios.get(`${origin}/v1/conversation/get-conversations?school=${school}&page=${1}`).then(response => {
-        // console.log('getConversations', response)
         return {
             data: response.data.data,
         }

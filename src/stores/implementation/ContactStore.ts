@@ -49,14 +49,14 @@ export class ContactStore implements IContactStore {
     @action
     setActiveContact(id: string) {
         if (id === null) {
-            chatStore.currentChatPageNumber = 1
+            chatStore.activeChatPageNumber = 1
             this.activeContact = null
         } else if (this.activeContact && this.activeContact.id === id) {
-            chatStore.currentChatPageNumber = 1
+            chatStore.activeChatPageNumber = 1
             this.activeContact = null
         } else {
             this.activeContact = this.contact.find(item => item.id === id);
-            chatStore.currentChatPageNumber = 1
+            chatStore.activeChatPageNumber = 1
             chatStore.init(this.activeContact)
         }
     }
@@ -87,7 +87,6 @@ export class ContactStore implements IContactStore {
         }
 
         if (JSON.stringify(this.contact) !== JSON.stringify(dataContact)) {
-            console.log('Подгрузка контактов')
             this.contact = dataContact;
         }
     }

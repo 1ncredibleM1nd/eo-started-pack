@@ -7,7 +7,7 @@ export default interface IChat {
     id: string;
     user: string[];
     role: IRole[];
-    msg: IMsg[];
+    msg: IMsg[][];
     activeSocial: string;
     setActiveMsg: (msg: IMsg) => void;
     changeSocial: (social: string) => void;

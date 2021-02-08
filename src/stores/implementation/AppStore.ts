@@ -680,9 +680,8 @@ export class AppStore implements IAppStore {
 
             var paramsString = document.location.search;
             var searchParams = new URLSearchParams(paramsString);
-
-
             this.school = searchParams.get("school");
+
             if (!this.school) this.school = 'bro'
             let conversations = await getConversations(this.school)
 
