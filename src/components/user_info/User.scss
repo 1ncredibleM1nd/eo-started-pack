@@ -1,0 +1,50 @@
+.user_info_block {
+  padding: 10px 25px;
+
+  .container {
+    background: white;
+    border-radius: 6px;
+  }
+
+  .user_info {
+    display: flex;
+    flex-direction: column;
+
+    .user_information {
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .mor_info {
+      color: #3498db;
+      text-decoration: none;
+    }
+  }
+
+  .online_in {
+    background: #2A99FF;
+    width: 7px;
+    height: 7px;
+    box-shadow: 0 0 0 3px #f0f2f5;
+    border-radius: 50px;
+  }
+}
+
+.user_dropdawn {
+
+  .user_name {
+    font-size: 21px;
+    font-weight: bold;
+  }
+
+  .dropdawn_menu {
+    display: flex;
+    align-items: center;
+
+    p {
+      margin: 0 15px 0 0;
+    }
+  }
+}
+
+
