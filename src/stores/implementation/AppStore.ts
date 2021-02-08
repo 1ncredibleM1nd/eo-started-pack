@@ -7,7 +7,7 @@ export class AppStore implements IAppStore {
     @observable loaded: boolean = false;
     @observable info_tab: string = 'none'
     @observable layout: string = 'contact'
-    @observable school: string = 'bro'
+    @observable school: string = 'turstar'
 
 
     @action
