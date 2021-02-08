@@ -1,10 +1,10 @@
-import React, {useState} from "react";
-import {inject, observer} from "mobx-react";
+import React, { useState } from "react";
+import { inject, observer } from "mobx-react";
 import IStores from "@stores/interface";
 import './ComentsBlock.scss'
-import {Avatar, Button, Checkbox} from 'antd';
+import { Avatar, Checkbox } from 'antd';
 
-const data: [{ id: number, avatar: string, description: string, date: object }] = [
+const data: any = [
     {
         id: 1,
         avatar: '',
@@ -19,16 +19,16 @@ const data: [{ id: number, avatar: string, description: string, date: object }] 
     },
 ]
 
-const ComentsBlock = inject((stores: IStores) => ({contactStore: stores.contactStore}))(
+const ComentsBlock = inject((stores: IStores) => ({ contactStore: stores.contactStore }))(
     observer(() => {
-        const tascsCategories: [{ id: number, title: string, isActive: boolean, sty: string }] = [
-            {id: 1, title: 'Коментарии', isActive: true, sty: 'border-right'},
-            {id: 2, title: 'Задачи', isActive: false, sty: ''}
+        const tascsCategories: any = [
+            { id: 1, title: 'Коментарии', isActive: true, sty: 'border-right' },
+            { id: 2, title: 'Задачи', isActive: false, sty: '' }
         ]
         const options = [
-            {label: 'Apple', value: 'Apple'},
-            {label: 'Pear', value: 'Pear'},
-            {label: 'Orange', value: 'Orange'},
+            { label: 'Apple', value: 'Apple' },
+            { label: 'Pear', value: 'Pear' },
+            { label: 'Orange', value: 'Orange' },
         ];
         const [isActive, setIsActive] = useState(tascsCategories)
         const [isOpen, setisOpen] = useState(true)
@@ -50,27 +50,27 @@ const ComentsBlock = inject((stores: IStores) => ({contactStore: stores.contactS
         return (
             <div className='coments_block'>
                 <div className='d-flex'>
-                    {isActive.map((v, index) => <span
+                    {isActive.map((v: any, index: number) => <span
                         key={v.id}
                         className={`w-50 text-center ${v.sty}`}
-                        style={{color: v.isActive ? '#59ABE2' : ''}}
+                        style={{ color: v.isActive ? '#59ABE2' : '' }}
                         onClick={() => changeList(v.id, index)}
                     >{v.title}</span>)
                     }
                 </div>
                 {isOpen ? <div className='coments mt-2 p-2'>
-                        {data.map(val =>
-                            <div className='comments_container mb-2 rela'>
-                                <p>{val.description}</p>
-                                <span className='avatar_block'>
-                                   <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>
+                    {data.map((val: any) =>
+                        <div className='comments_container mb-2 rela'>
+                            <p>{val.description}</p>
+                            <span className='avatar_block'>
+                                <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
                             </span>
-                            </div>
-                        )}
-                        <div className='d-flex justify-content-center'>
-                            <button className='btm btn-info'>+</button>
                         </div>
+                    )}
+                    <div className='d-flex justify-content-center'>
+                        <button className='btm btn-info'>+</button>
                     </div>
+                </div>
                     : <div>
                         <Checkbox.Group
                             options={options}

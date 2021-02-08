@@ -93,7 +93,6 @@ const Inputer = inject((stores: IStores) => ({ chatStore: stores.chatStore, cont
           await chatStore.addMsg(draft[activeContact.id + status], hero.id, currentChat.activeSocial, null)
           $(".msg_space").animate({ scrollTop: $('.msg_space').prop("scrollHeight") }, 0);
           await chatStore.sendMessage(draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.school)
-          await chatStore.loadMessages(activeContact.id, 1)
           //sendMsg(currentChat.id, draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.school)
           //sendMsg(currentChat.id, draft[activeContact.id + status])
 

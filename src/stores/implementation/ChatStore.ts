@@ -31,6 +31,8 @@ export class ChatStore implements IChatStore {
             }
         })
     }
+    updateMessages: (contact_id: string) => any;
+    readAllMsg: (id: string) => void;
 
     changeSocial: (social: string) => void;
 
@@ -48,9 +50,7 @@ export class ChatStore implements IChatStore {
 
     @action
     async sendMessage(message: string, conversationSourceAccountId: any, school: string) {
-        this.sendingMsg = true
         await sendMsg(this.activeChat.id, message, conversationSourceAccountId, school)
-        this.sendingMsg = false
     }
 
 
@@ -139,63 +139,64 @@ export class ChatStore implements IChatStore {
         return null
     }
 
-    @action
-    async updateMessages(contact_id: string) {
-        if (this.sendingMsg) return null
-        const msg_res = await getMessages(contact_id, 1, appStore.school)
-        let msgArray: any = []
+    // @action
+    // async updateMessages(contact_id: string) {
+    //     if (this.sendingMsg) return null
+    //     const msg_res = await getMessages(contact_id, 1, appStore.school)
+    //     let msgArray: any = []
 
-        await msg_res.messages.forEach((msg_item: any, index: number) => {
-            //let userId = currentChat.user.find((id: any) => id === msg.from)
-            // let user = userStore.getUser(userId)
-            //let role = chat.role.find((role: any) => role.id === msg.from)
-            //let prevUser, nextUser: any
-            let prevMsg: any;
-            let flowMsgNext, flowMsgPrev, center = false
-            let prevReaded, time_scope: any = null
+    //     await msg_res.messages.forEach((msg_item: any, index: number) => {
+    //         //let userId = currentChat.user.find((id: any) => id === msg.from)
+    //         // let user = userStore.getUser(userId)
+    //         //let role = chat.role.find((role: any) => role.id === msg.from)
+    //         //let prevUser, nextUser: any
+    //         let prevMsg: any;
+    //         let flowMsgNext, flowMsgPrev, center = false
+    //         let prevReaded, time_scope: any = null
 
-            if (msg_res.messages[index - 1]) {
-                prevMsg = msg_res.messages[index - 1]
-                if (prevMsg) prevReaded = prevMsg.readed
-            }
-            if (msg_res.messages[index + 1]) {
-                //nextMsg = msg_res.messages[index + 1]
-                //nextUser = userStore.getUser(nextMsg.from)
-            }
-            if (prevMsg && prevMsg.date !== msg_item.date) {
-                time_scope = msg_item.date
-            } else {
-                time_scope = null
-            }
-            // if (nextUser && nextUser.id === userId) flowMsgNext = true
-            // if (prevUser && prevUser.id === userId) flowMsgPrev = true
-            // if (flowMsgNext && flowMsgPrev) if (prevUser.id === user.id && nextUser.id === user.id) center = true
-            const msg = {
-                time_scope,
-                prevReaded,
-                flowMsgNext,
-                flowMsgPrev,
-                center,
-                ...msg_item,
-                read() {
-                    this.readed = true
-                },
-                addSmile(smile: any) {
-                    this.smiles.push(smile);
-                },
-                editMsg(value: string) {
-                    this.content = value;
-                    this.editted = true;
-                }
-                //avatar: contact_item.avatar
-            }
-            msgArray.unshift(msg)
-        });
+    //         if (msg_res.messages[index - 1]) {
+    //             prevMsg = msg_res.messages[index - 1]
+    //             if (prevMsg) prevReaded = prevMsg.readed
+    //         }
+    //         if (msg_res.messages[index + 1]) {
+    //             //nextMsg = msg_res.messages[index + 1]
+    //             //nextUser = userStore.getUser(nextMsg.from)
+    //         }
+    //         if (prevMsg && prevMsg.date !== msg_item.date) {
+    //             time_scope = msg_item.date
+    //         } else {
+    //             time_scope = null
+    //         }
+    //         // if (nextUser && nextUser.id === userId) flowMsgNext = true
+    //         // if (prevUser && prevUser.id === userId) flowMsgPrev = true
+    //         // if (flowMsgNext && flowMsgPrev) if (prevUser.id === user.id && nextUser.id === user.id) center = true
+    //         const msg = {
+    //             time_scope,
+    //             prevReaded,
+    //             flowMsgNext,
+    //             flowMsgPrev,
+    //             center,
+    //             ...msg_item,
+    //             read() {
+    //                 this.readed = true
+    //             },
+    //             addSmile(smile: any) {
+    //                 this.smiles.push(smile);
+    //             },
+    //             editMsg(value: string) {
+    //                 this.content = value;
+    //                 this.editted = true;
+    //             }
+    //             //avatar: contact_item.avatar
+    //         }
+    //         msgArray.unshift(msg)
+    //     });
 
-        if (this.activeChat && this.activeChat.msg) {
-            this.activeChat.msg[0] = msgArray
-        }
-    }
+    //     if (this.activeChat && this.activeChat.msg) {
+    //         this.activeChat.msg[0] = msgArray
+    //     }
+    //     return null
+    // }
 
 
 
@@ -334,19 +335,19 @@ export class ChatStore implements IChatStore {
     }
 
 
-    @action
-    readAllMsg(chat_id: string) {
-        let chat = this.chat.find((chat_item: IChat) => chat_item.id === chat_id)
-        for (let i = chat.msg.length; i > 0; i--) {
-            const msg = chat.msg[i - 1];
-            if (msg.readed) {
-                break;
-            } else {
-                msg.read()
-            }
-        }
-        contactStore.setStatus(chat.contact_id, 'readed')
-    }
+    // @action
+    // readAllMsg(chat_id: string) {
+    //     let chat = this.chat.find((chat_item: IChat) => chat_item.id === chat_id)
+    //     for (let i = chat.msg.length; i > 0; i--) {
+    //         const msg = chat.msg[i - 1];
+    //         if (msg.readed) {
+    //             break;
+    //         } else {
+    //             msg.read()
+    //         }
+    //     }
+    //     contactStore.setStatus(chat.contact_id, 'readed')
+    // }
 
 
 
