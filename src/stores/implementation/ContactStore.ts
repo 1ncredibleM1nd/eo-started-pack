@@ -49,11 +49,14 @@ export class ContactStore implements IContactStore {
     @action
     setActiveContact(id: string) {
         if (id === null) {
+            chatStore.currentChatPageNumber = 1
             this.activeContact = null
         } else if (this.activeContact && this.activeContact.id === id) {
+            chatStore.currentChatPageNumber = 1
             this.activeContact = null
         } else {
             this.activeContact = this.contact.find(item => item.id === id);
+            chatStore.currentChatPageNumber = 1
             chatStore.init(this.activeContact)
         }
     }

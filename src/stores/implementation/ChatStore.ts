@@ -16,6 +16,7 @@ export class ChatStore implements IChatStore {
     @observable activeChat: IChat;
     @observable activeMsg: IMsg;
     @observable modalWindow: string = 'close'
+    currentChatPageNumber: number = 1
     sendingMsg: boolean = false
 
 
@@ -30,6 +31,13 @@ export class ChatStore implements IChatStore {
 
     changeSocial: (social: string) => void;
 
+
+    @action
+    addPageNumber() {
+        this.currentChatPageNumber += 1
+    }
+
+
     @action
     async sendMessage(message: string, conversationSourceAccountId: any, school: string) {
         this.sendingMsg = true
@@ -39,11 +47,21 @@ export class ChatStore implements IChatStore {
 
 
     @action
-    async loadMessages(contact_id: string, numPages: number) {
+    async loadMessages(contact_id: string, pageNum?: number) {
+
+
 
         if (this.sendingMsg) return null
 
-        const msg_res = await getMessages(contact_id, 4, appStore.school)
+        let pageNumber: any;
+
+        if (pageNum) {
+            pageNumber = pageNum
+        } else {
+            pageNumber = this.currentChatPageNumber
+        }
+
+        const msg_res = await getMessages(contact_id, pageNumber, appStore.school)
         let msgArray: any = []
 
         await msg_res.messages.forEach((msg_item: any, index: number) => {
@@ -92,7 +110,19 @@ export class ChatStore implements IChatStore {
             }
             msgArray.push(msg)
         });
-        return msgArray
+
+        if (this.activeChat && this.activeChat.msg) {
+            if (this.activeChat.msg[this.activeChat.msg.length - 1].id === msgArray[msgArray.length - 1].id) {
+                console.log('Не добавлять')
+                return this.activeChat.msg
+            } else {
+                console.log('Добавлять')
+                return [...this.activeChat.msg, ...msgArray]
+            }
+        } else {
+            console.log('Первый раз')
+            return msgArray
+        }
     }
 
 
@@ -236,7 +266,7 @@ export class ChatStore implements IChatStore {
     async init(activeContact: any) {
         if (activeContact) {
             let messages: any = []
-            if (contactStore.activeContact) messages = await this.loadMessages(activeContact.id, 2)
+            if (contactStore.activeContact) messages = await this.loadMessages(activeContact.id, this.currentChatPageNumber)
 
             let chat: any = {
                 contact_id: activeContact.id,
@@ -258,7 +288,6 @@ export class ChatStore implements IChatStore {
                 console.log('Подгрузка чата')
                 this.loaded = true
                 this.activeChat = chat
-                $(".msg_space").animate({ scrollTop: $('.msg_space').prop("scrollHeight") }, 0);
             }
         }
     }

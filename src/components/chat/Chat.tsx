@@ -8,6 +8,7 @@ import './Chat.scss'
 import Inputer from './comp/Inputer'
 import PuffLoader from "react-spinners/PuffLoader";
 import ChatPlaceholder from './comp/ChatPlaceholder'
+import $ from 'jquery'
 
 
 type IProps = {
@@ -26,8 +27,6 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
         const [switcher, setSwitcher] = useState('')
         const [status, setStatus] = useState('default')
         const [reRender, setReRender] = useState(false)
-        const [numPages, setNumPages] = useState(1)
-
 
 
         let currentChat: any;
@@ -90,15 +89,16 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
         const handleScroll = async () => {
 
             // Пагинация сообщений включается здесь
+            if ($('.msg_space').scrollTop() <= 10) {
+                $(".msg_space").animate({ scrollTop: 500 }, 0);
+                let res = await chatStore.loadMessages(activeContact.id, chatStore.currentChatPageNumber + 1)
 
-            // if ($('.msg_space').scrollTop() <= 50) {
-            //     let res = await chatStore.loadMessages(activeContact.id, numPages + 1)
-            //     if (res.messages.length) {
-            //         setNumPages(numPages + 1)
-            //     }
-            // }
-
-            setNumPages(1)
+                if (res.length) {
+                    setTimeout(() => {
+                        chatStore.addPageNumber()
+                    }, 250)
+                }
+            }
 
             if (switcher !== 'social') {
                 switcherOff()
@@ -106,7 +106,7 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
         }
 
         if (currentChat && !currentChat.msg && activeContact) {
-            chatStore.loadMessages(activeContact.id, numPages)
+            chatStore.loadMessages(activeContact.id)
             return (
                 <div className="chat">
                     <div className="loading chat_loading">
