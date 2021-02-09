@@ -115,10 +115,9 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
 
         if (!currentChat) {
             return (
+
                 <div className="chat">
-                    <div className="loading chat_loading">
-                        <PuffLoader color='#3498db' size={50} />
-                    </div>
+                    <ChatPlaceholder />
                 </div>
             )
         }
