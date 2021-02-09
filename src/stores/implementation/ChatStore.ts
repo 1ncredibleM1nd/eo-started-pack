@@ -54,12 +54,15 @@ export class ChatStore implements IChatStore {
     }
 
 
-
-
-
     @action
     async loadMessages(contact_id: string, pageNum?: number) {
         if (this.pageLoading) return null
+
+
+
+        if (this.activeChat && this.activeChat.msg && this.activeChat.msg[0].length <= 29) {
+            return null
+        }
 
         let messages: IMsg[][] = []
         this.pageLoading = true
