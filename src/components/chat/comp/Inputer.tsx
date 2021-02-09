@@ -110,12 +110,12 @@ const Inputer = inject((stores: IStores) => ({ chatStore: stores.chatStore, cont
       switch (status) {
         case 'default':
           if (draft[activeContact.id + status] && draft[activeContact.id + status].length) {
-            chatStore.addMsg(draft[activeContact.id + status], hero.id, currentChat.activeSocial, null)
-            chatStore.sendMessage(draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.school)
+            await chatStore.addMsg(draft[activeContact.id + status], hero.id, currentChat.activeSocial, null)
+            await chatStore.sendMessage(draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.school)
+            await chatStore.loadMessages(activeContact.id, 1)
 
             //sendMsg(currentChat.id, draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.school)
             //sendMsg(currentChat.id, draft[activeContact.id + status])
-            await chatStore.loadMessages(activeContact.id, 1)
           }
           setDraft({ ...draft, [activeContact.id + status]: '' })
           break;
