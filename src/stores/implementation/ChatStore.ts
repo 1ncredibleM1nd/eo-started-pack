@@ -60,10 +60,6 @@ export class ChatStore implements IChatStore {
 
 
 
-        if (this.activeChat && this.activeChat.msg && this.activeChat.msg[0].length <= 29) {
-            return null
-        }
-
         let messages: IMsg[][] = []
         this.pageLoading = true
 
@@ -76,13 +72,20 @@ export class ChatStore implements IChatStore {
             }
 
             await pageContent.messages.forEach((msg_item: any, index: number) => {
+
+                console.log('msg_item', msg_item)
+
                 //let userId = currentChat.user.find((id: any) => id === msg.from)
                 // let user = userStore.getUser(userId)
                 //let role = chat.role.find((role: any) => role.id === msg.from)
                 //let prevUser, nextUser: any
+
                 let prevMsg: any;
+
                 let flowMsgNext, flowMsgPrev, center = false
                 let prevReaded, time_scope: any = null
+
+
 
                 if (pageContent.messages[index - 1]) {
                     prevMsg = pageContent.messages[index - 1]
@@ -97,9 +100,13 @@ export class ChatStore implements IChatStore {
                 } else {
                     time_scope = null
                 }
+
                 // if (nextUser && nextUser.id === userId) flowMsgNext = true
                 // if (prevUser && prevUser.id === userId) flowMsgPrev = true
                 // if (flowMsgNext && flowMsgPrev) if (prevUser.id === user.id && nextUser.id === user.id) center = true
+
+
+
                 const msg = {
                     time_scope,
                     prevReaded,
@@ -382,7 +389,12 @@ export class ChatStore implements IChatStore {
                 }
             }
 
+
+
+
             if (JSON.stringify(this.activeChat) !== JSON.stringify(chat)) {
+
+
 
                 this.loaded = true
                 this.activeChat = chat

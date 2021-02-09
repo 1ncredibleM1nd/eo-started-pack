@@ -87,6 +87,22 @@ export class ContactStore implements IContactStore {
         }
 
         if (JSON.stringify(this.contact) !== JSON.stringify(dataContact)) {
+
+            let diffIndex: any
+
+            for (let i = 0; i < this.contact.length; i++) {
+                const localContact = this.contact[i];
+                let serverContact = dataContact[i]
+                if (!serverContact) continue;
+                if (this.activeContact && this.activeContact.id === localContact.id) {
+                    if (localContact.last_message.id !== serverContact.last_message.id) {
+                        console.log('Обновить текущий чат')
+                        await chatStore.loadMessages(this.activeContact.id, 1)
+                    }
+                }
+
+            }
+
             this.contact = dataContact;
         }
     }
