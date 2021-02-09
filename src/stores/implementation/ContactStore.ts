@@ -88,7 +88,6 @@ export class ContactStore implements IContactStore {
 
         if (JSON.stringify(this.contact) !== JSON.stringify(dataContact)) {
 
-            let diffIndex: any
 
             for (let i = 0; i < this.contact.length; i++) {
                 const localContact = this.contact[i];

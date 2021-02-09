@@ -65,6 +65,8 @@ export class ChatStore implements IChatStore {
 
         for (let i = 1; i <= pageNum; i++) {
             const pageArray: IMsg[] = []
+
+
             let pageContent = await getMessages(contact_id, i, appStore.school)
 
             if (pageContent.messages.length === 0) {
@@ -72,6 +74,7 @@ export class ChatStore implements IChatStore {
             }
 
             await pageContent.messages.forEach((msg_item: any, index: number) => {
+
 
                 console.log('msg_item', msg_item)
 
@@ -133,7 +136,8 @@ export class ChatStore implements IChatStore {
 
         if (this.activeChat && this.activeChat.msg) {
             this.activeChat.msg = messages
-            console.log(messages)
+            console.log('Длинна последнего сообщения', this.activeChat.msg[0].length)
+
             if ($(`.page-${this.activeChatPageNumber}`)) {
                 $('.msg_space').animate({ scrollTop: $(`.page-1`).height() + 500 }, 0);
                 setTimeout(() => {
