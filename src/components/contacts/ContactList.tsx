@@ -5,6 +5,7 @@ import { Badge } from 'antd';
 import HashLoader from "react-spinners/HashLoader";
 import './ContactList.scss'
 import './Contact.scss'
+
 // import { getMessages } from '@actions'
 
 type IProps = {
@@ -65,10 +66,11 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
         }
 
 
-        const selectContact = (id: any) => {
+        const selectContact = async (id: any) => {
             if (onSelect) onSelect()
+
             contactStore.setActiveContact(id)
-            chatStore.setActiveChat(id)
+            chatStore.init(contactStore.activeContact)
             appStore.setLayout('chat')
         }
 
@@ -95,6 +97,8 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
 
                                             //const last_message_id = chatStore.getMsg(contact.last_message_id, contact.chat_id);
                                             // const last_message = getMessages(contact.id)
+
+                                            console.log('contact', contact)
 
                                             const last_message = contact.last_message
                                             let online = contact.online
@@ -127,7 +131,7 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
                                                             <div className="chat-time">
                                                                 {
                                                                     last_message ? (<Fragment>
-                                                                        <span>{last_message.time}</span>
+                                                                        <span>{last_message.date} {last_message.time}</span>
                                                                     </Fragment>) : (<Fragment></Fragment>)
                                                                 }
 

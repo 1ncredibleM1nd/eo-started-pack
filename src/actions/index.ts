@@ -17,7 +17,7 @@ function getConversations(school: string) {
 
     return axios.get(`${origin}/v1/conversation/get-conversations?school=${school}&page=${1}`).then(response => {
 
-        console.log('getConversations', response.data.data)
+        // console.log('getConversations', response.data.data)
 
         return {
             data: response.data.data,

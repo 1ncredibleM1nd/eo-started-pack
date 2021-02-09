@@ -2,6 +2,7 @@
 import { action, computed, observable, reaction } from 'mobx'
 import { IContactStore, IContact } from '@stores/interface';
 import { chatStore } from '@stores/implementation';
+import $ from 'jquery'
 
 export class ContactStore implements IContactStore {
     @observable contact: IContact[] = [];
@@ -52,13 +53,22 @@ export class ContactStore implements IContactStore {
             chatStore.activeChatPageNumber = 1
             this.activeContact = null
         } else if (this.activeContact && this.activeContact.id === id) {
+            console.log('Попадаю сюда')
             chatStore.activeChatPageNumber = 1
             this.activeContact = null
         } else {
+            chatStore.setActiveChat(null)
             this.activeContact = this.contact.find(item => item.id === id);
             chatStore.activeChatPageNumber = 1
             chatStore.init(this.activeContact)
         }
+    }
+
+
+    @action
+    getAvatar(id: string) {
+        let contact = this.getContact(id)
+        return contact.avatar
     }
 
     @action
@@ -95,8 +105,8 @@ export class ContactStore implements IContactStore {
                 if (!serverContact) continue;
                 if (this.activeContact && this.activeContact.id === localContact.id) {
                     if (localContact.last_message.id !== serverContact.last_message.id) {
-                        console.log('Обновить текущий чат')
                         await chatStore.loadMessages(this.activeContact.id, 1)
+                        $(".msg_space").animate({ scrollTop: $('.msg_space').prop("scrollHeight") }, 0);
                     }
                 }
 

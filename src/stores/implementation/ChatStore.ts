@@ -47,6 +47,11 @@ export class ChatStore implements IChatStore {
         this.activeChatPageNumber = number
     }
 
+    @action
+    setActiveChat(chat: any) {
+        this.activeChat = chat
+    }
+
 
     @action
     async sendMessage(message: string, conversationSourceAccountId: any, school: string) {
@@ -75,8 +80,7 @@ export class ChatStore implements IChatStore {
 
             await pageContent.messages.forEach((msg_item: any, index: number) => {
 
-
-                console.log('msg_item', msg_item)
+                let avatar = contactStore.getAvatar(contact_id)
 
                 //let userId = currentChat.user.find((id: any) => id === msg.from)
                 // let user = userStore.getUser(userId)
@@ -116,6 +120,7 @@ export class ChatStore implements IChatStore {
                     flowMsgNext,
                     flowMsgPrev,
                     center,
+                    avatar,
                     ...msg_item,
                     read() {
                         this.readed = true
@@ -136,10 +141,16 @@ export class ChatStore implements IChatStore {
 
         if (this.activeChat && this.activeChat.msg) {
             this.activeChat.msg = messages
-            console.log('Длинна последнего сообщения', this.activeChat.msg[0].length)
+
+
 
             if ($(`.page-${this.activeChatPageNumber}`)) {
-                $('.msg_space').animate({ scrollTop: $(`.page-1`).height() + 500 }, 0);
+
+                console.log('Длинна последней страницы', this.activeChat.msg[0].length)
+                if (this.activeChat.msg[0].length > 29) {
+                    $('.msg_space').animate({ scrollTop: $(`.page-1`).height() + 500 }, 0);
+                }
+
                 setTimeout(() => {
                     this.pageLoading = false
                     this.addPageNumber()
@@ -227,17 +238,18 @@ export class ChatStore implements IChatStore {
         return null
     }
 
+
     @action
     getChat_contactId(contact_id: string): IChat {
         const chat = this.chat.find((chat_item: IChat) => chat_item.contact_id === contact_id)
-        this.activeChat = chat;
+        //this.activeChat = chat;
         return chat
     }
 
     @action
     getChat(id: string): IChat {
         const chat = this.chat.find((chat_item: IChat) => chat_item.id === id)
-        this.activeChat = chat;
+        //this.activeChat = chat;
         return chat
     }
 
@@ -285,8 +297,10 @@ export class ChatStore implements IChatStore {
         if (this.activeChat) {
             let id = 'msg_' + Math.random()
             contactStore.setLastMsg(this.activeChat.contact_id, `msg_${id}`)
+            let avatar = contactStore.getAvatar(this.activeChat.contact_id,)
             let msg: IMsg = {
                 id: `msg_${id}`,
+                avatar: avatar,
                 from: from,
                 social_media: social_media,
                 content: content,
@@ -341,14 +355,6 @@ export class ChatStore implements IChatStore {
         }
     }
 
-    @action
-    setActiveChat(id: string) {
-        let chat = this.chat.find((chat_item: IChat) => chat_item.contact_id === id)
-
-        this.activeChat = chat
-    }
-
-
     // @action
     // readAllMsg(chat_id: string) {
     //     let chat = this.chat.find((chat_item: IChat) => chat_item.id === chat_id)
@@ -368,7 +374,6 @@ export class ChatStore implements IChatStore {
     @action
     async init(activeContact: any) {
         if (activeContact) {
-
             let messages: any
             if (this.activeChat && this.activeChat.msg) {
                 //await this.updateMessages(activeContact.id)
@@ -393,13 +398,8 @@ export class ChatStore implements IChatStore {
                 }
             }
 
-
-
-
             if (JSON.stringify(this.activeChat) !== JSON.stringify(chat)) {
-
-
-
+                console.log('setting activeChat')
                 this.loaded = true
                 this.activeChat = chat
             }

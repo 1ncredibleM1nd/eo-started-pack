@@ -110,8 +110,20 @@ const Chat = inject((stores: IStores) => ({ chatStore: stores.chatStore, contact
 
         }
 
+
+        console.log('currentChat', currentChat)
+
+        if (!currentChat) {
+            return (
+                <div className="chat">
+                    <div className="loading chat_loading">
+                        <PuffLoader color='#3498db' size={50} />
+                    </div>
+                </div>
+            )
+        }
+
         if (currentChat && !currentChat.msg && activeContact) {
-            chatStore.loadMessages(activeContact.id)
             return (
                 <div className="chat">
                     <div className="loading chat_loading">

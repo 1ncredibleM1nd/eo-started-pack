@@ -3,6 +3,7 @@ export default interface IContact {
     last_message: any;
     length: number;
     find(arg0: (user: any) => boolean): any;
+    avatar: string;
     online: boolean;
     chat_id: string;
     name: string,
