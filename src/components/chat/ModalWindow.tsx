@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { inject, observer } from 'mobx-react';
 import IStores, { IChatStore, IContactStore, IUserStore, } from '@stores/interface';
-// import { Modal, Button, Popover, Menu, Divider, Switch, Collapse, Badge } from 'antd';
+// import { SetingsModal, Button, Popover, Menu, Divider, Switch, Collapse, Badge } from 'antd';
 import './ModalWindow.scss'
 // import { Icon } from '@ui'
 
@@ -125,8 +125,8 @@ const ModalWindow = inject((stores: IStores) => ({ chatStore: stores.chatStore, 
 
         return (
             <Fragment>
-                {/* 
-                <Modal title="Настройки группы" visible={status === 'group'} onOk={handleSelect} onCancel={handleCancel} footer={[<Fragment></Fragment>]}>
+                {/*
+                <SetingsModal title="Настройки группы" visible={status === 'group'} onOk={handleSelect} onCancel={handleCancel} footer={[<Fragment></Fragment>]}>
                     {
                         contact ? (<Fragment>
                             <div className="modal_window">
@@ -230,9 +230,9 @@ const ModalWindow = inject((stores: IStores) => ({ chatStore: stores.chatStore, 
                             </div >
                         </Fragment>) : (<Fragment></Fragment>)
                     }
-                </Modal >
+                </SetingsModal >
 
-                <Modal title="Профиль пользователя" visible={status === 'user'} onOk={handleSelect} onCancel={handleCancel} footer={[<Fragment></Fragment>]}>
+                <SetingsModal title="Профиль пользователя" visible={status === 'user'} onOk={handleSelect} onCancel={handleCancel} footer={[<Fragment></Fragment>]}>
 
                     {
                         user ? (<Fragment>
@@ -385,7 +385,7 @@ const ModalWindow = inject((stores: IStores) => ({ chatStore: stores.chatStore, 
                             </div >
                         </Fragment>) : (<Fragment></Fragment>)
                     }
-                </Modal > */}
+                </SetingsModal > */}
             </Fragment >
 
         );

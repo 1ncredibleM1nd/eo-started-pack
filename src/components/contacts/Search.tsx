@@ -135,11 +135,11 @@ const Search = inject((stores: IStores) => ({ contactStore: stores.contactStore,
                     </div> */}
 
                     <div className="search">
-                        <div className="search-filter">
-                            <Button onClick={() => setSwitcher(!switcher)} className='transparent'>
-                                <Icon name='solid_cog' className={`icon_s ${switcher ? 'accent' : 'blue-lite'}`} />
-                            </Button>
-                        </div>
+                        {/*<div className="search-filter">*/}
+                        {/*    <Button onClick={() => setSwitcher(!switcher)} className='transparent'>*/}
+                        {/*        <Icon name='solid_cog' className={`icon_s ${switcher ? 'accent' : 'blue-lite'}`} />*/}
+                        {/*    </Button>*/}
+                        {/*</div>*/}
                         <div className="search-input">
                             <Search placeholder="Поиск..." value={searchText} onChange={(e) => onChange(e.target.value)} enterButton />
                         </div>

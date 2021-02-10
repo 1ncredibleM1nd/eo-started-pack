@@ -125,7 +125,7 @@ const User = inject((stores: IStores) => ({contactStore: stores.contactStore,}))
                     </div>
 
                 </div>
-                <div className="container pt-2 mt-3 border">
+                <div className="mt-3 border">
                     <ComentsBlock/>
                 </div>
             </div>
