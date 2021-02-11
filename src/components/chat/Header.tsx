@@ -201,7 +201,8 @@ const Header = inject((stores: IStores) => ({ appStore: stores.appStore, chatSto
                                             <div className="trigger">
                                                 <Popover onVisibleChange={(e) => { e ? {} : setModal(false) }} visible={modal} content={<DropDownMenu />} trigger="click">
                                                     <Button onClick={() => setModal(!modal)} className='transparent'>
-                                                        <Icon className='icon_s lite-grey rotated' name={`regular_three-dots`} />
+                                                        {/*потом открыь*/}
+                                                      {/*  <Icon className='icon_s lite-grey rotated' name={`regular_three-dots`} />*/}
                                                     </Button>
                                                 </Popover>
                                             </div>

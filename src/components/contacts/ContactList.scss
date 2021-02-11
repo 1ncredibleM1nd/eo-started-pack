@@ -1,15 +1,21 @@
 .contacts-list {
-    padding: 0 !important;
+  padding: 0 !important;
 
-    .contacts-content {
-        padding-left: 10px;
+  .contacts-content {
+    padding-left: 10px;
+  }
+
+  .contacts-item {
+    margin: 0 !important;
+
+    &:hover {
+      background: #1111110a;
     }
-
-    .contacts-item {
-        margin: 0 !important;
-
-        &:hover {
-            background: #1111110a;
-        }
+  }
+//временно
+  .avatar {
+    .ant-scroll-number.ant-badge-dot {
+      display: none;
     }
+  }
 }

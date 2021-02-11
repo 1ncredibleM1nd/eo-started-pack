@@ -3,12 +3,9 @@ import {inject, observer} from 'mobx-react';
 import IStores, {IChatStore} from '@stores/interface';
 import {Collapse, Modal} from 'antd';
 import {MoreOutlined, FormOutlined} from "@ant-design/icons";
+import RedactMod from "@components/chat/comp/seting-modal/RedactMod";
 
-const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
+
 
 type IProps = {
     chatStore?: IChatStore,
@@ -128,13 +125,22 @@ const SetingsMo = inject((stores: IStores) => ({chatStore: stores.chatStore}))(
                     <button>456456</button>
                     <button>456456</button>
                 </div>
-                <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
+                <Modal title={<div className='d-flex justify-content-between align-items-center modal_header'>
+                    <p>Редактор быстрых ответов</p>
+                    <span className='d-flex justify-content-between align-items-center'>создать<FormOutlined/></span>
+                </div>}
+                       visible={isModalVisible}
+                       onOk={handleOk}
+                       onCancel={handleCancel}
+                       footer={null}
+                       className='w-75'
+                >
+               <RedactMod/>
                 </Modal>
             </>
         );
+
+
     }));
 
 export default SetingsMo;

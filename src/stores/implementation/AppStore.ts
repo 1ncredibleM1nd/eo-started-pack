@@ -672,7 +672,7 @@ export class AppStore implements IAppStore {
             const hero = {
                 username: "Бильбо Бэггинс",
                 avatar: 'https://i.pinimg.com/736x/9a/bd/a5/9abda5b52a61284f7e39101cd84edfd2--hobbit--lord-of-the-rings.jpg',
-                id: "user_0",
+                id: "user_0", //int
                 unic: '@bilbo_beggins'
             }
 

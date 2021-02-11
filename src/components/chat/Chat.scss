@@ -116,6 +116,46 @@
   height: 100%;
 }
 
+.modal_header {
+  width: 40%;
+
+  p {
+    margin-bottom: 0;
+    font-size: 18px;
+  }
+
+  span {
+    width: 25%;
+    align-items: center;
+    font-size: 24px;
+    color: #3498DB;
+  }
+}
+
+.search_input {
+  width: 100%;
+
+  span {
+    font-size: 20px;
+    color: #3498DB
+  }
+}
+
+.create_cat_block {
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+    input {
+      padding: 1% 2%;
+      border: 1px solid #F1F4F9;
+      border-radius: 8px;
+    }
+  }
+}
+
+
 .contact_layout_container {
   position: relative;
 

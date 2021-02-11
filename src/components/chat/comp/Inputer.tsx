@@ -14,7 +14,7 @@ type IProps = {
     contactStore?: IContactStore,
     userStore?: IUserStore,
     appStore?: IAppStore
-    helperMenu?:any
+    helperMenu?: any
 }
 
 const Inputer = inject((stores: IStores) => ({
@@ -89,60 +89,60 @@ const Inputer = inject((stores: IStores) => ({
 
         const handleEnter = async (e: any) => {
 
-      e.preventDefault();
-      if (keys.alt || keys.shift || keys.ctrl) {
-        let text = ''
-        if (draft[activeContact.id + status]) text = draft[activeContact.id + status] + '\n'
-        setDraft({ ...draft, [activeContact.id + status]: text })
-      } else {
-        if (draft[activeContact.id + status] && draft[activeContact.id + status].length) {
-          await chatStore.addMsg(draft[activeContact.id + status], hero.id, currentChat.activeSocial, null)
-          $(".msg_space").animate({ scrollTop: $('.msg_space').prop("scrollHeight") }, 0);
-          await chatStore.sendMessage(draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.school)
-          await chatStore.loadMessages(activeContact.id, 1)
-          //sendMsg(currentChat.id, draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.school)
-          //sendMsg(currentChat.id, draft[activeContact.id + status])
+            e.preventDefault();
+            if (keys.alt || keys.shift || keys.ctrl) {
+                let text = ''
+                if (draft[activeContact.id + status]) text = draft[activeContact.id + status] + '\n'
+                setDraft({...draft, [activeContact.id + status]: text})
+            } else {
+                if (draft[activeContact.id + status] && draft[activeContact.id + status].length) {
+                    await chatStore.addMsg(draft[activeContact.id + status], hero.id, currentChat.activeSocial, null)
+                    $(".msg_space").animate({scrollTop: $('.msg_space').prop("scrollHeight")}, 0);
+                    await chatStore.sendMessage(draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.school)
+                    await chatStore.loadMessages(activeContact.id, 1)
+                    //sendMsg(currentChat.id, draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.school)
+                    //sendMsg(currentChat.id, draft[activeContact.id + status])
+                }
+                setDraft({...draft, [activeContact.id + status]: ''})
+            }
         }
-        setDraft({ ...draft, [activeContact.id + status]: '' })
-      }
-    }
 
         const onChange = (name: string, value: string, event: any) => {
             setDraft({...draft, [name + status]: value})
         }
 
 
-    const onSend = async () => {
-      switch (status) {
-        case 'default':
-          if (draft[activeContact.id + status] && draft[activeContact.id + status].length) {
-            await chatStore.addMsg(draft[activeContact.id + status], hero.id, currentChat.activeSocial, null)
-            await chatStore.sendMessage(draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.school)
-            await chatStore.loadMessages(activeContact.id, 1)
+        const onSend = async () => {
+            switch (status) {
+                case 'default':
+                    if (draft[activeContact.id + status] && draft[activeContact.id + status].length) {
+                        await chatStore.addMsg(draft[activeContact.id + status], hero.id, currentChat.activeSocial, null)
+                        await chatStore.sendMessage(draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.school)
+                        await chatStore.loadMessages(activeContact.id, 1)
 
-            //sendMsg(currentChat.id, draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.school)
-            //sendMsg(currentChat.id, draft[activeContact.id + status])
-          }
-          setDraft({ ...draft, [activeContact.id + status]: '' })
-          break;
-        case 'edit':
-          activeMsg.editMsg(draft[activeContact.id + status])
-          setDraft({ ...draft, [activeContact.id + status]: '' })
-          chatStore.setActiveMsg(null, currentChat.id)
-          setStatus('default')
-          break;
-        case 'reply':
-          chatStore.addMsg(draft[activeContact.id + status], hero.id, currentChat.activeSocial, activeMsg['content'])
-          setDraft({ ...draft, [activeContact.id + 'default']: '', [activeContact.id + status]: '' })
-          chatStore.setActiveMsg(null, currentChat.id)
-          setStatus('default')
-          break;
-        default:
-          break;
-      }
-      $('.main_input input').val('');
-      $(".msg_space").animate({ scrollTop: $('.msg_space').prop("scrollHeight") }, 0);
-    }
+                        //sendMsg(currentChat.id, draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.school)
+                        //sendMsg(currentChat.id, draft[activeContact.id + status])
+                    }
+                    setDraft({...draft, [activeContact.id + status]: ''})
+                    break;
+                case 'edit':
+                    activeMsg.editMsg(draft[activeContact.id + status])
+                    setDraft({...draft, [activeContact.id + status]: ''})
+                    chatStore.setActiveMsg(null, currentChat.id)
+                    setStatus('default')
+                    break;
+                case 'reply':
+                    chatStore.addMsg(draft[activeContact.id + status], hero.id, currentChat.activeSocial, activeMsg['content'])
+                    setDraft({...draft, [activeContact.id + 'default']: '', [activeContact.id + status]: ''})
+                    chatStore.setActiveMsg(null, currentChat.id)
+                    setStatus('default')
+                    break;
+                default:
+                    break;
+            }
+            $('.main_input input').val('');
+            $(".msg_space").animate({scrollTop: $('.msg_space').prop("scrollHeight")}, 0);
+        }
 
 
         const DropDownAttacments = () => {

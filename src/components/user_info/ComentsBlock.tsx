@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { inject, observer } from "mobx-react";
 import IStores from "@stores/interface";
 import './ComentsBlock.scss'
-import { Avatar, Checkbox } from 'antd';
 import {Avatar, Checkbox, Input, DatePicker,} from 'antd';
 import {MoreOutlined, CheckOutlined} from '@ant-design/icons';
 

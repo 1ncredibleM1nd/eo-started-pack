@@ -50,6 +50,7 @@ export class ChatStore implements IChatStore {
     @action
     setActiveChat(chat: any) {
         this.activeChat = chat
+        console.log(chat,'adas')
     }
 
 

@@ -137,7 +137,8 @@ const Chat = inject((stores: IStores) => ({
                 </div>
             )
         }
-
+        currentChat.msg.map(prop => console.log(prop,456))
+        console.log(hero);
 
         console.log('rerender chat')
 
@@ -152,7 +153,6 @@ const Chat = inject((stores: IStores) => ({
                                         <div className={`page page-${index + 1}`}>
                                             {
                                                 page.map((msg: IMsg) => {
-
                                                     if (msg.from !== hero.id) {
                                                         return (
                                                             <Fragment>
