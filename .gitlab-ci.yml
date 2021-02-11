@@ -1,15 +1,15 @@
 image: node:8
 stages:
-    - build_quick
+    - build_makeup
     - build_deploy
     - build_master
 
-build_quick:
-    stage: build_quick
+build_makeup:
+    stage: build_makeup
     only:
-        - quick
+        - makeup
     script:
-        - sshpass ssh -t admin@84.201.139.43 "cd web/chat.dev.prodamus.pro/public_html && git checkout -f && git pull origin dev && npm install && npm run build"
+        - sshpass ssh -t admin@84.201.139.43 "cd web/chat.makeup.dev.prodamus.pro/public_html && git checkout -f && git pull origin dev && npm install && npm run build"
 
 build_deploy:
     stage: build_deploy
