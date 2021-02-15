@@ -45,9 +45,8 @@ export class AuthStore implements IAuthStore {
                     setSession(url.encrypted_session_data)
                 }
             }
-
             if (!data.success) {
-            // window.location.href = `https://account.dev.prodamus.ru/?redirect_url=${window.location.href}`
+             window.location.href = `https://account.dev.prodamus.ru/?redirect_url=${window.location.href}`
             } else {
                 this.setToken(data.token)
             }

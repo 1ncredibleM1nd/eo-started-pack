@@ -52,6 +52,7 @@ async function setSession(sessionId: any) {
 
     return axios.post(`/api/v1/user/set-session`, formData, {
         headers: {
+            withCredentials: true,
             'Content-Type': 'application/x-www-form-urlencoded',
         },
     });
