@@ -21,7 +21,7 @@ const InfoLayout = inject((stores: IStores) => ({appStore: stores.appStore}))(
                         <Icon className='icon_s blue-lite' name={`solid_arrow-left`}/>
                     </Button>
                 </div>
-                {/*<User/>*/}
+                <User/>
             </div>
         );
     }));

@@ -96,8 +96,13 @@ export class ChatStore implements IChatStore {
 
 
                 if (pageContent.messages[index - 1]) {
+                    console.log(pageContent,'pageContent')
                     prevMsg = pageContent.messages[index - 1]
-                    if (prevMsg) prevReaded = prevMsg.readed
+                    console.log(prevMsg,'prevMsg');
+                    if (prevMsg) {
+                        console.log(prevMsg.readed,'prevReaded')
+                        prevReaded = prevMsg.readed
+                    }
                 }
                 if (pageContent.messages[index + 1]) {
                     //nextMsg = msg_res.messages[index + 1]

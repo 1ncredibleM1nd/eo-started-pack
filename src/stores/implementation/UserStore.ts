@@ -5,7 +5,6 @@ export class UserStore implements IUserStore {
     @observable hero: IUser;
     @observable avaliableUsers: IUser[] = [];
 
-
     constructor() {
         reaction(() => {
             return this.avaliableUsers;

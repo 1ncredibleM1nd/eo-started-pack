@@ -11,12 +11,7 @@ type IProps = {
 
 const NavBarLayout = inject((stores: IStores) => ({ appStore: stores.appStore }))(
     observer((props: IProps) => {
-
-
-
         const activeMenu = 'chat'
-
-
         return (
             <Layout className='navbar_layout'>
                 <div className="navigation navbar navbar-light bg-primary">

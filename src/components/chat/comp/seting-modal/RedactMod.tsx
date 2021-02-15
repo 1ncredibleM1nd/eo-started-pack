@@ -22,7 +22,6 @@ const RedactMod = inject((stores: IStores) => ({chatStore: stores.chatStore}))(
 
         const onSearch = value => console.log(value);
 
-
         const createNewSelect = () => {
             data = [{
                 id: Date.now(),

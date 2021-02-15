@@ -6,6 +6,7 @@ import IContact from '@stores/interface/IContact'
 import IChat from '@stores/interface/IChat'
 import IMsg from '@stores/interface/IMsg'
 import IUser from '@stores/interface/IUser'
+import IAuthStore from "@stores/interface/app/IAuthStore";
 
 
 export {
@@ -16,7 +17,8 @@ export {
     IUserStore,
     IAppStore,
     IChatStore,
-    IContactStore
+    IContactStore,
+    IAuthStore
 };
 
 /** Наименования строго в camelCase, без префикса I */
@@ -25,5 +27,6 @@ export default interface IStores {
     userStore: IUserStore;
     chatStore: IChatStore;
     appStore: IAppStore;
+    authStore: IAuthStore;
 };
 

@@ -40,13 +40,29 @@ function sendMsg(conversationId: string, message: string, conversationSourceAcco
     })
 }
 
+function isLogged() {
+    return axios.get(`${origin}/v1/account/is-logged`)
+        .then((response) => response)
+        .catch((error) => error)
+}
 
+async function setSession(sessionId: any) {
+    const formData = new FormData();
+    formData.append('encrypted_session_data', sessionId);
 
+    return axios.post(`/api/v1/user/set-session`, formData, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+    });
 
+}
 
 export {
     sendMsg,
     getConversations,
-    getMessages
+    getMessages,
+    isLogged,
+    setSession
 
 };

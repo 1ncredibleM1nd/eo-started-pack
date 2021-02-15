@@ -79,7 +79,6 @@ const SetingsMo = inject((stores: IStores) => ({chatStore: stores.chatStore}))(
             },]
         ]
         const callback = (key) => {
-            console.log(key, 789879);
         }
 
         const [isModalVisible, setIsModalVisible] = useState(false);

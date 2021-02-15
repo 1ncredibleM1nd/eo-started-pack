@@ -70,25 +70,7 @@ const Inputer = inject((stores: IStores) => ({
             }
         }
 
-        const handleKeyUp = (e: any) => {
-            switch (e.key) {
-                case 'Control':
-                    setKeys({...keys, ctrl: false})
-                    break;
-                case 'Shift':
-                    setKeys({...keys, shift: false})
-                    break;
-                case 'Alt':
-                    setKeys({...keys, alt: false})
-                    break;
-                default:
-                    break;
-            }
-        }
-
-
         const handleEnter = async (e: any) => {
-
             e.preventDefault();
             if (keys.alt || keys.shift || keys.ctrl) {
                 let text = ''
@@ -107,8 +89,26 @@ const Inputer = inject((stores: IStores) => ({
             }
         }
 
+        const handleKeyUp = (e: any) => {
+            switch (e.key) {
+                case 'Control':
+                    setKeys({...keys, ctrl: false})
+                    break;
+                case 'Shift':
+                    setKeys({...keys, shift: false})
+                    break;
+                case 'Alt':
+                    setKeys({...keys, alt: false})
+                    break;
+                default:
+                    break;
+            }
+        }
         const onChange = (name: string, value: string, event: any) => {
             setDraft({...draft, [name + status]: value})
+        }
+        const onFocusInput = () => {
+            // chatStore.readAllMsg(currentChat.id)
         }
 
 
@@ -146,22 +146,20 @@ const Inputer = inject((stores: IStores) => ({
 
 
         const DropDownAttacments = () => {
-            return (
-                <Menu>
-                    <Menu.Item>
-                        Фотография
-                    </Menu.Item>
-                    <Menu.Item>
-                        Видео
-                    </Menu.Item>
-                    <Menu.Item>
-                        Документ
-                    </Menu.Item>
-                    <Menu.Item>
-                        Аудио
-                    </Menu.Item>
-                </Menu>
-            )
+            return (<Menu>
+                <Menu.Item>
+                    Фотография
+                </Menu.Item>
+                <Menu.Item>
+                    Видео
+                </Menu.Item>
+                <Menu.Item>
+                    Документ
+                </Menu.Item>
+                <Menu.Item>
+                    Аудио
+                </Menu.Item>
+            </Menu>)
         }
 
         const selectSocial = (social: string) => {
@@ -173,20 +171,17 @@ const Inputer = inject((stores: IStores) => ({
             setSwitcher('')
         }
 
-        const onFocusInput = () => {
-            // chatStore.readAllMsg(currentChat.id)
-        }
 
         const {TextArea} = Input;
 
         return (
             <div className="inputer">
                 <div className="input-container">
-                    {/*<div className="inputer_btn">*/}
-                    {/*    <div className='heler_menu'>*/}
-                    {/*        <AlignCenterOutlined onClick={props.helperMenu}/>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
+                    <div className="inputer_btn">
+                        <div className='heler_menu'>
+                            <AlignCenterOutlined onClick={props.helperMenu}/>
+                        </div>
+                    </div>
                     <div className="main_input">
 
                         {

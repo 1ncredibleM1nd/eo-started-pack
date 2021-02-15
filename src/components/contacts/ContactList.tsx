@@ -1,10 +1,11 @@
-import React, { Fragment } from 'react';
-import { inject, observer } from 'mobx-react';
-import IStores, { IAppStore, IChatStore, IContactStore, IUserStore } from '@stores/interface';
-import { Badge } from 'antd';
+import React, {Fragment} from 'react';
+import {inject, observer} from 'mobx-react';
+import IStores, {IAppStore, IChatStore, IContactStore, IUserStore} from '@stores/interface';
+import {Badge} from 'antd';
 import HashLoader from "react-spinners/HashLoader";
 import './ContactList.scss'
 import './Contact.scss'
+import {Icon} from "@ui";
 
 // import { getMessages } from '@actions'
 
@@ -17,10 +18,15 @@ type IProps = {
     onSelect?: () => void | null;
 }
 
-const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactStore, userStore: stores.userStore, chatStore: stores.chatStore, appStore: stores.appStore }))(
+const ContactList = inject((stores: IStores) => ({
+    contactStore: stores.contactStore,
+    userStore: stores.userStore,
+    chatStore: stores.chatStore,
+    appStore: stores.appStore
+}))(
     observer((props: IProps) => {
 
-        const { contactStore, chatStore, appStore, onSelect, userStore } = props;
+        const {contactStore, chatStore, appStore, onSelect, userStore} = props;
         let ContactsData = contactStore.contact
         let activeContact = contactStore.activeContact
         const search = contactStore.search
@@ -76,7 +82,7 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
 
         if (!appStore.loaded) {
             return <div className="loading">
-                <HashLoader color='#3498db' size={50} />
+                <HashLoader color='#3498db' size={50}/>
             </div>
         }
 
@@ -98,31 +104,32 @@ const ContactList = inject((stores: IStores) => ({ contactStore: stores.contactS
                                             //const last_message_id = chatStore.getMsg(contact.last_message_id, contact.chat_id);
                                             // const last_message = getMessages(contact.id)
 
-                                            console.log('contact', contact)
 
                                             const last_message = contact.last_message
                                             let online = contact.online
-
-
                                             let userId, user, status: any;
-
-
                                             if (last_message) {
                                                 userId = contact.user.find((id: any) => id === last_message.from)
                                                 user = userStore.getUser(userId)
                                                 status = contact.status;
                                             }
-
                                             let unreadedCount = 0;
                                             //let online = Object.keys(user.online).find(key => user.online[key] === 'В сети')
 
                                             if (user && hero.id === user.id) user = undefined
                                             if (status === 'unread') unreadedCount = chatStore.getUnreadCount(contact.id)
                                             return (
-                                                <li onClick={() => selectContact(contact.id)} className={`contacts-item friends ${activeContact && activeContact.id === contact.id ? 'active' : ''}`}>
+                                                <li onClick={() => selectContact(contact.id)}
+                                                    className={`contacts-item friends ${activeContact && activeContact.id === contact.id ? 'active' : ''}`}>
                                                     <div className="avatar">
-                                                        <Badge className={`online_dot ${activeContact && activeContact.id === contact.id ? 'active' : ''}`} dot={Boolean(online)}>
-                                                            <img src={contact.avatar} alt="" />
+                                                        <div className={`social_media_icon ${contact.social_media}`}>
+                                                            <Icon className='icon_s'
+                                                                  name={`social_media_${contact.last_message.social_media}`}/>
+                                                        </div>
+                                                        <Badge
+                                                            className={`online_dot ${activeContact && activeContact.id === contact.id ? 'active' : ''}`}
+                                                            dot={Boolean(online)}>
+                                                            <img src={contact.avatar} alt=""/>
                                                         </Badge>
                                                     </div>
                                                     <div className="contacts-content">
