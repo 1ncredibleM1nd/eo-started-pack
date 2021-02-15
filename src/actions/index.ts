@@ -1,4 +1,5 @@
 import axios from './axios';
+
 let origin = 'https://backend.chat.dev.prodamus.pro'
 
 
@@ -50,10 +51,7 @@ async function setSession(sessionId: any) {
     formData.append('encrypted_session_data', sessionId);
 
     return axios.post(`${origin}/v1/account/set-session`, formData, {
-        headers: {
-            withCredentials: true,
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
+        withCredentials: true
     });
 
 }
