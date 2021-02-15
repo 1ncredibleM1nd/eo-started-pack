@@ -38,8 +38,9 @@ export class AuthStore implements IAuthStore {
             };
             let url = urlData(window.location.href)
             // @ts-ignore
-            if (url.encrypted_session_data.length !== 0 ||  url.encrypted_session_data === undefined) {
+            if (url.encrypted_session_data.length !== 0 ||  url.encrypted_session_data !== undefined) {
                 // @ts-ignore
+
                 setSession(url.encrypted_session_data)
             }
             if (!data.success) {
