@@ -32,7 +32,7 @@ const options = [
 
 const ComentsBlock = inject((stores: IStores) => ({ contactStore: stores.contactStore }))(
     observer(() => {
-            const tascsCategories: [{ id: number, title: string, isActive: boolean, sty: string }] = [
+            const tascsCategories: [{ id: number, title: string, isActive: boolean, sty: string }, { id: number, title: string, isActive: boolean, sty: string }] = [
                 {id: 1, title: 'Коментарии', isActive: true, sty: 'border-right'},
                 {id: 2, title: 'Задачи', isActive: false, sty: ''}
             ]
@@ -51,6 +51,7 @@ const ComentsBlock = inject((stores: IStores) => ({ contactStore: stores.contact
                 } else {
                     setIsOpen(false)
                 }
+                // @ts-ignore
                 setIsActive([...tascsCategories])
             }
             const onChange = (checkedValues: any, index: number) => {
@@ -70,7 +71,7 @@ const ComentsBlock = inject((stores: IStores) => ({ contactStore: stores.contact
                         }
                     </div>
                     {isOpen ? <div className='coments mt-2 p-2'>
-                            {data.map(val =>
+                            {data.map((val:any) =>
                                     <div className='comments_container mb-2 rela' key={val.id}>
                                         <p>{val.description}</p>
                                         <span className='avatar_block'>

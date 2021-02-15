@@ -6,7 +6,6 @@ import {MoreOutlined, FormOutlined} from "@ant-design/icons";
 import RedactMod from "@components/chat/comp/seting-modal/RedactMod";
 
 
-
 type IProps = {
     chatStore?: IChatStore,
     id?: string,
@@ -78,8 +77,7 @@ const SetingsMo = inject((stores: IStores) => ({chatStore: stores.chatStore}))(
                 ]
             },]
         ]
-        const callback = (key) => {
-        }
+
 
         const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -105,7 +103,7 @@ const SetingsMo = inject((stores: IStores) => ({chatStore: stores.chatStore}))(
                     </span>
                     </div>
                     <div className='modal_seting_block '>
-                        {listData.map(v => <Collapse onChange={callback} accordion>
+                        {listData.map(v => <Collapse accordion>
                                 {v.map(data =>
                                     <Panel header={data.title} key={data.id}>
                                         {data.data.map(val => <span key={val.id}
@@ -134,7 +132,8 @@ const SetingsMo = inject((stores: IStores) => ({chatStore: stores.chatStore}))(
                        footer={null}
                        className='w-75'
                 >
-               <RedactMod/>
+                    // @ts-ignore
+                    <RedactMod/>
                 </Modal>
             </>
         );

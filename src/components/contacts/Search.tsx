@@ -17,8 +17,10 @@ const Search = inject((stores: IStores) => ({ contactStore: stores.contactStore,
     observer((props: IProps) => {
 
         const { contactStore } = props;
+        // @ts-ignore
         const [searchText, setSearchText] = useState('')
         const [drawer, setDrawer] = useState('')
+        // @ts-ignore
         const [switcher, setSwitcher] = useState(false)
         // let hero = userStore.hero
 
@@ -32,6 +34,7 @@ const Search = inject((stores: IStores) => ({ contactStore: stores.contactStore,
         }
 
 
+        // @ts-ignore
         const onChange = (value: string) => {
             setSearchText(value)
             contactStore.setSearch(value)
@@ -66,6 +69,7 @@ const Search = inject((stores: IStores) => ({ contactStore: stores.contactStore,
         }
 
         const { Panel } = Collapse;
+        // @ts-ignore
         const { Search } = Input;
 
         return (

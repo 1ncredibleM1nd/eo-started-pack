@@ -3,7 +3,6 @@ import {inject, observer} from 'mobx-react';
 import IStores, {IAppStore} from '@stores/interface';
 import {Button} from 'antd'
 import {Icon} from '@ui'
-import User from "@components/user_info/User";
 
 type IProps = {
     appStore?: IAppStore
@@ -21,7 +20,7 @@ const InfoLayout = inject((stores: IStores) => ({appStore: stores.appStore}))(
                         <Icon className='icon_s blue-lite' name={`solid_arrow-left`}/>
                     </Button>
                 </div>
-                <User/>
+                {/*<User/>*/}
             </div>
         );
     }));

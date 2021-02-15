@@ -433,6 +433,7 @@ const Chat = inject((stores: IStores) => ({
                                 </div>
                                 {isOpenMenu ? <div className="message-item">
                                     <div className="message-block-content d-flex flex-column justify-content-between">
+                                        // @ts-ignore
                                         <SetingsMo/>
                                     </div>
                                 </div> : ''}

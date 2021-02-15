@@ -3,7 +3,7 @@ import IStores, {IChatStore} from "@stores/interface";
 
 import React, {useState} from "react";
 import {Col, Row, Space, Input, Collapse} from "antd";
-import {AudioOutlined, MoreOutlined} from '@ant-design/icons';
+import {MoreOutlined} from '@ant-design/icons';
 
 type IProps = {
     chatStore?: IChatStore,
@@ -20,7 +20,6 @@ const RedactMod = inject((stores: IStores) => ({chatStore: stores.chatStore}))(
         const [title, setTitle] = useState('')
         const [name, setName] = useState('')
 
-        const onSearch = value => console.log(value);
 
         const createNewSelect = () => {
             data = [{
@@ -30,13 +29,13 @@ const RedactMod = inject((stores: IStores) => ({chatStore: stores.chatStore}))(
             }]
             setChangeData([...data, ...changData])
         }
-
+// @ts-ignore
         const handleSubmit = (e) => {
             e.preventDefault()
             let isPush = true
             if (title !== '' && name !== '') {
                 if (changData.length !== 0) {
-                    for (let i = 0; i <changData.length ; i++) {
+                    for (let i = 0; i < changData.length; i++) {
                         if (changData[i].title === title) {
                             changData[i].data.push({id: Date.now(), name})
                             setChangeData([...changData])
@@ -44,7 +43,7 @@ const RedactMod = inject((stores: IStores) => ({chatStore: stores.chatStore}))(
                             break;
                         }
                     }
-                    if (isPush){
+                    if (isPush) {
                         createNewSelect()
                     }
                 } else {
@@ -60,7 +59,7 @@ const RedactMod = inject((stores: IStores) => ({chatStore: stores.chatStore}))(
                 <Col span={8}>
                     <div className='w-100 right_block'>
                         <Space direction="vertical" className='w-75'>
-                            <Search placeholder="input search text" onSearch={onSearch}
+                            <Search placeholder="input search text"
                                     className='search_input'
                             />
                         </Space>
@@ -69,8 +68,8 @@ const RedactMod = inject((stores: IStores) => ({chatStore: stores.chatStore}))(
                         {changData.length !== 0 ? <Collapse accordion>
                                 {changData.map(data =>
                                     <Panel header={data.title} key={data.id}>
-                                        {data.data.map(val => <span key={val.id}
-                                                                    className='list_block d-flex justify-content-between align-items-center mb-1'>
+                                        {data.data.map((val: { id: number, name: string }) => <span key={val.id}
+                                                                                                    className='list_block d-flex justify-content-between align-items-center mb-1'>
                                 <p className='mb-0'>{val.name}</p> <MoreOutlined/>
                             </span>)}
                                     </Panel>)}

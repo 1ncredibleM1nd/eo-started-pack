@@ -144,7 +144,7 @@ const Inputer = inject((stores: IStores) => ({
             $(".msg_space").animate({scrollTop: $('.msg_space').prop("scrollHeight")}, 0);
         }
 
-
+// @ts-ignore
         const DropDownAttacments = () => {
             return (<Menu>
                 <Menu.Item>
