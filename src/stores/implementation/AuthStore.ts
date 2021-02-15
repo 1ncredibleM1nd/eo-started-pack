@@ -24,7 +24,7 @@ export class AuthStore implements IAuthStore {
     @action
     async initialize() {
         try {
-            let data = await isLogged()
+            let data;
             let urlData = (url: string) => {
                 let params = {};
                 let param = url.slice(url.indexOf("?"))
@@ -38,18 +38,25 @@ export class AuthStore implements IAuthStore {
             };
             let url = urlData(window.location.href)
             // @ts-ignore
-            if(url.encrypted_session_data !== undefined){
+            if (url.encrypted_session_data !== undefined) {
                 // @ts-ignore
                 if (url.encrypted_session_data.length !== 0) {
                     // @ts-ignore
-                    setSession(url.encrypted_session_data)
+                    data = setSession(url.encrypted_session_data)
+                    // @ts-ignore
+                    this.setToken(data.token)
+                    console.log(data, 'encrypted_session_data')
+                }
+            } else {
+                data = await isLogged()
+                console.log(data, 'isLogged')
+                if (!data.success) {
+                    window.location.href = `https://account.dev.prodamus.ru/?redirect_url=${window.location.href}`
+                } else {
+                    this.setToken(data.token)
                 }
             }
-            if (!data.success) {
-             window.location.href = `https://account.dev.prodamus.ru/?redirect_url=${window.location.href}`
-            } else {
-                this.setToken(data.token)
-            }
+
             // let userData = {
             //     username: "Бильбо Бэггинс",
             //     age: '24',
