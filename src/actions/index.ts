@@ -50,7 +50,7 @@ async function setSession(sessionId: any) {
     const formData = new FormData();
     formData.append('encrypted_session_data', sessionId);
 
-    return axios.post(`/api/v1/user/set-session`, formData, {
+    return axios.post(`${origin}/v1/account/set-session`, formData, {
         headers: {
             withCredentials: true,
             'Content-Type': 'application/x-www-form-urlencoded',
