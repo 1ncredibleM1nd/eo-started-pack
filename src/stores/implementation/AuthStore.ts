@@ -42,14 +42,12 @@ export class AuthStore implements IAuthStore {
                 // @ts-ignore
                 if (url.encrypted_session_data.length !== 0) {
                     // @ts-ignore
-                    data = setSession(url.encrypted_session_data)
+                    data = await setSession(url.encrypted_session_data)
                     // @ts-ignore
-                    this.setToken(data.token)
-                    console.log(data, 'encrypted_session_data')
+                    this.setToken(data.data.data.token)
                 }
             } else {
                 data = await isLogged()
-                console.log(data, 'isLogged')
                 if (!data.success) {
                     window.location.href = `https://account.dev.prodamus.ru/?redirect_url=${window.location.href}`
                 } else {
@@ -82,8 +80,6 @@ export class AuthStore implements IAuthStore {
             //         "facebook": '20м',
             //         "telegram": '2ч',
             //     },
-            //     token: 'd/a5/9abda5b52a61284f7e3910a4887d/a5/9abda5b52a61284f7e3910a89s@asd900789'
-            //
             // }
             // this.setToken(this.auth0.token)
         } catch (e) {

@@ -5,6 +5,7 @@ import {Icon} from '@ui'
 import $ from 'jquery'
 import {Input, Menu, Button, Popover} from 'antd';
 import SocialMenu from './SocialMenu'
+// @ts-ignore
 import {AlignCenterOutlined} from '@ant-design/icons';
 
 // import SmileMenu from './comp/SmileMenu'
@@ -177,11 +178,11 @@ const Inputer = inject((stores: IStores) => ({
         return (
             <div className="inputer">
                 <div className="input-container">
-                    <div className="inputer_btn">
-                        <div className='heler_menu'>
-                            <AlignCenterOutlined onClick={props.helperMenu}/>
-                        </div>
-                    </div>
+                    {/*<div className="inputer_btn">*/}
+                    {/*    <div className='heler_menu'>*/}
+                    {/*        <AlignCenterOutlined onClick={props.helperMenu}/>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
                     <div className="main_input">
 
                         {
