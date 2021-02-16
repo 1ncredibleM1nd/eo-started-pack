@@ -44,6 +44,7 @@ export class AuthStore implements IAuthStore {
             if (currentUrl.search.includes('encrypted_session_data')) {
                 const encryptedSessionData = currentUrl.searchParams.get('encrypted_session_data');
                 currentUrl.searchParams.delete('encrypted_session_data');
+                currentUrl.searchParams.delete('pid');
                 history.replaceState(history.state, null, currentUrl.href);
                 if (encryptedSessionData) {
                     await setSession(encryptedSessionData);
@@ -62,12 +63,13 @@ export class AuthStore implements IAuthStore {
             };
             // @ts-ignore
             let url = urlData(window.location.href).encrypted_session_data
+            console.log(url, 4415)
 
 
-            if (url !== undefined  && url.length !==0) {
+            if (url !== undefined && url.length !== 0) {
                 const {data: {data: {token}}} = await setSession(url.encrypted_session_data)
-                    // @ts-ignore
-                    this.setToken(token)
+                // @ts-ignore
+                this.setToken(token)
             } else {
                 const {data: {data: {token, success}}} = await isLogged()
                 let local_toke = localStorage.getItem('token')
