@@ -50,7 +50,6 @@ export class ChatStore implements IChatStore {
     @action
     setActiveChat(chat: any) {
         this.activeChat = chat
-        console.log(chat,'adas')
     }
 
 
@@ -96,11 +95,9 @@ export class ChatStore implements IChatStore {
 
 
                 if (pageContent.messages[index - 1]) {
-                    console.log(pageContent,'pageContent')
                     prevMsg = pageContent.messages[index - 1]
                     console.log(prevMsg,'prevMsg');
                     if (prevMsg) {
-                        console.log(prevMsg.readed,'prevReaded')
                         prevReaded = prevMsg.readed
                     }
                 }

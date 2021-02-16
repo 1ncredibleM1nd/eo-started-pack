@@ -19,12 +19,36 @@ export class AuthStore implements IAuthStore {
 
     getToken() {
         return localStorage.getItem('token');
+        // let paramsString = document.location.search;
+        // let searchParams = new URLSearchParams(paramsString);
+        //
+        // let encrypted_session_data = searchParams.get('encrypted_session_data');
+        //
+        // if (encrypted_session_data) {
+        //     await setSession(encrypted_session_data);
+        // }
+        //
+        // let logged_res = await isLogged();
+        //
+        // if (!logged_res.data.data.success && !encrypted_session_data) {
+        //     window.location.href = `https://account.dev.prodamus.ru/?redirect_url=${window.location.href}`;
+        // }
     }
+
 
     @action
     async initialize() {
         try {
-            let data;
+            const currentUrl = new URL(location.href);
+
+            if (currentUrl.search.includes('encrypted_session_data')) {
+                const encryptedSessionData = currentUrl.searchParams.get('encrypted_session_data');
+                currentUrl.searchParams.delete('encrypted_session_data');
+                history.replaceState(history.state, null, currentUrl.href);
+                if (encryptedSessionData) {
+                    await setSession(encryptedSessionData);
+                }
+            }
             let urlData = (url: string) => {
                 let params = {};
                 let param = url.slice(url.indexOf("?"))
@@ -36,57 +60,26 @@ export class AuthStore implements IAuthStore {
                 }
                 return params;
             };
-            let url = urlData(window.location.href)
             // @ts-ignore
-            if (url.encrypted_session_data !== undefined) {
-                // @ts-ignore
-                if (url.encrypted_session_data.length !== 0) {
+            let url = urlData(window.location.href).encrypted_session_data
+
+
+            if (url !== undefined  && url.length !==0) {
+                const {data: {data: {token}}} = await setSession(url.encrypted_session_data)
                     // @ts-ignore
-                    data = await setSession(url.encrypted_session_data)
-                    // @ts-ignore
-                    this.setToken(data.data.data.token)
-                }
+                    this.setToken(token)
             } else {
-                data = await isLogged()
-                if (!data.success) {
-                    window.location.href = `https://account.dev.prodamus.ru/?redirect_url=${window.location.href}`
+                const {data: {data: {token, success}}} = await isLogged()
+                let local_toke = localStorage.getItem('token')
+                if (!success) {
+                    if (!local_toke || local_toke !== token) window.location.href = `https://account.dev.prodamus.ru/?redirect_url=${window.location.href}`
                 } else {
-                    this.setToken(data.token)
+                    this.setToken(token)
                 }
             }
-
-            // let userData = {
-            //     username: "Бильбо Бэггинс",
-            //     age: '24',
-            //     city: 'Москва Россия',
-            //     phon: '+7(984)9797979',
-            //     avatar: 'https://i.pinimg.com/736x/9a/bd/a5/9abda5b52a61284f7e39101cd84edfd2--hobbit--lord-of-the-rings.jpg',
-            //     id: "user_0",
-            //     avaliableSocial: {
-            //         "whatsapp": true,
-            //         "instagram": true,
-            //         "vk": true,
-            //         "ok": true,
-            //         "viber": false,
-            //         "facebook": true,
-            //         "telegram": true,
-            //         "email": true
-            //     },
-            //     online: {
-            //         "whatsapp": 'В сети',
-            //         "instagram": '20д',
-            //         "vk": '10м',
-            //         "ok": '5м',
-            //         "facebook": '20м',
-            //         "telegram": '2ч',
-            //     },
-            // }
-            // this.setToken(this.auth0.token)
         } catch (e) {
             throw(e)
         }
-
-        // this.setLoader(false)
     }
 
 }

@@ -25,9 +25,8 @@ const Chat = inject((stores: IStores) => ({
 }))(
     observer((props: IProps) => {
 
-        const {chatStore, contactStore, userStore} = props;
+        const {chatStore, contactStore} = props;
         const activeContact = contactStore.activeContact;
-        const hero = userStore.hero
         const [draft, setDraft] = useState({})
         const [switcher, setSwitcher] = useState('')
         const [status, setStatus] = useState('default')
@@ -87,8 +86,6 @@ const Chat = inject((stores: IStores) => ({
 
 
         const handleScroll = () => {
-
-
             var parentPos = $('.msg_space')[0].getBoundingClientRect(),
                 childPos = $(`.page-1`)[0].getBoundingClientRect()
             let topOfLastPage = childPos.top - parentPos.top
@@ -111,6 +108,13 @@ const Chat = inject((stores: IStores) => ({
 
         }
 
+        const chenelValidator = (messagesList: []) => {
+            let list = messagesList.map((page: any) => page.map((v:any) => v.social_media));
+            let str = list[0][0]
+            let isR = true
+            list[0].forEach((v: string) => str === v ? isR : !isR)
+            return isR
+        }
 
         console.log('currentChat', currentChat)
 
@@ -140,6 +144,8 @@ const Chat = inject((stores: IStores) => ({
 
         console.log('rerender chat')
 
+        let chenel = chenelValidator(currentChat.msg)
+
         return (
             <div className="chat position-relative">
                 {
@@ -148,20 +154,20 @@ const Chat = inject((stores: IStores) => ({
                                     {currentChat.msg.map((page: IMsg[], index: number) => {
                                         return (<div className={`page page-${index + 1}`}>
                                             {page.map((msg: IMsg) => {
-                                                console.log(msg)
-                                                if (msg.from !== hero.id) {
-                                                    console.log(msg.from, 'from')
+                                                //@ts-ignore
+                                                if (msg.income) {
                                                     return (<Fragment>
                                                         {msg.readed ? (<Fragment>{msg.time_scope ? (<Fragment>
-                                                            <div className="date_container">
-                                                                <Divider orientation="center"
-                                                                         className='date_divider'>
-                                                                    <div className="date">
-                                                                        {msg.time_scope}
-                                                                    </div>
-                                                                </Divider>
-                                                            </div>
-                                                        </Fragment>) : (<Fragment></Fragment>)}</Fragment>) : (<Fragment>
+                                                                <div className="date_container">
+                                                                    <Divider orientation="center"
+                                                                             className='date_divider'>
+                                                                        <div className="date">
+                                                                            {msg.time_scope}
+                                                                        </div>
+                                                                    </Divider>
+                                                                </div>
+                                                            </Fragment>)
+                                                            : (<Fragment></Fragment>)}</Fragment>) : (<Fragment>
                                                             {msg.prevReaded !== msg.readed ? (<Fragment>
                                                                 <div className="date_container unread">
                                                                     <Divider orientation="center"
@@ -258,21 +264,20 @@ const Chat = inject((stores: IStores) => ({
                                                                                     }
                                                                         <div
                                                                             className="msg_time">{msg.time} {msg.date}</div>
-                                                                                    {/*<Dropdown overlay={<DropDownMenu id={msg.id}/>} placement="bottomLeft" trigger={['click']}>*/}
-                                                                                    {/*    <span*/}
-                                                                                    {/*        className='dropdown-trigger'>*/}
-                                                                                    {/*        <Icon*/}
-                                                                                    {/*            className='active-grey'*/}
-                                                                                    {/*            name={`regular_three-dots`}/>*/}
-                                                                                    {/*    </span>*/}
-                                                                                    {/*</Dropdown>*/}
+                                                                        {/*<Dropdown overlay={<DropDownMenu id={msg.id}/>} placement="bottomLeft" trigger={['click']}>*/}
+                                                                        {/*    <span*/}
+                                                                        {/*        className='dropdown-trigger'>*/}
+                                                                        {/*        <Icon*/}
+                                                                        {/*            className='active-grey'*/}
+                                                                        {/*            name={`regular_three-dots`}/>*/}
+                                                                        {/*    </span>*/}
+                                                                        {/*</Dropdown>*/}
                                                                                 </span>
                                                                 </div>
                                                             </Fragment>) : (<Fragment></Fragment>)}
                                                         </div>
                                                     </Fragment>)
                                                 } else {
-                                                    console.log(  msg.prevReaded,msg.readed,45)
                                                     return (<Fragment>
                                                         {
                                                             msg.readed ? (<Fragment>
@@ -291,16 +296,16 @@ const Chat = inject((stores: IStores) => ({
                                                                 }
                                                             </Fragment>) : (<Fragment>
                                                                 {msg.prevReaded !== msg.readed ? (<Fragment>
-                                                                        <div className="date_container unread">
-                                                                            <Divider orientation="center"
-                                                                                     className='date_divider unread'>
-                                                                                <div className="date unread">
-                                                                                    Непрочитанные сообщения
-                                                                                </div>
-                                                                            </Divider>
-                                                                        </div>
-                                                                    </Fragment>) : (<Fragment>
-                                                                    </Fragment>)
+                                                                    <div className="date_container unread">
+                                                                        <Divider orientation="center"
+                                                                                 className='date_divider unread'>
+                                                                            <div className="date unread">
+                                                                                Непрочитанные сообщения
+                                                                            </div>
+                                                                        </Divider>
+                                                                    </div>
+                                                                </Fragment>) : (<Fragment>
+                                                                </Fragment>)
                                                                 }
                                                             </Fragment>)
                                                         }
@@ -437,7 +442,7 @@ const Chat = inject((stores: IStores) => ({
                                         <SetingsMo/>
                                     </div>
                                 </div> : ''}
-                                <Inputer helperMenu={openHelperMenu}/>
+                                <Inputer isActiveChenel={chenel} helperMenu={openHelperMenu}/>
                             </Fragment>
                         )
                         : (<ChatPlaceholder/>)

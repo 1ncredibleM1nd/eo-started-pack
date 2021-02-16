@@ -98,86 +98,88 @@ const ContactList = inject((stores: IStores) => ({
                                     id="chatContactTab"
                                     data-chat-list=""
                                 >
-                                    {
-                                        ContactsData.map((contact: any, index: number) => {
+                                    {ContactsData.map((contact: any, index: number) => {
 
-                                            //const last_message_id = chatStore.getMsg(contact.last_message_id, contact.chat_id);
-                                            // const last_message = getMessages(contact.id)
+                                        //const last_message_id = chatStore.getMsg(contact.last_message_id, contact.chat_id);
+                                        // const last_message = getMessages(contact.id)
 
 
-                                            const last_message = contact.last_message
-                                            let online = contact.online
-                                            let userId, user, status: any;
-                                            if (last_message) {
-                                                userId = contact.user.find((id: any) => id === last_message.from)
-                                                user = userStore.getUser(userId)
-                                                status = contact.status;
-                                            }
-                                            let unreadedCount = 0;
-                                            //let online = Object.keys(user.online).find(key => user.online[key] === 'В сети')
+                                        const last_message = contact.last_message
+                                        let online = contact.online
+                                        let userId, user, status: any;
+                                        if (last_message) {
+                                            userId = contact.user.find((id: any) => id === last_message.from)
+                                            user = userStore.getUser(userId)
+                                            status = contact.status;
+                                        }
+                                        let unreadedCount = 0;
+                                        //let online = Object.keys(user.online).find(key => user.online[key] === 'В сети')
 
-                                            if (user && hero.id === user.id) user = undefined
-                                            if (status === 'unread') unreadedCount = chatStore.getUnreadCount(contact.id)
-                                            return (
-                                                <li onClick={() => selectContact(contact.id)}
-                                                    className={`contacts-item friends ${activeContact && activeContact.id === contact.id ? 'active' : ''}`}>
-                                                    <div className="avatar">
-                                                        <div className={`social_media_icon ${contact.social_media}`}>
-                                                            <Icon className='icon_s'
-                                                                  name={`social_media_${contact.last_message.social_media}`}/>
-                                                        </div>
-                                                        <Badge
-                                                            className={`online_dot ${activeContact && activeContact.id === contact.id ? 'active' : ''}`}
-                                                            dot={Boolean(online)}>
-                                                            <img src={contact.avatar} alt=""/>
-                                                        </Badge>
+                                        if (user && hero.id === user.id) user = undefined
+                                        if (status === 'unread') unreadedCount = chatStore.getUnreadCount(contact.id)
+                                        return (
+                                            <li onClick={() => selectContact(contact.id)}
+                                                className={`contacts-item friends 
+                                                    ${activeContact && activeContact.id === contact.id
+                                                    ? 'active' : ''}`}
+                                                // style={{background: !contact.last_message.readed ? 'wheat' : ''}}
+                                            >
+                                                <div className="avatar">
+                                                    <div className={`social_media_icon ${contact.social_media}`}>
+                                                        <Icon className='icon_s'
+                                                              name={`social_media_${contact.last_message.social_media}`}/>
                                                     </div>
-                                                    <div className="contacts-content">
-                                                        <div className="contacts-info">
-                                                            <h4 className="chat-name">{contact.name}</h4>
-                                                            <div className="chat-time">
-                                                                {
-                                                                    last_message ? (<Fragment>
-                                                                        <span>{last_message.date} {last_message.time}</span>
-                                                                    </Fragment>) : (<Fragment></Fragment>)
-                                                                }
-
-                                                            </div>
-                                                        </div>
-                                                        <div className="contacts-texts">
+                                                    <Badge
+                                                        className={`online_dot ${activeContact && activeContact.id === contact.id ? 'active' : ''}`}
+                                                        dot={Boolean(online)}>
+                                                        <img src={contact.avatar} alt=""/>
+                                                    </Badge>
+                                                </div>
+                                                <div className="contacts-content">
+                                                    <div className="contacts-info">
+                                                        <h4 className="chat-name">{contact.name}</h4>
+                                                        <div className="chat-time">
                                                             {
                                                                 last_message ? (<Fragment>
-                                                                    <div className={`last_msg ${status}`}>
-                                                                        <div className="from">
-                                                                            {user ? user.username + ': ' : 'You: '}
-                                                                        </div>
-                                                                        {last_message.content}
-                                                                        {
-                                                                            status === 'unread' ? (<Fragment>
-                                                                                <div className="unreaded_count">
-
-                                                                                </div>
-                                                                                <div
-
-                                                                                    className="badge badge-rounded badge-primary ml-1">
-                                                                                    {unreadedCount}
-                                                                                </div>
-                                                                            </Fragment>) : (<Fragment></Fragment>)
-                                                                        }
-                                                                    </div>
-                                                                </Fragment>) : (<Fragment>
-                                                                    <div className={`last_msg ${status}`}>
-                                                                        *Добавлен в контакты*
-                                                                    </div>
-                                                                </Fragment>)
+                                                                    <span>{last_message.date} {last_message.time}</span>
+                                                                </Fragment>) : (<Fragment></Fragment>)
                                                             }
+
                                                         </div>
                                                     </div>
-                                                </li>
-                                            )
+                                                    <div className="contacts-texts">
+                                                        {
+                                                            last_message ? (<Fragment>
+                                                                <div className={`last_msg ${status}`}>
+                                                                    <div className="from">
+                                                                        {user ? user.username + ': ' : 'You: '}
+                                                                    </div>
+                                                                    {last_message.content}
+                                                                    {
+                                                                        status === 'unread' ? (<Fragment>
+                                                                            <div className="unreaded_count">
 
-                                        })
-                                    }
+                                                                            </div>
+                                                                            <div
+
+                                                                                className="badge badge-rounded badge-primary ml-1">
+                                                                                {unreadedCount}
+                                                                            </div>
+                                                                        </Fragment>) : (<Fragment></Fragment>)
+                                                                    }
+                                                                </div>
+                                                            </Fragment>) : (<Fragment>
+                                                                <div className={`last_msg ${status}`}>
+                                                                    *Добавлен в контакты*
+                                                                </div>
+                                                            </Fragment>)
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        )
+
+                                    })}
                                 </ul>
                             </div>
                         </div>

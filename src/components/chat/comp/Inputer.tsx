@@ -16,6 +16,7 @@ type IProps = {
     userStore?: IUserStore,
     appStore?: IAppStore
     helperMenu?: any
+    isActiveChenel?: boolean
 }
 
 const Inputer = inject((stores: IStores) => ({
@@ -26,7 +27,7 @@ const Inputer = inject((stores: IStores) => ({
 }))(
     observer((props: IProps) => {
 
-        const {chatStore, contactStore, userStore, appStore} = props;
+        const {chatStore, contactStore, userStore, appStore, isActiveChenel} = props;
         const activeContact = contactStore.activeContact;
         const activeMsg = chatStore.activeMsg
         const hero = userStore.hero
@@ -73,20 +74,23 @@ const Inputer = inject((stores: IStores) => ({
 
         const handleEnter = async (e: any) => {
             e.preventDefault();
+            let message = draft[activeContact.id + status]
+            setDraft({...draft, [activeContact.id + status]: ''})
+
             if (keys.alt || keys.shift || keys.ctrl) {
                 let text = ''
                 if (draft[activeContact.id + status]) text = draft[activeContact.id + status] + '\n'
                 setDraft({...draft, [activeContact.id + status]: text})
             } else {
                 if (draft[activeContact.id + status] && draft[activeContact.id + status].length) {
-                    await chatStore.addMsg(draft[activeContact.id + status], hero.id, currentChat.activeSocial, null)
+                    await chatStore.addMsg(message, hero.id, currentChat.activeSocial, null)
                     $(".msg_space").animate({scrollTop: $('.msg_space').prop("scrollHeight")}, 0);
-                    await chatStore.sendMessage(draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.school)
+                    await chatStore.sendMessage(message, activeContact.conversation_source_account_id, appStore.school)
                     await chatStore.loadMessages(activeContact.id, 1)
                     //sendMsg(currentChat.id, draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.school)
                     //sendMsg(currentChat.id, draft[activeContact.id + status])
                 }
-                setDraft({...draft, [activeContact.id + status]: ''})
+              //  setDraft({...draft, [activeContact.id + status]: ''})
             }
         }
 
@@ -107,6 +111,8 @@ const Inputer = inject((stores: IStores) => ({
         }
         const onChange = (name: string, value: string, event: any) => {
             setDraft({...draft, [name + status]: value})
+            $(".msg_space").animate({scrollTop: $('.msg_space').prop("scrollHeight")}, 0);
+
         }
         const onFocusInput = () => {
             // chatStore.readAllMsg(currentChat.id)
@@ -114,6 +120,8 @@ const Inputer = inject((stores: IStores) => ({
 
 
         const onSend = async () => {
+            let message = draft[activeContact.id + status]
+            setDraft({...draft, [activeContact.id + status]: ''})
             switch (status) {
                 case 'default':
                     if (draft[activeContact.id + status] && draft[activeContact.id + status].length) {
@@ -133,7 +141,7 @@ const Inputer = inject((stores: IStores) => ({
                     setStatus('default')
                     break;
                 case 'reply':
-                    chatStore.addMsg(draft[activeContact.id + status], hero.id, currentChat.activeSocial, activeMsg['content'])
+                    chatStore.addMsg(message, hero.id, currentChat.activeSocial, activeMsg['content'])
                     setDraft({...draft, [activeContact.id + 'default']: '', [activeContact.id + status]: ''})
                     chatStore.setActiveMsg(null, currentChat.id)
                     setStatus('default')
@@ -142,7 +150,11 @@ const Inputer = inject((stores: IStores) => ({
                     break;
             }
             $('.main_input input').val('');
-            $(".msg_space").animate({scrollTop: $('.msg_space').prop("scrollHeight")}, 0);
+
+            if (draft[activeContact.id + status] !== undefined && draft[activeContact.id + status] !== '') {
+                $(".msg_space").animate({scrollTop: $('.msg_space').prop("scrollHeight")}, 0);
+            }
+
         }
 
 // @ts-ignore
@@ -205,11 +217,17 @@ const Inputer = inject((stores: IStores) => ({
                             e ? {} : setSwitcher('')
                         }} visible={switcher === 'social'} content={<SocialMenu selectSocial={selectSocial}/>}
                                  trigger="click">
-                            <Button onClick={() => setSwitcher('social')} className='transparent'>
-                                <Icon className='icon_l' name={`social_media_${currentChat.activeSocial}`}/>
-                            </Button>
+                            {isActiveChenel ? <Button type="primary" disabled>
+                                    <Icon className='icon_l' name={`social_media_${currentChat.activeSocial}`}/>
+                                </Button>
+                                : <Button onClick={() => setSwitcher('social')} className='transparent'>
+                                    <Icon className='icon_l' name={`social_media_${currentChat.activeSocial}`}/>
+                                </Button>
+                            }
+
                         </Popover>
                     </div>
+
                     {/*<div className="inputer_btn">*/}
                     {/*    <Popover onVisibleChange={(e) => {*/}
                     {/*        e ? {} : setSwitcher('')*/}
@@ -221,6 +239,7 @@ const Inputer = inject((stores: IStores) => ({
                     {/*        </Button>*/}
                     {/*    </Popover>*/}
                     {/*</div>*/}
+
                 </div>
                 <div onClick={() => onSend()} className="send_btn">
                     <Icon className='icon_x white' name='solid_another-arrow'/>
