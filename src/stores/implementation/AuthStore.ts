@@ -63,7 +63,7 @@ export class AuthStore implements IAuthStore {
             };
             // @ts-ignore
             let url = urlData(window.location.href).encrypted_session_data
-            console.log(url, 4415)
+
 
 
             if (url !== undefined && url.length !== 0) {

@@ -25,9 +25,6 @@ function getConversations(school: string) {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
     }).then(response => {
-
-        // console.log('getConversations', response.data.data)
-
         return {
             data: response.data.data,
         }

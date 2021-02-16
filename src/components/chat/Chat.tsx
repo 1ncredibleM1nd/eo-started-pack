@@ -2,6 +2,7 @@ import React, {Fragment, useState} from 'react';
 import {inject, observer} from 'mobx-react';
 import IStores, {IChatStore, IMsg, IContactStore, IUserStore} from '@stores/interface';
 import {Icon} from '@ui'
+//@ts-ignore
 import {Menu, Dropdown, Divider} from 'antd';
 // import SmileMenu from './comp/SmileMenu'
 import './Chat.scss'
@@ -60,7 +61,7 @@ const Chat = inject((stores: IStores) => ({
         const replyMsg = (id: string) => {
             setReRender(!reRender)
         }
-
+//@ts-ignore
         const DropDownMenu = (msg: any) => {
             return (
                 <Menu>
@@ -109,7 +110,7 @@ const Chat = inject((stores: IStores) => ({
         }
 
         const chenelValidator = (messagesList: []) => {
-            let list = messagesList.map((page: any) => page.map((v:any) => v.social_media));
+            let list = messagesList.map((page: any) => page.map((v: any) => v.social_media));
             let str = list[0][0]
             let isR = true
             list[0].forEach((v: string) => str === v ? isR : !isR)
@@ -145,7 +146,7 @@ const Chat = inject((stores: IStores) => ({
         console.log('rerender chat')
 
         let chenel = chenelValidator(currentChat.msg)
-
+        let lsd_date: number = null
         return (
             <div className="chat position-relative">
                 {
@@ -156,8 +157,9 @@ const Chat = inject((stores: IStores) => ({
                                             {page.map((msg: IMsg) => {
                                                 //@ts-ignore
                                                 if (msg.income) {
+
                                                     return (<Fragment>
-                                                        {msg.readed ? (<Fragment>{msg.time_scope ? (<Fragment>
+                                                        {!msg.readed ? (<Fragment>{msg.time_scope ? (<Fragment>
                                                                 <div className="date_container">
                                                                     <Divider orientation="center"
                                                                              className='date_divider'>
@@ -169,6 +171,7 @@ const Chat = inject((stores: IStores) => ({
                                                             </Fragment>)
                                                             : (<Fragment></Fragment>)}</Fragment>) : (<Fragment>
                                                             {msg.prevReaded !== msg.readed ? (<Fragment>
+                                                                <span>{msg.prevReaded}</span>
                                                                 <div className="date_container unread">
                                                                     <Divider orientation="center"
                                                                              className='date_divider unread'>
@@ -281,8 +284,12 @@ const Chat = inject((stores: IStores) => ({
                                                     return (<Fragment>
                                                         {
                                                             msg.readed ? (<Fragment>
-                                                                {
-                                                                    msg.date ? (<Fragment>
+                                                                {((lsd_date === null) ||
+                                                                    //@ts-ignore
+                                                                    (lsd_date !== msg.date))
+                                                                //@ts-ignore
+                                                                && (lsd_date = msg.date) ? (
+                                                                    <Fragment>
                                                                         <div className="date_container">
                                                                             <Divider orientation="center"
                                                                                      className='date_divider'>
@@ -291,8 +298,7 @@ const Chat = inject((stores: IStores) => ({
                                                                                 </div>
                                                                             </Divider>
                                                                         </div>
-                                                                    </Fragment>) : (<Fragment>
-                                                                    </Fragment>)
+                                                                    </Fragment>) : (<></>)
                                                                 }
                                                             </Fragment>) : (<Fragment>
                                                                 {msg.prevReaded !== msg.readed ? (<Fragment>
@@ -414,23 +420,24 @@ const Chat = inject((stores: IStores) => ({
                                                                                     }
                                                                             <div
                                                                                 className="msg_time">{msg.time} {msg.date}</div>
-                                                                                    <Dropdown overlay={<DropDownMenu
-                                                                                        id={msg.id}/>}
-                                                                                              placement="bottomLeft"
-                                                                                              trigger={['click']}>
-                                                                                        <span
-                                                                                            className='dropdown-trigger'>
-                                                                                            <Icon
-                                                                                                className='active-grey'
-                                                                                                name={`regular_three-dots`}/>
-                                                                                        </span>
-                                                                                    </Dropdown>
+
+                                                                            {/*<Dropdown overlay={<DropDownMenu*/}
+                                                                            {/*            id={msg.id}/>}*/}
+                                                                            {/*                  placement="bottomLeft"*/}
+                                                                            {/*                  trigger={['click']}>*/}
+                                                                            {/*            <span className='dropdown-trigger'>*/}
+                                                                            {/*                <Icon*/}
+                                                                            {/*                    className='active-grey'*/}
+                                                                            {/*                    name={`regular_three-dots`}/>*/}
+                                                                            {/*            </span>*/}
+                                                                            {/*        </Dropdown>*/}
                                                                                 </span>
                                                                     </div>
                                                                 </Fragment>) : (<Fragment></Fragment>)
                                                             }
                                                         </div>
                                                     </Fragment>)
+
                                                 }
                                             })}
                                         </div>)
