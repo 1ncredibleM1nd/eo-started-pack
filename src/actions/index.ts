@@ -6,6 +6,7 @@ let origin = 'https://backend.chat.dev.prodamus.pro'
 function getMessages(conversationId: string, page: number, school: string) {
 
     return axios.get(`${origin}/v1/conversation/get-messages?conversationId=${conversationId}&page=${page}&school=${school}`, {
+        withCredentials: true,
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -19,6 +20,7 @@ function getMessages(conversationId: string, page: number, school: string) {
 
 function getConversations(school: string) {
     return axios.get(`${origin}/v1/conversation/get-conversations?school=${school}&page=${1}`, {
+        withCredentials: true,
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -40,6 +42,7 @@ function sendMsg(conversationId: string, message: string, conversationSourceAcco
         message
     }
     return axios.post(`${origin}/v1/conversation/send-message`, body, {
+        withCredentials: true,
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -56,8 +59,6 @@ function isLogged() {
         .then((response) => response)
         .catch((error) => error)
 }
-
-
 
 
 async function setSession(sessionId: any) {
