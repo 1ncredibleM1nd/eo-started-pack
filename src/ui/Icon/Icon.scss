@@ -1,0 +1,75 @@
+@import "~@styles/variables.scss";
+
+.icon_x {
+  width: 35px !important;
+  height: 25px !important;
+}
+
+.icon_l {
+  width: 30px !important;
+  height: 30px !important;
+}
+
+.icon_m {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.icon_s {
+  width: 18px !important;
+  height: 18px !important;
+}
+
+
+
+
+
+
+
+
+.icon {
+  width: 12px;
+  height: 12px;
+
+  &.white {
+    fill: $white;
+  }
+
+  &.rotated {
+    transform: rotate(90deg)
+  }
+
+  &.accent {
+    fill: $blue_accent;
+  }
+
+  &.blue-lite {
+    fill: $blue_lite;
+
+    &:hover {
+      fill: $blue_accent;
+    }
+  }
+
+  &.active-grey {
+    fill: $grey_active;
+  }
+
+  &.lite-grey {
+    fill: $grey_lite;
+  }
+
+  &--is-spin {
+    animation: spin 2s linear infinite;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

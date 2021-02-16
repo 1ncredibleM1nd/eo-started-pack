@@ -1,0 +1,47 @@
+html.mac:not(.resize)::-webkit-scrollbar-thumb,
+html.linux :not(.resize)::-webkit-scrollbar-thumb,
+html.freebsd :not(.resize)::-webkit-scrollbar-thumb,
+html.windows :not(.resize)::-webkit-scrollbar-thumb {
+
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+html.mac :not(.resize)::-webkit-scrollbar,
+html.linux :not(.resize)::-webkit-scrollbar,
+html.freebsd :not(.resize)::-webkit-scrollbar,
+html.windows :not(.resize)::-webkit-scrollbar {
+  width: 3px;
+  height: 0px;
+}
+
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+  background-color: #ffcb17;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #ffcb17;
+}
+
+::-webkit-resizer {
+  background-image: url('');
+  background-repeat: no-repeat;
+  width: 3px;
+  height: 0px
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}

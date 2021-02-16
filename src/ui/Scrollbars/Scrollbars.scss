@@ -1,0 +1,25 @@
+.scrollbars {
+
+  &__view {
+    padding: 0;
+  }
+
+  &__track-vertical, &__thumb-vertical {
+    border-radius: 3px;
+    width: 4px;
+  }
+
+  &__track-vertical {
+    right: 3px;
+    bottom: 7px;
+    top: 7px;
+  }
+
+  &__thumb-vertical {
+    right: 0;
+    bottom: 0;
+    top: 0;
+    cursor: grab;
+    background-color: #E1E1E1;
+  }
+}

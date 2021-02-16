@@ -1,0 +1,32 @@
+$main: 'brand';
+
+.#{$main} {
+  padding: 10px 24px 0px 24px;
+  display: flex;
+  justify-content: flex-start;
+
+  &__wrapper {
+    width: 100px;
+    height: 40px;
+    transition: width 0.15s;
+    overflow: hidden;
+  }
+
+  &__icon {
+    width: 100px;
+    height: 40px;
+
+    use {
+      fill: #fff;
+    }
+  }
+
+  &--is-preview {
+    .#{$main} {
+      &__wrapper {
+        width: 45px;
+      }
+    }
+  }
+
+}

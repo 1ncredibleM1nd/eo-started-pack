@@ -1,0 +1,87 @@
+{
+  "module": "ESNext",
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "jsx": "react",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "strictNullChecks": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "baseUrl": "./src",
+    "paths": {
+      "rappid": [
+        "vendor/rappid.min"
+      ],
+      "@constants/*": [
+        "constants/*"
+      ],
+      "@script/*": [
+        "script/*"
+      ],
+      "@pages/*": [
+        "pages/*"
+      ],
+      "@ui/*": [
+        "ui/*"
+      ],
+      "@chat_ui/*": [
+        "chat_ui/*"
+      ],
+      "@ui": [
+        "ui/index"
+      ],
+      "@layouts/*": [
+        "layouts/*"
+      ],
+      "@layouts": [
+        "layouts/index"
+      ],
+      "@images/*": [
+        "images/*"
+      ],
+      "@components/*": [
+        "components/*"
+      ],
+      "@flowchart/*": [
+        "flowchart/*"
+      ],
+      "@styles/*": [
+        "styles/*"
+      ],
+      "@interfaces/*": [
+        "interfaces/*"
+      ],
+      "@utils/*": [
+        "utils/*"
+      ],
+      "@stores/*": [
+        "stores/*"
+      ],
+      "@stores": [
+        "stores/implementation/index"
+      ],
+      "@hooks": [
+        "hooks/index"
+      ],
+      "@actions": [
+        "actions/index"
+      ]
+    },
+    "types": [
+      "node",
+      "moment"
+    ]
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "name": "Uniform",
+  "short_name": "Uniform",
+  "lang": "ru-RU",
+  "start_url": "/",
+  "display": "browser",
+  "theme_color": "#dd4b77",
+  "orientation": "portrait"
+}

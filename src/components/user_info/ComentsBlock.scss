@@ -1,0 +1,115 @@
+.coments_block {
+  background: white;
+
+  .text-center {
+    font-size: 20px;
+  }
+
+  .coments {
+    padding: 0 4%;
+
+    .comments_container {
+      background: #F1F1F1;
+      padding: 16px 25px;
+      display: flex;
+      box-shadow: 0 3px 6px #00000029;
+      opacity: 1;
+      border-radius: 8px;
+      position: relative;
+      font-size: 14px;
+      line-height: 1.56;
+    }
+
+    .avatar_block {
+      position: absolute;
+      left: -2%;
+      bottom: -5%;
+    }
+
+    .is_active {
+      color: #cde4f6;
+    }
+
+  }
+
+  .chak_ant {
+    padding: 0 2%;
+
+    .ant-checkbox {
+      top: 5px;
+      margin-right: 10px;
+      height: 0;
+    }
+
+    .ant-checkbox-wrapper {
+      margin-left: 0 !important;
+      width: 70%;
+      display: flex;
+      font-size: 13px;
+      color: #919DA8;
+
+    }
+
+    .data_block {
+      display: flex;
+      font-size: 13px;
+
+      svg {
+        font-size: 18px;
+        color: #83BEE6;
+      }
+    }
+
+    .message-block-content {
+      background: white;
+      padding: 16px 16px 16px 10px;
+      display: flex;
+      box-shadow: 0 3px 6px #00000029;
+      opacity: 1;
+      border-radius: 8px;
+      position: relative;
+      font-size: 14px;
+      line-height: 1.56;
+
+      textarea {
+        border-radius: 8px;
+        border: none;
+      }
+    }
+
+    .message-block-content::before,
+    .block::after {
+      content: '';
+      position: absolute;
+      left: 46.3%;
+      bottom: -32px;
+      border: 14px solid transparent;
+      border-top: 19px solid #F1F4F9;
+    }
+
+    .message-block-content::after {
+      border-top: 10px solid white;
+      bottom: -19px;
+    }
+
+
+  }
+
+  .text_chekin {
+    text-decoration: line-through;
+  }
+
+  .btn-info {
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    width: 36px;
+    border-radius: 50%;
+  }
+
+
+}
+
+.active_messages {
+  background: #D7D7D9;
+}
