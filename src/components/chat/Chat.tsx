@@ -117,11 +117,9 @@ const Chat = inject((stores: IStores) => ({
             return isR
         }
 
-        console.log('currentChat', currentChat)
 
         if (!currentChat) {
             return (
-
                 <div className="chat">
                     <ChatPlaceholder/>
                 </div>
@@ -146,6 +144,7 @@ const Chat = inject((stores: IStores) => ({
         console.log('rerender chat')
 
         let chenel = chenelValidator(currentChat.msg)
+
         let lsd_date: number = null
         return (
             <div className="chat position-relative">
@@ -157,9 +156,8 @@ const Chat = inject((stores: IStores) => ({
                                             {page.map((msg: IMsg) => {
                                                 //@ts-ignore
                                                 if (msg.income) {
-
                                                     return (<Fragment>
-                                                        {!msg.readed ? (<Fragment>{msg.time_scope ? (<Fragment>
+                                                        {msg.readed ? (<Fragment>{msg.time_scope ? (<Fragment>
                                                                 <div className="date_container">
                                                                     <Divider orientation="center"
                                                                              className='date_divider'>
@@ -437,7 +435,6 @@ const Chat = inject((stores: IStores) => ({
                                                             }
                                                         </div>
                                                     </Fragment>)
-
                                                 }
                                             })}
                                         </div>)

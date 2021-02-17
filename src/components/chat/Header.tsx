@@ -1,11 +1,10 @@
-import React, { Fragment, useState } from 'react';
+import React, {Fragment, useState} from 'react';
 import ModalWindow from './ModalWindow'
-import { inject, observer } from 'mobx-react';
-import IStores, { IChatStore, IContactStore, IUserStore, IAppStore } from '@stores/interface';
-import { Button, Popover, Menu } from 'antd';
+import {inject, observer} from 'mobx-react';
+import IStores, {IChatStore, IContactStore, IUserStore, IAppStore} from '@stores/interface';
+import {Button, Popover, Menu} from 'antd';
 import './Header.scss'
-import { Icon } from '@ui'
-
+import {Icon} from '@ui'
 
 
 type IProps = {
@@ -15,17 +14,23 @@ type IProps = {
     appStore?: IAppStore
 }
 
-const Header = inject((stores: IStores) => ({ appStore: stores.appStore, chatStore: stores.chatStore, userStore: stores.userStore, contactStore: stores.contactStore }))(
+const Header = inject((stores: IStores) => ({
+    appStore: stores.appStore,
+    chatStore: stores.chatStore,
+    userStore: stores.userStore,
+    contactStore: stores.contactStore
+}))(
     observer((props: IProps) => {
-
-        const { chatStore, userStore, contactStore, appStore } = props;
+        const {chatStore, userStore, contactStore, appStore} = props;
         const [modal, setModal] = useState(false);
-
+        let name = contactStore.name
         let hero = userStore.hero
         const chat = chatStore.activeChat
+
         let activeMsg: any;
         let user: any;
         let chatTitle: any;
+
 
         if (chat) {
             activeMsg = chat.active_msg
@@ -88,19 +93,19 @@ const Header = inject((stores: IStores) => ({ appStore: stores.appStore, chatSto
                         </Menu.Item>
                         <Menu.Item onClick={() => editContact()}>
                             Редакт. Контакт
-                    </Menu.Item>
+                        </Menu.Item>
                         <Menu.Item onClick={() => deleteContact()}>
                             Удалить Контакт
-                    </Menu.Item>
-                        <Menu.Item onClick={() => deleteChat()} >
+                        </Menu.Item>
+                        <Menu.Item onClick={() => deleteChat()}>
                             Удалить чат
-                    </Menu.Item>
-                        <Menu.Item onClick={() => clearHistory()} >
+                        </Menu.Item>
+                        <Menu.Item onClick={() => clearHistory()}>
                             Очистить историю
-                    </Menu.Item>
-                        <Menu.Item onClick={() => blockUser()} >
+                        </Menu.Item>
+                        <Menu.Item onClick={() => blockUser()}>
                             Заблокировать
-                    </Menu.Item>
+                        </Menu.Item>
                         {/* <Menu.Item onClick={() => replyMsg(msg.id)} >
                         Экспортировать чат
                     </Menu.Item> */}
@@ -111,16 +116,16 @@ const Header = inject((stores: IStores) => ({ appStore: stores.appStore, chatSto
                     <Menu>
                         <Menu.Item onClick={() => openProfile('group')}>
                             Настройки группы
-                    </Menu.Item>
+                        </Menu.Item>
                         <Menu.Item onClick={() => deleteExit()}>
                             Удалить и выйти
-                    </Menu.Item>
-                        <Menu.Item onClick={() => deleteChat()} >
+                        </Menu.Item>
+                        <Menu.Item onClick={() => deleteChat()}>
                             Удалить чат
-                    </Menu.Item>
-                        <Menu.Item onClick={() => clearHistory()} >
+                        </Menu.Item>
+                        <Menu.Item onClick={() => clearHistory()}>
                             Очистить историю
-                    </Menu.Item>
+                        </Menu.Item>
                         {/* <Menu.Item onClick={() => replyMsg(msg.id)} >
                         Экспортировать чат
                     </Menu.Item> */}
@@ -128,7 +133,6 @@ const Header = inject((stores: IStores) => ({ appStore: stores.appStore, chatSto
                 )
             }
         }
-
 
 
         const closeConctact = () => {
@@ -168,12 +172,12 @@ const Header = inject((stores: IStores) => ({ appStore: stores.appStore, chatSto
                                 <div className="header_content">
                                     <div className={`back_trigger ${appStore.layout !== 'contact' ? 'active' : ''}`}>
                                         <Button onClick={() => closeConctact()} className='transparent'>
-                                            <Icon className='icon_s blue-lite' name={`solid_arrow-left`} />
+                                            <Icon className='icon_s blue-lite' name={`solid_arrow-left`}/>
                                         </Button>
                                     </div>
                                     <div className={`header_title ${user ? 'user' : ''}`}>
                                         <div className='title'>
-                                            {chatTitle}
+                                            {name !== '' ? chatTitle : name}
                                         </div>
                                         {
                                             user ? (<Fragment>
@@ -181,13 +185,18 @@ const Header = inject((stores: IStores) => ({ appStore: stores.appStore, chatSto
                                                     {
                                                         Object.keys(user.online).map(function (key, index) {
                                                             return (
-                                                                <div className="online_item">
-                                                                    <Icon className='icon_s active-grey' name={`social_media_${key}`} />
+                                                                <div className="online_item"
+                                                                     key={index}
+                                                                >
+                                                                    <Icon className='icon_s active-grey'
+                                                                          name={`social_media_${key}`}/>
                                                                     <span>
                                                                         {
                                                                             user.online[key] === 'В сети' ? (<Fragment>
-                                                                                <div className="online_dot_header"></div>
-                                                                            </Fragment>) : (<Fragment>{user.online[key]}</Fragment>)
+                                                                                <div
+                                                                                    className="online_dot_header"></div>
+                                                                            </Fragment>) : (
+                                                                                <Fragment>{user.online[key]}</Fragment>)
                                                                         }
                                                                     </span>
                                                                 </div>
@@ -199,10 +208,12 @@ const Header = inject((stores: IStores) => ({ appStore: stores.appStore, chatSto
                                         }
                                         <div className="header_settings">
                                             <div className="trigger">
-                                                <Popover onVisibleChange={(e) => { e ? {} : setModal(false) }} visible={modal} content={<DropDownMenu />} trigger="click">
+                                                <Popover onVisibleChange={(e) => {
+                                                    e ? {} : setModal(false)
+                                                }} visible={modal} content={<DropDownMenu/>} trigger="click">
                                                     <Button onClick={() => setModal(!modal)} className='transparent'>
                                                         {/*потом открыь*/}
-                                                      {/*  <Icon className='icon_s lite-grey rotated' name={`regular_three-dots`} />*/}
+                                                        {/*  <Icon className='icon_s lite-grey rotated' name={`regular_three-dots`} />*/}
                                                     </Button>
                                                 </Popover>
                                             </div>
@@ -211,7 +222,7 @@ const Header = inject((stores: IStores) => ({ appStore: stores.appStore, chatSto
 
                                     <div className="header_info">
                                         <Button onClick={() => appStore.setLayout('info')} className='transparent'>
-                                            <Icon className='icon_l lite-grey' name={`solid_users-cog`} />
+                                            <Icon className='icon_l lite-grey' name={`solid_users-cog`}/>
                                         </Button>
                                     </div>
                                 </div>
@@ -221,7 +232,7 @@ const Header = inject((stores: IStores) => ({ appStore: stores.appStore, chatSto
                         }
                     </Fragment>)
                 }
-                <ModalWindow />
+                <ModalWindow/>
             </div>
         );
     }));

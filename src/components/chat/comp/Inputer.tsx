@@ -76,7 +76,6 @@ const Inputer = inject((stores: IStores) => ({
             e.preventDefault();
             let message = draft[activeContact.id + status]
             setDraft({...draft, [activeContact.id + status]: ''})
-
             if (keys.alt || keys.shift || keys.ctrl) {
                 let text = ''
                 if (draft[activeContact.id + status]) text = draft[activeContact.id + status] + '\n'
@@ -183,7 +182,6 @@ const Inputer = inject((stores: IStores) => ({
         const switcherOff = () => {
             setSwitcher('')
         }
-
 
         const {TextArea} = Input;
 

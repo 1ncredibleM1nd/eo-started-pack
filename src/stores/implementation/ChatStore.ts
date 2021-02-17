@@ -1,12 +1,12 @@
-
-import { action, observable, reaction } from 'mobx'
-import { IChat, IChatStore, IMsg } from '@stores/interface';
-import { contactStore, appStore } from '@stores/implementation';
-import { getMessages } from '@actions'
+import {action, observable, reaction} from 'mobx'
+import {IChat, IChatStore, IMsg} from '@stores/interface';
+import {contactStore, appStore} from '@stores/implementation';
+import {getMessages} from '@actions'
 import moment from 'moment'
 import 'moment/locale/ru'
+
 moment.locale('ru')
-import { sendMsg } from '@actions'
+import {sendMsg} from '@actions'
 import $ from 'jquery'
 
 
@@ -22,7 +22,6 @@ export class ChatStore implements IChatStore {
     pageLoading: boolean = false
 
 
-
     constructor() {
         reaction(() => {
             return this.chat;
@@ -31,6 +30,7 @@ export class ChatStore implements IChatStore {
             }
         })
     }
+
     updateMessages: (contact_id: string) => any;
     readAllMsg: (id: string) => void;
 
@@ -64,7 +64,6 @@ export class ChatStore implements IChatStore {
         if (this.pageLoading) return null
 
 
-
         let messages: IMsg[][] = []
         this.pageLoading = true
 
@@ -82,8 +81,9 @@ export class ChatStore implements IChatStore {
 
                 let avatar = contactStore.getAvatar(contact_id)
 
-                //let userId = currentChat.user.find((id: any) => id === msg.from)
-                // let user = userStore.getUser(userId)
+
+                // let userId = this.activeChat.user.find((id: any) => id === msg.from)
+                // let user = userStore.getUser(contact_id)
                 //let role = chat.role.find((role: any) => role.id === msg.from)
                 //let prevUser, nextUser: any
 
@@ -92,11 +92,8 @@ export class ChatStore implements IChatStore {
                 let flowMsgNext, flowMsgPrev, center = false
                 let prevReaded, time_scope: any = null
 
-
-
                 if (pageContent.messages[index - 1]) {
                     prevMsg = pageContent.messages[index - 1]
-                    console.log(prevMsg,'prevMsg');
                     if (prevMsg) {
                         prevReaded = prevMsg.readed
                     }
@@ -114,7 +111,6 @@ export class ChatStore implements IChatStore {
                 // if (nextUser && nextUser.id === userId) flowMsgNext = true
                 // if (prevUser && prevUser.id === userId) flowMsgPrev = true
                 // if (flowMsgNext && flowMsgPrev) if (prevUser.id === user.id && nextUser.id === user.id) center = true
-
 
 
                 const msg = {
@@ -146,12 +142,11 @@ export class ChatStore implements IChatStore {
             this.activeChat.msg = messages
 
 
-
             if ($(`.page-${this.activeChatPageNumber}`)) {
 
                 console.log('Длинна последней страницы', this.activeChat.msg[0].length)
                 if (this.activeChat.msg[0].length > 29) {
-                    $('.msg_space').animate({ scrollTop: $(`.page-1`).height() + 500 }, 0);
+                    $('.msg_space').animate({scrollTop: $(`.page-1`).height() + 500}, 0);
                 }
 
                 setTimeout(() => {
@@ -225,8 +220,6 @@ export class ChatStore implements IChatStore {
     //     }
     //     return null
     // }
-
-
 
 
     @action
@@ -325,7 +318,7 @@ export class ChatStore implements IChatStore {
                 }
             }
             this.activeChat.msg[0].unshift(msg)
-            $(".msg_space").animate({ scrollTop: $('.msg_space').prop("scrollHeight") }, 0);
+            $(".msg_space").animate({scrollTop: $('.msg_space').prop("scrollHeight")}, 0);
 
         }
     }
@@ -373,7 +366,6 @@ export class ChatStore implements IChatStore {
     // }
 
 
-
     @action
     async init(activeContact: any) {
         if (activeContact) {
@@ -384,7 +376,6 @@ export class ChatStore implements IChatStore {
             } else {
                 messages = await this.loadMessages(activeContact.id, 1)
             }
-
             let chat: any = {
                 contact_id: activeContact.id,
                 id: activeContact.id,
@@ -400,7 +391,6 @@ export class ChatStore implements IChatStore {
                     this.activeSocial = social;
                 }
             }
-
             if (JSON.stringify(this.activeChat) !== JSON.stringify(chat)) {
                 console.log('setting activeChat')
                 this.loaded = true
@@ -408,7 +398,6 @@ export class ChatStore implements IChatStore {
             }
         }
     }
-
 
 
 }

@@ -103,7 +103,7 @@ const SetingsMo = inject((stores: IStores) => ({chatStore: stores.chatStore}))(
                     </span>
                     </div>
                     <div className='modal_seting_block '>
-                        {listData.map(v => <Collapse accordion>
+                        {listData.map((v, i ) => <Collapse accordion key={i}>
                                 {v.map(data =>
                                     <Panel header={data.title} key={data.id}>
                                         {data.data.map(val => <span key={val.id}

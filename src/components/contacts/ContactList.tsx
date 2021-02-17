@@ -25,7 +25,6 @@ const ContactList = inject((stores: IStores) => ({
     appStore: stores.appStore
 }))(
     observer((props: IProps) => {
-
         const {contactStore, chatStore, appStore, onSelect, userStore} = props;
         let ContactsData = contactStore.contact
         let activeContact = contactStore.activeContact
@@ -70,11 +69,8 @@ const ContactList = inject((stores: IStores) => ({
             //     return match
             // })
         }
-
-
         const selectContact = async (id: any) => {
             if (onSelect) onSelect()
-
             contactStore.setActiveContact(id)
             chatStore.init(contactStore.activeContact)
             appStore.setLayout('chat')
@@ -99,10 +95,10 @@ const ContactList = inject((stores: IStores) => ({
                                     data-chat-list=""
                                 >
                                     {ContactsData.map((contact: any, index: number) => {
-
-                                        //const last_message_id = chatStore.getMsg(contact.last_message_id, contact.chat_id);
-                                        // const last_message = getMessages(contact.id)
-
+                                        //
+                                        // let last_message_id = chatStore.getMsg(contact.last_message_id, contact.chat_id);
+                                        //
+                                        // console.log(last_message_id,456456456456)
 
                                         const last_message = contact.last_message
                                         let online = contact.online
@@ -117,12 +113,21 @@ const ContactList = inject((stores: IStores) => ({
 
                                         if (user && hero.id === user.id) user = undefined
                                         if (status === 'unread') unreadedCount = chatStore.getUnreadCount(contact.id)
+
+
+                                        // if (contact.name.length > 13) {
+                                        //     name = contact.name.slice(0, 12) + '...'
+                                        // }
+                                        // console.log(contact.last_message.income);
+
+
                                         return (
                                             <li onClick={() => selectContact(contact.id)}
                                                 className={`contacts-item friends 
                                                     ${activeContact && activeContact.id === contact.id
                                                     ? 'active' : ''}`}
                                                 // style={{background: !contact.last_message.readed ? 'wheat' : ''}}
+                                                key={index}
                                             >
                                                 <div className="avatar">
                                                     <div className={`social_media_icon ${contact.social_media}`}>
@@ -137,7 +142,7 @@ const ContactList = inject((stores: IStores) => ({
                                                 </div>
                                                 <div className="contacts-content">
                                                     <div className="contacts-info">
-                                                        <h4 className="chat-name">{contact.name}</h4>
+                                                        <h4 className="chat-name user_name_to">{contact.name}</h4>
                                                         <div className="chat-time">
                                                             {
                                                                 last_message ? (<Fragment>
@@ -152,7 +157,7 @@ const ContactList = inject((stores: IStores) => ({
                                                             last_message ? (<Fragment>
                                                                 <div className={`last_msg ${status}`}>
                                                                     <div className="from">
-                                                                        {user ? user.username + ': ' : 'You: '}
+                                                                        {contact.last_message.income ? '' : 'You:'}
                                                                     </div>
                                                                     {last_message.content}
                                                                     {
