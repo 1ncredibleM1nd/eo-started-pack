@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {inject, observer} from 'mobx-react';
 import IStores from '@stores/interface';
 import Header from '@components/chat/Header'
@@ -8,8 +8,6 @@ type IProps = {}
 
 const ChatLayout = inject((stores: IStores) => ({}))(
     observer((props: IProps) => {
-
-        // const { } = props;
 
 
         return (
