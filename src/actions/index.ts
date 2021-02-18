@@ -13,7 +13,6 @@ function getFrame(url: string = 'MTIzNDU2NzhfYzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY
     } catch (e) {
         isFramed = true;
     }
-    isFramed = true
     isRest = isFramed ? 'rest' : 'v1'
     if (url.length > 0) {
         let arr = atob(url).split('_')
