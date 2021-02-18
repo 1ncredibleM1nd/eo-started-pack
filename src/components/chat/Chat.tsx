@@ -159,6 +159,16 @@ const Chat = inject((stores: IStores) => ({
                 </Divider>
             </div>)
         }
+        // const renderMessagesWrapper=(reply:boolean)=>{
+        //     return(
+        //         {reply? (<div className="reply">
+        //                     <span>
+        //                         {msg.reply.content}
+        //                     </span>
+        //                 </div>
+        //             ) : ''}
+        //     )
+        // }
 
         const renderToMeMessages =(msg:any)=>{
             return (<>
@@ -167,9 +177,7 @@ const Chat = inject((stores: IStores) => ({
                     ? renderDataTimeBlock(msg.time_scope) : ''
                     : msg.prevReaded !== msg.readed ? (<>
                     <span>{msg.prevReaded}</span>
-                        {renderDataContainerUnread()}
-                    </>)
-                        : ''}
+                        {renderDataContainerUnread()}</>) : ''}
 
                 <div key={Math.random()} className="message">
                     {!msg.flowMsgPrev && msg.flowMsgNext && !msg.center ? (
@@ -193,9 +201,9 @@ const Chat = inject((stores: IStores) => ({
                             {
                                 msg.reply ? (<Fragment>
                                     <div className="reply">
-                                                                                        <span>
-                                                                                            {msg.reply.content}
-                                                                                        </span>
+                                        <span>
+                                            {msg.reply.content}
+                                        </span>
                                     </div>
                                 </Fragment>) : (<Fragment></Fragment>)
                             }
