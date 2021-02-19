@@ -87,7 +87,7 @@ module.exports = {
           { loader: 'css-loader' },
           {
             loader: 'postcss-loader',
-            options: { config: { path: path.join(__dirname, './postcss.config.js') } }
+            options: { config: { path: path.join(__dirname, './postcss.config.ts') } }
           },
           { loader: 'sass-loader', options: { sourceMap: true } }
         ]
@@ -104,7 +104,7 @@ module.exports = {
           },
           {
             loader: 'postcss-loader',
-            options: { config: { path: path.join(__dirname, './postcss.config.js') } }
+            options: { config: { path: path.join(__dirname, './postcss.config.ts') } }
           },
           {
             loader: 'less-loader', // compiles Less to CSS,

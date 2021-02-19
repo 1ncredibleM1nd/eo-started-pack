@@ -59,7 +59,6 @@ const Chat = inject((stores: IStores) => ({
             setReRender(!reRender)
         }
 //@ts-ignore
-
         const DropDownMenu = (msg: any) => {
             return (
                 <Menu>
@@ -136,11 +135,11 @@ const Chat = inject((stores: IStores) => ({
 
         let lsd_date: number = null
 
-       //render chat content
+        //render chat content
 
 
-        const renderDataTimeBlock=(time:string)=>{
-            return(<div className="date_container">
+        const renderDataTimeBlock = (time: string) => {
+            return (<div className="date_container">
                 <Divider orientation="center"
                          className='date_divider'>
                     <div className="date">
@@ -149,8 +148,8 @@ const Chat = inject((stores: IStores) => ({
                 </Divider>
             </div>)
         }
-        const renderDataContainerUnread=()=>{
-            return( <div className="date_container unread">
+        const renderDataContainerUnread = () => {
+            return (<div className="date_container unread">
                 <Divider orientation="center"
                          className='date_divider unread'>
                     <div className="date unread">
@@ -159,69 +158,47 @@ const Chat = inject((stores: IStores) => ({
                 </Divider>
             </div>)
         }
-        // const renderMessagesWrapper=(reply:boolean)=>{
-        //     return(
-        //         {reply? (<div className="reply">
-        //                     <span>
-        //                         {msg.reply.content}
-        //                     </span>
-        //                 </div>
-        //             ) : ''}
-        //     )
-        // }
-
-        const renderToMeMessages =(msg:any)=>{
+        const renderMessagesHeader = (msg: any) => {
             return (<>
-                {msg.readed ?
-                    msg.time_scope
-                    ? renderDataTimeBlock(msg.time_scope) : ''
-                    : msg.prevReaded !== msg.readed ? (<>
-                    <span>{msg.prevReaded}</span>
-                        {renderDataContainerUnread()}</>) : ''}
-
-                <div key={Math.random()} className="message">
-                    {!msg.flowMsgPrev && msg.flowMsgNext && !msg.center ? (
-                        <Fragment>
-                            <div className="msg_header">
-                                {/* <span>{user.username}</span> */}
-                                <span
-                                    className="msg-role">{msg.role ? msg.role.name : ''}</span>
-                            </div>
-                        </Fragment>) : ''}
-                    {!msg.flowMsgNext && !msg.flowMsgPrev ? (<Fragment>
-                        <div className="msg_header">
-                            {/* <span>{user.username}</span> */}
-                            <span
-                                className="msg-role">{msg.role ? msg.role.name : ''}</span>
-                        </div>
-                    </Fragment>) :''}
-                    <div className="message-wrapper">
-                        <div
-                            className={`message-content ${msg.flowMsgNext ? 'not-main' : ''} `}>
-                            {
-                                msg.reply ? (<Fragment>
-                                    <div className="reply">
+                {!msg.flowMsgPrev && msg.flowMsgNext && !msg.center ? (<div className="msg_header">
+                    {/* <span>{user.username}</span> */}
+                    <span
+                        className="msg-role">{msg.role ? msg.role.name : ''}</span>
+                </div>) : ''}
+                {!msg.flowMsgNext && !msg.flowMsgPrev ? (<div className="msg_header">
+                    {/* <span>{user.username}</span> */}
+                    <span
+                        className="msg-role">{msg.role ? msg.role.name : ''}</span>
+                </div>) : ''}
+            </>)
+        }
+        const renderMessagesWrapper = (msg: any) => {
+            return <div className="message-wrapper">
+                <div className={`message-content ${msg.flowMsgNext ? 'not-main' : ''} `}>
+                    {
+                        msg.reply ? (<Fragment>
+                            <div className="reply">
                                         <span>
                                             {msg.reply.content}
                                         </span>
-                                    </div>
-                                </Fragment>) : (<Fragment></Fragment>)
-                            }
-                            <div className="inset_border_container">
-                                <div className="dummy"></div>
-                                <div className="border_hero"></div>
                             </div>
-                            <div className='msg_text_container'>
-                                {msg.content}
-                            </div>
-                            {/* <div className={`smile ${switcher === msg.id ? 'active' : ''}`}>
+                        </Fragment>) : ''
+                    }
+                    <div className="inset_border_container">
+                        <div className="dummy"/>
+                        <div className="border_hero"/>
+                    </div>
+                    <div className='msg_text_container'>
+                        {msg.content}
+                    </div>
+                    {/* <div className={`smile ${switcher === msg.id ? 'active' : ''}`}>
                                                                 <Popover onVisibleChange={(e) => { e ? {} : setSwitcher('') }} visible={switcher === msg.id} content={<SmileMenu id={msg.id} chat_id={currentChat.id} switcherOff={switcherOff} /trigger="click">
                                                                     <Button onClick={() => { switcher === msg.id ? setSwitcher('') : setSwitcher(msg.id) }} className='transparent'>
                                                                         <Icon className={`icon_s active-grey`} name='regular_smile' />
                                                                     </Button>
                                                                 </Popover>
                                                             </div> */}
-                            {/* <div className="smile_realization">
+                    {/* <div className="smile_realization">
                                                                 {
                                                                     msg.smiles && msg.smiles.length ? (<Fragment>
                                                                         {
@@ -236,35 +213,31 @@ const Chat = inject((stores: IStores) => ({
                                                                     </Fragment>) : (<Fragment></Fragment>)
                                                                 }
                                                             </div> */}
-                        </div>
-                    </div>
-                    {!msg.flowMsgNext ? (<Fragment>
-                        <div className="message-options">
+                </div>
+            </div>
+        }
+
+
+        const renderToMeMessages = (msg: any) => {
+            return (<>
+                {msg.readed ?
+                    msg.time_scope
+                        ? renderDataTimeBlock(msg.time_scope) : ''
+                    : msg.prevReaded !== msg.readed ? (<>
+                        <span>{msg.prevReaded}</span>
+                        {renderDataContainerUnread()}</>) : ''}
+                <div key={Math.random()} className="message">
+                    {renderMessagesHeader(msg)}
+                    {renderMessagesWrapper(msg)}
+                    {!msg.flowMsgNext ? (<div className="message-options">
                             <div className="avatar avatar-sm">
-                                <div
-                                    className={`social_media_icon ${msg.social_media}`}>
-                                    <Icon className='icon_s'
-                                          name={`social_media_${msg.social_media}`}/>
-                                </div>
+                                <div className={`social_media_icon ${msg.social_media}`}><Icon className='icon_s' name={`social_media_${msg.social_media}`}/></div>
                                 <img src={msg.avatar} alt=""/>
                                 {/* <img src={user.avatar} alt="" /> */}
                             </div>
                             <span className="message-status">
-                                                                                    {
-                                                                                        msg.editted ? (<Fragment>
-                                                                                            <div
-                                                                                                className="editted_icon">
-                                                                                                <Icon
-                                                                                                    className='active-grey'
-                                                                                                    name={`solid_pencil-alt`}/>
-                                                                                                {' '}
-                                                                                                Редак.
-                                                                                            </div>
-                                                                                        </Fragment>) : (
-                                                                                            <Fragment></Fragment>)
-                                                                                    }
-                                <div
-                                    className="msg_time">{msg.time} {msg.date}</div>
+                                {msg.editted ? (<div className="editted_icon"><Icon className='active-grey' name={`solid_pencil-alt`}/>{' '}Редак.</div>) : ''}
+                                <div className="msg_time">{msg.time} {msg.date}</div>
                                 {/*<Dropdown overlay={<DropDownMenu id={msg.id}/>} placement="bottomLeft" trigger={['click']}>*/}
                                 {/*    <span*/}
                                 {/*        className='dropdown-trigger'>*/}
@@ -273,165 +246,79 @@ const Chat = inject((stores: IStores) => ({
                                 {/*            name={`regular_three-dots`}/>*/}
                                 {/*    </span>*/}
                                 {/*</Dropdown>*/}
-                                                                                </span>
-                        </div>
-                    </Fragment>) : ''}
+                            </span>
+                        </div>) : ''}
                 </div>
             </>)
         }
-        const renderMyMessages=(msg:any)=>{
+        const renderMyMessages = (msg: any) => {
             return (<>
                 {msg.readed ?
-                        ((lsd_date === null) ||
-                            //@ts-ignore
-                        (lsd_date !== msg.date))
+                    ((lsd_date === null) ||
                         //@ts-ignore
-                        && (lsd_date = msg.date) ? renderDataTimeBlock(msg.date) : ''
+                        (lsd_date !== msg.date))
+                    //@ts-ignore
+                    && (lsd_date = msg.date) ? renderDataTimeBlock(msg.date) : ''
                     : msg.prevReaded !== msg.readed
                         ? renderDataContainerUnread() : ''}
-
                 <div key={Math.random()} className={`message self ${msg.flowMsgNext ? 'not-main' : ''} `}>
-                    {!msg.flowMsgPrev && msg.flowMsgNext && !msg.center ? (<Fragment>
-                                <div className="msg_header">
-                                    {/* <span>{user.username}</span> */}
-                                    <span
-                                        className="msg-role">{msg.role ? msg.role.name : ''}</span>
+                    {renderMessagesHeader(msg)}
+                    {renderMessagesWrapper(msg)}
+                    {!msg.flowMsgNext ? (<div className="message-options">
+                            <div className="avatar avatar-sm">
+                                <div className={`social_media_icon ${msg.social_media}`}>
+                                    <Icon className='icon_s' name={`social_media_${msg.social_media}`}/>
                                 </div>
-                            </Fragment>) : ''}
-                    {!msg.flowMsgNext && !msg.flowMsgPrev ? (<Fragment>
-                                <div className="msg_header">
-                                    {/* <span>{user.username}</span> */}
-                                    <span
-                                        className="msg-role">{msg.role ? msg.role.name : ''}</span>
-                                </div>
-                            </Fragment>) : ''}
-                    <div className="message-wrapper">
-                        <div
-                            className={`message-content ${msg.flowMsgNext ? 'not-main' : ''} `}>
-                            {
-                                msg.reply ? (<Fragment>
-                                    <div className="reply">
-                                                                                        <span>
-                                                                                            {msg.reply.content}
-                                                                                        </span>
-                                    </div>
-                                </Fragment>) : (<Fragment></Fragment>)
-                            }
-                            <div className="inset_border_container">
-                                <div className="dummy"></div>
-                                <div className="border_hero"></div>
+                                {/* <img src={user.avatar} alt="" /> */}
                             </div>
-                            <span>
-                                                                                {msg.content}
-                                                                            </span>
-                            {/* <div className={`smile ${switcher === msg.id ? 'active' : ''}`}>
-                                                                <Popover onVisibleChange={(e) => { e ? {} : setSwitcher('') }} visible={switcher === msg.id} content={<SmileMenu id={msg.id} chat_id={currentChat.id} switcherOff={switcherOff} />} trigger="click">
-                                                                    <Button onClick={() => { switcher === msg.id ? setSwitcher('') : setSwitcher(msg.id) }} className='transparent'>
-                                                                        <Icon className={`icon_s active-grey`} name='regular_smile' />
-                                                                    </Button>
-                                                                </Popover>
-                                                            </div> */}
-                            {/* <div className="smile_realization">
-                                                                {
-                                                                    msg.smiles && msg.smiles.length ? (<Fragment>
-                                                                        {
-                                                                            msg.smiles.map((smile: string) => {
-                                                                                return (
-                                                                                    <div className="smile_msg">
-                                                                                        {smile}
-                                                                                    </div>
-                                                                                )
-                                                                            })
-                                                                        }
-                                                                    </Fragment>) : (<Fragment></Fragment>)
-                                                                }
-                                                            </div> */}
-                            <div className="readed-status">
-                                {
-                                    msg.readed ? (<Fragment>
-                                        <Icon className='white'
-                                              name={`solid_readed`}/>
-                                    </Fragment>) : (<Fragment>
-                                        <Icon className='white'
-                                              name={`solid_check-msg`}/>
-                                    </Fragment>)
-                                }
-                            </div>
-                        </div>
-                    </div>
-                    {!msg.flowMsgNext ? (<Fragment>
-                            <div className="message-options">
-                                <div className="avatar avatar-sm">
-                                    <div
-                                        className={`social_media_icon ${msg.social_media}`}>
-                                        <Icon className='icon_s'
-                                              name={`social_media_${msg.social_media}`}/>
-                                    </div>
-                                    {/* <img src={user.avatar} alt="" /> */}
-                                </div>
-                                <span className="message-status">
-                                                                                    {
-                                                                                        msg.editted ? (<Fragment>
-                                                                                            <div
-                                                                                                className="editted_icon">
-                                                                                                <Icon
-                                                                                                    className='active-grey'
-                                                                                                    name={`solid_pencil-alt`}/>
-                                                                                                {' '}
-                                                                                                Редак.
-                                                                                            </div>
-                                                                                        </Fragment>) : (
-                                                                                            <Fragment></Fragment>)
-                                                                                    }
-                                    <div
-                                        className="msg_time">{msg.time} {msg.date}</div>
+                            <span className="message-status">
+                                {msg.editted ? (<div className="editted_icon"><Icon className='active-grey' name={`solid_pencil-alt`}/>{' '}Редак.</div>) : ''}
+                                <div className="msg_time">{msg.time} {msg.date}</div>
 
-                                    {/*<Dropdown overlay={<DropDownMenu*/}
-                                    {/*            id={msg.id}/>}*/}
-                                    {/*                  placement="bottomLeft"*/}
-                                    {/*                  trigger={['click']}>*/}
-                                    {/*            <span className='dropdown-trigger'>*/}
-                                    {/*                <Icon*/}
-                                    {/*                    className='active-grey'*/}
-                                    {/*                    name={`regular_three-dots`}/>*/}
-                                    {/*            </span>*/}
-                                    {/*        </Dropdown>*/}
-                                                                                </span>
-                            </div>
-                        </Fragment>) : ('')}
+                                {/*<Dropdown overlay={<DropDownMenu*/}
+                                {/*            id={msg.id}/>}*/}
+                                {/*                  placement="bottomLeft"*/}
+                                {/*                  trigger={['click']}>*/}
+                                {/*            <span className='dropdown-trigger'>*/}
+                                {/*                <Icon*/}
+                                {/*                    className='active-grey'*/}
+                                {/*                    name={`regular_three-dots`}/>*/}
+                                {/*            </span>*/}
+                                {/*        </Dropdown>*/}
+
+                            </span>
+                        </div>) : ''}
                 </div>
             </>)
         }
-
 
 
         return (<div className="chat position-relative">
-                {
-                    currentChat !== undefined ? (<Fragment>
-                                <div onScroll={() => handleScroll()} className="msg_space" id={activeContact.id}>
-                                    {currentChat.msg.map((page: IMsg[], index: number) => {
-                                        return (<div className={`page page-${index + 1}`}>
-                                            {page.map((msg: IMsg) =>
-                                                //@ts-ignore
-                                                msg.income?renderToMeMessages(msg)
-                                                    : renderMyMessages(msg)
-                                            )}
-                                        </div>)
-                                    })}
+            {
+                currentChat !== undefined ? (<Fragment>
+                            <div onScroll={() => handleScroll()} className="msg_space" id={activeContact.id}>
+                                {currentChat.msg.map((page: IMsg[], index: number) => {
+                                    return (<div className={`page page-${index + 1}`}>
+                                        {page.map((msg: IMsg) =>
+                                            //@ts-ignore
+                                            msg.income ? renderToMeMessages(msg)
+                                                : renderMyMessages(msg)
+                                        )}
+                                    </div>)
+                                })}
+                            </div>
+                            {isOpenMenu ? <div className="message-item">
+                                <div className="message-block-content d-flex flex-column justify-content-between">
+                                    // @ts-ignore
+                                    <SetingsMo/>
                                 </div>
-                                {isOpenMenu ? <div className="message-item">
-                                    <div className="message-block-content d-flex flex-column justify-content-between">
-                                        // @ts-ignore
-                                        <SetingsMo/>
-                                    </div>
-                                </div> : ''}
-                                <Inputer isActiveChenel={chenel} helperMenu={openHelperMenu}/>
-                            </Fragment>
-                        )
-                        : (<ChatPlaceholder/>)
-                }
-            </div>);
-
+                            </div> : ''}
+                            <Inputer isActiveChenel={chenel} helperMenu={openHelperMenu}/>
+                        </Fragment>
+                    )
+                    : (<ChatPlaceholder/>)
+            }
+        </div>);
 
 
     }));

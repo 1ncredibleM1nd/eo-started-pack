@@ -1,5 +1,6 @@
 import {action, observable} from 'mobx'
-import {isLogged, setSession, getFrame} from '@actions'
+import {isLogged, setSession} from '@actions'
+import {getFrame} from '../../actions/axios'
 import IAuthStore from "@stores/interface/app/IAuthStore";
 
 export class AuthStore implements IAuthStore {
@@ -45,7 +46,7 @@ export class AuthStore implements IAuthStore {
             if (currentUrl.search.includes('encrypted_data')) {
                 this.url_iFrame = currentUrl.searchParams.get('encrypted_data');
             }
-            this.isFramed = getFrame(this.url_iFrame)
+            this.isFramed = await getFrame(this.url_iFrame)
             if (!this.isFramed) {
                 if (currentUrl.search.includes('encrypted_session_data')) {
                     const encryptedSessionData = currentUrl.searchParams.get('encrypted_session_data');

@@ -1,37 +1,7 @@
-import axios from './axios';
-
-const origin = 'https://backend.chat.dev.prodamus.pro'
-let isRest: string;
-let isFramed = false;
-let token: string;
-let timestamp: string
-let headers: {}
-
-function getFrame(url: string = 'MTIzNDU2NzhfYzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI=') {
-    try {
-        isFramed = window != window.top || document != top.document || self.location != top.location;
-    } catch (e) {
-        isFramed = true;
-    }
-    isRest = isFramed ? 'rest' : 'v1'
-    if (url.length > 0) {
-        let arr = atob(url).split('_')
-        token = btoa(arr[0] + arr[1])
-        timestamp = arr[0]
-    }
-    headers = {'Authorization': `Bearer ${isFramed ? token : localStorage.getItem('token')}`,}
-    isFramed ? headers['Timestamp'] = timestamp : headers
-
-    return isFramed
-}
-
+import {API, AUTH} from './axios';
 
 function getMessages(conversationId: string, page: number, school: string) {
-    return axios.get(`${origin}/${isRest}/conversation/get-messages?conversationId=${conversationId}&page=${page}&school=${school}`, {
-        withCredentials: true,
-        headers
-    }).then(response => {
-        //console.log('getMessages', response)
+    return API.get(`/conversation/get-messages?conversationId=${conversationId}&page=${page}&school=${school}`).then(response => {
         return {
             messages: response.data.data,
         }
@@ -39,13 +9,8 @@ function getMessages(conversationId: string, page: number, school: string) {
 }
 
 function getConversations(school: string) {
-    return axios.get(`${origin}/${isRest}/conversation/get-conversations?school=${school}&page=${1}`, {
-        withCredentials: true,
-        headers
-    }).then(response => {
-        return {
-            data: response.data.data,
-        }
+    return API.get(`/conversation/get-conversations?school=${school}&page=${1}`).then(response => {
+        return {data: response.data.data}
     })
 }
 
@@ -56,11 +21,7 @@ function sendMsg(conversationId: string, message: string, conversationSourceAcco
         school,
         message
     }
-    return axios.post(`${origin}/${isRest}/conversation/send-message`, body, {
-        withCredentials: true,
-        headers
-    }).then(response => {
-        console.log('sendMsg', response)
+    return API.post(`/conversation/send-message`, body).then(response => {
         return {
             menu: response.data.data,
         }
@@ -68,7 +29,7 @@ function sendMsg(conversationId: string, message: string, conversationSourceAcco
 }
 
 function isLogged() {
-    return axios.get(`${origin}/${isRest}/account/is-logged`, {withCredentials: true})
+    return AUTH.get(`/account/is-logged`,)
         .then((response) => response)
         .catch((error) => error)
 }
@@ -76,9 +37,7 @@ function isLogged() {
 function setSession(sessionId: any) {
     const formData = new FormData();
     formData.append('encrypted_session_data', sessionId);
-    return axios.post(`${origin}/${isRest}/account/set-session`, formData, {
-        withCredentials: true,
-    });
+    return AUTH.post(`/account/set-session`, formData,);
 
 }
 
@@ -88,5 +47,4 @@ export {
     getMessages,
     isLogged,
     setSession,
-    getFrame
 };
