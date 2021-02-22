@@ -1,7 +1,14 @@
 import {action, observable} from 'mobx'
-import {isLogged, setSession} from '@actions'
+import {isLogged, setSession,getUserData} from '@actions'
 import {getFrame} from '../../actions/axios'
 import IAuthStore from "@stores/interface/app/IAuthStore";
+
+
+window.addEventListener('blur', () => {
+});
+window.addEventListener('focus', async () => {
+    await isLogged()
+});
 
 export class AuthStore implements IAuthStore {
 
@@ -17,27 +24,11 @@ export class AuthStore implements IAuthStore {
 
     @action
     setToken(token: string) {
+        console.log(token)
         localStorage.setItem('token', token)
     }
 
-    getToken() {
-        return localStorage.getItem('token');
-        // let paramsString = document.location.search;
-        // let searchParams = new URLSearchParams(paramsString);
-        //
-        // let encrypted_session_data = searchParams.get('encrypted_session_data');
-        //
-        // if (encrypted_session_data) {
-        //     await setSession(encrypted_session_data);
-        // }
-        //
-        // let logged_res = await isLogged();
-        //
-        // if (!logged_res.data.data.success && !encrypted_session_data) {
-        //     window.location.href = `https://account.dev.prodamus.ru/?redirect_url=${window.location.href}`;
-        // }
-    }
-
+    getToken = () => localStorage.getItem('token');
 
     @action
     async initialize() {
@@ -48,15 +39,6 @@ export class AuthStore implements IAuthStore {
             }
             this.isFramed = await getFrame(this.url_iFrame)
             if (!this.isFramed) {
-                if (currentUrl.search.includes('encrypted_session_data')) {
-                    const encryptedSessionData = currentUrl.searchParams.get('encrypted_session_data');
-                    currentUrl.searchParams.delete('encrypted_session_data');
-                    currentUrl.searchParams.delete('pid');
-                    history.replaceState(history.state, null, currentUrl.href);
-                    if (encryptedSessionData) {
-                        await setSession(encryptedSessionData);
-                    }
-                }
                 let urlData = (url: string) => {
                     let params = {};
                     let param = url.slice(url.indexOf("?"))
@@ -66,13 +48,21 @@ export class AuthStore implements IAuthStore {
                         let pair = vars[i].split('=');
                         params[pair[0]] = decodeURIComponent(pair[1]);
                     }
-                    return params;
+                    return params
                 };
                 // @ts-ignore
-                let url = urlData(window.location.href).encrypted_session_data
+                let url = await urlData(window.location.href).encrypted_session_data
+                if (currentUrl.search.includes('encrypted_session_data')) {
+                    const encryptedSessionData = currentUrl.searchParams.get('encrypted_session_data');
+                    currentUrl.searchParams.delete('encrypted_session_data');
+                    currentUrl.searchParams.delete('pid');
+                    history.replaceState(history.state, null, currentUrl.href);
+                    if (encryptedSessionData) {
+                        await setSession(encryptedSessionData);
+                    }
+                }
                 if (url !== undefined && url.length !== 0) {
-                    const {data: {data: {token}}} = await setSession(url.encrypted_session_data)
-                    // @ts-ignore
+                    const {data: {data: {token}}} = await setSession(url)
                     this.setToken(token)
                 } else {
                     const {data: {data: {token, success}}} = await isLogged()
@@ -84,6 +74,8 @@ export class AuthStore implements IAuthStore {
                     }
                 }
             }
+            let data = await getUserData()
+            console.log(data, 48949898)
         } catch (e) {
             throw(e)
         }

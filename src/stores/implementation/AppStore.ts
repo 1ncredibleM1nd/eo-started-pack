@@ -1,7 +1,7 @@
-import { action, observable } from "mobx";
-import { IAppStore } from '@stores/interface';
-import { contactStore, chatStore, userStore } from '@stores/implementation';
-import { getConversations } from '@actions'
+import {action, observable} from "mobx";
+import {IAppStore} from '@stores/interface';
+import {contactStore, chatStore, userStore} from '@stores/implementation';
+import {getConversations} from '@actions'
 
 export class AppStore implements IAppStore {
     @observable loaded: boolean = false;
@@ -675,21 +675,25 @@ export class AppStore implements IAppStore {
                 id: "user_0", //int
                 unic: '@bilbo_beggins'
             }
-
-
             var paramsString = document.location.search;
             var searchParams = new URLSearchParams(paramsString);
-            this.school = searchParams.get("school");
 
+            this.school = await searchParams.get("school");
             if (!this.school) this.school = 'turstar'
             let conversations = await getConversations(this.school)
-
             try {
-                setInterval(async () => {
+                let run = async () => {
                     conversations = await getConversations(this.school)
                     await contactStore.init(conversations.data);
                     await chatStore.init(contactStore.activeContact);
-                }, 1000)
+                    setTimeout(run, 1000);
+                }
+                setTimeout(() => run(), 1000);
+                // setInterval(async () => {
+                //     conversations = await getConversations(this.school)
+                //     await contactStore.init(conversations.data);
+                //     await chatStore.init(contactStore.activeContact);
+                // }, 1000)
             } catch (e) {
                 throw new Error(e);
             }

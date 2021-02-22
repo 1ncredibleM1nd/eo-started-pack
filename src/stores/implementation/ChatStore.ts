@@ -254,7 +254,6 @@ export class ChatStore implements IChatStore {
         this.modalWindow = status
     }
 
-
     @action
     getLastMsg(id: string): any {
         let chat = this.chat.find((chat_item: IChat) => {
@@ -267,9 +266,7 @@ export class ChatStore implements IChatStore {
     getUnreadCount(id: string): number {
         let unreadedCount = 0;
         let chat = this.chat.find((chat_item: IChat) => chat_item.contact_id === id)
-
         let counting = true
-
         for (let i = chat.msg.length; i >= 0; i--) {
             let page = chat.msg[i]
 
@@ -294,6 +291,7 @@ export class ChatStore implements IChatStore {
             let id = 'msg_' + Math.random()
             contactStore.setLastMsg(this.activeChat.contact_id, `msg_${id}`)
             let avatar = contactStore.getAvatar(this.activeChat.contact_id,)
+            //@ts-ignore
             let msg: IMsg = {
                 id: `msg_${id}`,
                 avatar: avatar,

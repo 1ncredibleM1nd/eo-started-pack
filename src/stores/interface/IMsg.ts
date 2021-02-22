@@ -10,6 +10,7 @@ export default interface IMsg {
     reply: IMsg;
     smiles: string[];
     editted: boolean;
+    income: boolean;
     avatar?: string;
     flowMsgNext?: any;
     role?: any;

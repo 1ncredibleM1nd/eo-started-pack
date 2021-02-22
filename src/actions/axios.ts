@@ -6,7 +6,7 @@ let isFramed = false;
 let timestamp: string
 let headers: {}
 
-function getFrame(url: string = 'MTIzNDU2NzhfYzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI=') {
+function getFrame(url: string = 'MTIzNDU2NzhNVEF4WXpSallUUXlNemhoTUdJNU1qTTRNakJrWTJNMU1EbGhObVkzTlRnME9XST0=') {
     try {
         isFramed = window != window.top || document != top.document || self.location != top.location;
     } catch (e) {
@@ -23,11 +23,6 @@ function getFrame(url: string = 'MTIzNDU2NzhfYzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY
 }
 
 
-const API = axios.create({
-    baseURL: CONFIG.BASE_API_URL + '/' + isRest,
-    headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`},
-    withCredentials: true,
-});
 const AUTH = axios.create({
     baseURL: CONFIG.BASE_API_URL + '/' + isRest,
     withCredentials: true,
@@ -36,5 +31,11 @@ const AUTH = axios.create({
 const API_IFRAME = axios.create({
     baseURL: CONFIG.BASE_API_URL
 });
+const API = (token: string) => axios.create({
+    baseURL: CONFIG.BASE_API_URL + '/' + isRest,
+    headers: {'Authorization': `Bearer ${token}`},
+    withCredentials: true,
+});
+
 
 export {API, AUTH, API_IFRAME, getFrame};

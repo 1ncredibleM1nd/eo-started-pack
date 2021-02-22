@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {useState} from 'react';
 import {inject, observer} from 'mobx-react';
 import IStores, {IChatStore, IMsg, IContactStore, IUserStore} from '@stores/interface';
 import {Icon} from '@ui'
@@ -58,7 +58,7 @@ const Chat = inject((stores: IStores) => ({
         const replyMsg = (id: string) => {
             setReRender(!reRender)
         }
-//@ts-ignore
+
         const DropDownMenu = (msg: any) => {
             return (
                 <Menu>
@@ -109,6 +109,7 @@ const Chat = inject((stores: IStores) => ({
             list[0].forEach((v: string) => str === v ? isR : !isR)
             return isR
         }
+
         if (!currentChat) {
             return (
                 <div className="chat">
@@ -136,69 +137,57 @@ const Chat = inject((stores: IStores) => ({
         let lsd_date: number = null
 
         //render chat content
+        const renderDataTimeBlock = (time: string) => <div className="date_container">
+            <Divider orientation="center"
+                     className='date_divider'>
+                <div className="date">
+                    {time}
+                </div>
+            </Divider>
+        </div>
+        const renderDataContainerUnread = () => <div className="date_container unread">
+            <Divider orientation="center"
+                     className='date_divider unread'>
+                <div className="date unread">
+                    Непрочитанные сообщения
+                </div>
+            </Divider>
+        </div>
 
 
-        const renderDataTimeBlock = (time: string) => {
-            return (<div className="date_container">
-                <Divider orientation="center"
-                         className='date_divider'>
-                    <div className="date">
-                        {time}
-                    </div>
-                </Divider>
-            </div>)
-        }
-        const renderDataContainerUnread = () => {
-            return (<div className="date_container unread">
-                <Divider orientation="center"
-                         className='date_divider unread'>
-                    <div className="date unread">
-                        Непрочитанные сообщения
-                    </div>
-                </Divider>
-            </div>)
-        }
-        const renderMessagesHeader = (msg: any) => {
-            return (<>
-                {!msg.flowMsgPrev && msg.flowMsgNext && !msg.center ? (<div className="msg_header">
-                    {/* <span>{user.username}</span> */}
-                    <span
-                        className="msg-role">{msg.role ? msg.role.name : ''}</span>
-                </div>) : ''}
-                {!msg.flowMsgNext && !msg.flowMsgPrev ? (<div className="msg_header">
-                    {/* <span>{user.username}</span> */}
-                    <span
-                        className="msg-role">{msg.role ? msg.role.name : ''}</span>
-                </div>) : ''}
-            </>)
-        }
-        const renderMessagesWrapper = (msg: any) => {
-            return <div className="message-wrapper">
-                <div className={`message-content ${msg.flowMsgNext ? 'not-main' : ''} `}>
-                    {
-                        msg.reply ? (<Fragment>
-                            <div className="reply">
-                                        <span>
-                                            {msg.reply.content}
-                                        </span>
-                            </div>
-                        </Fragment>) : ''
-                    }
-                    <div className="inset_border_container">
-                        <div className="dummy"/>
-                        <div className="border_hero"/>
-                    </div>
-                    <div className='msg_text_container'>
-                        {msg.content}
-                    </div>
-                    {/* <div className={`smile ${switcher === msg.id ? 'active' : ''}`}>
+        // sms blocks in user
+        const renderMessagesHeader = (msg: any) => <>
+            {!msg.flowMsgPrev && msg.flowMsgNext && !msg.center ? (<div className="msg_header">
+                {/*<span>{msg.username}</span>*/}
+                <span className="msg-role">{msg.role ? msg.role.name : ''}</span>
+            </div>) : ''}
+            {!msg.flowMsgNext && !msg.flowMsgPrev ? (<div className="msg_header">
+                {/*<span>{msg.username}</span>*/}
+                <span className="msg-role">{msg.role ? msg.role.name : ''}</span>
+            </div>) : ''}
+        </>
+
+        const renderMessagesWrapper = (msg: any) => <div className="message-wrapper">
+            <div className={`message-content ${msg.flowMsgNext ? 'not-main' : ''} `}>
+                {msg.reply ? (<div className="reply">
+                        <span>
+                            {msg.reply.content}
+                        </span>
+                    </div>) : ''}
+                <div className="inset_border_container">
+                    <div className="dummy"/>
+                    <div className="border_hero"/>
+                </div>
+                <div className='msg_text_container'>{msg.content}</div>
+                {/*smayliks */}
+                {/* <div className={`smile ${switcher === msg.id ? 'active' : ''}`}>
                                                                 <Popover onVisibleChange={(e) => { e ? {} : setSwitcher('') }} visible={switcher === msg.id} content={<SmileMenu id={msg.id} chat_id={currentChat.id} switcherOff={switcherOff} /trigger="click">
                                                                     <Button onClick={() => { switcher === msg.id ? setSwitcher('') : setSwitcher(msg.id) }} className='transparent'>
                                                                         <Icon className={`icon_s active-grey`} name='regular_smile' />
                                                                     </Button>
                                                                 </Popover>
                                                             </div> */}
-                    {/* <div className="smile_realization">
+                {/* <div className="smile_realization">
                                                                 {
                                                                     msg.smiles && msg.smiles.length ? (<Fragment>
                                                                         {
@@ -213,41 +202,38 @@ const Chat = inject((stores: IStores) => ({
                                                                     </Fragment>) : (<Fragment></Fragment>)
                                                                 }
                                                             </div> */}
-                </div>
             </div>
-        }
+        </div>
+        const renderMessagesOptions = (msg: any) => !msg.flowMsgNext ? (<div className="message-options">
+            <div className="avatar avatar-sm">
+                <div className={`social_media_icon ${msg.social_media}`}>
+                    <Icon className='icon_s' name={`social_media_${msg.social_media}`}/>
+                </div>
+                <img src={msg.avatar} alt=""/>
+            </div>
+            <span className="message-status">{msg.editted ? (
+                <div className="editted_icon"><Icon className='active-grey' name={`solid_pencil-alt`}/>{' '}Редак.
+                </div>) : ''}
+                <div className="msg_time">{msg.time} {msg.date}</div>
+                <Dropdown overlay={<DropDownMenu id={msg.id}/>} placement="bottomLeft" trigger={['click']}>
+                    <span
+                        className='dropdown-trigger'>
+                        <Icon
+                            className='active-grey'
+                            name={`regular_three-dots`}/>
+                    </span>
+                </Dropdown>
+                            </span>
+        </div>) : ''
 
-
+        //index rendering functions
         const renderToMeMessages = (msg: any) => {
             return (<>
-                {msg.readed ?
-                    msg.time_scope
-                        ? renderDataTimeBlock(msg.time_scope) : ''
-                    : msg.prevReaded !== msg.readed ? (<>
-                        <span>{msg.prevReaded}</span>
-                        {renderDataContainerUnread()}</>) : ''}
+                {!msg.readed ? renderDataContainerUnread() : ' '}
                 <div key={Math.random()} className="message">
                     {renderMessagesHeader(msg)}
                     {renderMessagesWrapper(msg)}
-                    {!msg.flowMsgNext ? (<div className="message-options">
-                            <div className="avatar avatar-sm">
-                                <div className={`social_media_icon ${msg.social_media}`}><Icon className='icon_s' name={`social_media_${msg.social_media}`}/></div>
-                                <img src={msg.avatar} alt=""/>
-                                {/* <img src={user.avatar} alt="" /> */}
-                            </div>
-                            <span className="message-status">
-                                {msg.editted ? (<div className="editted_icon"><Icon className='active-grey' name={`solid_pencil-alt`}/>{' '}Редак.</div>) : ''}
-                                <div className="msg_time">{msg.time} {msg.date}</div>
-                                {/*<Dropdown overlay={<DropDownMenu id={msg.id}/>} placement="bottomLeft" trigger={['click']}>*/}
-                                {/*    <span*/}
-                                {/*        className='dropdown-trigger'>*/}
-                                {/*        <Icon*/}
-                                {/*            className='active-grey'*/}
-                                {/*            name={`regular_three-dots`}/>*/}
-                                {/*    </span>*/}
-                                {/*</Dropdown>*/}
-                            </span>
-                        </div>) : ''}
+                    {renderMessagesOptions(msg)}
                 </div>
             </>)
         }
@@ -259,66 +245,33 @@ const Chat = inject((stores: IStores) => ({
                         (lsd_date !== msg.date))
                     //@ts-ignore
                     && (lsd_date = msg.date) ? renderDataTimeBlock(msg.date) : ''
-                    : msg.prevReaded !== msg.readed
-                        ? renderDataContainerUnread() : ''}
+                    :msg.readed ? renderDataContainerUnread() : ''}
                 <div key={Math.random()} className={`message self ${msg.flowMsgNext ? 'not-main' : ''} `}>
                     {renderMessagesHeader(msg)}
                     {renderMessagesWrapper(msg)}
-                    {!msg.flowMsgNext ? (<div className="message-options">
-                            <div className="avatar avatar-sm">
-                                <div className={`social_media_icon ${msg.social_media}`}>
-                                    <Icon className='icon_s' name={`social_media_${msg.social_media}`}/>
-                                </div>
-                                {/* <img src={user.avatar} alt="" /> */}
-                            </div>
-                            <span className="message-status">
-                                {msg.editted ? (<div className="editted_icon"><Icon className='active-grey' name={`solid_pencil-alt`}/>{' '}Редак.</div>) : ''}
-                                <div className="msg_time">{msg.time} {msg.date}</div>
-
-                                {/*<Dropdown overlay={<DropDownMenu*/}
-                                {/*            id={msg.id}/>}*/}
-                                {/*                  placement="bottomLeft"*/}
-                                {/*                  trigger={['click']}>*/}
-                                {/*            <span className='dropdown-trigger'>*/}
-                                {/*                <Icon*/}
-                                {/*                    className='active-grey'*/}
-                                {/*                    name={`regular_three-dots`}/>*/}
-                                {/*            </span>*/}
-                                {/*        </Dropdown>*/}
-
-                            </span>
-                        </div>) : ''}
+                    {renderMessagesOptions(msg)}
                 </div>
             </>)
         }
 
 
         return (<div className="chat position-relative">
-            {
-                currentChat !== undefined ? (<Fragment>
-                            <div onScroll={() => handleScroll()} className="msg_space" id={activeContact.id}>
-                                {currentChat.msg.map((page: IMsg[], index: number) => {
-                                    return (<div className={`page page-${index + 1}`}>
-                                        {page.map((msg: IMsg) =>
-                                            //@ts-ignore
-                                            msg.income ? renderToMeMessages(msg)
-                                                : renderMyMessages(msg)
-                                        )}
-                                    </div>)
-                                })}
+                {currentChat !== undefined ? (<>
+                        <div onScroll={() => handleScroll()} className="msg_space" id={activeContact.id}>
+                            {currentChat.msg.map((page: IMsg[], index: number) => <div className={`page page-${index + 1}`}>
+                                {page.map((msg: IMsg) => msg.income ? renderToMeMessages(msg) : renderMyMessages(msg))}
+                            </div>)}
+                        </div>
+                        {isOpenMenu ? <div className="message-item">
+                            <div className="message-block-content d-flex flex-column justify-content-between">
+                                // @ts-ignore
+                                <SetingsMo/>
                             </div>
-                            {isOpenMenu ? <div className="message-item">
-                                <div className="message-block-content d-flex flex-column justify-content-between">
-                                    // @ts-ignore
-                                    <SetingsMo/>
-                                </div>
-                            </div> : ''}
-                            <Inputer isActiveChenel={chenel} helperMenu={openHelperMenu}/>
-                        </Fragment>
-                    )
-                    : (<ChatPlaceholder/>)
-            }
-        </div>);
+                        </div> : ''}
+                        <Inputer isActiveChenel={chenel} helperMenu={openHelperMenu}/>
+                    </>)
+                    : (<ChatPlaceholder/>)}
+            </div>);
 
 
     }));
