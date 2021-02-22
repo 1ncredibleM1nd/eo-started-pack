@@ -1,7 +1,7 @@
 import {action, observable} from "mobx";
 import {IAppStore} from '@stores/interface';
 import {contactStore, chatStore, userStore} from '@stores/implementation';
-import {getConversations} from '@actions'
+import {getConversations, getUserData} from '@actions'
 
 export class AppStore implements IAppStore {
     @observable loaded: boolean = false;
@@ -28,186 +28,190 @@ export class AppStore implements IAppStore {
     async initialization() {
         try {
             //const res = await getData();
-            const userData = [
-                {
-                    username: "Бильбо Бэггинс",
-                    avatar: 'https://i.pinimg.com/736x/9a/bd/a5/9abda5b52a61284f7e39101cd84edfd2--hobbit--lord-of-the-rings.jpg',
-                    id: "user_0",
-                    avaliableSocial: {
-                        "whatsapp": true,
-                        "instagram": true,
-                        "vk": true,
-                        "ok": true,
-                        "viber": false,
-                        "facebook": true,
-                        "telegram": true,
-                        "email": true
-                    },
-                    online: {
-                        "whatsapp": 'В сети',
-                        "instagram": '20д',
-                        "vk": '10м',
-                        "ok": '5м',
-                        "facebook": '20м',
-                        "telegram": '2ч',
-                    },
+            let u_data = await getUserData();
 
-                },
-                {
-                    username: "Гэндальф",
-                    avatar: 'https://yt3.ggpht.com/a/AATXAJz4P6N4YZie5K342WgZxFKi4o-1YBRhpSnrWx5j=s900-c-k-c0xffffffff-no-rj-mo',
-                    id: "user_1",
-                    avaliableSocial: {
-                        "whatsapp": false,
-                        "instagram": true,
-                        "vk": false,
-                        "ok": false,
-                        "viber": false,
-                        "facebook": false,
-                        "telegram": true,
-                        "email": false
-                    },
-                    online: {
-                        "whatsapp": 'В сети',
-                        "instagram": '20д',
-                        "vk": '10м',
-                        "ok": '5м',
-                        "facebook": '20м',
-                        "telegram": '2ч',
-                    },
-                    info: {
-                        instagram: {
-                            nickname: 'gendalf_white',
-                            about: 'Гэндальф предстаёт мудрым, могучим чародеем, состоящим в Совете Мудрых и помогающим слабым.'
-                        },
-                        telegram: {
-                            nickname: '@gendalf',
-                            phone: '+420 782 331 331',
-                            about: 'Гэндальф предстаёт мудрым, могучим чародеем, состоящим в Совете Мудрых и помогающим слабым.'
-                        },
-                        whatsapp: {
-                            nickname: 'Гэндальф Белый',
-                            phone: '+420 782 331 331',
-                        },
-                        vk: {
-                            nickname: 'Гэндальф Белый',
-                            link: 'https://vk.com/gendalf',
-                        },
-                        ok: {
-                            nickname: 'Гэндальф Белый',
-                            link: 'https://ok.ru/',
-                        },
-                        facebook: {
-                            nickname: 'Гэндальф Белый',
-                            link: 'https://facebook.com',
-                        }
-                    }
-                },
-                {
-                    username: "Терминатор",
-                    avatar: 'http://img.crazys.info/files/i/2010.10.10/1286708601_t800_18.jpg',
-                    id: "user_2",
-                    avaliableSocial: {
-                        "whatsapp": true,
-                        "instagram": true,
-                        "vk": true,
-                        "ok": true,
-                        "viber": true,
-                        "facebook": true,
-                        "telegram": true,
-                        "email": true
-                    },
-                    online: {
-                        "whatsapp": '1ч',
-                        "instagram": 'В сети',
-                        "vk": '3ч',
-                        "ok": 'В сети',
-                        "facebook": 'В сети',
-                        "viber": '20м',
-                        "telegram": '5м',
-                    },
-                    info: {
-                        instagram: {
-                            nickname: 'i_will_be_back',
-                        },
-                        telegram: {
-                            nickname: '@i_will_be_back',
-                            phone: '+420 782 331 331',
-                            about: 'Главный антагонист фильма «Терминатор 2: Судный день» и один из антагонистов в фильме «Терминатор: Генезис».'
-                        },
-                        whatsapp: {
-                            nickname: 'Терминатор Т-1000',
-                            phone: '+420 782 331 331',
-                        },
-                        vk: {
-                            nickname: 'Терминатор Т-1000',
-                            link: 'https://vk.com/gendalf',
-                        },
-                        ok: {
-                            nickname: 'Терминатор Т-1000',
-                            link: 'https://ok.ru/',
-                        },
-                        facebook: {
-                            nickname: 'Терминатор Т-1000',
-                            link: 'https://facebook.com',
-                            about: 'Главный антагонист фильма «Терминатор 2: Судный день» и один из антагонистов в фильме «Терминатор: Генезис».'
-                        }
-                    }
-                },
-                {
-                    username: "Джон Конор",
-                    avatar: 'https://img.filmsactu.net/datas/films/t/e/terminator-6-dark-fate/xl/terminator-6-dark-fate-5d30d97b7f96a.jpg',
-                    id: "user_3",
-                    avaliableSocial: {
-                        "whatsapp": false,
-                        "instagram": true,
-                        "vk": false,
-                        "ok": false,
-                        "viber": false,
-                        "facebook": false,
-                        "telegram": false,
-                        "email": false
-                    },
-                    online: {
-                        "whatsapp": '5д',
-                        "instagram": '20д',
-                        "vk": '10м',
-                        "ok": '5м',
-                        "facebook": '20м',
-                        "telegram": '2ч',
-                    },
-
-                    info: {
-                        instagram: {
-                            nickname: 'jonh_connor',
-                            about: 'После ядерной войны, которую в недалёком будущем развязал искусственный интеллект министерства обороны США «Скайнет», человечество было порабощено машинами и оказалось на грани уничтожения. '
-                        },
-                        telegram: {
-                            nickname: '@jonh_connor',
-                            phone: '+420 782 331 331',
-                        },
-                        whatsapp: {
-                            nickname: 'Джон Конор',
-                            phone: '+420 782 331 331',
-                        },
-                        vk: {
-                            nickname: 'Джон Конор',
-                            link: 'https://vk.com/gendalf',
-                            about: 'После ядерной войны, которую в недалёком будущем развязал искусственный интеллект министерства обороны США «Скайнет», человечество было порабощено машинами и оказалось на грани уничтожения. '
-                        },
-                        ok: {
-                            nickname: 'Джон Конор',
-                            link: 'https://ok.ru/',
-                            about: 'После ядерной войны, которую в недалёком будущем развязал искусственный интеллект министерства обороны США «Скайнет», человечество было порабощено машинами и оказалось на грани уничтожения. '
-                        },
-                        facebook: {
-                            nickname: 'Джон Конор',
-                            link: 'https://facebook.com',
-                            about: 'После ядерной войны, которую в недалёком будущем развязал искусственный интеллект министерства обороны США «Скайнет», человечество было порабощено машинами и оказалось на грани уничтожения. '
-                        }
-                    }
-                },
-            ]
+            const userData = u_data.data.data
+            console.log(userData, 'user data')
+            // const userData = [
+            //     {
+            //         username: "Бильбо Бэггинс",
+            //         avatar: 'https://i.pinimg.com/736x/9a/bd/a5/9abda5b52a61284f7e39101cd84edfd2--hobbit--lord-of-the-rings.jpg',
+            //         id: "user_0",
+            //         avaliableSocial: {
+            //             "whatsapp": true,
+            //             "instagram": true,
+            //             "vk": true,
+            //             "ok": true,
+            //             "viber": false,
+            //             "facebook": true,
+            //             "telegram": true,
+            //             "email": true
+            //         },
+            //         online: {
+            //             "whatsapp": 'В сети',
+            //             "instagram": '20д',
+            //             "vk": '10м',
+            //             "ok": '5м',
+            //             "facebook": '20м',
+            //             "telegram": '2ч',
+            //         },
+            //
+            //     },
+            //     {
+            //         username: "Гэндальф",
+            //         avatar: 'https://yt3.ggpht.com/a/AATXAJz4P6N4YZie5K342WgZxFKi4o-1YBRhpSnrWx5j=s900-c-k-c0xffffffff-no-rj-mo',
+            //         id: "user_1",
+            //         avaliableSocial: {
+            //             "whatsapp": false,
+            //             "instagram": true,
+            //             "vk": false,
+            //             "ok": false,
+            //             "viber": false,
+            //             "facebook": false,
+            //             "telegram": true,
+            //             "email": false
+            //         },
+            //         online: {
+            //             "whatsapp": 'В сети',
+            //             "instagram": '20д',
+            //             "vk": '10м',
+            //             "ok": '5м',
+            //             "facebook": '20м',
+            //             "telegram": '2ч',
+            //         },
+            //         info: {
+            //             instagram: {
+            //                 nickname: 'gendalf_white',
+            //                 about: 'Гэндальф предстаёт мудрым, могучим чародеем, состоящим в Совете Мудрых и помогающим слабым.'
+            //             },
+            //             telegram: {
+            //                 nickname: '@gendalf',
+            //                 phone: '+420 782 331 331',
+            //                 about: 'Гэндальф предстаёт мудрым, могучим чародеем, состоящим в Совете Мудрых и помогающим слабым.'
+            //             },
+            //             whatsapp: {
+            //                 nickname: 'Гэндальф Белый',
+            //                 phone: '+420 782 331 331',
+            //             },
+            //             vk: {
+            //                 nickname: 'Гэндальф Белый',
+            //                 link: 'https://vk.com/gendalf',
+            //             },
+            //             ok: {
+            //                 nickname: 'Гэндальф Белый',
+            //                 link: 'https://ok.ru/',
+            //             },
+            //             facebook: {
+            //                 nickname: 'Гэндальф Белый',
+            //                 link: 'https://facebook.com',
+            //             }
+            //         }
+            //     },
+            //     {
+            //         username: "Терминатор",
+            //         avatar: 'http://img.crazys.info/files/i/2010.10.10/1286708601_t800_18.jpg',
+            //         id: "user_2",
+            //         avaliableSocial: {
+            //             "whatsapp": true,
+            //             "instagram": true,
+            //             "vk": true,
+            //             "ok": true,
+            //             "viber": true,
+            //             "facebook": true,
+            //             "telegram": true,
+            //             "email": true
+            //         },
+            //         online: {
+            //             "whatsapp": '1ч',
+            //             "instagram": 'В сети',
+            //             "vk": '3ч',
+            //             "ok": 'В сети',
+            //             "facebook": 'В сети',
+            //             "viber": '20м',
+            //             "telegram": '5м',
+            //         },
+            //         info: {
+            //             instagram: {
+            //                 nickname: 'i_will_be_back',
+            //             },
+            //             telegram: {
+            //                 nickname: '@i_will_be_back',
+            //                 phone: '+420 782 331 331',
+            //                 about: 'Главный антагонист фильма «Терминатор 2: Судный день» и один из антагонистов в фильме «Терминатор: Генезис».'
+            //             },
+            //             whatsapp: {
+            //                 nickname: 'Терминатор Т-1000',
+            //                 phone: '+420 782 331 331',
+            //             },
+            //             vk: {
+            //                 nickname: 'Терминатор Т-1000',
+            //                 link: 'https://vk.com/gendalf',
+            //             },
+            //             ok: {
+            //                 nickname: 'Терминатор Т-1000',
+            //                 link: 'https://ok.ru/',
+            //             },
+            //             facebook: {
+            //                 nickname: 'Терминатор Т-1000',
+            //                 link: 'https://facebook.com',
+            //                 about: 'Главный антагонист фильма «Терминатор 2: Судный день» и один из антагонистов в фильме «Терминатор: Генезис».'
+            //             }
+            //         }
+            //     },
+            //     {
+            //         username: "Джон Конор",
+            //         avatar: 'https://img.filmsactu.net/datas/films/t/e/terminator-6-dark-fate/xl/terminator-6-dark-fate-5d30d97b7f96a.jpg',
+            //         id: "user_3",
+            //         avaliableSocial: {
+            //             "whatsapp": false,
+            //             "instagram": true,
+            //             "vk": false,
+            //             "ok": false,
+            //             "viber": false,
+            //             "facebook": false,
+            //             "telegram": false,
+            //             "email": false
+            //         },
+            //         online: {
+            //             "whatsapp": '5д',
+            //             "instagram": '20д',
+            //             "vk": '10м',
+            //             "ok": '5м',
+            //             "facebook": '20м',
+            //             "telegram": '2ч',
+            //         },
+            //
+            //         info: {
+            //             instagram: {
+            //                 nickname: 'jonh_connor',
+            //                 about: 'После ядерной войны, которую в недалёком будущем развязал искусственный интеллект министерства обороны США «Скайнет», человечество было порабощено машинами и оказалось на грани уничтожения. '
+            //             },
+            //             telegram: {
+            //                 nickname: '@jonh_connor',
+            //                 phone: '+420 782 331 331',
+            //             },
+            //             whatsapp: {
+            //                 nickname: 'Джон Конор',
+            //                 phone: '+420 782 331 331',
+            //             },
+            //             vk: {
+            //                 nickname: 'Джон Конор',
+            //                 link: 'https://vk.com/gendalf',
+            //                 about: 'После ядерной войны, которую в недалёком будущем развязал искусственный интеллект министерства обороны США «Скайнет», человечество было порабощено машинами и оказалось на грани уничтожения. '
+            //             },
+            //             ok: {
+            //                 nickname: 'Джон Конор',
+            //                 link: 'https://ok.ru/',
+            //                 about: 'После ядерной войны, которую в недалёком будущем развязал искусственный интеллект министерства обороны США «Скайнет», человечество было порабощено машинами и оказалось на грани уничтожения. '
+            //             },
+            //             facebook: {
+            //                 nickname: 'Джон Конор',
+            //                 link: 'https://facebook.com',
+            //                 about: 'После ядерной войны, которую в недалёком будущем развязал искусственный интеллект министерства обороны США «Скайнет», человечество было порабощено машинами и оказалось на грани уничтожения. '
+            //             }
+            //         }
+            //     },
+            // ]
 
             // const contactData = [
             //     {
@@ -668,13 +672,15 @@ export class AppStore implements IAppStore {
             //         ]
             //     }
             // ]
+            const hero = userData
+            // const hero = {
+            //     username: "Бильбо Бэггинс",
+            //     avatar: 'https://i.pinimg.com/736x/9a/bd/a5/9abda5b52a61284f7e39101cd84edfd2--hobbit--lord-of-the-rings.jpg',
+            //     id: "user_0", //int
+            //     unic: '@bilbo_beggins'
+            // }
 
-            const hero = {
-                username: "Бильбо Бэггинс",
-                avatar: 'https://i.pinimg.com/736x/9a/bd/a5/9abda5b52a61284f7e39101cd84edfd2--hobbit--lord-of-the-rings.jpg',
-                id: "user_0", //int
-                unic: '@bilbo_beggins'
-            }
+
             var paramsString = document.location.search;
             var searchParams = new URLSearchParams(paramsString);
 

@@ -35,6 +35,7 @@ const AUTH = axios.create({
 const API_IFRAME = axios.create({
     baseURL: CONFIG.BASE_API_URL
 });
+
 const API = (token: string) => axios.create({
     baseURL: CONFIG.BASE_API_URL + '/' + isRest,
     headers: headers(token),

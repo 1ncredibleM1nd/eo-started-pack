@@ -129,7 +129,6 @@ const Chat = inject((stores: IStores) => ({
             )
         }
 
-
         console.log('rerender chat')
 
         let chenel = chenelValidator(currentChat.msg)
