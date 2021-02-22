@@ -18,11 +18,11 @@ function getFrame(url: string = 'MTIzNDU2NzhfT1RRd1gySmxNV05qTVdSbVpXTmlaR0ppWmp
     }
     isRest = isFramed ? 'rest' : 'v1'
     headers = (token: string) => {
-        return {
-            'Authorization': `Bearer ${isFramed ? url : token}`
-        }
+        let obj = {'Authorization': `Bearer ${isFramed ? url : token}`}
+        isFramed ? obj['Timestamp'] = timestamp : obj
+        return obj
     }
-    isFramed ? headers()['Timestamp'] = timestamp : headers()
+    console.log(headers())
     return isFramed
 }
 
