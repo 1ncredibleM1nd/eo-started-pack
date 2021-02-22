@@ -1,5 +1,5 @@
 import {action, observable} from 'mobx'
-import {isLogged, setSession,getUserData} from '@actions'
+import {isLogged, setSession, getUserData} from '@actions'
 import {getFrame} from '../../actions/axios'
 import IAuthStore from "@stores/interface/app/IAuthStore";
 
@@ -74,8 +74,7 @@ export class AuthStore implements IAuthStore {
                     }
                 }
             }
-            let data = await getUserData()
-            console.log(data, 48949898)
+            await getUserData()
         } catch (e) {
             throw(e)
         }

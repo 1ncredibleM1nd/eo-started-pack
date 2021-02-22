@@ -689,18 +689,11 @@ export class AppStore implements IAppStore {
                     setTimeout(run, 1000);
                 }
                 setTimeout(() => run(), 1000);
-                // setInterval(async () => {
-                //     conversations = await getConversations(this.school)
-                //     await contactStore.init(conversations.data);
-                //     await chatStore.init(contactStore.activeContact);
-                // }, 1000)
             } catch (e) {
                 throw new Error(e);
             }
-
             await userStore.initHero(hero)
             await userStore.init(userData)
-
             this.loaded = true
         } catch (e) {
             console.error(e);

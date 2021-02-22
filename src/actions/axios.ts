@@ -4,9 +4,9 @@ import CONFIG from "../config";
 let isRest: string = 'v1';
 let isFramed = false;
 let timestamp: string
-let headers: {}
+let headers: any
 
-function getFrame(url: string = 'MTIzNDU2NzhNVEF4WXpSallUUXlNemhoTUdJNU1qTTRNakJrWTJNMU1EbGhObVkzTlRnME9XST0=') {
+function getFrame(url: string = 'MTIzNDU2NzhfT1RRd1gySmxNV05qTVdSbVpXTmlaR0ppWmpJNE5qZGpZakU0WWpoaVpUUmlOR1k1') {
     try {
         isFramed = window != window.top || document != top.document || self.location != top.location;
     } catch (e) {
@@ -17,8 +17,12 @@ function getFrame(url: string = 'MTIzNDU2NzhNVEF4WXpSallUUXlNemhoTUdJNU1qTTRNakJ
         timestamp = arr[0]
     }
     isRest = isFramed ? 'rest' : 'v1'
-    headers = {'Authorization': `Bearer ${isFramed ? url : localStorage.getItem('token')}`,}
-    isFramed ? headers['Timestamp'] = timestamp : headers
+    headers = (token: string) => {
+        return {
+            'Authorization': `Bearer ${isFramed ? url : token}`
+        }
+    }
+    isFramed ? headers()['Timestamp'] = timestamp : headers()
     return isFramed
 }
 
@@ -33,7 +37,7 @@ const API_IFRAME = axios.create({
 });
 const API = (token: string) => axios.create({
     baseURL: CONFIG.BASE_API_URL + '/' + isRest,
-    headers: {'Authorization': `Bearer ${token}`},
+    headers: headers(token),
     withCredentials: true,
 });
 

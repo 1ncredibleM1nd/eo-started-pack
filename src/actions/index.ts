@@ -16,21 +16,16 @@ function getConversations(school: string) {
 }
 
 function sendMsg(conversationId: string, message: string, conversationSourceAccountId: any, school: string) {
-    let body = {
-        conversationSourceAccountId,
-        conversationId,
-        school,
-        message
-    }
+    let body = {conversationSourceAccountId, conversationId, school, message}
     return API(localStorage.getItem('token')).post(`/conversation/send-message`, body).then(response => {
-        return {
-            menu: response.data.data,
-        }
+        return {menu: response.data.data,}
     })
 }
 
 function getUserData() {
     return API(localStorage.getItem('token')).get('/account/get-account')
+        .then((response) => response)
+        .catch((error) => error)
 }
 
 function isLogged() {

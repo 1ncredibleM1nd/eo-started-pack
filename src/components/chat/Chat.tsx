@@ -58,7 +58,7 @@ const Chat = inject((stores: IStores) => ({
         const replyMsg = (id: string) => {
             setReRender(!reRender)
         }
-
+//@ts-ignore
         const DropDownMenu = (msg: any) => {
             return (
                 <Menu>
@@ -173,7 +173,7 @@ const Chat = inject((stores: IStores) => ({
                         <span>
                             {msg.reply.content}
                         </span>
-                    </div>) : ''}
+                </div>) : ''}
                 <div className="inset_border_container">
                     <div className="dummy"/>
                     <div className="border_hero"/>
@@ -215,14 +215,14 @@ const Chat = inject((stores: IStores) => ({
                 <div className="editted_icon"><Icon className='active-grey' name={`solid_pencil-alt`}/>{' '}Редак.
                 </div>) : ''}
                 <div className="msg_time">{msg.time} {msg.date}</div>
-                <Dropdown overlay={<DropDownMenu id={msg.id}/>} placement="bottomLeft" trigger={['click']}>
-                    <span
-                        className='dropdown-trigger'>
-                        <Icon
-                            className='active-grey'
-                            name={`regular_three-dots`}/>
-                    </span>
-                </Dropdown>
+                {/*<Dropdown overlay={<DropDownMenu id={msg.id}/>} placement="bottomLeft" trigger={['click']}>*/}
+                {/*    <span*/}
+                {/*        className='dropdown-trigger'>*/}
+                {/*        <Icon*/}
+                {/*            className='active-grey'*/}
+                {/*            name={`regular_three-dots`}/>*/}
+                {/*    </span>*/}
+                {/*</Dropdown>*/}
                             </span>
         </div>) : ''
 
@@ -245,7 +245,7 @@ const Chat = inject((stores: IStores) => ({
                         (lsd_date !== msg.date))
                     //@ts-ignore
                     && (lsd_date = msg.date) ? renderDataTimeBlock(msg.date) : ''
-                    :msg.readed ? renderDataContainerUnread() : ''}
+                    : msg.readed ? renderDataContainerUnread() : ''}
                 <div key={Math.random()} className={`message self ${msg.flowMsgNext ? 'not-main' : ''} `}>
                     {renderMessagesHeader(msg)}
                     {renderMessagesWrapper(msg)}
@@ -256,22 +256,22 @@ const Chat = inject((stores: IStores) => ({
 
 
         return (<div className="chat position-relative">
-                {currentChat !== undefined ? (<>
-                        <div onScroll={() => handleScroll()} className="msg_space" id={activeContact.id}>
-                            {currentChat.msg.map((page: IMsg[], index: number) => <div className={`page page-${index + 1}`}>
-                                {page.map((msg: IMsg) => msg.income ? renderToMeMessages(msg) : renderMyMessages(msg))}
-                            </div>)}
+            {currentChat !== undefined ? (<>
+                    <div onScroll={() => handleScroll()} className="msg_space" id={activeContact.id}>
+                        {currentChat.msg.map((page: IMsg[], index: number) => <div className={`page page-${index + 1}`}>
+                            {page.map((msg: IMsg) => msg.income ? renderToMeMessages(msg) : renderMyMessages(msg))}
+                        </div>)}
+                    </div>
+                    {isOpenMenu ? <div className="message-item">
+                        <div className="message-block-content d-flex flex-column justify-content-between">
+                            // @ts-ignore
+                            <SetingsMo/>
                         </div>
-                        {isOpenMenu ? <div className="message-item">
-                            <div className="message-block-content d-flex flex-column justify-content-between">
-                                // @ts-ignore
-                                <SetingsMo/>
-                            </div>
-                        </div> : ''}
-                        <Inputer isActiveChenel={chenel} helperMenu={openHelperMenu}/>
-                    </>)
-                    : (<ChatPlaceholder/>)}
-            </div>);
+                    </div> : ''}
+                    <Inputer isActiveChenel={chenel} helperMenu={openHelperMenu}/>
+                </>)
+                : (<ChatPlaceholder/>)}
+        </div>);
 
 
     }));

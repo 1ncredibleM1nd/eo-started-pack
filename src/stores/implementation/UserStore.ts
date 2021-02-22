@@ -1,5 +1,5 @@
-import { action, observable, reaction } from 'mobx'
-import { IUserStore, IUser } from '@stores/interface';
+import {action, observable, reaction} from 'mobx'
+import {IUserStore, IUser} from '@stores/interface';
 
 export class UserStore implements IUserStore {
     @observable hero: IUser;
@@ -21,6 +21,7 @@ export class UserStore implements IUserStore {
 
     @action
     async init(data: IUser[]) {
+        console.log(data,156)
         let users = [];
         for (let index = 0; index < data.length; index++) {
             const user_item: IUser = data[index];
