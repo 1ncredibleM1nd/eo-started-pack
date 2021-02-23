@@ -2,24 +2,36 @@ import {API, AUTH} from './axios';
 
 
 function getMessages(conversationId: string, page: number, school_id: string) {
-    return API(localStorage.getItem('token')).get(`/conversation/get-messages?conversationId=${conversationId}&page=${page}&schoolId=${school_id}`).then(response => {
-        return {
-            messages: response.data.data,
-        }
-    })
+    let isId: boolean = false
+    if (school_id !== null) isId = true
+    let id = `schoolId=${school_id}`
+    console.log(school_id,'qweqweqwe')
+    return API(localStorage.getItem('token'))
+        .get(`/conversation/get-messages?conversationId=${conversationId}&page=${page}${isId ? '&' + id : ''}`)
+        .then(response => {
+            return {
+                messages: response.data.data,
+            }
+        })
 }
 
 function getConversations(school_id: string) {
-    return API(localStorage.getItem('token')).get(`/conversation/get-conversations?schoolId=${school_id}&page=${1}`).then(response => {
-        return {data: response.data.data}
-    })
+    let isId: boolean = false
+    if (school_id !== null) isId = true
+    let id = `schoolId=${school_id}`
+
+    return API(localStorage.getItem('token'))
+        .get(`/conversation/get-conversations?${isId ? id + '&' : ''}page=${1}`).then(response => {
+            return {data: response.data.data}
+        })
 }
 
 function sendMsg(conversationId: string, message: string, conversationSourceAccountId: any, schoolId: string) {
     let body = {conversationSourceAccountId, conversationId, schoolId, message}
-    return API(localStorage.getItem('token')).post(`/conversation/send-message`, body).then(response => {
-        return {menu: response.data.data,}
-    })
+    return API(localStorage.getItem('token')).post(`/conversation/send-message`, body)
+        .then(response => {
+            return {menu: response.data.data,}
+        })
 }
 
 function getUserData() {
