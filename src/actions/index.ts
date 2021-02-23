@@ -10,7 +10,11 @@ function getMessages(conversationId: string, page: number, school_id: string) {
 }
 
 function getConversations(school_id: string) {
-    return API(localStorage.getItem('token')).get(`/conversation/get-conversations?schoolId=${school_id}&page=${1}`).then(response => {
+    let isId: boolean = false
+    if (school_id !== null) isId = true
+    let id = `schoolId=${school_id}`
+
+    return API(localStorage.getItem('token')).get(`/conversation/get-conversations?${isId ? id + '&' : ''}page=${1}`).then(response => {
         return {data: response.data.data}
     })
 }
