@@ -680,7 +680,6 @@ export class AppStore implements IAppStore {
             //     unic: '@bilbo_beggins'
             // }
 
-
             var paramsString = document.location.search;
             var searchParams = new URLSearchParams(paramsString);
 

@@ -68,7 +68,6 @@ export class ContactStore implements IContactStore {
         }
     }
 
-
     @action
     getAvatar(id: string) {
         let contact = this.getContact(id)
@@ -82,8 +81,6 @@ export class ContactStore implements IContactStore {
 
     @action
     async init(data: any) {
-
-
         const dataContact = []
         for (let index = 0; index < data.length; index++) {
             const contact_item = data[index]

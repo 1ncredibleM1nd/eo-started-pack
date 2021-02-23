@@ -1,12 +1,12 @@
 import React, {useState, Fragment} from 'react';
 import {inject, observer} from 'mobx-react';
 import IStores, {IContactStore, IUserStore} from '@stores/interface';
-import {Input, Radio, Switch, Collapse, Button, Drawer} from 'antd'
+import {Input, Radio, Switch, Collapse, Button, Drawer, Menu, Dropdown} from 'antd'
 import Settings from './comp/Settings'
 import AllContacts from './comp/AllContacts'
 import './Search.scss'
 import {Icon} from '@ui'
-
+import {DownOutlined} from '@ant-design/icons';
 
 type IProps = {
     contactStore?: IContactStore,
@@ -16,15 +16,16 @@ type IProps = {
 const Search = inject((stores: IStores) => ({contactStore: stores.contactStore, userStore: stores.userStore}))(
     observer((props: IProps) => {
 
-        const {contactStore} = props;
+        const {contactStore, userStore} = props;
         // @ts-ignore
         const [searchText, setSearchText] = useState('')
         const [drawer, setDrawer] = useState('')
         // @ts-ignore
         const [switcher, setSwitcher] = useState(false)
         // let hero = userStore.hero
-
-
+        // @ts-ignore
+        let school_list: any = userStore.school_list
+        let school: any = []
         const filter = contactStore.filter
         let channel: any
         //let type: any
@@ -39,6 +40,16 @@ const Search = inject((stores: IStores) => ({contactStore: stores.contactStore, 
             setSearchText(value)
             contactStore.setSearch(value)
         }
+
+        function handleMenuClick(e: {}) {
+            console.log('click', e);
+        }
+
+
+        Object.keys(school_list).forEach(v => school.push({
+            id: v,
+            name: school_list[v]
+        }, ...school))
 
         const onChangeSocial = (social: any) => {
             //contactStore.setFilter('social', social)
@@ -137,7 +148,15 @@ const Search = inject((stores: IStores) => ({contactStore: stores.contactStore, 
                             </div>
                         </div>
                     </div> */}
-                    <div className='search' style={{background: '#F0F2F5'}}/>
+                    <div className='search'>
+                        <Dropdown className='scool_list' overlay={<Menu onClick={handleMenuClick}>
+                            {school.map((v:any) => <Menu.Item key={v.id}>{v.name}</Menu.Item>)}
+                        </Menu>}>
+                            <Button>
+                                Button <DownOutlined/>
+                            </Button>
+                        </Dropdown>
+                    </div>
                     {/*<div className="search">*/}
                     {/*    <div className="search-filter">*/}
                     {/*        <Button onClick={() => setSwitcher(!switcher)} className='transparent'>*/}

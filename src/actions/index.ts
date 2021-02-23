@@ -40,6 +40,12 @@ function setSession(sessionId: any) {
     return AUTH.post(`/account/set-session`, formData,);
 }
 
+function getSchools() {
+    return API(localStorage.getItem('token'))
+        .get('/account/get-schools')
+        .then(res => res)
+        .catch(error => error)
+}
 
 export {
     sendMsg,
@@ -47,5 +53,6 @@ export {
     getMessages,
     isLogged,
     setSession,
-    getUserData
+    getUserData,
+    getSchools
 };
