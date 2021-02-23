@@ -31,7 +31,6 @@ const ContactList = inject((stores: IStores) => ({
         const search = contactStore.search
         const hero = userStore.hero
 
-
         if (search) {
             // ContactsData = ContactsData.filter((contact: any) => {
             //     let match = false;

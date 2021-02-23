@@ -20,6 +20,11 @@ export class AppStore implements IAppStore {
     }
 
     @action
+    setSchoolId(id: string) {
+        this.school = id
+    }
+
+    @action
     setLayout(value: string) {
         this.layout = value;
     }
@@ -31,7 +36,6 @@ export class AppStore implements IAppStore {
             let u_data = await getUserData();
 
             const userData = u_data.data.data
-            console.log(userData, 'user data')
             // const userData = [
             //     {
             //         username: "Бильбо Бэггинс",
@@ -684,7 +688,7 @@ export class AppStore implements IAppStore {
             var searchParams = new URLSearchParams(paramsString);
 
             this.school = await searchParams.get("school");
-            if (!this.school) this.school = 'turstar'
+            console.log(this.school)
             let conversations = await getConversations(this.school)
             try {
                 let run = async () => {

@@ -1,6 +1,6 @@
 import React, {useState, Fragment} from 'react';
 import {inject, observer} from 'mobx-react';
-import IStores, {IContactStore, IUserStore} from '@stores/interface';
+import IStores, {IAppStore, IContactStore, IUserStore} from '@stores/interface';
 import {Input, Radio, Switch, Collapse, Button, Drawer, Menu, Dropdown} from 'antd'
 import Settings from './comp/Settings'
 import AllContacts from './comp/AllContacts'
@@ -11,12 +11,17 @@ import {DownOutlined} from '@ant-design/icons';
 type IProps = {
     contactStore?: IContactStore,
     userStore?: IUserStore
+    appStore?: IAppStore
 }
 
-const Search = inject((stores: IStores) => ({contactStore: stores.contactStore, userStore: stores.userStore}))(
+const Search = inject((stores: IStores) => ({
+    contactStore: stores.contactStore,
+    userStore: stores.userStore,
+    appStore: stores.appStore
+}))(
     observer((props: IProps) => {
 
-        const {contactStore, userStore} = props;
+        const {contactStore, userStore, appStore} = props;
         // @ts-ignore
         const [searchText, setSearchText] = useState('')
         const [drawer, setDrawer] = useState('')
@@ -42,7 +47,8 @@ const Search = inject((stores: IStores) => ({contactStore: stores.contactStore, 
         }
 
         function handleMenuClick(e: {}) {
-            console.log('click', e);
+            //@ts-ignore
+            appStore.setSchoolId(e.key)
         }
 
 
@@ -150,7 +156,7 @@ const Search = inject((stores: IStores) => ({contactStore: stores.contactStore, 
                     </div> */}
                     <div className='search'>
                         <Dropdown className='scool_list' overlay={<Menu onClick={handleMenuClick}>
-                            {school.map((v:any) => <Menu.Item key={v.id}>{v.name}</Menu.Item>)}
+                            {school.map((v: any) => <Menu.Item key={v.id}>{v.name}</Menu.Item>)}
                         </Menu>}>
                             <Button>
                                 Button <DownOutlined/>

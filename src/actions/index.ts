@@ -1,22 +1,22 @@
 import {API, AUTH} from './axios';
 
 
-function getMessages(conversationId: string, page: number, school: string) {
-    return API(localStorage.getItem('token')).get(`/conversation/get-messages?conversationId=${conversationId}&page=${page}&school=${school}`).then(response => {
+function getMessages(conversationId: string, page: number, school_id: string) {
+    return API(localStorage.getItem('token')).get(`/conversation/get-messages?conversationId=${conversationId}&page=${page}&schoolId=${school_id}`).then(response => {
         return {
             messages: response.data.data,
         }
     })
 }
 
-function getConversations(school: string) {
-    return API(localStorage.getItem('token')).get(`/conversation/get-conversations?school=${school}&page=${1}`).then(response => {
+function getConversations(school_id: string) {
+    return API(localStorage.getItem('token')).get(`/conversation/get-conversations?schoolId=${school_id}&page=${1}`).then(response => {
         return {data: response.data.data}
     })
 }
 
-function sendMsg(conversationId: string, message: string, conversationSourceAccountId: any, school: string) {
-    let body = {conversationSourceAccountId, conversationId, school, message}
+function sendMsg(conversationId: string, message: string, conversationSourceAccountId: any, schoolId: string) {
+    let body = {conversationSourceAccountId, conversationId, schoolId, message}
     return API(localStorage.getItem('token')).post(`/conversation/send-message`, body).then(response => {
         return {menu: response.data.data,}
     })

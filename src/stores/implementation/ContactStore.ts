@@ -62,6 +62,7 @@ export class ContactStore implements IContactStore {
         } else {
             chatStore.setActiveChat(null)
             this.activeContact = this.contact.find(item => item.id === id);
+            console.log(chatStore.activeChat,'activ chat')
             chatStore.activeChatPageNumber = 1
             this.name = undefined
             chatStore.init(this.activeContact)
