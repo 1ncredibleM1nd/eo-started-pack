@@ -55,6 +55,7 @@ export class ChatStore implements IChatStore {
 
     @action
     async sendMessage(message: string, conversationSourceAccountId: any, school: string) {
+        console.log(this.activeChat)
         await sendMsg(this.activeChat.id, message, conversationSourceAccountId, school)
     }
 
@@ -63,7 +64,7 @@ export class ChatStore implements IChatStore {
     async loadMessages(contact_id: string, pageNum?: number) {
         if (this.pageLoading) return null
 
-
+        console.log(contact_id, 'adasd')
         let messages: IMsg[][] = []
         this.pageLoading = true
 
