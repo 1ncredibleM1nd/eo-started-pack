@@ -5,7 +5,6 @@ function getMessages(conversationId: string, page: number, school_id: string) {
     let isId: boolean = false
     if (school_id !== null) isId = true
     let id = `schoolId=${school_id}`
-    console.log(school_id,'qweqweqwe')
     return API(localStorage.getItem('token'))
         .get(`/conversation/get-messages?conversationId=${conversationId}&page=${page}${isId ? '&' + id : ''}`)
         .then(response => {

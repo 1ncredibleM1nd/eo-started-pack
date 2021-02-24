@@ -79,9 +79,7 @@ export class ChatStore implements IChatStore {
             }
 
             await pageContent.messages.forEach((msg_item: any, index: number) => {
-
                 let avatar = contactStore.getAvatar(contact_id)
-
 
                 // let userId = this.activeChat.user.find((id: any) => id === msg.from)
                 // let user = userStore.getUser(contact_id)

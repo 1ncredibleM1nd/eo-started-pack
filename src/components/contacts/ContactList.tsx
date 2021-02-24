@@ -70,6 +70,7 @@ const ContactList = inject((stores: IStores) => ({
         }
         const selectContact = async (id: any) => {
             if (onSelect) onSelect()
+
             contactStore.setActiveContact(id)
             chatStore.init(contactStore.activeContact)
             appStore.setLayout('chat')
@@ -80,7 +81,6 @@ const ContactList = inject((stores: IStores) => ({
                 <HashLoader color='#3498db' size={50}/>
             </div>
         }
-
 
 
         return (

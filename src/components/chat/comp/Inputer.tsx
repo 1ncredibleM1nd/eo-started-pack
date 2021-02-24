@@ -1,4 +1,4 @@
-import React, {Fragment, useState, useEffect} from 'react';
+import React, {Fragment, useState, useEffect, useRef} from 'react';
 import {inject, observer} from 'mobx-react';
 import IStores, {IChatStore, IContactStore, IUserStore, IAppStore} from '@stores/interface';
 import {Icon} from '@ui'
@@ -34,6 +34,7 @@ const Inputer = inject((stores: IStores) => ({
         const [draft, setDraft] = useState({})
         const [switcher, setSwitcher] = useState('')
         const [status, setStatus] = useState('default')
+        const inputRef = useRef(null);
 
 
         let currentChat: any;
@@ -89,7 +90,7 @@ const Inputer = inject((stores: IStores) => ({
                     //sendMsg(currentChat.id, draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.school)
                     //sendMsg(currentChat.id, draft[activeContact.id + status])
                 }
-              //  setDraft({...draft, [activeContact.id + status]: ''})
+                //  setDraft({...draft, [activeContact.id + status]: ''})
             }
         }
 
@@ -185,8 +186,9 @@ const Inputer = inject((stores: IStores) => ({
 
         const {TextArea} = Input;
 
-        return (
-            <div className="inputer">
+        setTimeout(() => inputRef.current.focus(), 100)
+
+        return (<div className="inputer">
                 <div className="input-container">
                     {/*<div className="inputer_btn">*/}
                     {/*    <div className='heler_menu'>*/}
@@ -206,6 +208,7 @@ const Inputer = inject((stores: IStores) => ({
                         <TextArea onKeyDown={(e) => handleKeyDown(e)} onKeyUp={(e) => handleKeyUp(e)}
                                   onPressEnter={(e) => handleEnter(e)} onFocus={() => onFocusInput()} autoSize
                                   placeholder='Ваше сообщение'
+                                  ref={inputRef}
                                   onChange={(e) => onChange(activeContact.id, e.target.value, e)}
                                   value={draft[activeContact.id + status]}/>
 
@@ -242,8 +245,8 @@ const Inputer = inject((stores: IStores) => ({
                 <div onClick={() => onSend()} className="send_btn">
                     <Icon className='icon_x white' name='solid_another-arrow'/>
                 </div>
-            </div>
-        );
+            </div>);
     }));
+
 
 export default Inputer;

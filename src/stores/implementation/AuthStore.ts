@@ -64,6 +64,7 @@ export class AuthStore implements IAuthStore {
                 if (url !== undefined && url.length !== 0) {
                     const {data: {data: {token}}} = await setSession(url)
                     this.setToken(token)
+                    await getUserData()
                 } else {
                     const {data: {data: {token, success}}} = await isLogged()
                     let local_toke = localStorage.getItem('token')
@@ -71,10 +72,11 @@ export class AuthStore implements IAuthStore {
                         if (!local_toke || local_toke !== token) window.location.href = `https://account.dev.prodamus.ru/?redirect_url=${window.location.href}`
                     } else {
                         this.setToken(token)
+                        await getUserData()
                     }
                 }
             }
-            await getUserData()
+
         } catch (e) {
             throw(e)
         }

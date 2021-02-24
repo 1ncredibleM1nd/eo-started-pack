@@ -27,6 +27,7 @@ const Search = inject((stores: IStores) => ({
         const [drawer, setDrawer] = useState('')
         // @ts-ignore
         const [switcher, setSwitcher] = useState(false)
+        const [valueDropdown, serValueDropdown] = useState('')
         // let hero = userStore.hero
         // @ts-ignore
         let school_list: any = userStore.school_list
@@ -46,8 +47,8 @@ const Search = inject((stores: IStores) => ({
             contactStore.setSearch(value)
         }
 
-        function handleMenuClick(e: {}) {
-            //@ts-ignore
+        function handleMenuClick(e: { key: string }) {
+            serValueDropdown(school_list[e.key])
             appStore.setSchoolId(e.key)
         }
 
@@ -159,7 +160,7 @@ const Search = inject((stores: IStores) => ({
                             {school.map((v: any) => <Menu.Item key={v.id}>{v.name}</Menu.Item>)}
                         </Menu>}>
                             <Button>
-                                Button <DownOutlined/>
+                                {!valueDropdown.length ? 'Быверите школу' : valueDropdown} <DownOutlined/>
                             </Button>
                         </Dropdown>
                     </div>
