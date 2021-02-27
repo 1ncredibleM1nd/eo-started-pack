@@ -1,5 +1,5 @@
-@import '@styles/variables.scss';
-@import '@styles/media.scss';
+@import "@styles/variables.scss";
+@import "@styles/media.scss";
 
 .seting_menu_header {
   display: flex;
@@ -18,7 +18,7 @@
     align-items: center;
     width: 18%;
     font-size: 18px;
-    color: #3498DB;
+    color: #3498db;
     cursor: pointer;
 
     p {
@@ -41,7 +41,7 @@
   }
 
   .ant-collapse-content-box {
-    background: #F1F1F1 !important;
+    background: #f1f1f1 !important;
   }
 
   .list_block {
@@ -65,7 +65,7 @@
 }
 
 .message-block-content {
-  background: #F1F4F9;
+  background: #f1f4f9;
   padding: 16px 16px 16px 10px;
   display: flex;
   box-shadow: 0 3px 6px #00000029;
@@ -79,12 +79,12 @@
 
 .message-block-content::before,
 .block::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 26px;
   bottom: -32px;
   border: 14px solid transparent;
-  border-top: 19px solid #F1F4F9;
+  border-top: 19px solid #f1f4f9;
 }
 
 .message-block-content::after {
@@ -128,7 +128,7 @@
     width: 25%;
     align-items: center;
     font-size: 24px;
-    color: #3498DB;
+    color: #3498db;
   }
 }
 
@@ -137,7 +137,7 @@
 
   span {
     font-size: 20px;
-    color: #3498DB
+    color: #3498db
   }
 }
 
@@ -149,7 +149,7 @@
 
     input {
       padding: 1% 2%;
-      border: 1px solid #F1F4F9;
+      border: 1px solid #f1f4f9;
       border-radius: 8px;
     }
   }
@@ -533,6 +533,9 @@
       border-radius: 5px;
       overflow: hidden;
       transform: scale(-1, 1);
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
 
       .border_hero {
         position: absolute;
@@ -543,6 +546,9 @@
         left: -30px;
         bottom: -26px;
         box-shadow: 0 0 0 500px $blue-lite;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
       }
 
       .dummy {
@@ -552,7 +558,9 @@
         width: 45px;
         height: 50%;
         background: $blue-lite;
-
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
       }
     }
   }
@@ -602,6 +610,9 @@
     color: $white !important;
     background: $grey_default !important;
     padding-left: 0rem !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 
     .msg_text_container {
       max-width: 300rem;
@@ -875,7 +886,7 @@
 
       .anticon-align-center {
         font-size: 26px;
-        color: #3498DB;
+        color: #3498db;
       }
     }
 

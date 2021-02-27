@@ -267,7 +267,7 @@ const Chat = inject((stores: IStores) => ({
                             <SetingsMo/>
                         </div>
                     </div> : ''}
-                    <Inputer isActiveChenel={chenel} helperMenu={openHelperMenu}/>
+                    <Inputer isActiveChannel={chenel} helperMenu={openHelperMenu}/>
                 </>)
                 : (<ChatPlaceholder/>)}
         </div>);
