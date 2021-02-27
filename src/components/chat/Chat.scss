@@ -536,7 +536,7 @@
       -webkit-appearance: none;
       -moz-appearance: none;
       appearance: none;
-      display: contents;
+      display: block;
 
       .border_hero {
         position: absolute;
@@ -550,11 +550,11 @@
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
-        display: contents;
+        display: block;
       }
 
       .dummy {
-        display: contents;
+        display: block;
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
@@ -670,7 +670,7 @@
     }
 
     .inset_border_container {
-      display: contents;
+      display: block;
       -webkit-appearance: none;
       -moz-appearance: none;
       appearance: none;
@@ -685,7 +685,7 @@
       overflow: hidden;
 
       .border_hero {
-        display: contents;
+        display: block;
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
@@ -701,7 +701,7 @@
       }
 
       .dummy {
-        display: contents;
+        display: block;
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
