@@ -536,6 +536,7 @@
       -webkit-appearance: none;
       -moz-appearance: none;
       appearance: none;
+      display: contents;
 
       .border_hero {
         position: absolute;
@@ -549,9 +550,11 @@
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
+        display: contents;
       }
 
       .dummy {
+        display: contents;
         position: absolute;
         top: 0;
         left: 0;
