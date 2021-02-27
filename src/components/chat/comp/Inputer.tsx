@@ -164,7 +164,7 @@ const Inputer = inject((stores: IStores) => ({
 // @ts-ignore
 		const DropDownAttacments = () => {
 			return (<Menu>
-				<Menu.Item onClick={() =>}>
+				<Menu.Item>
 					Фотография
 				</Menu.Item>
 				<Menu.Item>

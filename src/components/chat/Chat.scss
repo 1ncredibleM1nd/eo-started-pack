@@ -555,15 +555,17 @@
 
       .dummy {
         display: contents;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+
         position: absolute;
         top: 0;
         left: 0;
         width: 45px;
         height: 50%;
         background: $blue-lite;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
+
       }
     }
   }
@@ -668,6 +670,11 @@
     }
 
     .inset_border_container {
+      display: contents;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+
       position: absolute;
       z-index: 0;
       width: 44px;
@@ -678,6 +685,11 @@
       overflow: hidden;
 
       .border_hero {
+        display: contents;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+
         position: absolute;
         background: transparent;
         width: 55px;
@@ -689,13 +701,17 @@
       }
 
       .dummy {
+        display: contents;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+
         position: absolute;
         top: 0;
         left: 0;
         width: 45px;
         height: 50%;
         background: $grey_default;
-
       }
     }
   }
