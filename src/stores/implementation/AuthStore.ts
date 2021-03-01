@@ -3,17 +3,12 @@ import {isLogged, setSession, getUserData} from '@actions'
 import {getFrame} from '../../actions/axios'
 import IAuthStore from "@stores/interface/app/IAuthStore";
 
-
-window.addEventListener('blur', () => {
-});
 window.addEventListener('focus', async () => {
     await isLogged()
 });
 
 export class AuthStore implements IAuthStore {
-
     @observable loading: boolean = false
-    @observable auth0: any = {}
     @observable url_iFrame: string
     @observable isFramed: boolean
 
@@ -24,7 +19,6 @@ export class AuthStore implements IAuthStore {
 
     @action
     setToken(token: string) {
-        console.log(token)
         localStorage.setItem('token', token)
     }
 

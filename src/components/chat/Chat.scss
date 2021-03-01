@@ -1,6 +1,156 @@
 @import "@styles/variables.scss";
 @import "@styles/media.scss";
 
+
+.ant-modal-body {
+  padding: 0px !important;
+  padding-top: 18px !important;
+}
+
+.file_modal-input {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+  height: 50px;
+  margin-top: 30px;
+  align-items: center;
+
+  .main_input {
+    width: 100%;
+
+    .ant-input {
+      border: none;
+    }
+
+  }
+}
+
+.file_modal-file-controller {
+  margin: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 70%;
+  justify-content: space-between;
+
+  .file_controller-item {
+    opacity: 0.5;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+
+.ant-modal-content {
+  padding-top: 30px;
+}
+
+.file-holder-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.file_modal-options {
+  margin-top: 10px;
+
+  .compression-switch {
+    button {
+      margin-right: 10px;
+    }
+  }
+}
+
+
+.file-holder {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+  background: #f0f2f5;
+  border-radius: 5px;
+
+  .file-holder-info {
+    width: 66.33%;
+    display: flex;
+    flex-direction: column;
+    height: 80px;
+
+    .name {
+      font-size: 17px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+    }
+  }
+
+  .file-holder-preview {
+    width: 33%;
+    height: 80px;
+    margin-right: 15px;
+    overflow: hidden;
+    border-radius: 5px;
+    position: relative;
+    background: $blue_default;
+    display: flex;
+    justify-content: flex-start;
+
+    .content {
+      min-width: 70%;
+      max-width: 100%;
+
+
+      .play-icon {
+        padding: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        background: #11111130;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      img {
+        height: auto;
+        width: 100%;
+      }
+
+      video {
+        height: 100%;
+        width: auto;
+      }
+    }
+  }
+
+
+}
+
+
+.audio-holder {
+
+}
+
+.video-holder {
+
+}
+
+.file-holder {
+
+}
+
+
 .seting_menu_header {
   display: flex;
   justify-content: space-between;
@@ -180,6 +330,18 @@
   left: -100px;
   width: 50px;
   height: 50px;
+}
+
+.ant-modal-footer {
+  padding: 10px 0px;
+}
+
+.font_size-normal {
+  font-size: 18px !important;
+
+  &:hover {
+    font-size: 18px !important;
+  }
 }
 
 .ant-btn-primary {
@@ -544,7 +706,7 @@
         width: 55px;
         height: 43px;
         border-radius: 37px;
-        left: 20px;
+        left: 21px;
         bottom: -26px;
         box-shadow: 0 0 0 500px $blue-lite;
         -webkit-appearance: none;
@@ -624,6 +786,14 @@
       word-wrap: break-word;
       z-index: 10;
       position: relative;
+
+      .msg_content-image {
+        padding: 7px 0;
+
+        img {
+          max-width: 100%;
+        }
+      }
     }
 
     .readed-status {
@@ -900,7 +1070,7 @@
       width: 42px;
     }
 
-    .heler_menu {
+    .helper_menu {
       transform: rotate(180deg);
 
       .anticon-align-center {
