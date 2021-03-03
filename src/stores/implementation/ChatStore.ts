@@ -17,8 +17,6 @@ export class ChatStore implements IChatStore {
 	@observable activeMsg: IMsg
 	@observable modalWindow: string = 'close'
 	activeChatPageNumber: number = 1
-	sendingMsg: boolean = false
-	activeChatMemory: any = []
 	pageLoading: boolean = false
 	updateMessages: (contact_id: string) => any
 	readAllMsg: (id: string) => void
@@ -104,17 +102,32 @@ export class ChatStore implements IChatStore {
 				// let role = chat.role.find((role: any) => role.id === msg.from)
 				let userId = msg_item.from
 				let prevMsg, nextMsg: any
-				
-				let flowMsgNext, flowMsgPrev, center = false
+				let prevTimeDiff, nextTimeDiff: any
+				let flowMsgNext = false
+				let flowMsgPrev = false
+				let center = false
 				let prevRead, time_scope: any = null
+				let username: string
+				let type = 'message'
+				
+				if (contactStore.activeContact.user.find((u: any) => u == msg_item.from)) {
+					username = contactStore.activeContact.name
+				}
+				
 				
 				if (pageContent.messages[index - 1]) {
 					prevMsg = pageContent.messages[index - 1]
-					if (prevMsg) prevRead = prevMsg.readed
+					prevRead = prevMsg.readed
+					let currentTime = moment(msg_item.time, 'HH:mm')
+					let prevTime = moment(prevMsg.time, 'HH:mm')
+					prevTimeDiff = prevTime.diff(currentTime, 'minutes')
 				}
 				
 				if (pageContent.messages[index + 1]) {
 					nextMsg = pageContent.messages[index + 1]
+					let currentTime = moment(msg_item.time, 'HH:mm')
+					let nextTime = moment(nextMsg.time, 'HH:mm')
+					nextTimeDiff = currentTime.diff(nextTime, 'minutes')
 				}
 				
 				if (prevMsg && prevMsg.date !== msg_item.date) {
@@ -123,18 +136,19 @@ export class ChatStore implements IChatStore {
 					time_scope = null
 				}
 				
-				if (prevMsg && prevMsg.from === userId) flowMsgPrev = true
-				if (nextMsg && nextMsg.from === userId) flowMsgNext = true
+				if (prevMsg && prevMsg.income === msg_item.income && prevMsg.from === userId && prevTimeDiff < 3) flowMsgNext = true
+				if (nextMsg && nextMsg.income === msg_item.income && nextMsg.from === userId && nextTimeDiff < 3) flowMsgPrev = true
 				if (flowMsgNext && flowMsgPrev) center = true
-				console.log(center)
 				
 				const msg = {
 					time_scope,
 					prevRead,
-					// flowMsgNext,
-					// flowMsgPrev,
-					// center,
+					flowMsgNext,
+					flowMsgPrev,
+					center,
 					avatar,
+					username,
+					type,
 					...msg_item,
 					readMsg() {
 						this.readed = true
@@ -147,7 +161,7 @@ export class ChatStore implements IChatStore {
 						this.editted = true
 					}
 				}
-				// console.log('msg', msg)
+				//console.log(msg.content, msg)
 				pageArray.unshift(msg)
 			})
 			messages.unshift(pageArray)
@@ -155,6 +169,7 @@ export class ChatStore implements IChatStore {
 		
 		if (this.activeChat && this.activeChat.msg) {
 			this.activeChat.msg = messages
+			localStorage.setItem(contact_id + '_chat', JSON.stringify(this.activeChat))
 			
 			if ($(`.page-${this.activeChatPageNumber}`)) {
 				console.log('Длинна последней страницы', this.activeChat.msg[0].length)
@@ -167,6 +182,7 @@ export class ChatStore implements IChatStore {
 					this.addPageNumber()
 				}, 500)
 			}
+		
 		} else {
 			this.pageLoading = false
 			return messages
@@ -311,34 +327,44 @@ export class ChatStore implements IChatStore {
 	
 	
 	@action
-	async init(activeContact: any) {
+	async init(activeContact: any): Promise<any> {
 		if (activeContact) {
 			let messages: any
-			if (this.activeChat && this.activeChat.msg) {
-				//await this.updateMessages(activeContact.id)
-				messages = this.activeChat.msg
-			} else {
-				messages = await this.loadMessages(activeContact.id, 1)
-			}
-			let chat: any = {
-				contact_id: activeContact.id,
-				id: activeContact.id,
-				activeSocial: activeContact.last_message.social_media,
-				role: [],
-				user: activeContact.user,
-				msg: messages,
-				active_msg: null,
-				setActiveMsg(msg: IMsg) {
-					this.active_msg = msg
-				},
-				changeSocial(social: any) {
-					this.activeSocial = social
+			if (localStorage.getItem(activeContact.id + '_chat')) {
+				let localChat = await JSON.parse(localStorage.getItem(activeContact.id + '_chat'))
+				if (!localChat.msg || localChat.msg[0][localChat.msg[0].length - 1].id !== activeContact.last_message.id) {
+					await localStorage.removeItem(activeContact.id + '_chat')
+					return this.init(activeContact)
 				}
-			}
-			if (JSON.stringify(this.activeChat) !== JSON.stringify(chat)) {
+				this.activeChat = localChat
 				this.loaded = true
-				console.log('activeChat', chat)
-				this.activeChat = chat
+				$('.msg_space').animate({scrollTop: $('.msg_space').prop('scrollHeight')}, 0)
+			} else {
+				if (this.activeChat && this.activeChat.msg) {
+					messages = this.activeChat.msg
+				} else {
+					messages = await this.loadMessages(activeContact.id, 1)
+				}
+				let chat: any = {
+					contact_id: activeContact.id,
+					id: activeContact.id,
+					activeSocial: activeContact.last_message.social_media,
+					role: [],
+					user: activeContact.user,
+					msg: messages,
+					active_msg: null,
+					setActiveMsg(msg: IMsg) {
+						this.active_msg = msg
+					},
+					changeSocial(social: any) {
+						this.activeSocial = social
+					}
+				}
+				if (JSON.stringify(this.activeChat) !== JSON.stringify(chat)) {
+					this.loaded = true
+					this.activeChat = chat
+					localStorage.setItem(activeContact.id + '_chat', JSON.stringify(chat))
+				}
 			}
 		}
 	}

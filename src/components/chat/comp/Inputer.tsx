@@ -5,9 +5,7 @@ import {Icon} from '@ui'
 import $ from 'jquery'
 import {Input, Menu, Button, Popover, Modal, Switch} from 'antd'
 import SocialMenu from './SocialMenu'
-// @ts-ignore
 import {AlignCenterOutlined} from '@ant-design/icons'
-
 // import SmileMenu from './comp/SmileMenu'
 
 type IProps = {
@@ -44,8 +42,10 @@ const Inputer = inject((stores: IStores) => ({
 		
 		let currentChat: any
 		if (chatStore.loaded && activeContact) {
+			console.log('activeChat ', chatStore.activeChat)
 			currentChat = chatStore.activeChat
 		}
+		
 		
 		useEffect(() => {
 			if (currentChat && currentChat.msg.length) {
@@ -274,6 +274,15 @@ const Inputer = inject((stores: IStores) => ({
 			</div>
 		</div>
 		
+		
+		if (!currentChat) {
+			return (
+				<div className="chat">
+					Loading
+				</div>
+			)
+		}
+		
 		return (
 			<div className="inputer">
 				<Modal visible={fileOnHold.length > 0}
@@ -477,10 +486,12 @@ const Inputer = inject((stores: IStores) => ({
 						}} visible={switcher === 'social'} content={<SocialMenu selectSocial={selectSocial}/>}
 						         trigger="click">
 							{isActiveChannel ? <Button type="primary" disabled>
-									<Icon className='icon_l' name={`social_media_${currentChat.activeSocial}`}/>
+									<Icon className='icon_l'
+									      name={`social_media_${currentChat.activeSocial ? currentChat.activeSocial : ''}`}/>
 								</Button>
 								: <Button onClick={() => setSwitcher('social')} className='transparent'>
-									<Icon className='icon_l' name={`social_media_${currentChat.activeSocial}`}/>
+									<Icon className='icon_l'
+									      name={`social_media_${currentChat.activeSocial ? currentChat.activeSocial : ''}`}/>
 								</Button>
 							}
 						</Popover>

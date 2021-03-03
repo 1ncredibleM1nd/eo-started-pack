@@ -6,6 +6,7 @@ import HashLoader from 'react-spinners/HashLoader'
 import './ContactList.scss'
 import './Contact.scss'
 import {Icon} from '@ui'
+import $ from 'jquery'
 
 // import { getMessages } from '@actions'
 
@@ -75,29 +76,35 @@ const ContactList = inject((stores: IStores) => ({
 			appStore.setLayout('chat')
 		}
 		
+		
+		const handleScroll = () => {
+			let parentPos = $('#chatContactsList')[0].getBoundingClientRect()
+			let childPos = $(`.contact-item-${ContactsData.length - 1}`)[0].getBoundingClientRect()
+			let topOfLastContact = childPos.bottom - parentPos.bottom
+			if (topOfLastContact < 0) {
+				contactStore.loadContact()
+				//chatStore.loadMessages(activeContact.id, chatStore.activeChatPageNumber + 1)
+			}
+		}
+		
 		if (!appStore.loaded) {
 			return <div className="loading">
 				<HashLoader color='#3498db' size={50}/>
 			</div>
 		}
 		
-		
 		return (
 			<div className="menu_list">
 				<div className="tab-content">
 					<div className="tab-pane active" id="chats-content">
 						<div className="d-flex flex-column h-100">
-							<div className="hide-scrollbar h-100" id="chatContactsList">
+							<div onScroll={() => handleScroll()} className="hide-scrollbar h-100" id="chatContactsList">
 								<ul
 									className="contacts-list"
 									id="chatContactTab"
 									data-chat-list=""
 								>
 									{ContactsData.map((contact: any, index: number) => {
-										//
-										// let last_message_id = chatStore.getMsg(contact.last_message_id,
-										// contact.chat_id);  console.log(last_message_id,456456456456)
-										
 										const last_message = contact.last_message
 										let online = contact.online
 										let user, status: any
@@ -106,26 +113,15 @@ const ContactList = inject((stores: IStores) => ({
 											status = contact.status
 										}
 										let unreadedCount = 0
-										//let online = Object.keys(user.online).find(key => user.online[key] === 'В
-										// сети')
-										
 										if (user && hero.id === user.id) user = undefined
 										if (status === 'unread') unreadedCount = chatStore.getUnreadCount(contact.id)
 										
-										
-										// if (contact.name.length > 13) {
-										//     name = contact.name.slice(0, 12) + '...'
-										// }
-										// console.log(contact.last_message.income);
-										
-										
 										return (
 											<li onClick={() => selectContact(contact.id)}
-											    className={`contacts-item friends
+											    className={`contacts-item friends contact-item-${index}
                                                     ${activeContact && activeContact.id === contact.id
 												    ? 'active' : ''}`}
-												// style={{background: !contact.last_message.readed ? 'wheat' : ''}}
-												key={index}
+											    key={index}
 											>
 												<div className="avatar">
 													<div className={`social_media_icon ${contact.social_media}`}>

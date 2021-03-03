@@ -10,7 +10,7 @@ import Inputer from './comp/Inputer'
 import PuffLoader from 'react-spinners/PuffLoader'
 import ChatPlaceholder from './comp/ChatPlaceholder'
 import $ from 'jquery'
-import SetingsMo from '@components/chat/comp/SetingsMo'
+import SettingsMo from '@components/chat/comp/SettingsMo'
 
 
 type IProps = {
@@ -151,11 +151,11 @@ const Chat = inject((stores: IStores) => ({
 		// sms blocks in user
 		const renderMessagesHeader = (msg: any) => <>
 			{!msg.flowMsgPrev && msg.flowMsgNext && !msg.center ? (<div className="msg_header">
-				{/*<span>{msg.username}</span>*/}
+				<span>{msg.username}</span>
 				<span className="msg-role">{msg.role ? msg.role.name : ''}</span>
 			</div>) : ''}
 			{!msg.flowMsgNext && !msg.flowMsgPrev ? (<div className="msg_header">
-				{/*<span>{msg.username}</span>*/}
+				<span>{msg.username}</span>
 				<span className="msg-role">{msg.role ? msg.role.name : ''}</span>
 			</div>) : ''}
 		</>
@@ -174,12 +174,13 @@ const Chat = inject((stores: IStores) => ({
 				<div className='msg_text_container'>
 					{
 						Array.isArray(msg.content) ? (
-							<Fragment>
+							<div className="msg_file_container">
 								{
-									msg.content.map((content_item: any) => {
+									msg.content.map((content_item: any, index: number) => {
 										if (content_item.type === 'image') {
 											return (
-												<div className="msg_content-image">
+												<div
+													className={`msg_content-image ${'image_count_' + msg.content.length}`}>
 													<img src={content_item.url} alt=""/>
 												</div>
 											)
@@ -209,12 +210,18 @@ const Chat = inject((stores: IStores) => ({
 										return null
 									})
 								}
-							</Fragment>
+							</div>
 						) : (<Fragment>
 							{msg.content}
 						</Fragment>)
 					}
-				
+				</div>
+				<div className="msg_type">
+					{
+						msg.type === 'message' ? (<Fragment>
+							<Icon name="regular_envelope" className={`icon_s lite-grey`}/>
+						</Fragment>) : (<Fragment></Fragment>)
+					}
 				</div>
 				{/* <div className={`smile ${switcher === msg.id ? 'active' : ''}`}>
 				 <Popover onVisibleChange={(e) => { e ? {} : setSwitcher('') }} visible={switcher === msg.id} content={<SmileMenu id={msg.id} chat_id={currentChat.id} switcherOff={switcherOff} /trigger="click">
@@ -259,7 +266,7 @@ const Chat = inject((stores: IStores) => ({
 				{/*            name={`regular_three-dots`}/>*/}
 				{/*    </span>*/}
 				{/*</Dropdown>*/}
-                            </span>
+						</span>
 		</div>) : ''
 		
 		//index rendering functions
@@ -300,8 +307,7 @@ const Chat = inject((stores: IStores) => ({
 					</div>
 					{isOpenMenu ? <div className="message-item">
 						<div className="message-block-content d-flex flex-column justify-content-between">
-							// @ts-ignore
-							<SetingsMo/>
+							<SettingsMo/>
 						</div>
 					</div> : ''}
 					<Inputer isActiveChannel={channel} helperMenu={openHelperMenu}/>

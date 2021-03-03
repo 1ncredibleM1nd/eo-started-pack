@@ -14,12 +14,13 @@ function getMessages(conversationId: string, page: number, school_id: string) {
 		})
 }
 
-function getConversations(school_id: string) {
+function getConversations(school_id: string, page: number) {
+	console.log('loading page', page)
 	let isId: boolean = false
 	if (school_id !== null) isId = true
 	let id = `schoolId=${school_id}`
 	
-	return API(localStorage.getItem('token')).get(`/conversation/get-conversations?${isId ? id + '&' : ''}page=${1}`).then(response => {
+	return API(localStorage.getItem('token')).get(`/conversation/get-conversations?${isId ? id + '&' : ''}page=${page}`).then(response => {
 		return {data: response.data.data}
 	})
 }
