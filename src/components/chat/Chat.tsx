@@ -2,7 +2,8 @@ import React, {useState, Fragment} from 'react'
 import {inject, observer} from 'mobx-react'
 import IStores, {IChatStore, IMsg, IContactStore, IUserStore} from '@stores/interface'
 import {Icon} from '@ui'
-//@ts-ignore
+import moment from 'moment'
+// @ts-ignore
 import {Menu, Dropdown, Divider} from 'antd'
 // import SmileMenu from './comp/SmileMenu'
 import './Chat.scss'
@@ -34,6 +35,7 @@ const Chat = inject((stores: IStores) => ({
 		// const [reRender, setReRender] = useState(false)
 		const [isOpenMenu, setIsOpenMnu] = useState(false)
 		let currentChat: any
+		let last_date: any = null
 		
 		if (chatStore.chat && activeContact) {
 			currentChat = chatStore.activeChat
@@ -127,7 +129,6 @@ const Chat = inject((stores: IStores) => ({
 		
 		let channel = channelValidator(currentChat.msg)
 		
-		let lsd_date: number = null
 		
 		//render chat content
 		const renderDataTimeBlock = (time: string) => <div className="date_container">
@@ -272,6 +273,7 @@ const Chat = inject((stores: IStores) => ({
 		//index rendering functions
 		const renderToMeMessages = (msg: any) => {
 			return (<>
+				{dateDivider(msg)}
 				{!msg.readed ? renderDataContainerUnread() : ' '}
 				<div key={Math.random()} className="message">
 					{renderMessagesHeader(msg)}
@@ -280,15 +282,23 @@ const Chat = inject((stores: IStores) => ({
 				</div>
 			</>)
 		}
+		
+		let dateDivider = (msg: any) => {
+			let diff: any
+			let currentDate = moment(msg.date, 'DD.MM')
+			if (last_date) diff = currentDate.diff(last_date, 'days')
+			console.log('currentDate', currentDate)
+			console.log('last_date', last_date)
+			console.log('diff', diff)
+			last_date = moment(msg.date, 'DD.MM')
+			if (diff > 0) return renderDataTimeBlock(currentDate.format('DD.MM'))
+			return null
+		}
+		
+		
 		const renderMyMessages = (msg: any) => {
 			return (<>
-				{msg.readed ?
-					((lsd_date === null) ||
-						//@ts-ignore
-						(lsd_date !== msg.date))
-					//@ts-ignore
-					&& (lsd_date = msg.date) ? renderDataTimeBlock(msg.date) : ''
-					: msg.readed ? renderDataContainerUnread() : ''}
+				{dateDivider(msg)}
 				<div key={Math.random()} className={`message self ${msg.flowMsgNext ? 'not-main' : ''} `}>
 					{renderMessagesHeader(msg)}
 					{renderMessagesWrapper(msg)}

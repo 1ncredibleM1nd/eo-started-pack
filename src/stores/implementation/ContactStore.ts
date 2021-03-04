@@ -21,6 +21,7 @@ export class ContactStore implements IContactStore {
 			'email': true
 		}
 	}
+	contactLoading: boolean = false
 	
 	
 	constructor() {
@@ -38,9 +39,11 @@ export class ContactStore implements IContactStore {
 	}
 	
 	@action
-	async loadContact() {
+	async loadContact(): Promise<any> {
+		if (this.contactLoading) return null
+		this.contactLoading = true
+		console.log(this.contact)
 		let conversations = await getConversations(appStore.school, appStore.activeContactPageNumber + 1)
-		console.log('get conversation', conversations)
 		let dataContact: any = []
 		if (conversations.data.length) {
 			for (let index = 0; index < conversations.data.length; index++) {
@@ -56,9 +59,19 @@ export class ContactStore implements IContactStore {
 				}
 				dataContact.push(initContact)
 			}
-			console.log('Added contacts', dataContact)
 			this.contact = [...this.contact, ...dataContact]
-			appStore.setContactPageNumber(appStore.activeContactPageNumber + 1)
+			if (conversations.data.length === 20) {
+				setTimeout(() => {
+					appStore.setContactPageNumber(appStore.activeContactPageNumber + 1)
+					this.contactLoading = false
+				}, 500)
+				// if($(`.contact-item-${this.contact.length - 1}`)){
+				// 	console.log('Increase')
+				// 	appStore.setContactPageNumber(appStore.activeContactPageNumber + 1)
+				// }
+			}
+		} else {
+			this.contactLoading = false
 		}
 	}
 	
@@ -134,6 +147,7 @@ export class ContactStore implements IContactStore {
 				const localContact = this.contact[i]
 				let serverContact = dataContact[i]
 				if (!serverContact) continue
+				// Проверка на последнее сообщение, если оно не соответствует старому - загрузить новые сообщения
 				if (this.activeContact && this.activeContact.id === localContact.id) {
 					if (localContact.last_message.id !== serverContact.last_message.id) {
 						await chatStore.loadMessages(this.activeContact.id, 1)
@@ -141,7 +155,17 @@ export class ContactStore implements IContactStore {
 					}
 				}
 			}
-			this.contact = dataContact
+			
+			if (this.contact.length) {
+				// Замена первых 20 контактов
+				console.log('Замена контактов первой страницы', dataContact)
+				for (let i = 0; i < 19; i++) {
+					this.contact[i] = dataContact[i]
+				}
+			} else {
+				console.log('Первая итерация', dataContact)
+				this.contact = dataContact
+			}
 		}
 		
 	}

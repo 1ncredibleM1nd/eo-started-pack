@@ -93,6 +93,7 @@ const ContactList = inject((stores: IStores) => ({
 			</div>
 		}
 		
+		
 		return (
 			<div className="menu_list">
 				<div className="tab-content">
@@ -179,6 +180,13 @@ const ContactList = inject((stores: IStores) => ({
 										)
 										
 									})}
+									{/*{*/}
+									{/*	contactStore.contactLoading ? (<Fragment>*/}
+									{/*		<li className={`contacts-item friends loading`}>*/}
+									{/*			<HashLoader color='#3498db' size={30}/>*/}
+									{/*		</li>*/}
+									{/*	</Fragment>) : (<Fragment></Fragment>)*/}
+									{/*}*/}
 								</ul>
 							</div>
 						</div>

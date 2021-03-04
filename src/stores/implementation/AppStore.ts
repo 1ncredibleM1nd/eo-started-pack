@@ -62,7 +62,7 @@ export class AppStore implements IAppStore {
 			try {
 				let run = async () => {
 					console.log('updating', this.school)
-					conversations = await getConversations(this.school, this.activeContactPageNumber)
+					conversations = await getConversations(this.school, 1)
 					await contactStore.init(conversations.data)
 					setTimeout(run, 1000)
 				}

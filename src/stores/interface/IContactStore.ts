@@ -1,6 +1,7 @@
 import IContact from './IContact'
 
 export default interface IContactStore {
+	contactLoading: boolean
 	loadContact: () => void;
 	contact: IContact[];
 	activeContact: IContact;

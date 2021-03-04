@@ -88,6 +88,10 @@ export class ChatStore implements IChatStore {
 	
 	@action
 	async loadMessages(contact_id: string, pageNum?: number) {
+		// Сообщения грузятся по страницам. ТО есть у первой страницы будет контейнер page-1, у второй page-2
+		// В страницах находятся сообщения
+		// Сделано это для того чтобы можно было легко обновлять первую страницу и заменять ее
+		
 		if (this.pageLoading) return null
 		let messages: IMsg[][] = []
 		this.pageLoading = true
@@ -174,7 +178,7 @@ export class ChatStore implements IChatStore {
 			if ($(`.page-${this.activeChatPageNumber}`)) {
 				console.log('Длинна последней страницы', this.activeChat.msg[0].length)
 				if (this.activeChat.msg[0].length > 29) {
-					$('.msg_space').animate({scrollTop: $(`.page-1`).height() + 500}, 0)
+					$('.msg_space').animate({scrollTop: $(`.page-1`).height() + 0}, 0)
 				}
 				
 				setTimeout(() => {
@@ -182,7 +186,7 @@ export class ChatStore implements IChatStore {
 					this.addPageNumber()
 				}, 500)
 			}
-		
+			
 		} else {
 			this.pageLoading = false
 			return messages
