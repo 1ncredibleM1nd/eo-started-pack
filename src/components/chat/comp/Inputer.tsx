@@ -41,7 +41,6 @@ const Inputer = inject((stores: IStores) => ({
 		
 		let currentChat: any
 		if (chatStore.loaded && activeContact) {
-			console.log('activeChat ', chatStore.activeChat)
 			currentChat = chatStore.activeChat
 		}
 		
@@ -127,7 +126,6 @@ const Inputer = inject((stores: IStores) => ({
 		// }
 		
 		const onSendFile = async () => {
-			console.log('fileOnHold', fileOnHold)
 			await chatStore.addMsg(fileOnHold, hero.id, currentChat.activeSocial, null)
 			await chatStore.sendMessageFile(fileToSend, activeContact.conversation_source_account_id, appStore.school)
 			// await chatStore.loadMessages(activeContact.id, 1)
@@ -302,7 +300,6 @@ const Inputer = inject((stores: IStores) => ({
 						<div className="file-holder-container">
 							{
 								fileOnHold.map((file_item: any, index: number) => {
-									console.log('file_item', file_item)
 									if (file_item.type === 'image') {
 										return (
 											<div className="file-holder">

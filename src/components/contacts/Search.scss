@@ -8,12 +8,8 @@
   flex-direction: column;
   justify-content: flex-start;
 
-  button {
-    text-align: left;
-    width: 90%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  select {
+    width: 100% !important;
   }
 }
 

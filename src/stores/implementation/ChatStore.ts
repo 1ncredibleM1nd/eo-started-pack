@@ -49,12 +49,12 @@ export class ChatStore implements IChatStore {
 	
 	
 	@action
-	async sendMessage(message: string, conversationSourceAccountId: any, school: string) {
+	async sendMessage(message: string, conversationSourceAccountId: any, school: any) {
 		await sendMsg(this.activeChat.id, message, conversationSourceAccountId, school)
 	}
 	
 	@action
-	async sendMessageFile(files: any, conversationSourceAccountId: any, school: string) {
+	async sendMessageFile(files: any, conversationSourceAccountId: any, school: any) {
 		const formData = new FormData()
 		for (let i = 0; i < files.length; i++) {
 			formData.append(`files[]`, files[0], files[0].name)
@@ -176,7 +176,6 @@ export class ChatStore implements IChatStore {
 			localStorage.setItem(contact_id + '_chat', JSON.stringify(this.activeChat))
 			
 			if ($(`.page-${this.activeChatPageNumber}`)) {
-				console.log('Длинна последней страницы', this.activeChat.msg[0].length)
 				if (this.activeChat.msg[0].length > 29) {
 					$('.msg_space').animate({scrollTop: $(`.page-1`).height() + 0}, 0)
 				}

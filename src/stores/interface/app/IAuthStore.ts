@@ -4,7 +4,6 @@ export default interface IAuthStore {
 	isFramed?: boolean,
 	setLoader: (loading: boolean) => void,
 	setToken: (token: string) => void,
-	getToken: () => void,
 	initialize: () => void,
 	
 }

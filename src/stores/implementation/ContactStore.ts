@@ -42,7 +42,6 @@ export class ContactStore implements IContactStore {
 	async loadContact(): Promise<any> {
 		if (this.contactLoading) return null
 		this.contactLoading = true
-		console.log(this.contact)
 		let conversations = await getConversations(appStore.school, appStore.activeContactPageNumber + 1)
 		let dataContact: any = []
 		if (conversations.data.length) {
@@ -158,12 +157,10 @@ export class ContactStore implements IContactStore {
 			
 			if (this.contact.length) {
 				// Замена первых 20 контактов
-				console.log('Замена контактов первой страницы', dataContact)
 				for (let i = 0; i < 19; i++) {
 					this.contact[i] = dataContact[i]
 				}
 			} else {
-				console.log('Первая итерация', dataContact)
 				this.contact = dataContact
 			}
 		}

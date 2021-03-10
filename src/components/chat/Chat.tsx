@@ -125,7 +125,6 @@ const Chat = inject((stores: IStores) => ({
 			)
 		}
 		
-		console.log('rerender chat')
 		
 		let channel = channelValidator(currentChat.msg)
 		
@@ -287,9 +286,6 @@ const Chat = inject((stores: IStores) => ({
 			let diff: any
 			let currentDate = moment(msg.date, 'DD.MM')
 			if (last_date) diff = currentDate.diff(last_date, 'days')
-			console.log('currentDate', currentDate)
-			console.log('last_date', last_date)
-			console.log('diff', diff)
 			last_date = moment(msg.date, 'DD.MM')
 			if (diff > 0) return renderDataTimeBlock(currentDate.format('DD.MM'))
 			return null

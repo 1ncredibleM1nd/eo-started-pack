@@ -1,46 +1,38 @@
-import axios from 'axios';
-import CONFIG from "../config";
+import axios from 'axios'
+import CONFIG from '../config'
 
-let isRest: string = 'v1';
-let isFramed = false;
-let timestamp: string
-let headers: any
+let isRest: string = 'v1'
 
-function getFrame(url: string = 'MTIzNDU2NzhfT1RRd1gySmxNV05qTVdSbVpXTmlaR0ppWmpJNE5qZGpZakU0WWpoaVpUUmlOR1k1') {
-    try {
-        isFramed = window != window.top || document != top.document || self.location != top.location;
-    } catch (e) {
-        isFramed = true;
-    }
-    if (url.length > 0) {
-        let arr = atob(url).split('_')
-        timestamp = arr[0]
-    }
-    isRest = isFramed ? 'rest' : 'v1'
-    headers = (token: string) => {
-        let obj = {'Authorization': `Bearer ${isFramed ? url : token}`}
-        isFramed ? obj['Timestamp'] = timestamp : obj
-        return obj
-    }
-    console.log(headers())
-    return isFramed
+let headers = () => {
+	let token = localStorage.getItem('token')
+	let userId = localStorage.getItem('userId')
+	let timestamp = localStorage.getItem('timestamp')
+	
+	let obj = {}
+	
+	token ? obj['Authorization'] = `Bearer ${token}` : null
+	timestamp ? obj['Timestamp'] = timestamp : null
+	userId ? obj['userid'] = userId : null
+	
+	return obj
 }
 
+// if isFrame = true
+function setHeader(data: any) {
+
+}
 
 const AUTH = axios.create({
-    baseURL: CONFIG.BASE_API_URL + '/' + isRest,
-    withCredentials: true,
-});
-
-const API_IFRAME = axios.create({
-    baseURL: CONFIG.BASE_API_URL
-});
-
-const API = (token: string) => axios.create({
-    baseURL: CONFIG.BASE_API_URL + '/' + isRest,
-    headers: headers(token),
-    withCredentials: true,
-});
+	baseURL: CONFIG.BASE_API_URL + '/' + isRest,
+	withCredentials: true
+})
 
 
-export {API, AUTH, API_IFRAME, getFrame};
+const API = axios.create({
+	baseURL: CONFIG.BASE_API_URL + '/' + isRest,
+	headers: headers(),
+	withCredentials: true
+})
+
+
+export {API, AUTH, setHeader}

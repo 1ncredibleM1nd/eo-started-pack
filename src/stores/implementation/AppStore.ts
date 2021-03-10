@@ -8,7 +8,7 @@ export class AppStore implements IAppStore {
 	@observable loaded: boolean = false
 	@observable info_tab: string = 'none'
 	@observable layout: string = 'contact'
-	@observable school: string = 'turstar'
+	@observable school: any = 10469
 	@observable school_list: any = []
 	activeContactPageNumber: number = 1
 	
@@ -55,13 +55,12 @@ export class AppStore implements IAppStore {
 			let paramsString = document.location.search
 			let searchParams = new URLSearchParams(paramsString)
 			
-			this.school = schoolArg ? schoolArg : await searchParams.get('school')
+			this.school = schoolArg ? schoolArg : await searchParams.get('school') ? await searchParams.get('school') : this.school
 			
 			let conversations = await getConversations(this.school, this.activeContactPageNumber)
 			
 			try {
 				let run = async () => {
-					console.log('updating', this.school)
 					conversations = await getConversations(this.school, 1)
 					await contactStore.init(conversations.data)
 					setTimeout(run, 1000)

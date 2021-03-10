@@ -5,8 +5,7 @@ function getMessages(conversationId: string, page: number, school_id: string) {
 	let isId: boolean = false
 	if (school_id !== null) isId = true
 	let id = `schoolId=${school_id}`
-	return API(localStorage.getItem('token'))
-		.get(`/conversation/get-messages?conversationId=${conversationId}&page=${page}${isId ? '&' + id : ''}`)
+	return API.get(`/conversation/get-messages?conversationId=${conversationId}&page=${page}${isId ? '&' + id : ''}`)
 		.then(response => {
 			return {
 				messages: response.data.data
@@ -14,43 +13,29 @@ function getMessages(conversationId: string, page: number, school_id: string) {
 		})
 }
 
-function getConversations(school_id: string, page: number) {
-	console.log('loading page', page)
-	let isId: boolean = false
-	if (school_id !== null) isId = true
-	let id = `schoolId=${school_id}`
-	
-	return API(localStorage.getItem('token')).get(`/conversation/get-conversations?${isId ? id + '&' : ''}page=${page}`).then(response => {
+function getConversations(school_id: any, page: number) {
+	return API.get(`/conversation/get-conversations?${!!school_id ? `schoolId=${school_id}&` : ''}page=${page}`).then(response => {
 		return {data: response.data.data}
 	})
 }
 
 async function sendMsgFile(formData: any) {
-	return API(localStorage.getItem('token')).post(`/conversation/send-message`, formData, {
-			headers: {
-				'cache': false,
-				'Content-Type': false,
-				'processData': false,
-				'Access-Control-Allow-Origin': '*',
-				'crossDomain': true
-			}
-		})
-		.then(response => {
+	return API.post(`/conversation/send-message`, formData)
+		.then((response: any) => {
 			return {menu: response.data.data}
 		})
 }
 
-
 function sendMsg(conversationId: string, message: string, conversationSourceAccountId: any, schoolId: string) {
 	let body = {conversationSourceAccountId, conversationId, schoolId, message}
-	return API(localStorage.getItem('token')).post(`/conversation/send-message`, body)
+	return API.post(`/conversation/send-message`, body)
 		.then(response => {
 			return {menu: response.data.data}
 		})
 }
 
 function getUserData() {
-	return API(localStorage.getItem('token')).get('/account/get-account')
+	return API.get('/account/get-account')
 		.then((response) => response)
 		.catch((error) => error)
 }
@@ -68,8 +53,7 @@ function setSession(sessionId: any) {
 }
 
 function getSchools() {
-	return API(localStorage.getItem('token'))
-		.get('/account/get-schools')
+	return API.get('/account/get-schools')
 		.then(res => res)
 		.catch(error => error)
 }

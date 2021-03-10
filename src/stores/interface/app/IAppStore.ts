@@ -3,7 +3,7 @@ export default interface IAppStore {
 	loaded: boolean;
 	layout: string;
 	info_tab: string;
-	school: string;
+	school: any;
 	setInfoTab: (tab: string) => void;
 	setLayout: (value: string) => void;
 	setSchoolId: (id: string) => void;

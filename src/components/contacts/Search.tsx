@@ -1,12 +1,12 @@
 import React, {useState, Fragment} from 'react'
 import {inject, observer} from 'mobx-react'
 import IStores, {IAppStore, IContactStore} from '@stores/interface'
-import {Input, Radio, Switch, Collapse, Button, Drawer, Menu, Dropdown} from 'antd'
+import {Input, Radio, Switch, Collapse, Button, Drawer, Select} from 'antd'
 import Settings from './comp/Settings'
 import AllContacts from './comp/AllContacts'
 import './Search.scss'
 import {Icon} from '@ui'
-import {DownOutlined} from '@ant-design/icons'
+
 
 type IProps = {
 	contactStore?: IContactStore,
@@ -20,15 +20,13 @@ const Search = inject((stores: IStores) => ({
 	observer((props: IProps) => {
 		
 		const {contactStore, appStore} = props
-		// @ts-ignore
 		const [searchText, setSearchText] = useState('')
 		const [drawer, setDrawer] = useState('')
 		const [switcher, setSwitcher] = useState(false)
-		const [valueDropdown, serValueDropdown] = useState('')
-		// let hero = userStore.hero
 		let school_list: any = appStore.school_list
 		const filter = contactStore.filter
 		let channel: any
+		
 		//let type: any
 		if (filter) {
 			channel = filter.channel
@@ -41,10 +39,8 @@ const Search = inject((stores: IStores) => ({
 			contactStore.setSearch(value)
 		}
 		
-		function handleMenuClick(e: { key: string }) {
-			
-			serValueDropdown(school_list[e.key])
-			appStore.setSchoolId(e.key)
+		function handleMenuClick(v: any) {
+			appStore.setSchoolId(v)
 		}
 		
 		
@@ -78,6 +74,7 @@ const Search = inject((stores: IStores) => ({
 		
 		const {Panel} = Collapse
 		const {Search} = Input
+		const {Option} = Select
 		
 		return (
 			<Fragment>
@@ -200,24 +197,17 @@ const Search = inject((stores: IStores) => ({
 									<Radio.Button className='radio_btn all ' value="all">
 										<Icon name='solid_star-of-life' className='blue-lite '/>
 									</Radio.Button>
-									<Radio.Button className='radio_btn' value="comments">Коментарии</Radio.Button>
+									<Radio.Button className='radio_btn' value="comments">Комментарии</Radio.Button>
 									<Radio.Button className='radio_btn' value="msg">Сообщения</Radio.Button>
 									<Radio.Button className='radio_btn' value="request">Заявки</Radio.Button>
 								</Radio.Group>
 							</div>
 							<div className="school-filter">
-								<Dropdown trigger={['click']} overlay={<Menu onClick={handleMenuClick}>
-									{Object.keys(school_list).map((s: any) =>
-										<Menu.Item
-											key={s}>{school_list[s]}
-										</Menu.Item>)}
-								</Menu>}>
-									<Button>
-										{!valueDropdown.length ? 'Выберите школу' : valueDropdown} <DownOutlined/>
-									</Button>
-								</Dropdown>
+								<Select defaultValue="10469" onChange={handleMenuClick}>
+									{Object.keys(school_list).map((s: any) => <Option
+										value={s}>{school_list[s]}</Option>)}
+								</Select>
 							</div>
-						
 						</Panel>
 					</Collapse>
 				</div>

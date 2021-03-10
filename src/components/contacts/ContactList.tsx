@@ -106,6 +106,7 @@ const ContactList = inject((stores: IStores) => ({
 									data-chat-list=""
 								>
 									{ContactsData.map((contact: any, index: number) => {
+										if (!contact) return null
 										const last_message = contact.last_message
 										let online = contact.online
 										let user, status: any
