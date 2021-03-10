@@ -98,7 +98,7 @@ const ContactList = inject((stores: IStores) => ({
 			<div className="menu_list">
 				<div className="tab-content">
 					<div className="tab-pane active" id="chats-content">
-						<div className="d-flex flex-column h-100">
+						<div className="scroller d-flex flex-column h-100">
 							<div onScroll={() => handleScroll()} className="hide-scrollbar h-100" id="chatContactsList">
 								<ul
 									className="contacts-list"
@@ -192,6 +192,7 @@ const ContactList = inject((stores: IStores) => ({
 						</div>
 					</div>
 				</div>
+			
 			</div>
 		)
 	}))
