@@ -5,7 +5,6 @@ import {Icon} from '@ui'
 import $ from 'jquery'
 import {Input, Menu, Button, Popover, Modal, Switch} from 'antd'
 import SocialMenu from './SocialMenu'
-import {AlignCenterOutlined} from '@ant-design/icons'
 // import SmileMenu from './comp/SmileMenu'
 
 type IProps = {
@@ -458,10 +457,27 @@ const Inputer = inject((stores: IStores) => ({
 				
 				<div className="input-container">
 					
+					{/*<div className="inputer_btn">*/}
+					{/*	<div className='helper_menu'>*/}
+					{/*		<AlignCenterOutlined onClick={props.helperMenu}/>*/}
+					{/*	</div>*/}
+					{/*</div>*/}
+					
 					<div className="inputer_btn">
-						<div className='helper_menu'>
-							<AlignCenterOutlined onClick={props.helperMenu}/>
-						</div>
+						<Popover onVisibleChange={(e) => {
+							e ? {} : setSwitcher('')
+						}} visible={switcher === 'social'} content={<SocialMenu selectSocial={selectSocial}/>}
+						         trigger="click">
+							{isActiveChannel ? <Button type="primary" disabled>
+									<Icon className='icon_l'
+									      name={`social_media_${currentChat.activeSocial ? currentChat.activeSocial : ''}`}/>
+								</Button>
+								: <Button onClick={() => setSwitcher('social')} className='transparent'>
+									<Icon className='icon_l'
+									      name={`social_media_${currentChat.activeSocial ? currentChat.activeSocial : ''}`}/>
+								</Button>
+							}
+						</Popover>
 					</div>
 					
 					<div className="main_input">
@@ -480,22 +496,6 @@ const Inputer = inject((stores: IStores) => ({
 						          value={draft[activeContact.id + status]}/>
 					</div>
 					
-					<div className="inputer_btn">
-						<Popover onVisibleChange={(e) => {
-							e ? {} : setSwitcher('')
-						}} visible={switcher === 'social'} content={<SocialMenu selectSocial={selectSocial}/>}
-						         trigger="click">
-							{isActiveChannel ? <Button type="primary" disabled>
-									<Icon className='icon_l'
-									      name={`social_media_${currentChat.activeSocial ? currentChat.activeSocial : ''}`}/>
-								</Button>
-								: <Button onClick={() => setSwitcher('social')} className='transparent'>
-									<Icon className='icon_l'
-									      name={`social_media_${currentChat.activeSocial ? currentChat.activeSocial : ''}`}/>
-								</Button>
-							}
-						</Popover>
-					</div>
 					
 					<div className="inputer_btn">
 						<Popover onVisibleChange={(e) => {
