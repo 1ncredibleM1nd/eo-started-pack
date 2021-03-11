@@ -8,7 +8,7 @@ export class AppStore implements IAppStore {
 	@observable loaded: boolean = false
 	@observable info_tab: string = 'none'
 	@observable layout: string = 'contact'
-	@observable school: any = 192
+	@observable school: any = 10469
 	@observable school_list: any = []
 	activeContactPageNumber: number = 1
 
