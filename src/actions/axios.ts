@@ -7,13 +7,13 @@ let headers = () => {
 	let token = localStorage.getItem('token')
 	let userId = localStorage.getItem('userId')
 	let timestamp = localStorage.getItem('timestamp')
-	
+
 	let obj = {}
-	
+
 	token ? obj['Authorization'] = `Bearer ${token}` : null
 	timestamp ? obj['Timestamp'] = timestamp : null
-	userId ? obj['userid'] = userId : null
-	
+	userId ? obj['User'] = userId : null
+
 	return obj
 }
 
@@ -35,4 +35,4 @@ const API = axios.create({
 })
 
 
-export {API, AUTH, setHeader}
+export { API, AUTH, setHeader }
