@@ -82,7 +82,7 @@ const ContactList = inject((stores: IStores) => ({
 			let parentPos = $('#chatContactsList')[0].getBoundingClientRect()
 			let childPos = $(`.contact-item-${ContactsData.length - 1}`)[0].getBoundingClientRect()
 			let topOfLastContact = childPos.bottom - parentPos.bottom
-			if (topOfLastContact < 0) {
+			if (topOfLastContact <= 0) {
 				contactStore.loadContact()
 				//chatStore.loadMessages(activeContact.id, chatStore.activeChatPageNumber + 1)
 			}

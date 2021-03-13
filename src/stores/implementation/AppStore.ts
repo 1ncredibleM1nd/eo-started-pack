@@ -23,10 +23,15 @@ export class AppStore implements IAppStore {
 	}
 
 	@action
+	setLoading(value: boolean) {
+		this.loaded = value
+	}
+
+	@action
 	setSchoolId(id: string) {
 		this.loaded = false
-		//в initialization устанавливаем школу
-		this.initialization(id)
+		this.school = id
+		this.updateContact()
 	}
 
 	@action
@@ -43,38 +48,31 @@ export class AppStore implements IAppStore {
 	async initSchools() {
 		let school_res = await getSchools()
 		this.school_list = school_res.data.data
+		let paramsString = document.location.search
+		let searchParams = new URLSearchParams(paramsString)
+		this.school = searchParams.get('school') ? searchParams.get('school') : this.school
 	}
 
 	@action
-	async initialization(schoolArg?: any) {
+	async updateContact() {
+		let conversations = await getConversations(this.school, 1)
+		await contactStore.init(conversations.data)
+	}
+
+	@action
+	async initialization() {
+		let u_data = await getUserData()
+		await this.initSchools()
+		let hero = u_data.data.data
+		await userStore.initHero(hero)
 		try {
-			let u_data = await getUserData()
-			let hero = u_data.data.data
-
-
-			let paramsString = document.location.search
-			let searchParams = new URLSearchParams(paramsString)
-
-			this.school = schoolArg !== undefined ? schoolArg : await searchParams.get('school') ? await searchParams.get('school') : this.school
-
-			let conversations = await getConversations(this.school, this.activeContactPageNumber)
-
-			try {
-				let run = async () => {
-					conversations = await getConversations(this.school, 1)
-					await contactStore.init(conversations.data)
-					setTimeout(run, 2000)
-				}
-				run()
-			} catch (e) {
-				throw new Error(e)
+			let run = async () => {
+				await this.updateContact()
+				setTimeout(run, 2000)
 			}
-			await this.initSchools()
-			await userStore.initHero(hero)
-			this.loaded = true
+			run()
 		} catch (e) {
-			console.error(e)
-
+			throw new Error(e)
 		}
 	};
 

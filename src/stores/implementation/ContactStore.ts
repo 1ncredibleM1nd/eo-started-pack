@@ -22,6 +22,7 @@ export class ContactStore implements IContactStore {
 	contactLoading: boolean = false
 
 
+
 	constructor() {
 		reaction(() => {
 			return this.contact
@@ -46,7 +47,18 @@ export class ContactStore implements IContactStore {
 	@action
 	filterSocial(key: string) {
 		this.socials[key] = !this.socials[key]
-		console.log('socials', this.socials)
+		this.contact = []
+		appStore.setLoading(false)
+		appStore.updateContact()
+	}
+
+
+	@action
+	setSearch(value: string) {
+		this.search = value
+		this.contact = []
+		appStore.setLoading(false)
+		appStore.updateContact()
 	}
 
 	@action
@@ -75,10 +87,6 @@ export class ContactStore implements IContactStore {
 					appStore.setContactPageNumber(appStore.activeContactPageNumber + 1)
 					this.contactLoading = false
 				}, 500)
-				// if($(`.contact-item-${this.contact.length - 1}`)){
-				// 	console.log('Increase')
-				// 	appStore.setContactPageNumber(appStore.activeContactPageNumber + 1)
-				// }
 			}
 		} else {
 			this.contactLoading = false
@@ -127,10 +135,6 @@ export class ContactStore implements IContactStore {
 		return contact.avatar
 	}
 
-	@action
-	setSearch(value: string) {
-		this.search = value
-	}
 
 	@action
 	async init(data: any) {
@@ -138,6 +142,7 @@ export class ContactStore implements IContactStore {
 
 		if (!data.length) {
 			this.contact = []
+			appStore.setLoading(true)
 			return
 		}
 
@@ -179,6 +184,7 @@ export class ContactStore implements IContactStore {
 			}
 		}
 
+		appStore.setLoading(true)
 	}
 
 
