@@ -16,7 +16,7 @@ function getConversations(school_id?: any, page?: number) {
 	let search: any = []
 	search['query'] = contactStore.search
 	search['socials'] = Object.keys(contactStore.socials).filter((key: string) => contactStore.socials[key])
-	let params = {}
+	let params = {} // d
 	params['search'] = search
 	params['page'] = page
 	school_id ? params['schoolId'] = school_id : null
