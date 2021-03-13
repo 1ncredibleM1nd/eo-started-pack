@@ -1,11 +1,11 @@
-import React, {Fragment} from 'react'
-import {inject, observer} from 'mobx-react'
-import IStores, {IAppStore, IChatStore, IContactStore, IUserStore} from '@stores/interface'
-import {Badge} from 'antd'
+import React, { Fragment } from 'react'
+import { inject, observer } from 'mobx-react'
+import IStores, { IAppStore, IChatStore, IContactStore, IUserStore } from '@stores/interface'
+import { Badge } from 'antd'
 import HashLoader from 'react-spinners/HashLoader'
 import './ContactList.scss'
 import './Contact.scss'
-import {Icon} from '@ui'
+import { Icon } from '@ui'
 import $ from 'jquery'
 
 // import { getMessages } from '@actions'
@@ -26,12 +26,13 @@ const ContactList = inject((stores: IStores) => ({
 	appStore: stores.appStore
 }))(
 	observer((props: IProps) => {
-		const {contactStore, chatStore, appStore, onSelect, userStore} = props
+		const { contactStore, chatStore, appStore, onSelect, userStore } = props
 		let ContactsData = contactStore.contact
 		let activeContact = contactStore.activeContact
 		const search = contactStore.search
 		const hero = userStore.hero
-		
+		const filterSwitch = contactStore.filterSwitch
+
 		if (search) {
 			// ContactsData = ContactsData.filter((contact: any) => {
 			//     let match = false;
@@ -45,13 +46,13 @@ const ContactList = inject((stores: IStores) => ({
 			//             break;
 			//         }
 			//     }
-			
+
 			//     contact.user.find((id: any) => {
 			//         let user = userStore.getUser(id)
 			//         let splitByWord = user.username.split(' ')
 			//         for (let i = 0; i < splitByWord.length; i++) {
 			//             const word = splitByWord[i];
-			
+
 			//             let wordSplit = word.toLowerCase().split('')
 			//             let searchSplit = search.toLowerCase().split('')
 			//             if (!match) {
@@ -75,8 +76,8 @@ const ContactList = inject((stores: IStores) => ({
 			chatStore.init(contactStore.activeContact)
 			appStore.setLayout('chat')
 		}
-		
-		
+
+
 		const handleScroll = () => {
 			let parentPos = $('#chatContactsList')[0].getBoundingClientRect()
 			let childPos = $(`.contact-item-${ContactsData.length - 1}`)[0].getBoundingClientRect()
@@ -86,16 +87,16 @@ const ContactList = inject((stores: IStores) => ({
 				//chatStore.loadMessages(activeContact.id, chatStore.activeChatPageNumber + 1)
 			}
 		}
-		
+
 		if (!appStore.loaded) {
 			return <div className="loading">
-				<HashLoader color='#3498db' size={50}/>
+				<HashLoader color='#3498db' size={50} />
 			</div>
 		}
-		
-		
+
+
 		return (
-			<div className="menu_list">
+			<div className={`menu_list ${filterSwitch ? 'active' : ''}`} >
 				<div className="tab-content">
 					<div className="tab-pane active" id="chats-content">
 						<div className="scroller d-flex flex-column h-100">
@@ -117,23 +118,23 @@ const ContactList = inject((stores: IStores) => ({
 										let unreadedCount = 0
 										if (user && hero.id === user.id) user = undefined
 										if (status === 'unread') unreadedCount = chatStore.getUnreadCount(contact.id)
-										
+
 										return (
 											<li onClick={() => selectContact(contact.id)}
-											    className={`contacts-item friends contact-item-${index}
+												className={`contacts-item friends contact-item-${index}
                                                     ${activeContact && activeContact.id === contact.id
-												    ? 'active' : ''}`}
-											    key={index}
+														? 'active' : ''}`}
+												key={index}
 											>
 												<div className="avatar">
 													<div className={`social_media_icon ${contact.social_media}`}>
 														<Icon className='icon_s'
-														      name={`social_media_${contact.last_message.social_media}`}/>
+															name={`social_media_${contact.last_message.social_media}`} />
 													</div>
 													<Badge
 														className={`online_dot ${activeContact && activeContact.id === contact.id ? 'active' : ''}`}
 														dot={Boolean(online)}>
-														<img src={contact.avatar} alt=""/>
+														<img src={contact.avatar} alt="" />
 													</Badge>
 												</div>
 												<div className="contacts-content">
@@ -145,7 +146,7 @@ const ContactList = inject((stores: IStores) => ({
 																	<span>{last_message.date} {last_message.time}</span>
 																</Fragment>) : (<Fragment></Fragment>)
 															}
-														
+
 														</div>
 													</div>
 													<div className="contacts-texts">
@@ -159,10 +160,10 @@ const ContactList = inject((stores: IStores) => ({
 																	{
 																		status === 'unread' ? (<Fragment>
 																			<div className="unreaded_count">
-																			
+
 																			</div>
 																			<div
-																				
+
 																				className="badge badge-rounded badge-primary ml-1">
 																				{unreadedCount}
 																			</div>
@@ -179,8 +180,18 @@ const ContactList = inject((stores: IStores) => ({
 												</div>
 											</li>
 										)
-										
+
 									})}
+									{
+										ContactsData && !ContactsData.length ? (<Fragment>
+											<li className={`contacts-item friends`}>
+												<div className="announcement">
+													Контактов нет ¯\_(ツ)_/¯
+												</div>
+											</li>
+										</Fragment>) : (<Fragment></Fragment>)
+									}
+
 									{/*{*/}
 									{/*	contactStore.contactLoading ? (<Fragment>*/}
 									{/*		<li className={`contacts-item friends loading`}>*/}
@@ -193,8 +204,8 @@ const ContactList = inject((stores: IStores) => ({
 						</div>
 					</div>
 				</div>
-			
-			</div>
+
+			</div >
 		)
 	}))
 

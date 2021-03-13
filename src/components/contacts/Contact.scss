@@ -2,6 +2,10 @@
 @import "@styles/media.scss";
 
 
+.ant-collapse-borderless>.ant-collapse-item>.ant-collapse-content {
+  box-shadow: -7px 1px 11px 0px rgba(0, 0, 0, 0.25);
+}
+
 .contacts-list {
   height: 100% !important;
   margin-bottom: 0 !important;
@@ -48,7 +52,15 @@
 
 .menu_list {
   width: 100%;
-  height: 94vh;
+  height: calc(100vh - 60px);
+  margin-top: 60px;
+  transition: ease-in-out 0.1s;
+  transition-delay: .1s;
+
+  &.active {
+    height: calc(100vh - 235px);
+    margin-top: 235px;
+  }
 }
 
 .avatar {
@@ -114,7 +126,7 @@
   }
 }
 
-.ant-collapse-content > .ant-collapse-content-box {
+.ant-collapse-content>.ant-collapse-content-box {
   padding: 8px;
 }
 
@@ -138,8 +150,8 @@
   }
 }
 
-.ant-collapse-borderless > .ant-collapse-item:last-child,
-.ant-collapse-borderless > .ant-collapse-item:last-child .ant-collapse-header {
+.ant-collapse-borderless>.ant-collapse-item:last-child,
+.ant-collapse-borderless>.ant-collapse-item:last-child .ant-collapse-header {
   border: none !important;
 }
 
@@ -148,7 +160,7 @@
   background: transparent !important;
 }
 
-.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+.ant-collapse>.ant-collapse-item>.ant-collapse-header {
   padding: 0;
   overflow: hidden;
   border: none !important;
@@ -211,14 +223,14 @@
   padding: 10px 0;
 }
 
-.ant-input-search-enter-button + .ant-input-group-addon,
-.ant-input-search-enter-button input + .ant-input-group-addon {
+.ant-input-search-enter-button+.ant-input-group-addon,
+.ant-input-search-enter-button input+.ant-input-group-addon {
   width: 60px;
   height: 60px;
 }
 
-.ant-input-search-enter-button + .ant-input-group-addon .ant-input-search-button,
-.ant-input-search-enter-button input + .ant-input-group-addon .ant-input-search-button {
+.ant-input-search-enter-button+.ant-input-group-addon .ant-input-search-button,
+.ant-input-search-enter-button input+.ant-input-group-addon .ant-input-search-button {
   width: 60px;
   height: 60px;
 }

@@ -55,7 +55,7 @@ export class AppStore implements IAppStore {
 			let paramsString = document.location.search
 			let searchParams = new URLSearchParams(paramsString)
 
-			this.school = schoolArg ? schoolArg : await searchParams.get('school') ? await searchParams.get('school') : this.school
+			this.school = schoolArg !== undefined ? schoolArg : await searchParams.get('school') ? await searchParams.get('school') : this.school
 
 			let conversations = await getConversations(this.school, this.activeContactPageNumber)
 
@@ -63,9 +63,9 @@ export class AppStore implements IAppStore {
 				let run = async () => {
 					conversations = await getConversations(this.school, 1)
 					await contactStore.init(conversations.data)
-					setTimeout(run, 1000)
+					setTimeout(run, 2000)
 				}
-				setTimeout(() => run(), 1000)
+				run()
 			} catch (e) {
 				throw new Error(e)
 			}

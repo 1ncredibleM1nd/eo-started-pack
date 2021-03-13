@@ -1,12 +1,11 @@
-import {action, observable, reaction} from 'mobx'
-import {IChat, IChatStore, IMsg} from '@stores/interface'
-import {contactStore, appStore} from '@stores/implementation'
-import {getMessages} from '@actions'
+import { action, observable, reaction } from 'mobx'
+import { IChat, IChatStore, IMsg } from '@stores/interface'
+import { contactStore, appStore } from '@stores/implementation'
+import { getMessages, sendMsg } from '@actions'
 import moment from 'moment'
 import 'moment/locale/ru'
 
 moment.locale('ru')
-import {sendMsg} from '@actions'
 import $ from 'jquery'
 
 
@@ -21,7 +20,8 @@ export class ChatStore implements IChatStore {
 	updateMessages: (contact_id: string) => any
 	readAllMsg: (id: string) => void
 	changeSocial: (social: string) => void
-	
+
+
 	constructor() {
 		reaction(() => {
 			return this.chat
@@ -30,29 +30,29 @@ export class ChatStore implements IChatStore {
 			}
 		})
 	}
-	
+
 	@action
 	addPageNumber() {
 		this.activeChatPageNumber += 1
 	}
-	
+
 	@action
 	setPageNumber(number: number) {
 		this.activeChatPageNumber = number
 	}
-	
+
 	@action
 	setActiveChat(chat: any) {
 		//Используется для деактивации, сетится чат в Init внизу
 		this.activeChat = chat
 	}
-	
-	
+
+
 	@action
 	async sendMessage(message: string, conversationSourceAccountId: any, school: any) {
 		await sendMsg(this.activeChat.id, message, conversationSourceAccountId, school)
 	}
-	
+
 	@action
 	async sendMessageFile(files: any, conversationSourceAccountId: any, school: any) {
 		const formData = new FormData()
@@ -81,26 +81,26 @@ export class ChatStore implements IChatStore {
 			processData: false,
 			data: formData
 		})
-		
+
 		//await sendMsgFile(formData)
 	}
-	
-	
+
+
 	@action
 	async loadMessages(contact_id: string, pageNum?: number) {
 		// Сообщения грузятся по страницам. ТО есть у первой страницы будет контейнер page-1, у второй page-2
 		// В страницах находятся сообщения
 		// Сделано это для того чтобы можно было легко обновлять первую страницу и заменять ее
-		
+
 		if (this.pageLoading) return null
 		let messages: IMsg[][] = []
 		this.pageLoading = true
-		
+
 		for (let i = 1; i <= pageNum; i++) {
 			const pageArray: IMsg[] = []
 			let pageContent = await getMessages(contact_id, i, appStore.school)
 			if (pageContent.messages.length === 0) break
-			
+
 			await pageContent.messages.forEach((msg_item: any, index: number) => {
 				let avatar = contactStore.getAvatar(contact_id)
 				// let role = chat.role.find((role: any) => role.id === msg.from)
@@ -113,12 +113,12 @@ export class ChatStore implements IChatStore {
 				let prevRead, time_scope: any = null
 				let username: string
 				let type = 'message'
-				
+
 				if (contactStore.activeContact.user.find((u: any) => u == msg_item.from)) {
 					username = contactStore.activeContact.name
 				}
-				
-				
+
+
 				if (pageContent.messages[index - 1]) {
 					prevMsg = pageContent.messages[index - 1]
 					prevRead = prevMsg.readed
@@ -126,24 +126,24 @@ export class ChatStore implements IChatStore {
 					let prevTime = moment(prevMsg.time, 'HH:mm')
 					prevTimeDiff = prevTime.diff(currentTime, 'minutes')
 				}
-				
+
 				if (pageContent.messages[index + 1]) {
 					nextMsg = pageContent.messages[index + 1]
 					let currentTime = moment(msg_item.time, 'HH:mm')
 					let nextTime = moment(nextMsg.time, 'HH:mm')
 					nextTimeDiff = currentTime.diff(nextTime, 'minutes')
 				}
-				
+
 				if (prevMsg && prevMsg.date !== msg_item.date) {
 					time_scope = msg_item.date
 				} else {
 					time_scope = null
 				}
-				
+
 				if (prevMsg && prevMsg.income === msg_item.income && prevMsg.from === userId && prevTimeDiff < 3) flowMsgNext = true
 				if (nextMsg && nextMsg.income === msg_item.income && nextMsg.from === userId && nextTimeDiff < 3) flowMsgPrev = true
 				if (flowMsgNext && flowMsgPrev) center = true
-				
+
 				const msg = {
 					time_scope,
 					prevRead,
@@ -170,31 +170,31 @@ export class ChatStore implements IChatStore {
 			})
 			messages.unshift(pageArray)
 		}
-		
+
 		if (this.activeChat && this.activeChat.msg) {
 			this.activeChat.msg = messages
 			localStorage.setItem(contact_id + '_chat', JSON.stringify(this.activeChat))
-			
+
 			if ($(`.page-${this.activeChatPageNumber}`)) {
 				if (this.activeChat.msg[0].length > 29) {
-					$('.msg_space').animate({scrollTop: $(`.page-1`).height() + 0}, 0)
+					$('.msg_space').animate({ scrollTop: $(`.page-1`).height() + 0 }, 0)
 				}
-				
+
 				setTimeout(() => {
 					this.pageLoading = false
 					this.addPageNumber()
 				}, 500)
 			}
-			
+
 		} else {
 			this.pageLoading = false
 			return messages
 		}
-		
+
 		return null
 	}
-	
-	
+
+
 	@action
 	getMsg(id: string, chat_id: string): IMsg {
 		let chat = this.chat.find((chat_item: IChat) => chat_item.id === chat_id)
@@ -204,29 +204,29 @@ export class ChatStore implements IChatStore {
 		}
 		return null
 	}
-	
-	
+
+
 	@action
 	getChat_contactId(contact_id: string): IChat {
 		return this.chat.find((chat_item: IChat) => chat_item.contact_id === contact_id)
 	}
-	
+
 	@action
 	getChat(id: string): IChat {
 		return this.chat.find((chat_item: IChat) => chat_item.id === id)
 	}
-	
+
 	@action
 	setModalWindow(status: string) {
 		this.modalWindow = status
 	}
-	
+
 	@action
 	getLastMsg(id: string): any {
 		let chat = this.chat.find((chat_item: IChat) => chat_item.contact_id === id)
 		return chat.msg[chat.msg.length - 1]
 	}
-	
+
 	@action
 	getUnreadCount(id: string): number {
 		let unreadedCount = 0
@@ -234,9 +234,9 @@ export class ChatStore implements IChatStore {
 		let counting = true
 		for (let i = chat.msg.length; i >= 0; i--) {
 			let page = chat.msg[i]
-			
+
 			if (!counting) break
-			
+
 			for (let index = page.length; index >= 0; index--) {
 				const msg = page[index]
 				if (!msg.read) {
@@ -246,17 +246,17 @@ export class ChatStore implements IChatStore {
 				}
 			}
 		}
-		
+
 		return unreadedCount
 	}
-	
+
 	@action
 	async addMsg(content: any, from: any, social_media: string, reply: any) {
 		if (this.activeChat) {
 			let id = 'msg_' + Math.random()
 			contactStore.setLastMsg(this.activeChat.contact_id, `msg_${id}`)
 			let avatar = contactStore.getAvatar(this.activeChat.contact_id)
-			
+
 			let msg: IMsg = {
 				id: `msg_${id}`,
 				avatar: avatar,
@@ -282,38 +282,38 @@ export class ChatStore implements IChatStore {
 				}
 			}
 			this.activeChat.msg[0].push(msg)
-			$('.msg_space').animate({scrollTop: $('.msg_space').prop('scrollHeight')}, 0)
-			setTimeout(() => $('.msg_space').animate({scrollTop: $('.msg_space').prop('scrollHeight')}, 0), 100)
+			$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
+			setTimeout(() => $('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0), 100)
 		}
 	}
-	
-	
+
+
 	@action
 	deleteMsg(id: string, chat_id: string) {
 		for (let index = 0; index < this.chat.length; index++) {
 			let chat = this.chat[index]
-			
+
 			if (chat.id === chat_id) {
 				chat.msg = chat.msg.filter((msg: any) => msg.id !== id)
 			}
 			this.chat[index] = chat
 		}
 	}
-	
+
 	@action
 	setActiveMsg(msg: IMsg, chat_id: string) {
 		if (msg) {
 			let chat = this.chat.find((chat_item: IChat) => chat_item.id === chat_id)
 			this.activeMsg = msg
 			chat.setActiveMsg(msg)
-			
+
 		} else {
 			let chat = this.chat.find((chat_item: IChat) => chat_item.id === chat_id)
 			this.activeMsg = null
 			chat.setActiveMsg(null)
 		}
 	}
-	
+
 	// @action
 	// readAllMsg(chat_id: string) {
 	//     let chat = this.chat.find((chat_item: IChat) => chat_item.id === chat_id)
@@ -327,8 +327,8 @@ export class ChatStore implements IChatStore {
 	//     }
 	//     contactStore.setStatus(chat.contact_id, 'readed')
 	// }
-	
-	
+
+
 	@action
 	async init(activeContact: any): Promise<any> {
 		if (activeContact) {
@@ -341,7 +341,7 @@ export class ChatStore implements IChatStore {
 				}
 				this.activeChat = localChat
 				this.loaded = true
-				$('.msg_space').animate({scrollTop: $('.msg_space').prop('scrollHeight')}, 0)
+				$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
 			} else {
 				if (this.activeChat && this.activeChat.msg) {
 					messages = this.activeChat.msg
@@ -371,8 +371,8 @@ export class ChatStore implements IChatStore {
 			}
 		}
 	}
-	
-	
+
+
 }
 
 export const chatStore = new ChatStore()
