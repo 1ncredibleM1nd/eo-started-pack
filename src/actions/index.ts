@@ -2,33 +2,15 @@ import { API, AUTH } from './axios'
 import { contactStore } from '@stores/implementation'
 import qs from 'qs'
 
-API.interceptors.request.use(req => {
-	let token = localStorage.getItem('token')
-	let userId = localStorage.getItem('userId')
-	let timestamp = localStorage.getItem('timestamp')
-
-	req.headers['Authorization'] = `Bearer ${token}`;
-	timestamp ? req.headers['Timestamp'] = timestamp : null
-	userId ? req.headers['User'] = userId : null
-
-	console.log('Request', req.url, 'with headers', req.headers)
-
-	return req;
-});
-
-
-
-function getMessages(conversationId: string, page: number, school_id: string) {
+async function getMessages(conversationId: string, page: number, school_id: string) {
 	let isId: boolean = false
 	if (school_id !== null) isId = true
 	let id = `schoolId=${school_id}`
-	return API.get(`/conversation/get-messages?conversationId=${conversationId}&page=${page}${isId ? '&' + id : ''}`)
-		.then(response => {
-			return { messages: response.data.data }
-		})
+	const response = await API.get(`/conversation/get-messages?conversationId=${conversationId}&page=${page}${isId ? '&' + id : ''}`)
+	return { messages: response.data.data }
 }
 
-function getConversations(school_id?: any, page?: number) {
+async function getConversations(school_id?: any, page?: number) {
 	let search: any = []
 	search['query'] = contactStore.search
 	search['socials'] = Object.keys(contactStore.socials).filter((key: string) => contactStore.socials[key])
@@ -37,14 +19,13 @@ function getConversations(school_id?: any, page?: number) {
 	params['page'] = page
 	school_id ? params['schoolId'] = school_id : null
 
-	return API.get(`/conversation/get-conversations`, {
+	const response = await API.get(`/conversation/get-conversations`, {
 		params,
-		paramsSerializer: params => {
-			return qs.stringify(params)
+		paramsSerializer: params_2 => {
+			return qs.stringify(params_2)
 		}
-	}).then(response => {
-		return { data: response.data.data }
 	})
+	return { data: response.data.data }
 }
 
 async function sendMsgFile(formData: any) {
@@ -54,24 +35,26 @@ async function sendMsgFile(formData: any) {
 		})
 }
 
-function sendMsg(conversationId: string, message: string, conversationSourceAccountId: any, schoolId: string) {
+async function sendMsg(conversationId: string, message: string, conversationSourceAccountId: any, schoolId: string) {
 	let body = { conversationSourceAccountId, conversationId, schoolId, message }
-	return API.post(`/conversation/send-message`, body)
-		.then(response => {
-			return { menu: response.data.data }
-		})
+	const response = await API.post(`/conversation/send-message`, body)
+	return { menu: response.data.data }
 }
 
-function getUserData() {
-	return API.get('/account/get-account')
-		.then((response) => response)
-		.catch((error) => error)
+async function getUserData() {
+	try {
+		return await API.get('/account/get-account')
+	} catch (error) {
+		return error
+	}
 }
 
-function isLogged() {
-	return AUTH.get(`/account/is-logged`)
-		.then((response) => response)
-		.catch((error) => error)
+async function isLogged() {
+	try {
+		return await AUTH.get(`/account/is-logged`)
+	} catch (error) {
+		return error
+	}
 }
 
 function setSession(sessionId: any) {
@@ -80,10 +63,12 @@ function setSession(sessionId: any) {
 	return AUTH.post(`/account/set-session`, formData)
 }
 
-function getSchools() {
-	return API.get('/account/get-schools')
-		.then(res => res)
-		.catch(error => error)
+async function getSchools() {
+	try {
+		return await API.get('/account/get-schools')
+	} catch (error) {
+		return error
+	}
 }
 
 export {

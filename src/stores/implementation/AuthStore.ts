@@ -33,6 +33,7 @@ export class AuthStore implements IAuthStore {
 		if (currentUrl.search.includes('encrypted_data')) {
 			let encrypted_data = await currentUrl.searchParams.get('encrypted_data')
 			let decrypted_data = await atob(encrypted_data).split('_')
+			localStorage.setItem('rest', 'rest')
 			localStorage.setItem('timestamp', decrypted_data[0])
 			localStorage.setItem('userId', decrypted_data[1])
 			localStorage.setItem('token', decrypted_data[2])
@@ -56,6 +57,7 @@ export class AuthStore implements IAuthStore {
 			}
 			if (success) {
 				localStorage.setItem('token', token)
+				localStorage.setItem('rest', 'v1')
 				await getUserData()
 			} else {
 				window.location.href = `https://account.dev.prodamus.ru/?redirect_url=${window.location.href}`
