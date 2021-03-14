@@ -17,11 +17,7 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore, authStore:
 
             async function init() {
                 let res = await authStore.initialize()
-                if (res) {
-                    console.log('Начал appStore')
-                    appStore.initialization();
-                }
-
+                if (res) appStore.initialization();
             }
 
             init();
