@@ -16,8 +16,12 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore, authStore:
         useEffect(() => {
 
             async function init() {
-                await authStore.initialize()
-                appStore.initialization();
+                let res = await authStore.initialize()
+                if (res) {
+                    console.log('Начал appStore')
+                    appStore.initialization();
+                }
+
             }
 
             init();

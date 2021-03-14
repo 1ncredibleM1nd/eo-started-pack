@@ -19,10 +19,6 @@ let headers = () => {
 	return headers
 }
 
-// if isFrame = true
-function setHeader(data: any) {
-
-}
 
 const AUTH = axios.create({
 	baseURL: CONFIG.BASE_API_URL + '/' + isRest,
@@ -37,4 +33,4 @@ const API = axios.create({
 })
 
 
-export { API, AUTH, setHeader }
+export { API, AUTH }

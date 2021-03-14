@@ -61,6 +61,8 @@ export class AuthStore implements IAuthStore {
 				window.location.href = `https://account.dev.prodamus.ru/?redirect_url=${window.location.href}`
 			}
 		}
+		console.log('End auth init')
+
 		return true
 	}
 
