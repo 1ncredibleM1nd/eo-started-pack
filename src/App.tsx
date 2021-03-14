@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
-import {inject, observer} from 'mobx-react';
-import {Layout} from 'antd';
-import IStores, {IAppStore, IAuthStore} from '@stores/interface';
+import React, { useEffect } from 'react';
+import { inject, observer } from 'mobx-react';
+import { Layout } from 'antd';
+import IStores, { IAppStore, IAuthStore } from '@stores/interface';
 import Chats from '@pages/Chat'
 import '@styles/index.scss'
 
@@ -10,13 +10,13 @@ type IProps = {
     authStore?: IAuthStore
 }
 
-const App = inject((stores: IStores) => ({appStore: stores.appStore, authStore: stores.authStore}))(
+const App = inject((stores: IStores) => ({ appStore: stores.appStore, authStore: stores.authStore }))(
     observer((props: IProps) => {
-        const {appStore, authStore} = props;
+        const { appStore, authStore } = props;
         useEffect(() => {
 
             async function init() {
-               await authStore.initialize()
+                await authStore.initialize()
                 appStore.initialization();
             }
 
@@ -28,7 +28,7 @@ const App = inject((stores: IStores) => ({appStore: stores.appStore, authStore: 
                 <Layout className="site-layout">
                     <div className="chats-tab-open h-100">
                         <div className={"main-layout h-100"}>
-                            <Chats/>
+                            <Chats />
                             {/*<NavBarLayout /> */}
                         </div>
                     </div>
