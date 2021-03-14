@@ -1,5 +1,5 @@
-import {action, observable} from 'mobx'
-import {isLogged, setSession, getUserData} from '@actions'
+import { action, observable } from 'mobx'
+import { isLogged, setSession, getUserData } from '@actions'
 import IAuthStore from '@stores/interface/app/IAuthStore'
 
 window.addEventListener('focus', async () => {
@@ -9,21 +9,26 @@ window.addEventListener('focus', async () => {
 export class AuthStore implements IAuthStore {
 	@observable loading: boolean = false
 	@observable isFrame: boolean = false
-	
+
 	@action
 	setLoader(loading: boolean) {
 		this.loading = loading
 	}
-	
+
 	@action
 	setToken(token: string) {
 		localStorage.setItem('token', token)
 	}
-	
-	
+
+
 	@action
 	async initialize() {
 		try {
+			// Очистка
+			localStorage.removeItem('userId')
+			localStorage.removeItem('timestamp')
+			localStorage.removeItem('token')
+
 			const currentUrl = new URL(location.href)
 			if (currentUrl.search.includes('encrypted_data')) {
 				let encrypted_data = await currentUrl.searchParams.get('encrypted_data')
@@ -33,14 +38,11 @@ export class AuthStore implements IAuthStore {
 				localStorage.setItem('token', decrypted_data[2])
 				this.isFrame = true
 			}
-			
+
 			if (!this.isFrame) {
-				localStorage.removeItem('userId')
-				localStorage.removeItem('timestamp')
-				
-				const {data: {data: {token, success}}} = await isLogged()
+				const { data: { data: { token, success } } } = await isLogged()
 				console.log('isLogged', success)
-				
+
 				if (currentUrl.search.includes('encrypted_session_data')) {
 					const encryptedSessionData = currentUrl.searchParams.get('encrypted_session_data')
 					if (encryptedSessionData) await setSession(encryptedSessionData)
@@ -55,12 +57,12 @@ export class AuthStore implements IAuthStore {
 					window.location.href = `https://account.dev.prodamus.ru/?redirect_url=${window.location.href}`
 				}
 			}
-			
+
 		} catch (e) {
-			throw(e)
+			throw (e)
 		}
 	}
-	
+
 }
 
 
