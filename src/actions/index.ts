@@ -2,6 +2,22 @@ import { API, AUTH } from './axios'
 import { contactStore } from '@stores/implementation'
 import qs from 'qs'
 
+API.interceptors.request.use(req => {
+	let token = localStorage.getItem('token')
+	let userId = localStorage.getItem('userId')
+	let timestamp = localStorage.getItem('timestamp')
+
+	req.headers['Authorization'] = `Bearer ${token}`;
+	timestamp ? req.headers['Timestamp'] = timestamp : null
+	userId ? req.headers['User'] = userId : null
+
+	console.log('Request', req.url, 'with headers', req.headers)
+
+	return req;
+});
+
+
+
 function getMessages(conversationId: string, page: number, school_id: string) {
 	let isId: boolean = false
 	if (school_id !== null) isId = true
