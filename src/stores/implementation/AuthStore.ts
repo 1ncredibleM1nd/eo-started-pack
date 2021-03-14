@@ -36,6 +36,10 @@ export class AuthStore implements IAuthStore {
 				localStorage.setItem('timestamp', decrypted_data[0])
 				localStorage.setItem('userId', decrypted_data[1])
 				localStorage.setItem('token', decrypted_data[2])
+
+
+				console.log('Setting localstorage', decrypted_data)
+
 				this.isFrame = true
 			}
 

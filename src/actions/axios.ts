@@ -8,13 +8,15 @@ let headers = () => {
 	let userId = localStorage.getItem('userId')
 	let timestamp = localStorage.getItem('timestamp')
 
-	let obj = {}
+	let headers = {}
 
-	token ? obj['Authorization'] = `Bearer ${token}` : null
-	timestamp ? obj['Timestamp'] = timestamp : null
-	userId ? obj['User'] = userId : null
+	token ? headers['Authorization'] = `Bearer ${token}` : null
+	timestamp ? headers['Timestamp'] = timestamp : null
+	userId ? headers['User'] = userId : null
 
-	return obj
+	console.log("Getting headers", headers)
+
+	return headers
 }
 
 // if isFrame = true
