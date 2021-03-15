@@ -5,6 +5,8 @@ import IStores, {IChatStore, IContactStore, IUserStore, IAppStore} from '@stores
 import {Button, Popover, Menu} from 'antd'
 import './Header.scss'
 import {Icon} from '@ui'
+import MoonLoader from 'react-spinners/MoonLoader'
+
 
 
 type IProps = {
@@ -208,18 +210,22 @@ const Header = inject((stores: IStores) => ({
 										{/*}*/}
 										<div className="header_settings">
 											<div className="trigger">
-												<Popover onVisibleChange={(e) => {
+												{/* <Popover onVisibleChange={(e) => {
 													e ? {} : setModal(false)
 												}} visible={modal} content={<DropDownMenu/>} trigger="click">
 													<Button onClick={() => setModal(!modal)} className='transparent'>
-														{/*потом открыь*/}
-														{/*  <Icon className='icon_s lite-grey rotated' name={`regular_three-dots`} />*/}
+			                    <Icon className='icon_s lite-grey rotated' name={`regular_three-dots`} />
 													</Button>
-												</Popover>
+												</Popover> */}
+{
+	chatStore.pageLoading ? (<Fragment>
+		<MoonLoader color='#3498db' size={18} />
+	</Fragment>) : (<Fragment></Fragment>)
+}
+											
 											</div>
 										</div>
 									</div>
-									
 									<div className="header_info">
 										<Button onClick={() => appStore.setLayout('info')} className='transparent'>
 											<Icon className='icon_l lite-grey' name={`solid_users-cog`}/>

@@ -16,7 +16,7 @@ export class ChatStore implements IChatStore {
 	@observable activeMsg: IMsg
 	@observable modalWindow: string = 'close'
 	activeChatPageNumber: number = 1
-	pageLoading: boolean = false
+	@observable pageLoading: boolean = false
 	updateMessages: (contact_id: string) => any
 	readAllMsg: (id: string) => void
 	changeSocial: (social: string) => void
