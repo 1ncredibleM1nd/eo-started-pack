@@ -23,12 +23,11 @@ export class AuthStore implements IAuthStore {
 
 	@action
 	async initialize(): Promise<boolean> {
-
 		// Очистка
 		localStorage.removeItem('userId')
 		localStorage.removeItem('timestamp')
 		localStorage.removeItem('token')
-		localStorage.removeItem('rest')
+		localStorage.setItem('rest', 'v1')
 
 		const currentUrl = new URL(location.href)
 		if (currentUrl.search.includes('encrypted_data')) {
@@ -53,7 +52,6 @@ export class AuthStore implements IAuthStore {
 			}
 			if (success) {
 				localStorage.setItem('token', token)
-				localStorage.setItem('rest', 'v1')
 				await getUserData()
 			} else {
 				window.location.href = `https://account.dev.prodamus.ru/?redirect_url=${window.location.href}`
