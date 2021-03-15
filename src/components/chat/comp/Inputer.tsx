@@ -13,7 +13,6 @@ type IProps = {
 	userStore?: IUserStore,
 	appStore?: IAppStore
 	helperMenu?: any
-	isActiveChannel?: boolean
 }
 
 const Inputer = inject((stores: IStores) => ({
@@ -24,7 +23,7 @@ const Inputer = inject((stores: IStores) => ({
 }))(
 	observer((props: IProps) => {
 
-		const { chatStore, contactStore, userStore, appStore, isActiveChannel } = props
+		const { chatStore, contactStore, userStore, appStore } = props
 		const activeContact = contactStore.activeContact
 		const activeMsg = chatStore.activeMsg
 		const hero = userStore.hero

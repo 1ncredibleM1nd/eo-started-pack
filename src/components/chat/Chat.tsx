@@ -1,10 +1,10 @@
-import React, {useState, Fragment} from 'react'
-import {inject, observer} from 'mobx-react'
-import IStores, {IChatStore, IMsg, IContactStore, IUserStore} from '@stores/interface'
-import {Icon} from '@ui'
+import React, { useState, Fragment } from 'react'
+import { inject, observer } from 'mobx-react'
+import IStores, { IChatStore, IMsg, IContactStore, IUserStore } from '@stores/interface'
+import { Icon } from '@ui'
 import moment from 'moment'
 // @ts-ignore
-import {Menu, Dropdown, Divider} from 'antd'
+import { Menu, Dropdown, Divider } from 'antd'
 // import SmileMenu from './comp/SmileMenu'
 import './Chat.scss'
 import Inputer from './comp/Inputer'
@@ -26,8 +26,8 @@ const Chat = inject((stores: IStores) => ({
 	userStore: stores.userStore
 }))(
 	observer((props: IProps) => {
-		
-		const {chatStore, contactStore} = props
+
+		const { chatStore, contactStore } = props
 		const activeContact = contactStore.activeContact
 		// const [draft, setDraft] = useState({})
 		const [switcher, setSwitcher] = useState('')
@@ -36,11 +36,11 @@ const Chat = inject((stores: IStores) => ({
 		const [isOpenMenu, setIsOpenMnu] = useState(false)
 		let currentChat: any
 		let last_date: any = null
-		
+
 		if (chatStore.chat && activeContact) {
 			currentChat = chatStore.activeChat
 		}
-		
+
 		// const editMsg = (id: string) => {
 		// 	let msg = chatStore.getMsg(id, currentChat.id)
 		// 	chatStore.setActiveMsg(msg, currentChat.id)
@@ -57,12 +57,12 @@ const Chat = inject((stores: IStores) => ({
 		// 	setDraft({...draft, [activeContact.id + 'reply']: draft[activeContact.id + status]})
 		// 	setStatus('reply')
 		// }
-		
-		
+
+
 		// const replyMsg = (id: string) => {
 		// 	setReRender(!reRender)
 		// }
-		
+
 		// const DropDownMenu = (msg: any) => {
 		// 	return (
 		// 		<Menu>
@@ -81,7 +81,7 @@ const Chat = inject((stores: IStores) => ({
 		// 		</Menu>
 		// 	)
 		// }
-		
+
 		const switcherOff = () => {
 			setSwitcher('')
 		}
@@ -96,43 +96,32 @@ const Chat = inject((stores: IStores) => ({
 				switcherOff()
 			}
 		}
-		
-		const channelValidator = (messagesList: []) => {
-			let list = messagesList.map((page: any) => page.map((v: any) => v.social_media))
-			let str = list[0][0]
-			let isR = true
-			list[0].forEach((v: string) => str === v ? isR : !isR)
-			return isR
-		}
-		
+
 		if (!currentChat) {
 			return (
 				<div className="chat">
-					<ChatPlaceholder/>
+					<ChatPlaceholder />
 				</div>
 			)
 		}
-		
+
 		const openHelperMenu = () => setIsOpenMnu(!isOpenMenu)
 		if (currentChat && !currentChat.msg && activeContact) {
 			chatStore.loadMessages(activeContact.id)
 			return (
 				<div className="chat">
 					<div className="loading chat_loading">
-						<PuffLoader color='#3498db' size={50}/>
+						<PuffLoader color='#3498db' size={50} />
 					</div>
 				</div>
 			)
 		}
-		
-		
-		let channel = channelValidator(currentChat.msg)
-		
-		
+
+
 		//render chat content
 		const renderDataTimeBlock = (time: string) => <div className="date_container">
 			<Divider orientation="center"
-			         className='date_divider'>
+				className='date_divider'>
 				<div className="date">
 					{time}
 				</div>
@@ -140,14 +129,14 @@ const Chat = inject((stores: IStores) => ({
 		</div>
 		const renderDataContainerUnread = () => <div className="date_container unread">
 			<Divider orientation="center"
-			         className='date_divider unread'>
+				className='date_divider unread'>
 				<div className="date unread">
 					Непрочитанные сообщения
 				</div>
 			</Divider>
 		</div>
-		
-		
+
+
 		// sms blocks in user
 		const renderMessagesHeader = (msg: any) => <>
 			{!msg.flowMsgPrev && msg.flowMsgNext && !msg.center ? (<div className="msg_header">
@@ -159,17 +148,17 @@ const Chat = inject((stores: IStores) => ({
 				<span className="msg-role">{msg.role ? msg.role.name : ''}</span>
 			</div>) : ''}
 		</>
-		
+
 		const renderMessagesWrapper = (msg: any) => <div className="message-wrapper">
 			<div className={`message-content ${msg.flowMsgNext ? 'not-main' : ''} `}>
 				{msg.reply ? (<div className="reply">
-                        <span>
-                            {msg.reply.content}
-                        </span>
+					<span>
+						{msg.reply.content}
+					</span>
 				</div>) : ''}
 				<div className="inset_border_container">
-					<div className="dummy"/>
-					<div className="border_hero"/>
+					<div className="dummy" />
+					<div className="border_hero" />
 				</div>
 				<div className='msg_text_container'>
 					{
@@ -181,7 +170,7 @@ const Chat = inject((stores: IStores) => ({
 											return (
 												<div
 													className={`msg_content-image ${'image_count_' + msg.content.length}`}>
-													<img src={content_item.url} alt=""/>
+													<img src={content_item.url} alt="" />
 												</div>
 											)
 										}
@@ -204,7 +193,7 @@ const Chat = inject((stores: IStores) => ({
 												<div className="msg_content-video">
 													Video
 												</div>
-											
+
 											)
 										}
 										return null
@@ -219,7 +208,7 @@ const Chat = inject((stores: IStores) => ({
 				<div className="msg_type">
 					{
 						msg.type === 'message' ? (<Fragment>
-							<Icon name="regular_envelope" className={`icon_s lite-grey`}/>
+							<Icon name="regular_envelope" className={`icon_s lite-grey`} />
 						</Fragment>) : (<Fragment></Fragment>)
 					}
 				</div>
@@ -250,12 +239,12 @@ const Chat = inject((stores: IStores) => ({
 		const renderMessagesOptions = (msg: any) => !msg.flowMsgNext ? (<div className="message-options">
 			<div className="avatar avatar-sm">
 				<div className={`social_media_icon ${msg.social_media}`}>
-					<Icon className='icon_s' name={`social_media_${msg.social_media}`}/>
+					<Icon className='icon_s' name={`social_media_${msg.social_media}`} />
 				</div>
-				<img src={msg.avatar} alt=""/>
+				<img src={msg.avatar} alt="" />
 			</div>
 			<span className="message-status">{msg.editted ? (
-				<div className="editted_icon"><Icon className='active-grey' name={`solid_pencil-alt`}/>{' '}Редак.
+				<div className="editted_icon"><Icon className='active-grey' name={`solid_pencil-alt`} />{' '}Редак.
 				</div>) : ''}
 				<div className="msg_time">{msg.time} {msg.date}</div>
 				{/*<Dropdown overlay={<DropDownMenu id={msg.id}/>} placement="bottomLeft" trigger={['click']}>*/}
@@ -266,9 +255,9 @@ const Chat = inject((stores: IStores) => ({
 				{/*            name={`regular_three-dots`}/>*/}
 				{/*    </span>*/}
 				{/*</Dropdown>*/}
-						</span>
+			</span>
 		</div>) : ''
-		
+
 		//index rendering functions
 		const renderToMeMessages = (msg: any) => {
 			return (<>
@@ -281,7 +270,7 @@ const Chat = inject((stores: IStores) => ({
 				</div>
 			</>)
 		}
-		
+
 		let dateDivider = (msg: any) => {
 			let diff: any
 			let currentDate = moment(msg.date, 'DD.MM')
@@ -290,8 +279,8 @@ const Chat = inject((stores: IStores) => ({
 			if (diff > 0) return renderDataTimeBlock(currentDate.format('DD.MM'))
 			return null
 		}
-		
-		
+
+
 		const renderMyMessages = (msg: any) => {
 			return (<>
 				{dateDivider(msg)}
@@ -302,26 +291,26 @@ const Chat = inject((stores: IStores) => ({
 				</div>
 			</>)
 		}
-		
-		
+
+
 		return (<div className="chat position-relative">
 			{currentChat !== undefined ? (<>
-					<div onScroll={() => handleScroll()} className="msg_space" id={activeContact.id}>
-						{currentChat.msg.map((page: IMsg[], index: number) => <div className={`page page-${index + 1}`}>
-							{page.map((msg: IMsg) => msg.income ? renderToMeMessages(msg) : renderMyMessages(msg))}
-						</div>)}
+				<div onScroll={() => handleScroll()} className="msg_space" id={activeContact.id}>
+					{currentChat.msg.map((page: IMsg[], index: number) => <div className={`page page-${index + 1}`}>
+						{page.map((msg: IMsg) => msg.income ? renderToMeMessages(msg) : renderMyMessages(msg))}
+					</div>)}
+				</div>
+				{isOpenMenu ? <div className="message-item">
+					<div className="message-block-content d-flex flex-column justify-content-between">
+						<SettingsMo />
 					</div>
-					{isOpenMenu ? <div className="message-item">
-						<div className="message-block-content d-flex flex-column justify-content-between">
-							<SettingsMo/>
-						</div>
-					</div> : ''}
-					<Inputer isActiveChannel={channel} helperMenu={openHelperMenu}/>
-				</>)
-				: (<ChatPlaceholder/>)}
+				</div> : ''}
+				<Inputer helperMenu={openHelperMenu} />
+			</>)
+				: (<ChatPlaceholder />)}
 		</div>)
-		
-		
+
+
 	}))
 
 export default Chat
