@@ -8,8 +8,6 @@ import './Contact.scss'
 import { Icon } from '@ui'
 import $ from 'jquery'
 
-// import { getMessages } from '@actions'
-
 type IProps = {
 	contactStore?: IContactStore,
 	stores?: IAppStore,
@@ -33,43 +31,6 @@ const ContactList = inject((stores: IStores) => ({
 		const hero = userStore.hero
 		const filterSwitch = contactStore.filterSwitch
 
-		if (search) {
-			// ContactsData = ContactsData.filter((contact: any) => {
-			//     let match = false;
-			//     let nameSplit = contact.name.toLowerCase().split('')
-			//     let searchSplit = search.toLowerCase().split('')
-			//     for (let i = 0; i < search.length; i++) {
-			//         if (nameSplit[i] === searchSplit[i]) {
-			//             match = true
-			//         } else {
-			//             match = false
-			//             break;
-			//         }
-			//     }
-
-			//     contact.user.find((id: any) => {
-			//         let user = userStore.getUser(id)
-			//         let splitByWord = user.username.split(' ')
-			//         for (let i = 0; i < splitByWord.length; i++) {
-			//             const word = splitByWord[i];
-
-			//             let wordSplit = word.toLowerCase().split('')
-			//             let searchSplit = search.toLowerCase().split('')
-			//             if (!match) {
-			//                 for (let i = 0; i < search.length; i++) {
-			//                     if (wordSplit[i] === searchSplit[i]) {
-			//                         match = true
-			//                     } else {
-			//                         match = false
-			//                         break;
-			//                     }
-			//                 }
-			//             }
-			//         }
-			//     })
-			//     return match
-			// })
-		}
 		const selectContact = async (id: any) => {
 			if (onSelect) onSelect()
 			contactStore.setActiveContact(id)
@@ -77,17 +38,13 @@ const ContactList = inject((stores: IStores) => ({
 			appStore.setLayout('chat')
 		}
 
-
 		const handleScroll = () => {
 			let parentPos = $('#chatContactsList')[0].getBoundingClientRect()
 			let childPos = $(`.contact-item-${ContactsData.length - 1}`)[0].getBoundingClientRect()
 			let topOfLastContact = childPos.bottom - parentPos.bottom
 
-			console.log('topOfLastContact', topOfLastContact)
-
 			if (topOfLastContact <= 10) {
 				contactStore.loadContact()
-				//chatStore.loadMessages(activeContact.id, chatStore.activeChatPageNumber + 1)
 			}
 		}
 
@@ -122,6 +79,8 @@ const ContactList = inject((stores: IStores) => ({
 										if (user && hero.id === user.id) user = undefined
 										if (status === 'unread') unreadedCount = chatStore.getUnreadCount(contact.id)
 
+console.log('contact', contact)
+
 										return (
 											<li onClick={() => selectContact(contact.id)}
 												className={`contacts-item friends contact-item-${index}
@@ -130,7 +89,7 @@ const ContactList = inject((stores: IStores) => ({
 												key={index}
 											>
 												<div className="avatar">
-													<div className={`social_media_icon ${contact.social_media}`}>
+													<div className={`social_media_icon white ${contact.last_message.social_media}`}>
 														<Icon className='icon_s'
 															name={`social_media_${contact.last_message.social_media}`} />
 													</div>
@@ -183,7 +142,6 @@ const ContactList = inject((stores: IStores) => ({
 												</div>
 											</li>
 										)
-
 									})}
 									{
 										ContactsData && !ContactsData.length ? (<Fragment>
@@ -194,14 +152,6 @@ const ContactList = inject((stores: IStores) => ({
 											</li>
 										</Fragment>) : (<Fragment></Fragment>)
 									}
-
-									{/*{*/}
-									{/*	contactStore.contactLoading ? (<Fragment>*/}
-									{/*		<li className={`contacts-item friends loading`}>*/}
-									{/*			<HashLoader color='#3498db' size={30}/>*/}
-									{/*		</li>*/}
-									{/*	</Fragment>) : (<Fragment></Fragment>)*/}
-									{/*}*/}
 								</ul>
 							</div>
 						</div>

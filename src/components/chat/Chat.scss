@@ -587,21 +587,21 @@
   box-shadow: 0 0 0 2px $white_chat;
   border-radius: 15px;
   background: $grey_soft;
-
+  
   &.white {
-    box-shadow: 0 0 0 2px $white;
+    box-shadow: 0 0 0 2px $ui_white;
   }
 
   &.instagram {
-    border-radius: 4px;
+    border-radius: 3px;
   }
 
   &.vkontakte {
-    border-radius: 4px;
+    border-radius: 3px;
   }
 
   &.facebook {
-    border-radius: 4px;
+    border-radius: 3px;
   }
 
   svg {
@@ -752,7 +752,7 @@
 .message {
   padding-left: 20px !important;
   padding-right: 0rem !important;
-  margin-bottom: 7px;
+  margin-bottom: 3px;
 
   @include _990 {
     padding-left: 10px !important;

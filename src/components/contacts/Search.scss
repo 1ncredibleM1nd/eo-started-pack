@@ -6,6 +6,14 @@
   width: 100%;
 }
 
+.ant-btn.disabled, .ant-btn[disabled]{
+  cursor: wait;
+}
+
+.ant-input[disabled]{
+    cursor: wait;
+}
+
 .school-filter {
   width: 100%;
   margin-top: 15px;

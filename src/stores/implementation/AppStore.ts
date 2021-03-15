@@ -73,7 +73,6 @@ export class AppStore implements IAppStore {
 				} catch (error) {
 					console.error(error)
 				}
-
 			}
 			run()
 		} catch (e) {

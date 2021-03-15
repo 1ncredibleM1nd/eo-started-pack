@@ -130,12 +130,12 @@ const Search = inject((stores: IStores) => ({
 
 					<div className="search">
 						<div className="search-filter">
-							<Button onClick={() => contactStore.toggleFilterSwitch()} className='transparent'>
+							<Button disabled={!appStore.loaded} onClick={() => contactStore.toggleFilterSwitch()} className='transparent'>
 								<Icon name='solid_cog' className={`icon_s ${switcher ? 'accent' : 'blue-lite'}`} />
 							</Button>
 						</div>
 						<div className="search-input">
-							<Search placeholder="Поиск..." value={searchText} onChange={(e) => onChange(e.target.value)}
+							<Search disabled={!appStore.loaded} placeholder="Поиск..." value={searchText} onChange={(e) => onChange(e.target.value)}
 								enterButton />
 						</div>
 					</div>
