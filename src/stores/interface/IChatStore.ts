@@ -9,6 +9,7 @@ export default interface IChatStore {
 	modalWindow: string;
 	loaded: boolean;
 	activeChatPageNumber: number
+	pageLoading: boolean
 	addPageNumber: () => void;
 	updateMessages: (contact_id: string) => any;
 	loadMessages: (contact_id: string, pageNumber?: number) => void;

@@ -138,17 +138,11 @@
 }
 
 
-.audio-holder {
+.audio-holder {}
 
-}
+.video-holder {}
 
-.video-holder {
-
-}
-
-.file-holder {
-
-}
+.file-holder {}
 
 
 .seting_menu_header {
@@ -558,7 +552,7 @@
   }
 }
 
-.message-status > * {
+.message-status>* {
   padding: 0 5px;
 }
 
@@ -587,7 +581,7 @@
   box-shadow: 0 0 0 2px $white_chat;
   border-radius: 15px;
   background: $grey_soft;
-  
+
   &.white {
     box-shadow: 0 0 0 2px $ui_white;
   }
@@ -632,7 +626,7 @@
   }
 
   &.not-main {
-    margin-bottom: 5px !important;
+    margin-bottom: 3px !important;
   }
 
   .msg_header {
@@ -677,7 +671,7 @@
       padding-left: 1.2rem !important;
     }
 
-    &.not-main > .inset_border_container {
+    &.not-main>.inset_border_container {
       display: none !important;
     }
 
@@ -978,7 +972,7 @@
   }
 
 
-  .message-content.not-main > .inset_border_container {
+  .message-content.not-main>.inset_border_container {
     display: none;
   }
 
@@ -1001,6 +995,9 @@
   max-height: calc(100vh - 60px);
   height: calc(100vh - 60px);
   width: 100%;
+  background-size: cover;
+  background-position: top center;
+  background: url('../../styles/chat-background.png');
 
   .info_center {
     text-align: center;

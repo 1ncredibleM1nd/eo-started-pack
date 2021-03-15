@@ -7,6 +7,7 @@ import './ContactList.scss'
 import './Contact.scss'
 import { Icon } from '@ui'
 import $ from 'jquery'
+import moment from 'moment'
 
 type IProps = {
 	contactStore?: IContactStore,
@@ -54,6 +55,23 @@ const ContactList = inject((stores: IStores) => ({
 		}
 
 
+		const contactTime = (date: any, time: any) => {
+			let now = moment(new Date());
+			let contact_date = moment(date, 'DD.MM')
+			let diff = now.diff(contact_date, 'days');
+			console.log('diff', diff)
+			if (diff === 0) {
+				return (
+					<span>{time}</span>
+				)
+			}
+			return (
+				<span>{contact_date.format('dd')} {date}</span>
+			)
+		}
+
+
+
 		return (
 			<div className={`menu_list ${filterSwitch ? 'active' : ''}`} >
 				<div className="tab-content">
@@ -78,7 +96,7 @@ const ContactList = inject((stores: IStores) => ({
 										if (user && hero.id === user.id) user = undefined
 										if (status === 'unread') unreadedCount = chatStore.getUnreadCount(contact.id)
 
-console.log('contact', contact)
+										console.log('contact', contact)
 
 										return (
 											<li onClick={() => selectContact(contact.id)}
@@ -104,7 +122,7 @@ console.log('contact', contact)
 														<div className="chat-time">
 															{
 																last_message ? (<Fragment>
-																	<span>{last_message.date} {last_message.time}</span>
+																	{contactTime(last_message.date, last_message.time)}
 																</Fragment>) : (<Fragment></Fragment>)
 															}
 

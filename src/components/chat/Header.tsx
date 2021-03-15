@@ -1,10 +1,11 @@
-import React, {Fragment, useState} from 'react'
+import React, { Fragment } from 'react'
 import ModalWindow from './ModalWindow'
-import {inject, observer} from 'mobx-react'
-import IStores, {IChatStore, IContactStore, IUserStore, IAppStore} from '@stores/interface'
-import {Button, Popover, Menu} from 'antd'
+import { inject, observer } from 'mobx-react'
+import IStores, { IChatStore, IContactStore, IUserStore, IAppStore } from '@stores/interface'
+import { Button } from 'antd'
+
 import './Header.scss'
-import {Icon} from '@ui'
+import { Icon } from '@ui'
 import MoonLoader from 'react-spinners/MoonLoader'
 
 
@@ -23,17 +24,17 @@ const Header = inject((stores: IStores) => ({
 	contactStore: stores.contactStore
 }))(
 	observer((props: IProps) => {
-		const {chatStore, contactStore, appStore} = props
-		const [modal, setModal] = useState(false)
+		const { chatStore, contactStore, appStore } = props
+		// const [modal, setModal] = useState(false)
 		let name = contactStore.name
 		// let hero = userStore.hero
 		const chat = chatStore.activeChat
-		
+
 		let activeMsg: any
 		let user: any
 		let chatTitle: any
-		
-		
+
+
 		if (chat) {
 			activeMsg = chat.active_msg
 			let contact = contactStore.getContact(chat.contact_id)
@@ -43,100 +44,99 @@ const Header = inject((stores: IStores) => ({
 			//     user = userStore.getUser(userId)
 			// }
 		}
-		
-		
-		const onDelete = () => {
-			chatStore.deleteMsg(activeMsg.id, chat.id)
-			chat.setActiveMsg(null)
-		}
-		
-		const onClose = () => {
-			chat.setActiveMsg(null)
-		}
-		
-		
-		const openProfile = (type: string) => {
-			chatStore.setModalWindow(type)
-			setModal(false)
-		}
-		
-		const editContact = () => {
-		
-		}
-		
-		const deleteContact = () => {
-		
-		}
-		
-		const deleteChat = () => {
-		
-		}
-		
-		const clearHistory = () => {
-		
-		}
-		
-		const blockUser = () => {
-		
-		}
-		
-		const deleteExit = () => {
-		
-		}
-		
-		
-		const DropDownMenu = (msg: any) => {
-			
-			if (user) {
-				return (
-					<Menu>
-						<Menu.Item onClick={() => openProfile('user')}>
-							Профиль
-						</Menu.Item>
-						<Menu.Item onClick={() => editContact()}>
-							Редакт. Контакт
-						</Menu.Item>
-						<Menu.Item onClick={() => deleteContact()}>
-							Удалить Контакт
-						</Menu.Item>
-						<Menu.Item onClick={() => deleteChat()}>
-							Удалить чат
-						</Menu.Item>
-						<Menu.Item onClick={() => clearHistory()}>
-							Очистить историю
-						</Menu.Item>
-						<Menu.Item onClick={() => blockUser()}>
-							Заблокировать
-						</Menu.Item>
-						{/* <Menu.Item onClick={() => replyMsg(msg.id)} >
-						 Экспортировать чат
-						 </Menu.Item> */}
-					</Menu>
-				)
-			} else {
-				return (
-					<Menu>
-						<Menu.Item onClick={() => openProfile('group')}>
-							Настройки группы
-						</Menu.Item>
-						<Menu.Item onClick={() => deleteExit()}>
-							Удалить и выйти
-						</Menu.Item>
-						<Menu.Item onClick={() => deleteChat()}>
-							Удалить чат
-						</Menu.Item>
-						<Menu.Item onClick={() => clearHistory()}>
-							Очистить историю
-						</Menu.Item>
-						{/* <Menu.Item onClick={() => replyMsg(msg.id)} >
-						 Экспортировать чат
-						 </Menu.Item> */}
-					</Menu>
-				)
-			}
-		}
-		
-		
+
+
+		// const onDelete = () => {
+		// 	chatStore.deleteMsg(activeMsg.id, chat.id)
+		// 	chat.setActiveMsg(null)
+		// }
+
+		// const onClose = () => {
+		// 	chat.setActiveMsg(null)
+		// }
+
+
+		// const openProfile = (type: string) => {
+		// 	chatStore.setModalWindow(type)
+		// 	// setModal(false)
+		// }
+
+		// const editContact = () => {
+
+		// }
+
+		// const deleteContact = () => {
+
+		// }
+
+		// const deleteChat = () => {
+
+		// }
+
+		// const clearHistory = () => {
+
+		// }
+
+		// const blockUser = () => {
+
+		// }
+
+		// const deleteExit = () => {
+
+		// }
+
+
+		// const DropDownMenu = (msg: any) => {
+		// 	if (user) {
+		// 		return (
+		// 			<Menu>
+		// 				<Menu.Item onClick={() => openProfile('user')}>
+		// 					Профиль
+		// 				</Menu.Item>
+		// 				<Menu.Item onClick={() => editContact()}>
+		// 					Редакт. Контакт
+		// 				</Menu.Item>
+		// 				<Menu.Item onClick={() => deleteContact()}>
+		// 					Удалить Контакт
+		// 				</Menu.Item>
+		// 				<Menu.Item onClick={() => deleteChat()}>
+		// 					Удалить чат
+		// 				</Menu.Item>
+		// 				<Menu.Item onClick={() => clearHistory()}>
+		// 					Очистить историю
+		// 				</Menu.Item>
+		// 				<Menu.Item onClick={() => blockUser()}>
+		// 					Заблокировать
+		// 				</Menu.Item>
+		// 				{/* <Menu.Item onClick={() => replyMsg(msg.id)} >
+		// 				 Экспортировать чат
+		// 				 </Menu.Item> */}
+		// 			</Menu>
+		// 		)
+		// 	} else {
+		// 		return (
+		// 			<Menu>
+		// 				<Menu.Item onClick={() => openProfile('group')}>
+		// 					Настройки группы
+		// 				</Menu.Item>
+		// 				<Menu.Item onClick={() => deleteExit()}>
+		// 					Удалить и выйти
+		// 				</Menu.Item>
+		// 				<Menu.Item onClick={() => deleteChat()}>
+		// 					Удалить чат
+		// 				</Menu.Item>
+		// 				<Menu.Item onClick={() => clearHistory()}>
+		// 					Очистить историю
+		// 				</Menu.Item>
+		// 				{/* <Menu.Item onClick={() => replyMsg(msg.id)} >
+		// 				 Экспортировать чат
+		// 				 </Menu.Item> */}
+		// 			</Menu>
+		// 		)
+		// 	}
+		// }
+
+
 		const closeConctact = () => {
 			if (appStore.layout === 'contact') {
 				appStore.setLayout('info')
@@ -146,13 +146,14 @@ const Header = inject((stores: IStores) => ({
 				appStore.setLayout('contact')
 			}
 		}
-		
-		
+
+
 		return (
 			<div className="chat_header">
 				{
 					activeMsg ? (<Fragment>
-						<div className="header_content select">
+
+						{/* <div className="header_content select">
 							<div className="left">
 								<div onClick={() => setModal(true)} className="header_select_btn">
 									Переслать
@@ -166,15 +167,15 @@ const Header = inject((stores: IStores) => ({
 									Отменить
 								</div>
 							</div>
-						
-						</div>
+						</div> */}
+
 					</Fragment>) : (<Fragment>
 						{
 							chatTitle || user ? (<Fragment>
 								<div className="header_content">
 									<div className={`back_trigger ${appStore.layout !== 'contact' ? 'active' : ''}`}>
 										<Button onClick={() => closeConctact()} className='transparent'>
-											<Icon className='icon_s blue-lite' name={`solid_arrow-left`}/>
+											<Icon className='icon_s blue-lite' name={`solid_arrow-left`} />
 										</Button>
 									</div>
 									<div className={`header_title ${user ? 'user' : ''}`}>
@@ -217,28 +218,28 @@ const Header = inject((stores: IStores) => ({
 			                    <Icon className='icon_s lite-grey rotated' name={`regular_three-dots`} />
 													</Button>
 												</Popover> */}
-{
-	chatStore.pageLoading ? (<Fragment>
-		<MoonLoader color='#3498db' size={18} />
-	</Fragment>) : (<Fragment></Fragment>)
-}
-											
+												{
+													chatStore.pageLoading ? (<Fragment>
+														<MoonLoader color='#3498db' size={18} />
+													</Fragment>) : (<Fragment></Fragment>)
+												}
+
 											</div>
 										</div>
 									</div>
 									<div className="header_info">
 										<Button onClick={() => appStore.setLayout('info')} className='transparent'>
-											<Icon className='icon_l lite-grey' name={`solid_users-cog`}/>
+											<Icon className='icon_l lite-grey' name={`solid_users-cog`} />
 										</Button>
 									</div>
 								</div>
 							</Fragment>) : (<Fragment>
-							
+
 							</Fragment>)
 						}
 					</Fragment>)
 				}
-				<ModalWindow/>
+				<ModalWindow />
 			</div>
 		)
 	}))
