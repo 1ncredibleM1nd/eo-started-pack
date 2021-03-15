@@ -27,7 +27,6 @@ const ContactList = inject((stores: IStores) => ({
 		const { contactStore, chatStore, appStore, onSelect, userStore } = props
 		let ContactsData = contactStore.contact
 		let activeContact = contactStore.activeContact
-		const search = contactStore.search
 		const hero = userStore.hero
 		const filterSwitch = contactStore.filterSwitch
 
