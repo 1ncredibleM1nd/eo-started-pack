@@ -31,6 +31,7 @@ export class AppStore implements IAppStore {
 	setSchoolId(id: string) {
 		this.loaded = false
 		this.school = id
+		contactStore.contact = []
 		this.updateContact()
 	}
 
