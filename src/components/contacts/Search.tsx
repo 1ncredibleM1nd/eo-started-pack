@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from 'react'
 import { inject, observer } from 'mobx-react'
 import IStores, { IAppStore, IContactStore } from '@stores/interface'
-import { Input, Radio, Switch, Collapse, Button, Drawer, Select } from 'antd'
+import { Input, Switch, Collapse, Button, Drawer, Select } from 'antd'
 import Settings from './comp/Settings'
 import AllContacts from './comp/AllContacts'
 import './Search.scss'
@@ -40,9 +40,9 @@ const Search = inject((stores: IStores) => ({
 			contactStore.filterSocial(social)
 		}
 
-		const onChangeType = (type: any) => {
-			//contactStore.setFilter('type', type)
-		}
+		// const onChangeType = (type: any) => {
+		// 	//contactStore.setFilter('type', type)
+		// }
 
 		// const addChat = () => {
 		// 	setDrawer('contacts')
