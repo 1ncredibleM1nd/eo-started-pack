@@ -460,11 +460,13 @@ const Inputer = inject((stores: IStores) => ({
 					{/*</div>*/}
 
 					<div className="inputer_btn">
+						{/* убрать единичку */}
 						<Popover onVisibleChange={(e) => {
 							e ? {} : setSwitcher('')
-						}} visible={switcher === 'social'} content={<SocialMenu selectSocial={selectSocial} />}
+						}} visible={switcher === '1social'} content={<SocialMenu selectSocial={selectSocial} />}
 							trigger="click">
-							<Button disabled onClick={() => setSwitcher('social')} className='transparent'>
+
+							<Button onClick={() => setSwitcher('social')} className='transparent not-allowed'>
 								<Icon className='icon_l'
 									name={`social_media_${currentChat.activeSocial ? currentChat.activeSocial : ''}`} />
 							</Button>

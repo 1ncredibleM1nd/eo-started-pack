@@ -89,7 +89,7 @@ const Chat = inject((stores: IStores) => ({
 			let parentPos = $('.msg_space')[0].getBoundingClientRect()
 			let childPos = $(`.page-1`)[0].getBoundingClientRect()
 			let topOfLastPage = childPos.top - parentPos.top
-			if (topOfLastPage >= -500) {
+			if (topOfLastPage >= -300) {
 				chatStore.loadMessages(activeContact.id, chatStore.activeChatPageNumber + 1)
 			}
 			if (switcher !== 'social') {
