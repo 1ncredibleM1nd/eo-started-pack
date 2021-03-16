@@ -158,7 +158,7 @@ const Search = inject((stores: IStores) => ({
 									<Switch size="small" defaultChecked={socials['odnoklassniki']}
 										onChange={() => onChangeSocial('odnoklassniki')} />
 								</div>
-								<div className='channel-item'>
+								{/* <div className='channel-item'>
 									<Icon name='social_media_whatsapp' className='icon_s' />
 									<Switch disabled={true} size="small" defaultChecked={socials['whatsapp']}
 										onChange={() => onChangeSocial('whatsapp')} />
@@ -182,7 +182,7 @@ const Search = inject((stores: IStores) => ({
 									<Icon name='social_media_email' className='icon_s' />
 									<Switch disabled={true} size="small" defaultChecked={socials['email']}
 										onChange={() => onChangeSocial('email')} />
-								</div>
+								</div> */}
 							</div>
 							{/* <div className="type_container">
 								<Radio.Group onChange={onChangeType} defaultValue="all">

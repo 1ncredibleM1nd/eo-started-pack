@@ -6,12 +6,13 @@
   width: 100%;
 }
 
-.ant-btn.disabled, .ant-btn[disabled]{
+.ant-btn.disabled,
+.ant-btn[disabled] {
   cursor: wait;
 }
 
-.ant-input[disabled]{
-    cursor: wait;
+.ant-input[disabled] {
+  cursor: wait;
 }
 
 .school-filter {
@@ -120,9 +121,11 @@
 
 .channel-container {
   display: flex;
-  height: 70px;
+  // height: 70px;
+  height: 25px;
   flex-direction: row;
   flex-wrap: wrap;
+  margin-bottom: 10px;
 }
 
 .channel-item {

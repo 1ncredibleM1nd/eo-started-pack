@@ -656,7 +656,7 @@
     margin-right: 0.25rem !important;
     background: $blue-lite !important;
     padding-left: 1rem !important;
-    padding-right: 1.8rem;
+    padding-right: 0rem;
     left: -51px !important;
 
     .msg_text_container {
@@ -746,7 +746,7 @@
 .message {
   padding-left: 20px !important;
   padding-right: 0rem !important;
-  margin-bottom: 3px;
+  margin-bottom: 5px;
 
   @include _990 {
     padding-left: 10px !important;

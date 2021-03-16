@@ -137,17 +137,17 @@ const Chat = inject((stores: IStores) => ({
 		</div>
 
 
-		// sms blocks in user
-		const renderMessagesHeader = (msg: any) => <>
-			{!msg.flowMsgPrev && msg.flowMsgNext && !msg.center ? (<div className="msg_header">
-				<span>{msg.username}</span>
-				<span className="msg-role">{msg.role ? msg.role.name : ''}</span>
-			</div>) : ''}
-			{!msg.flowMsgNext && !msg.flowMsgPrev ? (<div className="msg_header">
-				<span>{msg.username}</span>
-				<span className="msg-role">{msg.role ? msg.role.name : ''}</span>
-			</div>) : ''}
-		</>
+		// // sms blocks in user
+		// const renderMessagesHeader = (msg: any) => <>
+		// 	{!msg.flowMsgPrev && msg.flowMsgNext && !msg.center ? (<div className="msg_header">
+		// 		<span>{msg.username}</span>
+		// 		<span className="msg-role">{msg.role ? msg.role.name : ''}</span>
+		// 	</div>) : ''}
+		// 	{!msg.flowMsgNext && !msg.flowMsgPrev ? (<div className="msg_header">
+		// 		<span>{msg.username}</span>
+		// 		<span className="msg-role">{msg.role ? msg.role.name : ''}</span>
+		// 	</div>) : ''}
+		// </>
 
 		const renderMessagesWrapper = (msg: any) => <div className="message-wrapper">
 			<div className={`message-content ${msg.flowMsgNext ? 'not-main' : ''} `}>
@@ -206,11 +206,13 @@ const Chat = inject((stores: IStores) => ({
 					}
 				</div>
 				<div className="msg_type">
-					{
+					{/* Конвертики */}
+					{/* {
 						msg.type === 'message' ? (<Fragment>
 							<Icon name="regular_envelope" className={`icon_s lite-grey`} />
 						</Fragment>) : (<Fragment></Fragment>)
-					}
+					} */}
+
 				</div>
 				{/* <div className={`smile ${switcher === msg.id ? 'active' : ''}`}>
 				 <Popover onVisibleChange={(e) => { e ? {} : setSwitcher('') }} visible={switcher === msg.id} content={<SmileMenu id={msg.id} chat_id={currentChat.id} switcherOff={switcherOff} /trigger="click">
@@ -264,7 +266,7 @@ const Chat = inject((stores: IStores) => ({
 				{dateDivider(msg)}
 				{!msg.readed ? renderDataContainerUnread() : ' '}
 				<div key={Math.random()} className="message">
-					{renderMessagesHeader(msg)}
+					{/* {renderMessagesHeader(msg)} */}
 					{renderMessagesWrapper(msg)}
 					{renderMessagesOptions(msg)}
 				</div>
@@ -285,7 +287,7 @@ const Chat = inject((stores: IStores) => ({
 			return (<>
 				{dateDivider(msg)}
 				<div key={Math.random()} className={`message self ${msg.flowMsgNext ? 'not-main' : ''} `}>
-					{renderMessagesHeader(msg)}
+					{/* {renderMessagesHeader(msg)} */}
 					{renderMessagesWrapper(msg)}
 					{renderMessagesOptions(msg)}
 				</div>
