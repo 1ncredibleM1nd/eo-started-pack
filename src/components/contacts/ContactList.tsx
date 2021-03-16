@@ -59,7 +59,6 @@ const ContactList = inject((stores: IStores) => ({
 			let now = moment(new Date());
 			let contact_date = moment(date, 'DD.MM')
 			let diff = now.diff(contact_date, 'days');
-			console.log('diff', diff)
 			if (diff === 0) {
 				return (
 					<span>{time}</span>

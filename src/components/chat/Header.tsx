@@ -25,27 +25,13 @@ const Header = inject((stores: IStores) => ({
 }))(
 	observer((props: IProps) => {
 		const { chatStore, contactStore, appStore } = props
-		// const [modal, setModal] = useState(false)
-		let name = contactStore.name
-		// let hero = userStore.hero
-		const chat = chatStore.activeChat
-
-		let activeMsg: any
-		let user: any
+		const activeContact = contactStore.activeContact
 		let chatTitle: any
+		let activeMsg: any
 
-
-		if (chat) {
-			activeMsg = chat.active_msg
-			let contact = contactStore.getContact(chat.contact_id)
-			chatTitle = contact.name
-			// if (chat.user && chat.user.length <= 2) {
-			//     let user = chat.user.find((id: any) => id !== hero.id)
-			//     user = userStore.getUser(userId)
-			// }
-		}
-
-
+		if (activeContact) chatTitle = activeContact.name
+		// const [modal, setModal] = useState(false)
+		// let hero = userStore.hero
 		// const onDelete = () => {
 		// 	chatStore.deleteMsg(activeMsg.id, chat.id)
 		// 	chat.setActiveMsg(null)
@@ -147,7 +133,6 @@ const Header = inject((stores: IStores) => ({
 			}
 		}
 
-
 		return (
 			<div className="chat_header">
 				{
@@ -171,16 +156,16 @@ const Header = inject((stores: IStores) => ({
 
 					</Fragment>) : (<Fragment>
 						{
-							chatTitle || user ? (<Fragment>
+							chatTitle ? (<Fragment>
 								<div className="header_content">
 									<div className={`back_trigger ${appStore.layout !== 'contact' ? 'active' : ''}`}>
 										<Button onClick={() => closeConctact()} className='transparent'>
 											<Icon className='icon_s blue-lite' name={`solid_arrow-left`} />
 										</Button>
 									</div>
-									<div className={`header_title ${user ? 'user' : ''}`}>
+									<div className={`header_title`}>
 										<div className='title'>
-											{name !== '' ? chatTitle : name}
+											{chatTitle}
 										</div>
 										{/*{*/}
 										{/*    user ? (<Fragment>*/}
