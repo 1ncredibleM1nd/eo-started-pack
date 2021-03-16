@@ -28,6 +28,7 @@ async function getMessages(conversationId: string, page: number, school_id: stri
 			duration: 3,
 		});
 	}
+	return null
 }
 
 async function getConversations(school_id?: any, page?: number) {
@@ -63,6 +64,7 @@ async function getConversations(school_id?: any, page?: number) {
 			duration: 3,
 		});
 	}
+	return null
 }
 
 async function sendMsgFile(formData: any) {
@@ -89,6 +91,7 @@ async function sendMsgFile(formData: any) {
 			duration: 3,
 		});
 	}
+	return null
 }
 
 async function sendMsg(conversationId: string, message: string, conversationSourceAccountId: any, schoolId: string) {
@@ -114,6 +117,7 @@ async function sendMsg(conversationId: string, message: string, conversationSour
 			duration: 3,
 		});
 	}
+	return null
 }
 
 async function getUserData() {
@@ -137,6 +141,7 @@ async function getUserData() {
 			duration: 3,
 		});
 	}
+	return null
 }
 
 async function isLogged() {
@@ -160,6 +165,7 @@ async function isLogged() {
 			duration: 3,
 		});
 	}
+	return null
 }
 
 async function setSession(sessionId: any) {
@@ -187,7 +193,7 @@ async function setSession(sessionId: any) {
 			duration: 3,
 		});
 	}
-
+	return null
 }
 
 async function getSchools() {
@@ -211,6 +217,7 @@ async function getSchools() {
 			duration: 3,
 		});
 	}
+	return null
 }
 
 export {
