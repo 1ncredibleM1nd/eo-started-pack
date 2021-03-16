@@ -27,9 +27,8 @@ const Chat = inject((stores: IStores) => ({
 }))(
 	observer((props: IProps) => {
 
-		const { chatStore, contactStore, userStore } = props
+		const { chatStore, contactStore } = props
 		const activeContact = contactStore.activeContact
-		const hero = userStore.hero
 		// const [draft, setDraft] = useState({})
 		const [switcher, setSwitcher] = useState('')
 		// const [status, setStatus] = useState('default')
