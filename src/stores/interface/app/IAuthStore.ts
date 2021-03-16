@@ -1,5 +1,5 @@
 export default interface IAuthStore {
-	login();
+	login: () => void;
 	loading?: boolean,
 	setLoader: (loading: boolean) => void,
 	setToken: (token: string) => void,
