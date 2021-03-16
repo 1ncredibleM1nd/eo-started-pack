@@ -10,10 +10,10 @@ async function getMessages(conversationId: string, page: number, school_id: stri
 
 	try {
 		const res = await API.get(`/conversation/get-messages?conversationId=${conversationId}&page=${page}${isId ? '&' + id : ''}`)
-		if (res.data.error) {
+		if (res.data.error && res.data.data) {
 			notification.error({
 				message: res.data.data.error_message ? res.data.data.error_message : 'Ошибка получения сообщений',
-				description: res.data.data.error_data.error_message ? res.data.data.error_data.error_message : '',
+				description: res.data.data.error_data && res.data.data.error_data.error_message ? res.data.data.error_data.error_message : '',
 				placement: 'bottomRight',
 				bottom: 50,
 				duration: 3,
@@ -46,10 +46,10 @@ async function getConversations(school_id?: any, page?: number) {
 				return qs.stringify(params_2)
 			}
 		})
-		if (res.data.error) {
+		if (res.data.error && res.data.data) {
 			notification.error({
 				message: res.data.data.error_message ? res.data.data.error_message : 'Ошибка получения контактов',
-				description: res.data.data.error_data.error_message ? res.data.data.error_data.error_message : '',
+				description: res.data.data.error_data && res.data.data.error_data.error_message ? res.data.data.error_data.error_message : '',
 				placement: 'bottomRight',
 				bottom: 50,
 				duration: 3,
@@ -71,10 +71,10 @@ async function sendMsgFile(formData: any) {
 	try {
 		return API.post(`/conversation/send-message`, formData)
 			.then((res: any) => {
-				if (res.data.error) {
+				if (res.data.error && res.data.data) {
 					notification.error({
 						message: res.data.data.error_message ? res.data.data.error_message : 'Ошибка отправки медиаконтента',
-						description: res.data.data.error_data.error_message ? res.data.data.error_data.error_message : '',
+						description: res.data.data.error_data && res.data.data.error_data.error_message ? res.data.data.error_data.error_message : '',
 						placement: 'bottomRight',
 						bottom: 50,
 						duration: 3,
@@ -98,10 +98,10 @@ async function sendMsg(conversationId: string, message: string, conversationSour
 	let body = { conversationSourceAccountId, conversationId, schoolId, message }
 	try {
 		const res = await API.post(`/conversation/send-message`, body)
-		if (res.data.error) {
+		if (res.data.error && res.data.data) {
 			notification.error({
 				message: res.data.data.error_message ? res.data.data.error_message : 'Ошибка отправки сообщения',
-				description: res.data.data.error_data.error_message ? res.data.data.error_data.error_message : '',
+				description: res.data.data.error_data && res.data.data.error_data.error_message ? res.data.data.error_data.error_message : '',
 				placement: 'bottomRight',
 				bottom: 50,
 				duration: 3,
@@ -123,10 +123,10 @@ async function sendMsg(conversationId: string, message: string, conversationSour
 async function getUserData() {
 	try {
 		let res = await API.get('/account/get-account')
-		if (res.data.error) {
+		if (res.data.error && res.data.data) {
 			notification.error({
 				message: res.data.data.error_message ? res.data.data.error_message : 'Ошибка получения аккаунта',
-				description: res.data.data.error_data.error_message ? res.data.data.error_data.error_message : '',
+				description: res.data.data.error_data && res.data.data.error_data.error_message ? res.data.data.error_data.error_message : '',
 				placement: 'bottomRight',
 				bottom: 50,
 				duration: 3,
@@ -147,10 +147,10 @@ async function getUserData() {
 async function isLogged() {
 	try {
 		let res = await AUTH.get(`/account/is-logged`)
-		if (res.data.error) {
+		if (res.data.error && res.data.data) {
 			notification.error({
 				message: res.data.data.error_message ? res.data.data.error_message : 'Ошибка isLogged',
-				description: res.data.data.error_data.error_message ? res.data.data.error_data.error_message : '',
+				description: res.data.data.error_data && res.data.data.error_data.error_message ? res.data.data.error_data.error_message : '',
 				placement: 'bottomRight',
 				bottom: 50,
 				duration: 3,
@@ -174,10 +174,10 @@ async function setSession(sessionId: any) {
 		formData.append('encrypted_session_data', sessionId)
 		let res = await AUTH.post(`/account/set-session`, formData)
 
-		if (res.data.error) {
+		if (res.data.error && res.data.data) {
 			notification.error({
 				message: res.data.data.error_message ? res.data.data.error_message : 'Ошибка setSession',
-				description: res.data.data.error_data.error_message ? res.data.data.error_data.error_message : '',
+				description: res.data.data.error_data && res.data.data.error_data.error_message ? res.data.data.error_data.error_message : '',
 				placement: 'bottomRight',
 				bottom: 50,
 				duration: 3,
@@ -199,10 +199,10 @@ async function setSession(sessionId: any) {
 async function getSchools() {
 	try {
 		let res = await API.get('/account/get-schools')
-		if (res.data.error) {
+		if (res.data.error && res.data.data) {
 			notification.error({
 				message: res.data.data.error_message ? res.data.data.error_message : 'Ошибка получения школ',
-				description: res.data.data.error_data.error_message ? res.data.data.error_data.error_message : '',
+				description: res.data.data.error_data && res.data.data.error_data.error_message ? res.data.data.error_data.error_message : '',
 				placement: 'bottomRight',
 				bottom: 50,
 				duration: 3,
