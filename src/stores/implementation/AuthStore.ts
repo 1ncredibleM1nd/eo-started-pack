@@ -42,7 +42,6 @@ export class AuthStore implements IAuthStore {
 
 		if (!this.isFrame) {
 			const { data: { data: { token, success } } } = await isLogged()
-			console.log('isLogged', success)
 			if (currentUrl.search.includes('encrypted_session_data')) {
 				const encryptedSessionData = currentUrl.searchParams.get('encrypted_session_data')
 				if (encryptedSessionData) await setSession(encryptedSessionData)

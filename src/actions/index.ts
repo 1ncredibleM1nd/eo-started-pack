@@ -1,13 +1,33 @@
 import { API, AUTH } from './axios'
 import { contactStore } from '@stores/implementation'
 import qs from 'qs'
+import { notification } from 'antd'
 
 async function getMessages(conversationId: string, page: number, school_id: string) {
 	let isId: boolean = false
 	if (school_id !== null) isId = true
 	let id = `schoolId=${school_id}`
-	const response = await API.get(`/conversation/get-messages?conversationId=${conversationId}&page=${page}${isId ? '&' + id : ''}`)
-	return { messages: response.data.data }
+
+	try {
+		const res = await API.get(`/conversation/get-messages?conversationId=${conversationId}&page=${page}${isId ? '&' + id : ''}`)
+		if (res.data.error) {
+			notification.error({
+				message: res.data.data.error_message ? res.data.data.error_message : 'Ошибка получения сообщений',
+				description: res.data.data.error_data.error_message ? res.data.data.error_data.error_message : '',
+				placement: 'bottomRight',
+				bottom: 50,
+				duration: 3,
+			});
+		}
+		return { messages: res.data.data }
+	} catch (error) {
+		notification.error({
+			message: error ? error : 'Ошибка получения сообщений',
+			placement: 'bottomRight',
+			bottom: 50,
+			duration: 3,
+		});
+	}
 }
 
 async function getConversations(school_id?: any, page?: number) {
@@ -18,56 +38,178 @@ async function getConversations(school_id?: any, page?: number) {
 	params['search'] = search
 	params['page'] = page
 	school_id ? params['schoolId'] = school_id : null
-
-	const response = await API.get(`/conversation/get-conversations`, {
-		params,
-		paramsSerializer: params_2 => {
-			return qs.stringify(params_2)
+	try {
+		const res = await API.get(`/conversation/get-conversations`, {
+			params,
+			paramsSerializer: params_2 => {
+				return qs.stringify(params_2)
+			}
+		})
+		if (res.data.error) {
+			notification.error({
+				message: res.data.data.error_message ? res.data.data.error_message : 'Ошибка получения контактов',
+				description: res.data.data.error_data.error_message ? res.data.data.error_data.error_message : '',
+				placement: 'bottomRight',
+				bottom: 50,
+				duration: 3,
+			});
 		}
-	})
-	return { data: response.data.data }
+		return { data: res.data.data }
+	} catch (error) {
+		notification.error({
+			message: error ? error : 'Ошибка получения контактов',
+			placement: 'bottomRight',
+			bottom: 50,
+			duration: 3,
+		});
+	}
 }
 
 async function sendMsgFile(formData: any) {
-	return API.post(`/conversation/send-message`, formData)
-		.then((response: any) => {
-			return { menu: response.data.data }
-		})
+	try {
+		return API.post(`/conversation/send-message`, formData)
+			.then((res: any) => {
+				if (res.data.error) {
+					notification.error({
+						message: res.data.data.error_message ? res.data.data.error_message : 'Ошибка отправки медиаконтента',
+						description: res.data.data.error_data.error_message ? res.data.data.error_data.error_message : '',
+						placement: 'bottomRight',
+						bottom: 50,
+						duration: 3,
+					});
+				}
+
+				return { menu: res.data.data }
+			})
+	} catch (error) {
+		notification.error({
+			message: error ? error : 'Ошибка отправки медиаконтента',
+			placement: 'bottomRight',
+			bottom: 50,
+			duration: 3,
+		});
+	}
 }
 
 async function sendMsg(conversationId: string, message: string, conversationSourceAccountId: any, schoolId: string) {
 	let body = { conversationSourceAccountId, conversationId, schoolId, message }
-	const response = await API.post(`/conversation/send-message`, body)
-	return { menu: response.data.data }
+	try {
+		const res = await API.post(`/conversation/send-message`, body)
+		if (res.data.error) {
+			notification.error({
+				message: res.data.data.error_message ? res.data.data.error_message : 'Ошибка отправки сообщения',
+				description: res.data.data.error_data.error_message ? res.data.data.error_data.error_message : '',
+				placement: 'bottomRight',
+				bottom: 50,
+				duration: 3,
+			});
+		}
+		return { menu: res.data.data }
+	} catch (error) {
+
+		notification.error({
+			message: error ? error : 'Ошибка отправки сообщения',
+			placement: 'bottomRight',
+			bottom: 50,
+			duration: 3,
+		});
+	}
 }
 
 async function getUserData() {
 	try {
-		return await API.get('/account/get-account')
+		let res = await API.get('/account/get-account')
+		if (res.data.error) {
+			notification.error({
+				message: res.data.data.error_message ? res.data.data.error_message : 'Ошибка получения аккаунта',
+				description: res.data.data.error_data.error_message ? res.data.data.error_data.error_message : '',
+				placement: 'bottomRight',
+				bottom: 50,
+				duration: 3,
+			});
+		}
+		return res
 	} catch (error) {
-		return error
+		notification.error({
+			message: error ? error : 'Ошибка получения аккаунта',
+			placement: 'bottomRight',
+			bottom: 50,
+			duration: 3,
+		});
 	}
 }
 
 async function isLogged() {
 	try {
-		return await AUTH.get(`/account/is-logged`)
+		let res = await AUTH.get(`/account/is-logged`)
+		if (res.data.error) {
+			notification.error({
+				message: res.data.data.error_message ? res.data.data.error_message : 'Ошибка isLogged',
+				description: res.data.data.error_data.error_message ? res.data.data.error_data.error_message : '',
+				placement: 'bottomRight',
+				bottom: 50,
+				duration: 3,
+			});
+		}
+		return res
 	} catch (error) {
-		return error
+		notification.error({
+			message: error ? error : 'Ошибка получения аккаунта',
+			placement: 'bottomRight',
+			bottom: 50,
+			duration: 3,
+		});
 	}
 }
 
-function setSession(sessionId: any) {
-	const formData = new FormData()
-	formData.append('encrypted_session_data', sessionId)
-	return AUTH.post(`/account/set-session`, formData)
+async function setSession(sessionId: any) {
+	try {
+		const formData = new FormData()
+		formData.append('encrypted_session_data', sessionId)
+		let res = await AUTH.post(`/account/set-session`, formData)
+
+		if (res.data.error) {
+			notification.error({
+				message: res.data.data.error_message ? res.data.data.error_message : 'Ошибка setSession',
+				description: res.data.data.error_data.error_message ? res.data.data.error_data.error_message : '',
+				placement: 'bottomRight',
+				bottom: 50,
+				duration: 3,
+			});
+		}
+
+		return res
+	} catch (error) {
+		notification.error({
+			message: error ? error : 'Ошибка setSession',
+			placement: 'bottomRight',
+			bottom: 50,
+			duration: 3,
+		});
+	}
+
 }
 
 async function getSchools() {
 	try {
-		return await API.get('/account/get-schools')
+		let res = await API.get('/account/get-schools')
+		if (res.data.error) {
+			notification.error({
+				message: res.data.data.error_message ? res.data.data.error_message : 'Ошибка получения школ',
+				description: res.data.data.error_data.error_message ? res.data.data.error_data.error_message : '',
+				placement: 'bottomRight',
+				bottom: 50,
+				duration: 3,
+			});
+		}
+		return res
 	} catch (error) {
-		return error
+		notification.error({
+			message: error ? error : 'Ошибка получения школ',
+			placement: 'bottomRight',
+			bottom: 50,
+			duration: 3,
+		});
 	}
 }
 

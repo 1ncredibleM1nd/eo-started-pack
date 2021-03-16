@@ -95,7 +95,6 @@ const ContactList = inject((stores: IStores) => ({
 										if (user && hero.id === user.id) user = undefined
 										if (status === 'unread') unreadedCount = chatStore.getUnreadCount(contact.id)
 
-										console.log('contact', contact)
 
 										return (
 											<li onClick={() => selectContact(contact.id)}
