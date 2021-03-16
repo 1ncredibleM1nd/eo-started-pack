@@ -1,6 +1,6 @@
 import { action, observable, reaction } from 'mobx'
 import { IChat, IChatStore, IMsg } from '@stores/interface'
-import { contactStore, appStore } from '@stores/implementation'
+import { contactStore, appStore, userStore } from '@stores/implementation'
 import { getMessages, sendMsg } from '@actions'
 import moment from 'moment'
 import 'moment/locale/ru'
@@ -102,7 +102,7 @@ export class ChatStore implements IChatStore {
 			if (pageContent.messages.length === 0) break
 
 			await pageContent.messages.forEach((msg_item: any, index: number) => {
-				let avatar = contactStore.getAvatar(contact_id)
+				let avatar = msg_item.income ? contactStore.getAvatar(contact_id) : userStore.hero.avatar
 				// let role = chat.role.find((role: any) => role.id === msg.from)
 				let userId = msg_item.from
 				let prevMsg, nextMsg: any
@@ -255,16 +255,47 @@ export class ChatStore implements IChatStore {
 		if (this.activeChat) {
 			let id = 'msg_' + Math.random()
 			contactStore.setLastMsg(this.activeChat.contact_id, `msg_${id}`)
-			let avatar = contactStore.getAvatar(this.activeChat.contact_id)
+			let avatar = userStore.hero.avatar
+			let time = moment().format('HH:mm');
+			let date = moment().format('DD.MM');
+			let firstPage = this.activeChat.msg[0]
+			let prevMsg = firstPage[firstPage.length - 1]
+
+			let flowMsgNext = false
+			let flowMsgPrev = false
+			let center = false
+
+			let time_scope: any = null
+
+
+			let currentTime = moment(time, 'HH:mm')
+			let prevTime = moment(prevMsg.time, 'HH:mm')
+			let prevTimeDiff = currentTime.diff(prevTime, 'minutes')
+
+			if (prevMsg && prevMsg.date !== date) {
+				time_scope = prevMsg.date
+			} else {
+				time_scope = null
+			}
+
+			if (prevTimeDiff < 3) {
+				prevMsg.flowMsgNext = true
+				flowMsgPrev = true
+			}
 
 			let msg: IMsg = {
+				flowMsgNext,
+				flowMsgPrev,
+				center,
+				time,
+				date,
+				time_scope,
 				id: `msg_${id}`,
 				avatar: avatar,
 				from: from,
 				social_media: social_media,
 				content: content,
-				time: moment().format('HH:mm'),
-				date: moment().format('DD.MM'),
+
 				read: false,
 				smiles: [],
 				reply: reply,

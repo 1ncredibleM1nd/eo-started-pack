@@ -27,8 +27,9 @@ const Chat = inject((stores: IStores) => ({
 }))(
 	observer((props: IProps) => {
 
-		const { chatStore, contactStore } = props
+		const { chatStore, contactStore, userStore } = props
 		const activeContact = contactStore.activeContact
+		const hero = userStore.hero
 		// const [draft, setDraft] = useState({})
 		const [switcher, setSwitcher] = useState('')
 		// const [status, setStatus] = useState('default')
@@ -139,14 +140,33 @@ const Chat = inject((stores: IStores) => ({
 
 		// // sms blocks in user
 		// const renderMessagesHeader = (msg: any) => <>
-		// 	{!msg.flowMsgPrev && msg.flowMsgNext && !msg.center ? (<div className="msg_header">
-		// 		<span>{msg.username}</span>
-		// 		<span className="msg-role">{msg.role ? msg.role.name : ''}</span>
-		// 	</div>) : ''}
-		// 	{!msg.flowMsgNext && !msg.flowMsgPrev ? (<div className="msg_header">
-		// 		<span>{msg.username}</span>
-		// 		<span className="msg-role">{msg.role ? msg.role.name : ''}</span>
-		// 	</div>) : ''}
+		// 	{
+		// 		msg.income ? (<Fragment>
+
+		// 			{!msg.flowMsgPrev && msg.flowMsgNext && !msg.center ? (<div className="msg_header">
+		// 				<span>{msg.username}</span>
+		// 				{/* <span className="msg-role">{msg.role ? msg.role.name : ''}</span> */}
+		// 			</div>) : ''}
+
+		// 			{!msg.flowMsgNext && !msg.flowMsgPrev ? (<div className="msg_header">
+		// 				<span>{msg.username}</span>
+		// 				{/* <span className="msg-role">{msg.role ? msg.role.name : ''}</span> */}
+		// 			</div>) : ''}
+
+		// 		</Fragment>) : (<Fragment>
+
+		// 			{!msg.flowMsgPrev && msg.flowMsgNext && !msg.center ? (<div className="msg_header">
+		// 				<span>{hero.username}</span>
+		// 				{/* <span className="msg-role">{msg.role ? msg.role.name : ''}</span> */}
+		// 			</div>) : ''}
+
+		// 			{!msg.flowMsgNext && !msg.flowMsgPrev ? (<div className="msg_header">
+		// 				<span>{hero.username}</span>
+		// 				{/* <span className="msg-role">{msg.role ? msg.role.name : ''}</span> */}
+		// 			</div>) : ''}
+
+		// 		</Fragment>)
+		// 	}
 		// </>
 
 		const renderMessagesWrapper = (msg: any) => <div className="message-wrapper">
