@@ -9,18 +9,29 @@ build_makeup:
     only:
         - makeup
     script:
-        - sshpass ssh -t admin@84.201.139.43 "cd web/chat.makeup.dev.prodamus.pro/public_html && git checkout -f && git pull origin dev && npm install && npm run build"
+        - sshpass ssh -t admin@84.201.139.43 "cd web/chat.makeup.dev.prodamus.pro/public_html && 
+            git checkout -f && 
+            git pull origin dev && 
+            npm install && npm run build"
 
 build_deploy:
     stage: build_deploy
     only:
         - dev
     script:
-        - sshpass ssh -t admin@84.201.139.43 "cd web/chat.dev.prodamus.pro/public_html && git checkout -f && git pull origin dev && npm install && npm run build"
+        - sshpass ssh -t admin@84.201.139.43 "cd web/chat.dev.prodamus.pro/public_html && 
+            git checkout -f && 
+            git pull origin dev && 
+            npm install && npm run build  &&
+            rm -rf build && mv dist build"
 
 build_master:
     stage: build_master
     only:
         - master
     script:
-       - sshpass ssh -t admin@84.201.139.43 "cd web/chat.prodamus.pro/public_html && git checkout -f && git pull origin master && npm install && npm run build"
+       - sshpass ssh -t admin@84.201.139.43 "cd web/chat.prodamus.pro/public_html && 
+            git checkout -f && 
+            git pull origin master && 
+            npm install && npm run build  &&
+            rm -rf build && mv dist build"
