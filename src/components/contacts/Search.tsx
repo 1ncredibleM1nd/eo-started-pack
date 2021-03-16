@@ -160,31 +160,31 @@ const Search = inject((stores: IStores) => ({
 								</div>
 								<div className='channel-item'>
 									<Icon name='social_media_whatsapp' className='icon_s' />
-									<Switch disabled={true} size="small" defaultChecked={socials['whatsapp']}
+									<Switch size="small" defaultChecked={socials['whatsapp']}
 										onChange={() => onChangeSocial('whatsapp')} />
 								</div>
 								<div className='channel-item'>
 									<Icon name='social_media_viber' className='icon_s' />
-									<Switch disabled={true} size="small" defaultChecked={socials['viber']}
+									<Switch size="small" defaultChecked={socials['viber']}
 										onChange={() => onChangeSocial('viber')} />
 								</div>
 								<div className='channel-item'>
-									<Icon name='social_media_instagram' className='icon_s' />
-									<Switch disabled={true} size="small" defaultChecked={socials['instagram']}
-										onChange={() => onChangeSocial('instagram')} />
-								</div>
-								<div className='channel-item'>
 									<Icon name='social_media_facebook' className='icon_s' />
-									<Switch disabled={true} size="small" defaultChecked={socials['facebook']}
+									<Switch size="small" defaultChecked={socials['facebook']}
 										onChange={() => onChangeSocial('facebook')} />
 								</div>
 								<div className='channel-item'>
+									<Icon name='social_media_instagram' className='icon_s' />
+									<Switch size="small" defaultChecked={socials['instagram']}
+										onChange={() => onChangeSocial('instagram')} />
+								</div>
+								<div className='channel-item'>
 									<Icon name='social_media_email' className='icon_s' />
-									<Switch disabled={true} size="small" defaultChecked={socials['email']}
+									<Switch size="small" defaultChecked={socials['email']}
 										onChange={() => onChangeSocial('email')} />
 								</div>
 							</div>
-							<div className="type_container">
+							{/* <div className="type_container">
 								<Radio.Group onChange={onChangeType} defaultValue="all">
 									<Radio.Button className='radio_btn all ' value="all">
 										<Icon name='solid_star-of-life' className='blue-lite ' />
@@ -193,7 +193,7 @@ const Search = inject((stores: IStores) => ({
 									<Radio.Button className='radio_btn' value="msg">Сообщения</Radio.Button>
 									<Radio.Button className='radio_btn' value="request">Заявки</Radio.Button>
 								</Radio.Group>
-							</div>
+							</div> */}
 							<div className="school-filter">
 								<Select defaultValue={null} onChange={handleMenuClick}>
 									<Option value={null}>Все контакты</Option>

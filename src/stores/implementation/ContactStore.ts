@@ -11,13 +11,13 @@ export class ContactStore implements IContactStore {
 	@observable filterSwitch: boolean = false
 	@observable socials: any = {
 		'whatsapp': true,
-		'instagram': false,
+		'instagram': true,
 		'vkontakte': true,
 		'odnoklassniki': true,
 		'viber': true,
 		'facebook': true,
 		'telegram': true,
-		'email': false
+		'email': true
 	}
 	contactLoading: boolean = false
 
