@@ -488,7 +488,7 @@ const Inputer = inject((stores: IStores) => ({
 					</div>
 
 
-					<div className="inputer_btn">
+					{/* <div className="inputer_btn">
 						<Popover onVisibleChange={(e) => {
 							e ? {} : setSwitcher('')
 						}} visible={switcher === 'attachments'} content={<DropDownAttachments />} trigger="click">
@@ -498,7 +498,7 @@ const Inputer = inject((stores: IStores) => ({
 								<Icon className='icon_m blue-lite' name='solid_paperclip' />
 							</Button>
 						</Popover>
-					</div>
+					</div> */}
 
 				</div>
 

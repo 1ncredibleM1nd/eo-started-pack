@@ -15,15 +15,6 @@ const SmileMenu = inject((stores: IStores) => ({}))(
 
         return (
             <div className="smile_menu">
-                <div onClick={() => selectSocial('instagram')} className="smile_swiper_item social">
-                    <Icon className='icon_l lite-grey' name={`social_media_instagram`} />
-                </div>
-                <div onClick={() => selectSocial('facebook')} className="smile_swiper_item social">
-                    <Icon className='icon_l lite-grey' name={`social_media_facebook`} />
-                </div>
-                <div onClick={() => selectSocial('email')} className="smile_swiper_item social">
-                    <Icon className='icon_l lite-grey' name={`social_media_email`} />
-                </div>
                 <div onClick={() => selectSocial('odnoklassniki')} className="smile_swiper_item social">
                     <Icon className='icon_l lite-grey' name={`social_media_odnoklassniki`} />
                 </div>
@@ -33,12 +24,21 @@ const SmileMenu = inject((stores: IStores) => ({}))(
                 <div onClick={() => selectSocial('telegram')} className="smile_swiper_item social">
                     <Icon className='icon_l lite-grey' name={`social_media_telegram`} />
                 </div>
-                <div onClick={() => selectSocial('viber')} className="smile_swiper_item social">
+                {/* <div onClick={() => selectSocial('instagram')} className="smile_swiper_item social">
+                    <Icon className='icon_l lite-grey' name={`social_media_instagram`} />
+                </div>
+                <div onClick={() => selectSocial('facebook')} className="smile_swiper_item social">
+                    <Icon className='icon_l lite-grey' name={`social_media_facebook`} />
+                </div>
+                <div onClick={() => selectSocial('email')} className="smile_swiper_item social">
+                    <Icon className='icon_l lite-grey' name={`social_media_email`} />
+                </div> */}
+                {/* <div onClick={() => selectSocial('viber')} className="smile_swiper_item social">
                     <Icon className='icon_l lite-grey' name={`social_media_viber`} />
                 </div>
                 <div onClick={() => selectSocial('whatsapp')} className="smile_swiper_item social">
                     <Icon className='icon_l lite-grey' name={`social_media_whatsapp`} />
-                </div>
+                </div> */}
             </div >
         );
     }));

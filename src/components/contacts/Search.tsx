@@ -160,27 +160,27 @@ const Search = inject((stores: IStores) => ({
 								</div>
 								<div className='channel-item'>
 									<Icon name='social_media_whatsapp' className='icon_s' />
-									<Switch size="small" defaultChecked={socials['whatsapp']}
+									<Switch disabled={true} size="small" defaultChecked={socials['whatsapp']}
 										onChange={() => onChangeSocial('whatsapp')} />
 								</div>
 								<div className='channel-item'>
 									<Icon name='social_media_viber' className='icon_s' />
-									<Switch size="small" defaultChecked={socials['viber']}
+									<Switch disabled={true} size="small" defaultChecked={socials['viber']}
 										onChange={() => onChangeSocial('viber')} />
 								</div>
 								<div className='channel-item'>
 									<Icon name='social_media_facebook' className='icon_s' />
-									<Switch size="small" defaultChecked={socials['facebook']}
+									<Switch disabled={true} size="small" defaultChecked={socials['facebook']}
 										onChange={() => onChangeSocial('facebook')} />
 								</div>
 								<div className='channel-item'>
 									<Icon name='social_media_instagram' className='icon_s' />
-									<Switch size="small" defaultChecked={socials['instagram']}
+									<Switch disabled={true} size="small" defaultChecked={socials['instagram']}
 										onChange={() => onChangeSocial('instagram')} />
 								</div>
 								<div className='channel-item'>
 									<Icon name='social_media_email' className='icon_s' />
-									<Switch size="small" defaultChecked={socials['email']}
+									<Switch disabled={true} size="small" defaultChecked={socials['email']}
 										onChange={() => onChangeSocial('email')} />
 								</div>
 							</div>
