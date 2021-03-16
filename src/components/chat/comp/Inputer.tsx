@@ -464,7 +464,7 @@ const Inputer = inject((stores: IStores) => ({
 							e ? {} : setSwitcher('')
 						}} visible={switcher === 'social'} content={<SocialMenu selectSocial={selectSocial} />}
 							trigger="click">
-							<Button onClick={() => setSwitcher('social')} className='transparent'>
+							<Button disabled onClick={() => setSwitcher('social')} className='transparent'>
 								<Icon className='icon_l'
 									name={`social_media_${currentChat.activeSocial ? currentChat.activeSocial : ''}`} />
 							</Button>

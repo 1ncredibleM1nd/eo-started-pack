@@ -24,6 +24,11 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore, authStore:
             init();
         }, []);
 
+        // Check auth when changing browser tabs
+        // document.addEventListener('visibilitychange', async () => {
+        //     await authStore.login()
+        // })
+
         return (
             <Layout>
                 <Layout className="site-layout">
