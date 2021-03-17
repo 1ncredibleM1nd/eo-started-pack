@@ -24,12 +24,13 @@ export class AuthStore implements IAuthStore {
 	async login() {
 		if (!this.isFrame) {
 			const currentUrl = new URL(location.href)
+			let encryptedSessionData: any
 			const { data: { data: { token, success } } } = await isLogged()
 
 			console.log('login', success)
 
 			if (currentUrl.search.includes('encrypted_session_data')) {
-				const encryptedSessionData = currentUrl.searchParams.get('encrypted_session_data')
+				encryptedSessionData = currentUrl.searchParams.get('encrypted_session_data')
 				if (encryptedSessionData) await setSession(encryptedSessionData)
 				currentUrl.searchParams.delete('encrypted_session_data')
 				currentUrl.searchParams.delete('pid')
@@ -40,7 +41,9 @@ export class AuthStore implements IAuthStore {
 				localStorage.setItem('token', token)
 				await getUserData()
 			} else {
-				window.location.href = `https://account.dev.prodamus.ru/?redirect_url=${window.location.href}`
+				if (!encryptedSessionData) {
+					window.location.href = `https://account.dev.prodamus.ru/?redirect_url=${window.location.href}`
+				}
 			}
 
 		}

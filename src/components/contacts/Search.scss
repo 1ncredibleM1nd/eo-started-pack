@@ -6,10 +6,10 @@
   width: 100%;
 }
 
-.ant-btn.disabled,
-.ant-btn[disabled] {
-  cursor: wait;
-}
+// .ant-btn.disabled,
+// .ant-btn[disabled] {
+//   cursor: wait;
+// }
 
 .ant-btn[disabled] {
   color: rgba(0, 0, 0, 0);
@@ -20,9 +20,9 @@
   box-shadow: none;
 }
 
-.ant-input[disabled] {
-  cursor: wait;
-}
+// .ant-input[disabled] {
+//   cursor: wait;
+// }
 
 .school-filter {
   width: 100%;

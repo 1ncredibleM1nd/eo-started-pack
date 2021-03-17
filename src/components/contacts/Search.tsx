@@ -135,7 +135,7 @@ const Search = inject((stores: IStores) => ({
 							</Button>
 						</div>
 						<div className="search-input">
-							<Search disabled={!appStore.loaded} placeholder="Поиск..." value={searchText} onChange={(e) => onChange(e.target.value)}
+							<Search disabled placeholder="Поиск..." value={searchText} onChange={(e) => onChange(e.target.value)}
 								enterButton />
 						</div>
 					</div>
