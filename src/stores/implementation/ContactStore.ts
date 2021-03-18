@@ -9,7 +9,7 @@ export class ContactStore implements IContactStore {
 	@observable activeContact: IContact
 	@observable search: string = ''
 	@observable filterSwitch: boolean = false
-	@observable socials: any = {
+	@observable source: any = {
 		'whatsapp': false,
 		'instagram': false,
 		'vkontakte': true,
@@ -46,7 +46,7 @@ export class ContactStore implements IContactStore {
 
 	@action
 	filterSocial(key: string) {
-		this.socials[key] = !this.socials[key]
+		this.source[key] = !this.source[key]
 		this.contact = []
 		appStore.setLoading(false)
 		appStore.updateContact()
