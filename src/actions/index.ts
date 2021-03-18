@@ -34,7 +34,7 @@ async function getMessages(conversationId: string, page: number, school_id: stri
 async function getConversations(school_id?: any, page?: number) {
 	let search: any = []
 	search['query'] = contactStore.search
-	search['socials'] = Object.keys(contactStore.socials).filter((key: string) => contactStore.socials[key])
+	search['source'] = Object.keys(contactStore.source).filter((key: string) => contactStore.source[key])
 	let params = {} // d
 	params['search'] = search
 	params['page'] = page
