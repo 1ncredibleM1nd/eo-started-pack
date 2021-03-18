@@ -7,7 +7,6 @@ import 'moment/locale/ru'
 
 moment.locale('ru')
 import $ from 'jquery'
-import {API} from "../../actions/axios";
 
 
 export class ChatStore implements IChatStore {
@@ -56,6 +55,7 @@ export class ChatStore implements IChatStore {
 
 	@action
 	async sendMessageFile(files: any, conversationSourceAccountId: any, school: any) {
+		console.log(files)
 		const formData = new FormData()
 		for (let i = 0; i < files.length; i++) {
 			formData.append(`files[]`, files[i], files[i].name)
