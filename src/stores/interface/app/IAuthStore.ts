@@ -1,9 +1,10 @@
 export default interface IAuthStore {
-    loading?: boolean,
-    auth0?: any,
-    setLoader: (loading: boolean) => void,
-    setToken: (token: string) => void,
-    getToken: () => void,
-    initialize: () => void,
+	login: () => void;
+	loading?: boolean,
+	setLoader: (loading: boolean) => void,
+	setToken: (token: string) => void,
+	initialize: () => Promise<boolean>,
+	checkLogin: () => void;
+	isFrame: boolean
 
 }

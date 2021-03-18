@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button } from "react-bootstrap";
-import Modal from "react-bootstrap/SetingsModal";
+import Modal from "react-bootstrap/SettingsModal";
 
 import { ReactComponent as AddContactSvg } from "../../../assets/media/icons/addcontact.svg";
 import { ReactComponent as CheckCircleSvg } from "../../../assets/media/heroicons/outline/check-circle.svg";

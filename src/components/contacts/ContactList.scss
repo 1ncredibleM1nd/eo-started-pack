@@ -12,14 +12,23 @@
       background: #1111110a;
     }
   }
-//временно
+
+  //временно
   .avatar {
     .ant-scroll-number.ant-badge-dot {
       display: none;
     }
   }
 }
-.scroll_contacts_style_as{
+
+.scroll_contacts_style_as {
   overflow-x: hidden;
-  height: 100vh !important;
+  height: 100% !important;
+}
+
+.user_name_to {
+  white-space: nowrap;
+  width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

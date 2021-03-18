@@ -1,5 +1,6 @@
 
 export default interface IContact {
+    user: any
     last_message: any;
     length: number;
     find(arg0: (user: any) => boolean): any;

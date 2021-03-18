@@ -1,14 +1,14 @@
 import React from 'react'
-import {inject, observer,} from "mobx-react";
+import { inject, observer, } from "mobx-react";
 import {
     Avatar, Col, Menu, Row, Button, Dropdown, Space,
     DatePicker
 } from 'antd'
-import {UserOutlined, DownOutlined} from '@ant-design/icons';
-import {Icon,} from '@ui'
+import { UserOutlined, DownOutlined } from '@ant-design/icons';
+import { Icon, } from '@ui'
 
 import './User.scss'
-import IStores, {IContactStore, IUserStore} from "@stores/interface";
+import IStores, { IContactStore, IUserStore } from "@stores/interface";
 import SelectCategories from "@components/user_info/SelectCategories";
 import ComentsBlock from "@components/user_info/ComentsBlock";
 
@@ -17,7 +17,7 @@ type IProps = {
     userStore?: IUserStore
 }
 
-const User = inject((stores: IStores) => ({contactStore: stores.contactStore,}))(
+const User = inject((stores: IStores) => ({ contactStore: stores.contactStore, }))(
     observer((props: IProps) => {
 
 
@@ -38,13 +38,13 @@ const User = inject((stores: IStores) => ({contactStore: stores.contactStore,}))
         }
 
         const menu = <Menu onClick={e => handleMenuClick(e)}>
-            <Menu.Item key="1" icon={<UserOutlined/>}>
+            <Menu.Item key="1" icon={<UserOutlined />}>
                 1st menu item
             </Menu.Item>
-            <Menu.Item key="2" icon={<UserOutlined/>}>
+            <Menu.Item key="2" icon={<UserOutlined />}>
                 2nd menu item
             </Menu.Item>
-            <Menu.Item key="3" icon={<UserOutlined/>}>
+            <Menu.Item key="3" icon={<UserOutlined />}>
                 3rd menu item
             </Menu.Item>
         </Menu>;
@@ -58,7 +58,7 @@ const User = inject((stores: IStores) => ({contactStore: stores.contactStore,}))
                 <Row>
                     <Col span={5}>
                         <div className="avatar">
-                            <Avatar size={64} icon={<UserOutlined/>}/>
+                            <Avatar size={64} icon={<UserOutlined />} />
                         </div>
                     </Col>
                     <Col span={15}>
@@ -73,15 +73,15 @@ const User = inject((stores: IStores) => ({contactStore: stores.contactStore,}))
                         <div className='d-flex flex-column'>
                             <div className='d-flex align-items-center justify-content-end mb-1'>
                                 <span className='mr-2'>10M</span>
-                                <Icon name='social_media_odnoklassniki' className='icon_s'/>
+                                <Icon name='social_media_odnoklassniki' className='icon_s' />
                             </div>
                             <div className='d-flex align-items-center justify-content-end mb-1'>
-                                <span className='online_in mr-2'/>
-                                <Icon name='social_media_instagram' className='icon_s'/>
+                                <span className='online_in mr-2' />
+                                <Icon name='social_media_instagram' className='icon_s' />
                             </div>
                             <div className='d-flex align-items-center justify-content-end'>
                                 <span className='mr-2'>1h</span>
-                                <Icon name='social_media_facebook' className='icon_s'/>
+                                <Icon name='social_media_facebook' className='icon_s' />
                             </div>
                         </div>
                     </Col>
@@ -95,19 +95,19 @@ const User = inject((stores: IStores) => ({contactStore: stores.contactStore,}))
                             <Button>
                                 <span className='dropdawn_menu'>
                                     <p>  готов к покупке </p>
-                                    <DownOutlined/>
+                                    <DownOutlined />
                                 </span>
                             </Button>
                         </Dropdown>
                     </Space>
                 </div>
                 <div className='mt-4'>
-                    <SelectCategories/>
+                    <SelectCategories />
                 </div>
                 <div className='mt-2 '>
                     <p className='mb-1'>Дата контакта</p>
                     <Space direction="vertical">
-                        <DatePicker onChange={onChange}/>
+                        <DatePicker onChange={onChange} />
                     </Space>
                 </div>
                 <div className='mt-2 d-flex justify-content-between align-items-center'>
@@ -118,7 +118,7 @@ const User = inject((stores: IStores) => ({contactStore: stores.contactStore,}))
                         <Space>
                             <Dropdown overlay={menu}>
                                 <Button className='d-flex align-items-center'>
-                                    <span className='mr-3'> Александр Петров</span> <DownOutlined/>
+                                    <span className='mr-3'> Александр Петров</span> <DownOutlined />
                                 </Button>
                             </Dropdown>
                         </Space>
@@ -126,7 +126,7 @@ const User = inject((stores: IStores) => ({contactStore: stores.contactStore,}))
 
                 </div>
                 <div className="mt-3 border">
-                    <ComentsBlock/>
+                    <ComentsBlock />
                 </div>
             </div>
         )
