@@ -236,8 +236,8 @@ const Inputer = inject((stores: IStores) => ({
 				reader.readAsDataURL(file)
 			}
 			setTimeout(() => {
-				fileInputRef.current.value = null
-				fileInputRef.current.files = null
+				// fileInputRef.current.value = null
+				// fileInputRef.current.files = null
 				setFileOnHold([...fileOnHold, ...fileArray])
 			}, 300)
 		}
@@ -490,7 +490,7 @@ const Inputer = inject((stores: IStores) => ({
 					</div>
 
 
-					{/* <div className="inputer_btn">
+					<div className="inputer_btn">
 						<Popover onVisibleChange={(e) => {
 							e ? {} : setSwitcher('')
 						}} visible={switcher === 'attachments'} content={<DropDownAttachments />} trigger="click">
@@ -500,17 +500,15 @@ const Inputer = inject((stores: IStores) => ({
 								<Icon className='icon_m blue-lite' name='solid_paperclip' />
 							</Button>
 						</Popover>
-					</div> */}
+					</div>
 
 				</div>
 
 				<div onClick={() => onSend()} className="send_btn">
 					<Icon className='icon_x white' name='solid_another-arrow' />
 				</div>
-				<form id="file-form">
-					<input hidden accept={acceptType} name='files' ref={fileInputRef} multiple type="file"
-						onChange={(e) => handleFileInput(e)} />
-				</form>
+				<input type="file" hidden accept={acceptType} name='files' ref={fileInputRef} multiple
+					   onChange={handleFileInput} />
 
 			</div>
 		)
