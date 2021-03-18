@@ -23,7 +23,7 @@ const Search = inject((stores: IStores) => ({
 		const [searchText, setSearchText] = useState('')
 		const [drawer, setDrawer] = useState('')
 		let school_list: any = appStore.school_list
-		const socials = contactStore.socials
+		const socials = contactStore.source
 		const switcher = contactStore.filterSwitch
 
 		const onChange = (value: string) => {
