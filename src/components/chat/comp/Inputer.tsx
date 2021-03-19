@@ -37,7 +37,6 @@ const Inputer = inject((stores: IStores) => ({
 		const inputRef = useRef(null)
 		const fileInputRef = useRef(null)
 
-
 		let currentChat: any
 		if (chatStore.loaded && activeContact) {
 			currentChat = chatStore.activeChat
@@ -129,6 +128,7 @@ const Inputer = inject((stores: IStores) => ({
 			await chatStore.sendMessageFile(fileToSend, activeContact.conversation_source_account_id, appStore.school)
 			// await chatStore.loadMessages(activeContact.id, 1)
 			setFileOnHold([])
+			setFileToSend([])
 		}
 
 		const onSend = async () => {
@@ -211,10 +211,11 @@ const Inputer = inject((stores: IStores) => ({
 
 		const handleFileInput = (e: any) => {
 			e.preventDefault()
-			setFileToSend(e.target.files)
+
 			let fileArray: any = []
 			for (let i = 0; i < e.target.files.length; i++) {
-				let file = e.target.files[i]
+				let file = e.target.files.item(i)
+
 				if ((file.size > 10485760 && currentFileType === 'video') || currentFileType === 'file' || currentFileType === 'audio') {
 					let data = {
 						type: currentFileType,
@@ -223,7 +224,9 @@ const Inputer = inject((stores: IStores) => ({
 					fileArray.push(data)
 					continue
 				}
+
 				let reader = new FileReader()
+				reader.readAsDataURL(file)
 				reader.onload = e => {
 					const { result } = e.target
 					let data = {
@@ -233,13 +236,12 @@ const Inputer = inject((stores: IStores) => ({
 					}
 					fileArray.push(data)
 				}
-				reader.readAsDataURL(file)
 			}
-			setTimeout(() => {
-				fileInputRef.current.value = null
-				fileInputRef.current.files = null
-				setFileOnHold([...fileOnHold, ...fileArray])
-			}, 300)
+
+			setFileToSend([...fileToSend, ...e.target.files])
+			setFileOnHold([...fileOnHold, ...fileArray])
+
+			fileInputRef.current.value = null
 		}
 
 		const bytesToSize = (bytes: any) => {
@@ -490,7 +492,7 @@ const Inputer = inject((stores: IStores) => ({
 					</div>
 
 
-					{/* <div className="inputer_btn">
+					<div className="inputer_btn">
 						<Popover onVisibleChange={(e) => {
 							e ? {} : setSwitcher('')
 						}} visible={switcher === 'attachments'} content={<DropDownAttachments />} trigger="click">
@@ -500,17 +502,15 @@ const Inputer = inject((stores: IStores) => ({
 								<Icon className='icon_m blue-lite' name='solid_paperclip' />
 							</Button>
 						</Popover>
-					</div> */}
+					</div>
 
 				</div>
 
 				<div onClick={() => onSend()} className="send_btn">
 					<Icon className='icon_x white' name='solid_another-arrow' />
 				</div>
-				<form id="file-form">
-					<input hidden accept={acceptType} name='files' ref={fileInputRef} multiple type="file"
-						onChange={(e) => handleFileInput(e)} />
-				</form>
+				<input type="file" hidden accept={acceptType} name='files' ref={fileInputRef} multiple
+					   onChange={handleFileInput} />
 
 			</div>
 		)

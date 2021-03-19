@@ -1,7 +1,7 @@
 import { action, observable, reaction } from 'mobx'
 import { IChat, IChatStore, IMsg } from '@stores/interface'
 import { contactStore, appStore, userStore } from '@stores/implementation'
-import { getMessages, sendMsg } from '@actions'
+import {getMessages, sendMsg, sendMsgFile} from '@actions'
 import moment from 'moment'
 import 'moment/locale/ru'
 
@@ -55,34 +55,19 @@ export class ChatStore implements IChatStore {
 
 	@action
 	async sendMessageFile(files: any, conversationSourceAccountId: any, school: any) {
+		console.log(files)
 		const formData = new FormData()
 		for (let i = 0; i < files.length; i++) {
-			formData.append(`files[]`, files[0], files[0].name)
+			formData.append(`files[]`, files[i], files[i].name)
 		}
-		formData.append('message', 'undefinded')
+		formData.append('message', 'empty description')
 		formData.append('conversationSourceAccountId', conversationSourceAccountId)
 		if (school) {
 			formData.append('schoolId', school)
 		}
 		formData.append('conversationId', this.activeChat.id)
-		$.ajax({
-			url: 'https://8c6870338a21.ngrok.io/v1/conversation/send-message',
-			// headers: {
-			// 	'Authorization': `Bearer ${localStorage.getItem('token')}`
-			// },
-			type: 'POST',
-			async: false,
-			dataType: 'multipart',
-			// xhrFields: {
-			// 	withCredentials: true
-			// },
-			cache: false,
-			contentType: false,
-			processData: false,
-			data: formData
-		})
 
-		//await sendMsgFile(formData)
+		await sendMsgFile(formData)
 	}
 
 
