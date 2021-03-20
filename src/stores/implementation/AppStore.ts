@@ -76,8 +76,7 @@ export class AppStore implements IAppStore {
 		}
 
 		run()
-	};
-
+	}
 }
 
 export const appStore = new AppStore()

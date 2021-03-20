@@ -19,8 +19,7 @@ export default interface IChatStore {
 	getUnreadCount: (id: string) => number;
 	init: (data: any) => void;
 	addMsg: (content: any, from: any, social_media: string, status: string) => void;
-	sendMessageFile: (files: any, conversationSourceAccountId: any, school: any) => void;
-	sendMessage: (message: string, conversationSourceAccountId: any, school: any) => void;
+	sendMessage: (message: string, conversationSourceAccountId: any, school: any, files: any) => void;
 	getMsg: (id: string, chat_id: string) => IMsg;
 	getLastMsg: (id: string) => IMsg;
 	changeSocial: (social: string) => void;

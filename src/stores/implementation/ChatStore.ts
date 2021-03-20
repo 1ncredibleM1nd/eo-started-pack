@@ -1,7 +1,7 @@
 import { action, observable, reaction } from 'mobx'
 import { IChat, IChatStore, IMsg } from '@stores/interface'
 import { contactStore, appStore, userStore } from '@stores/implementation'
-import {getMessages, sendMsg, sendMsgFile} from '@actions'
+import {getMessages, sendMessage } from '@actions'
 import moment from 'moment'
 import 'moment/locale/ru'
 
@@ -43,28 +43,8 @@ export class ChatStore implements IChatStore {
 	}
 
 	@action
-	async sendMessage(message: string, conversationSourceAccountId: any, school: any) {
-		await sendMsg(this.activeChat.id, message, conversationSourceAccountId, school)
-	}
-
-	@action
-	async sendMessageFile(files: any, conversationSourceAccountId: any, school: any) {
-		const formData = new FormData()
-
-		for (let i = 0; i < files.length; i++) {
-			formData.append(`files[]`, files[i], files[i].name)
-		}
-
-		formData.append('message', 'empty description')
-		formData.append('conversationSourceAccountId', conversationSourceAccountId)
-
-		if (school) {
-			formData.append('schoolId', school)
-		}
-
-		formData.append('conversationId', this.activeChat.id)
-
-		await sendMsgFile(formData)
+	async sendMessage(message: string, conversationSourceAccountId: any, school: any, files: any) {
+		await sendMessage(this.activeChat.id, message, conversationSourceAccountId, school, files)
 	}
 
 	@action

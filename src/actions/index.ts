@@ -1,5 +1,5 @@
 import { API, AUTH } from './axios'
-import { contactStore } from '@stores/implementation'
+import {chatStore, contactStore} from '@stores/implementation'
 import qs from 'qs'
 import { notification } from 'antd'
 
@@ -83,42 +83,24 @@ async function getMessages(conversationId: string, page: number, school_id: stri
 	}
 }
 
-async function sendMsgFile(formData: any) {
+async function sendMessage(conversationId: string, message: string, conversationSourceAccountId: any, schoolId: string, files: any) {
+	const formData = new FormData()
+
+	for (let i = 0; i < files.length; i++) {
+		formData.append(`files[]`, files[i], files[i].name)
+	}
+
+	formData.append('message', message)
+	formData.append('conversationSourceAccountId', conversationSourceAccountId)
+
+	if (schoolId) {
+		formData.append('schoolId', schoolId)
+	}
+
+	formData.append('conversationId', chatStore.activeChat.id)
+
 	try {
 		const response = await API.post(`/conversation/send-message`, formData)
-
-		if (response.data.error !== 0) {
-			const error: any = {
-				message: response.data.data.error_message ?? 'Ошибка отправки медиаконтента'
-			}
-
-			if (!!response.data.data.error_data) {
-				error.description = Object.values(response.data.data.error_data)
-			}
-
-			notification.error(error)
-		}
-
-		return { menu: response.data.data }
-	} catch (error) {
-		notification.error({
-			message: error.toString() ?? 'Ошибка отправки медиаконтента'
-		})
-
-		return { menu: false }
-	}
-}
-
-async function sendMsg(conversationId: string, message: string, conversationSourceAccountId: any, schoolId: string) {
-	let params = {
-		conversationSourceAccountId,
-		conversationId,
-		schoolId,
-		message
-	}
-
-	try {
-		const response = await API.post(`/conversation/send-message`, params)
 
 		if (response.data.error !== 0) {
 			const error: any = {
@@ -131,14 +113,10 @@ async function sendMsg(conversationId: string, message: string, conversationSour
 
 			notification.error(error)
 		}
-
-		return { menu: response.data.data }
 	} catch (error) {
 		notification.error({
 			message: error.toString() ?? 'Ошибка отправки сообщения'
 		})
-
-		return { menu: false }
 	}
 }
 
@@ -253,8 +231,7 @@ async function getSchools() {
 }
 
 export {
-	sendMsgFile,
-	sendMsg,
+	sendMessage,
 	getConversations,
 	getMessages,
 	isLogged,

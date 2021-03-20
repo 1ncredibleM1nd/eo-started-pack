@@ -102,12 +102,10 @@ const Inputer = inject((stores: IStores) => ({
 				if (draft[activeContact.id + status] && draft[activeContact.id + status].length) {
 					await chatStore.addMsg(message, hero.id, currentChat.activeSocial, null)
 					$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
-					await chatStore.sendMessage(message, activeContact.conversation_source_account_id, appStore.school)
+					await chatStore.sendMessage(message, activeContact.conversation_source_account_id, appStore.school, fileToSend)
+					setFileOnHold([])
+					setFileToSend([])
 					await chatStore.loadMessages(activeContact.id, 1)
-					// sendMsg(currentChat.id, draft[activeContact.id + status],
-					// 	activeContact.conversation_source_account_id, appStore.school)
-					// sendMsg(currentChat.id,
-					// 	draft[activeContact.id + status])
 				}
 				setDraft({ ...draft, [activeContact.id + status]: '' })
 			}
@@ -123,14 +121,6 @@ const Inputer = inject((stores: IStores) => ({
 		// 	chatStore.readAllMsg(currentChat.id)
 		// }
 
-		const onSendFile = async () => {
-			await chatStore.addMsg(fileOnHold, hero.id, currentChat.activeSocial, null)
-			await chatStore.sendMessageFile(fileToSend, activeContact.conversation_source_account_id, appStore.school)
-			// await chatStore.loadMessages(activeContact.id, 1)
-			setFileOnHold([])
-			setFileToSend([])
-		}
-
 		const onSend = async () => {
 			let message = draft[activeContact.id + status]
 			setDraft({ ...draft, [activeContact.id + status]: '' })
@@ -138,7 +128,7 @@ const Inputer = inject((stores: IStores) => ({
 				case 'default':
 					if (draft[activeContact.id + status] && draft[activeContact.id + status].length) {
 						await chatStore.addMsg(draft[activeContact.id + status], hero.id, currentChat.activeSocial, null)
-						await chatStore.sendMessage(draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.school)
+						await chatStore.sendMessage(draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.school, fileToSend)
 						await chatStore.loadMessages(activeContact.id, 1)
 						//sendMsg(currentChat.id, draft[activeContact.id + status],
 						// activeContact.conversation_source_account_id, appStore.school) sendMsg(currentChat.id,
@@ -291,7 +281,7 @@ const Inputer = inject((stores: IStores) => ({
 							Отмена
 					       </Button>,
 						<Button key="submit" className='font_size-normal' type="primary"
-							onClick={() => onSendFile()}>
+							onClick={ handleEnter }>
 							Отправить
 					       </Button>
 					]}
