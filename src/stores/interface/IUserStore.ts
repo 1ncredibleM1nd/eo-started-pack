@@ -2,6 +2,6 @@ import IUser from './IUser'
 
 export default interface IUserStore {
 	hero: IUser,
-	avaliableUsers: IUser[];
+	availableUsers: IUser[];
 	initHero: (data: any) => void;
 }

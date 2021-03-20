@@ -38,13 +38,13 @@ async function getConversations(school_id?: any, page?: number) {
 			notification.error(error)
 		}
 
-		return { data: response.data.data }
+		return response.data.data
 	} catch (error) {
 		notification.error({
 			message: error.toString() ?? 'Ошибка получения контактов'
 		})
 
-		return { data: [] }
+		return []
 	}
 }
 
@@ -73,13 +73,13 @@ async function getMessages(conversationId: string, page: number, school_id: stri
 			notification.error(error)
 		}
 
-		return { messages: response.data.data }
+		return response.data.data
 	} catch (error) {
 		notification.error({
 			message: error.toString() ?? 'Ошибка получения сообщений'
 		})
 
-		return { messages: [] }
+		return []
 	}
 }
 
@@ -110,7 +110,7 @@ async function sendMsgFile(formData: any) {
 }
 
 async function sendMsg(conversationId: string, message: string, conversationSourceAccountId: any, schoolId: string) {
-	let body = {
+	let params = {
 		conversationSourceAccountId,
 		conversationId,
 		schoolId,
@@ -118,7 +118,7 @@ async function sendMsg(conversationId: string, message: string, conversationSour
 	}
 
 	try {
-		const response = await API.post(`/conversation/send-message`, body)
+		const response = await API.post(`/conversation/send-message`, params)
 
 		if (response.data.error !== 0) {
 			const error: any = {
@@ -158,7 +158,7 @@ async function getUserData() {
 			notification.error(error)
 		}
 
-		return response
+		return response.data.data
 	} catch (error) {
 		notification.error({
 			message: error.toString() ?? 'Ошибка получения аккаунта'
@@ -184,13 +184,15 @@ async function isLogged() {
 			notification.error(error)
 		}
 
-		return response
+		return response.data.data
 	} catch (error) {
 		notification.error({
 			message: error.toString() ?? 'Ошибка проверки авторизации'
 		})
 
-		return null
+		return {
+			success: false
+		}
 	}
 }
 
@@ -240,13 +242,13 @@ async function getSchools() {
 			notification.error(error)
 		}
 
-		return response
+		return response.data.data
 	} catch (error) {
 		notification.error({
 			message: error.toString() ?? 'Ошибка получения школ'
 		})
 
-		return null
+		return {}
 	}
 }
 

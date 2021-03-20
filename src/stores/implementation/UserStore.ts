@@ -3,21 +3,18 @@ import { IUserStore, IUser } from '@stores/interface'
 
 export class UserStore implements IUserStore {
 	@observable hero: IUser
-	@observable avaliableUsers: IUser[] = []
+	@observable availableUsers: IUser[] = []
 
 	constructor() {
 		reaction(() => {
-			return this.avaliableUsers
-		}, () => {
-
-		})
+			return this.availableUsers
+		}, () => {})
 	}
 
 	@action
 	async initHero(data: any) {
 		this.hero = data
-	};
-
+	}
 }
 
 export const userStore = new UserStore()

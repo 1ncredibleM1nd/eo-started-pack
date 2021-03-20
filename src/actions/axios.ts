@@ -1,8 +1,6 @@
 import axios from 'axios'
 import CONFIG from '../config'
 
-
-
 const AUTH = axios.create({
 	baseURL: CONFIG.BASE_API_URL,
 	withCredentials: true
@@ -13,26 +11,25 @@ const API = axios.create({
 	withCredentials: true
 })
 
-
-AUTH.interceptors.request.use(req => {
+AUTH.interceptors.request.use(request => {
 	let rest = localStorage.getItem('rest')
-	req.url = '/' + rest + req.url
-	return req;
-});
+	request.url = '/' + rest + request.url
+	return request
+})
 
-API.interceptors.request.use(req => {
+API.interceptors.request.use(request => {
 	let rest = localStorage.getItem('rest')
 	let token = localStorage.getItem('token')
 	let userId = localStorage.getItem('userId')
 	let timestamp = localStorage.getItem('timestamp')
 
-	req.headers['Authorization'] = `Bearer ${token}`;
-	timestamp ? req.headers['Timestamp'] = timestamp : null
-	userId ? req.headers['User'] = userId : null
-	req.url = '/' + rest + req.url
+	request.headers['Authorization'] = `Bearer ${ token }`
+	timestamp ? request.headers['Timestamp'] = timestamp : null
+	userId ? request.headers['User'] = userId : null
+	request.url = '/' + rest + request.url
 
-	return req;
-});
+	return request
+})
 
 
 export { API, AUTH }

@@ -2,8 +2,6 @@ import { action, observable } from 'mobx'
 import { isLogged, setSession, getUserData } from '@actions'
 import IAuthStore from '@stores/interface/app/IAuthStore'
 
-
-
 export class AuthStore implements IAuthStore {
 	checkLogin: () => void
 	@observable loading: boolean = false
@@ -19,15 +17,12 @@ export class AuthStore implements IAuthStore {
 		localStorage.setItem('token', token)
 	}
 
-
 	@action
 	async login() {
 		if (!this.isFrame) {
 			const currentUrl = new URL(location.href)
 			let encryptedSessionData: any
-			const { data: { data: { token, success } } } = await isLogged()
-
-			console.log('login', success)
+			const loggedData = await isLogged()
 
 			if (currentUrl.search.includes('encrypted_session_data')) {
 				encryptedSessionData = currentUrl.searchParams.get('encrypted_session_data')
@@ -37,15 +32,14 @@ export class AuthStore implements IAuthStore {
 				history.replaceState(history.state, null, currentUrl.href)
 			}
 
-			if (success) {
-				localStorage.setItem('token', token)
+			if (loggedData.success) {
+				localStorage.setItem('token', loggedData.token)
 				await getUserData()
 			} else {
 				if (!encryptedSessionData) {
 					window.location.href = `https://account.dev.prodamus.ru/?redirect_url=${window.location.href}`
 				}
 			}
-
 		}
 	}
 
@@ -72,8 +66,6 @@ export class AuthStore implements IAuthStore {
 
 		return true
 	}
-
 }
-
 
 export const authStore = new AuthStore()

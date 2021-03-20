@@ -8,7 +8,7 @@ export default interface IContactStore {
 	source: any;
 	search: string;
 	filterSwitch: boolean;
-	readonly avaliableContacts?: IContact[] | null;
+	readonly availableContacts?: IContact[] | null;
 	loadContact: () => void;
 	filterSocial: (key: string) => void;
 	toggleFilterSwitch: () => void;

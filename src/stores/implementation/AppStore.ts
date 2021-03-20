@@ -4,7 +4,7 @@ import { contactStore, userStore } from '@stores/implementation'
 import { getConversations, getSchools, getUserData } from '@actions'
 import { notification } from "antd"
 // @ts-ignore
-import { NotificationSettings } from '../../Config/Config'
+import {NotificationSettings} from '../../Config/Config'
 
 export class AppStore implements IAppStore {
 	@observable loaded: boolean = false
@@ -13,7 +13,6 @@ export class AppStore implements IAppStore {
 	@observable school: any = ''
 	@observable school_list: any = []
 	activeContactPageNumber: number = 1
-
 
 	@action
 	setInfoTab(tab: string) {
@@ -49,40 +48,34 @@ export class AppStore implements IAppStore {
 
 	@action
 	async initSchools() {
-		let school_res = await getSchools()
-		this.school_list = school_res.data.data
-		let paramsString = document.location.search
-		let searchParams = new URLSearchParams(paramsString)
-		this.school = searchParams.get('school') ? searchParams.get('school') : this.school
+		this.school_list = await getSchools()
 	}
 
 	@action
 	async updateContact() {
-		let conversations = await getConversations(this.school, 1)
-		await contactStore.init(conversations.data)
+		const conversation_list = await getConversations(this.school, 1)
+
+		await contactStore.init(conversation_list)
 	}
 
 	@action
 	async initialization() {
-		let u_data = await getUserData()
-		await this.initSchools()
+		let user_data = await getUserData()
 
-		let hero = u_data.data.data
-		await userStore.initHero(hero)
+		await userStore.initHero(user_data)
+
+		await this.initSchools()
 
 		// сконфигурируем уведомления
 		notification.config(NotificationSettings)
 
-		try {
-			let run = async () => {
-				await this.updateContact()
-				setTimeout(run, 2000)
-			}
+		let run = async () => {
+			await this.updateContact()
 
-			run()
-		} catch (e) {
-			throw new Error(e)
+			setTimeout(run, 2000)
 		}
+
+		run()
 	};
 
 }

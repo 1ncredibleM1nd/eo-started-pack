@@ -1,7 +1,6 @@
 import { action, computed, observable, reaction } from 'mobx'
 import { IContactStore, IContact } from '@stores/interface'
 import { chatStore, appStore } from '@stores/implementation'
-import $ from 'jquery'
 import { getConversations } from '@actions'
 
 export class ContactStore implements IContactStore {
@@ -21,21 +20,16 @@ export class ContactStore implements IContactStore {
 	}
 	contactLoading: boolean = false
 
-
-
 	constructor() {
 		reaction(() => {
 			return this.contact
-		}, () => {
-			if (true) {
-			}
-		})
+		}, () => {})
 	}
 	filter: any
 	name: string
 
 	@computed
-	get avaliableContacts() {
+	get availableContacts() {
 		return this.contact
 	}
 
@@ -52,10 +46,9 @@ export class ContactStore implements IContactStore {
 		appStore.updateContact()
 	}
 
-
 	@action
-	setSearch(value: string) {
-		this.search = value
+	setSearch(search: string) {
+		this.search = search
 		this.contact = []
 		appStore.setLoading(false)
 		appStore.updateContact()
@@ -63,26 +56,34 @@ export class ContactStore implements IContactStore {
 
 	@action
 	async loadContact(): Promise<any> {
-		if (this.contactLoading) return null
+		if (this.contactLoading) {
+			return null
+		}
+
 		this.contactLoading = true
+
 		let conversations = await getConversations(appStore.school, appStore.activeContactPageNumber + 1)
+
 		let dataContact: any = []
-		if (conversations.data.length) {
-			for (let index = 0; index < conversations.data.length; index++) {
-				const contact_item = conversations.data[index]
+		if (!!conversations.length) {
+			for (let i = 0; i < conversations.length; i++) {
+				const contact_item = conversations[i]
 				const initContact: IContact = {
 					...contact_item,
 					setStatus(status: string) {
 						this.status = status
 					},
-					setLastMsg(msg_id: string) {
-						this.last_message_id = msg_id
+					setLastMsg(message_id: string) {
+						this.last_message_id = message_id
 					}
 				}
+
 				dataContact.push(initContact)
 			}
+
 			this.contact = [...this.contact, ...dataContact]
-			if (conversations.data.length === 20) {
+
+			if (conversations.length === 20) {
 				setTimeout(() => {
 					appStore.setContactPageNumber(appStore.activeContactPageNumber + 1)
 					this.contactLoading = false
@@ -135,7 +136,6 @@ export class ContactStore implements IContactStore {
 		return contact.avatar
 	}
 
-
 	@action
 	async init(data: any) {
 		const dataContact = []
@@ -146,8 +146,8 @@ export class ContactStore implements IContactStore {
 			return
 		}
 
-		for (let index = 0; index < data.length; index++) {
-			const contact_item = data[index]
+		for (let i = 0; i < data.length; i++) {
+			const contact_item = data[i]
 			const initContact: IContact = {
 				...contact_item,
 				setStatus(status: string) {
@@ -157,14 +157,19 @@ export class ContactStore implements IContactStore {
 					this.last_message_id = msg_id
 				}
 			}
+
 			dataContact.push(initContact)
 		}
 
 		if (JSON.stringify(this.contact) !== JSON.stringify(dataContact)) {
 			for (let i = 0; i < this.contact.length; i++) {
 				const localContact = this.contact[i]
+
 				let serverContact = dataContact[i]
-				if (!serverContact) continue
+				if (!serverContact) {
+					continue
+				}
+
 				// Проверка на последнее сообщение, если оно не соответствует старому - загрузить новые сообщения
 				if (this.activeContact && this.activeContact.id === localContact.id) {
 					if (localContact.last_message.id !== serverContact.last_message.id) {
@@ -186,8 +191,6 @@ export class ContactStore implements IContactStore {
 
 		appStore.setLoading(true)
 	}
-
-
 }
 
 export const contactStore = new ContactStore()
