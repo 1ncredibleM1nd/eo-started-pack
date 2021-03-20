@@ -56,14 +56,18 @@ export class ChatStore implements IChatStore {
 	@action
 	async sendMessageFile(files: any, conversationSourceAccountId: any, school: any) {
 		const formData = new FormData()
+
 		for (let i = 0; i < files.length; i++) {
 			formData.append(`files[]`, files[i], files[i].name)
 		}
+
 		formData.append('message', 'empty description')
 		formData.append('conversationSourceAccountId', conversationSourceAccountId)
+
 		if (school) {
 			formData.append('schoolId', school)
 		}
+
 		formData.append('conversationId', this.activeChat.id)
 
 		await sendMsgFile(formData)
