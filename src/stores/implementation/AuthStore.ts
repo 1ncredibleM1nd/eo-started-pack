@@ -1,6 +1,7 @@
 import { action, observable } from 'mobx'
 import { isLogged, setSession, getUserData } from '@actions'
 import IAuthStore from '@stores/interface/app/IAuthStore'
+import CONFIG from "../../config"
 
 export class AuthStore implements IAuthStore {
 	checkLogin: () => void
@@ -37,7 +38,7 @@ export class AuthStore implements IAuthStore {
 				await getUserData()
 			} else {
 				if (!encryptedSessionData) {
-					window.location.href = `https://account.dev.prodamus.ru/?redirect_url=${window.location.href}`
+					window.location.href = `${CONFIG.BASE_AUTH_URL}/?redirect_url=${window.location.href}`
 				}
 			}
 		}
