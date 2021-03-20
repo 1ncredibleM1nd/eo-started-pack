@@ -35,6 +35,8 @@ API.interceptors.request.use(request => {
 		interlayer = '/v1'
 	}
 
+	console.log('third', authStore.token)
+
 	request.headers['Authorization'] = `Bearer ${ authStore.token }`
 
 	if (authStore.isFrame) {

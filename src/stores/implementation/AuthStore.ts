@@ -31,7 +31,9 @@ export class AuthStore implements IAuthStore {
 			if (currentUrl.search.includes('encrypted_session_data')) {
 				encryptedSessionData = currentUrl.searchParams.get('encrypted_session_data')
 				if (encryptedSessionData) {
-					await setSession(encryptedSessionData)
+					const setSessionData = await setSession(encryptedSessionData)
+
+					this.setToken(setSessionData.token)
 				}
 
 				currentUrl.searchParams.delete('encrypted_session_data')
@@ -56,6 +58,8 @@ export class AuthStore implements IAuthStore {
 	async initialize(): Promise<boolean> {
 		const currentUrl = new URL(location.href)
 
+		console.log('first', this.token)
+
 		if (currentUrl.search.includes('encrypted_data')) {
 			this.isFrame = true
 
@@ -68,6 +72,8 @@ export class AuthStore implements IAuthStore {
 		}
 
 		await this.login()
+
+		console.log('second', this.token)
 
 		return true
 	}

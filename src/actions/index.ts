@@ -194,7 +194,7 @@ async function setSession(sessionId: any) {
 			notification.error(error)
 		}
 
-		return response
+		return response.data.data
 	} catch (error) {
 		notification.error({
 			message: error.toString() ?? 'Ошибка установки сессии'
