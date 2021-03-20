@@ -104,9 +104,9 @@ export class ContactStore implements IContactStore {
 	}
 
 	@action
-	setLastMsg(id: string, msg_id: string) {
+	setLastMsg(id: string, message_id: string) {
 		let contact = this.contact.find((contact_item: IContact) => contact_item.id === id)
-		contact.setLastMsg(msg_id)
+		contact.setLastMsg(message_id)
 	}
 
 	@action
@@ -134,6 +134,7 @@ export class ContactStore implements IContactStore {
 	@action
 	getAvatar(id: string) {
 		let contact = this.getContact(id)
+
 		return contact.avatar
 	}
 

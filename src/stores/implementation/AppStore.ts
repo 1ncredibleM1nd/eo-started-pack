@@ -4,7 +4,7 @@ import { contactStore, userStore } from '@stores/implementation'
 import { getConversations, getSchools, getUserData } from '@actions'
 import { notification } from "antd"
 // @ts-ignore
-import {NotificationSettings} from '../../Config/Config'
+import { NotificationSettings } from '../../Config/Config'
 
 export class AppStore implements IAppStore {
 	@observable loaded: boolean = false
