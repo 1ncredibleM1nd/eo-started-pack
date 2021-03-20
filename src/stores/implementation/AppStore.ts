@@ -68,12 +68,8 @@ export class AppStore implements IAppStore {
 		await userStore.initHero(hero)
 		try {
 			let run = async () => {
-				try {
-					await this.updateContact()
-					setTimeout(run, 2000)
-				} catch (error) {
-					console.error(error)
-				}
+				await this.updateContact()
+				setTimeout(run, 2000)
 			}
 			run()
 		} catch (e) {

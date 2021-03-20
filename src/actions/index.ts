@@ -26,19 +26,23 @@ async function getMessages(conversationId: string, page: number, school_id: stri
 			placement: 'bottomRight',
 			bottom: 50,
 			duration: 3,
-		});
+		})
+
+		return { messages: [] }
 	}
-	return null
 }
 
 async function getConversations(school_id?: any, page?: number) {
 	let search: any = []
 	search['query'] = contactStore.search
 	search['source'] = Object.keys(contactStore.source).filter((key: string) => contactStore.source[key])
+
 	let params = {} // d
 	params['search'] = search
 	params['page'] = page
+
 	school_id ? params['schoolId'] = school_id : null
+
 	try {
 		const res = await API.get(`/conversation/get-conversations`, {
 			params,
@@ -46,6 +50,7 @@ async function getConversations(school_id?: any, page?: number) {
 				return qs.stringify(params_2)
 			}
 		})
+
 		if (res.data.error && res.data.data) {
 			notification.error({
 				message: res.data.data.error_message ? res.data.data.error_message : 'Ошибка получения контактов',
@@ -58,13 +63,14 @@ async function getConversations(school_id?: any, page?: number) {
 		return { data: res.data.data }
 	} catch (error) {
 		notification.error({
-			message: error ? error : 'Ошибка получения контактов',
+			message: error ? error.toString() : 'Ошибка получения контактов',
 			placement: 'bottomRight',
 			bottom: 50,
 			duration: 3,
-		});
+		})
+
+		return { data: [] }
 	}
-	return null
 }
 
 async function sendMsgFile(formData: any) {
@@ -85,13 +91,14 @@ async function sendMsgFile(formData: any) {
 			})
 	} catch (error) {
 		notification.error({
-			message: error ? error : 'Ошибка отправки медиаконтента',
+			message: error ? error.toString() : 'Ошибка отправки медиаконтента',
 			placement: 'bottomRight',
 			bottom: 50,
 			duration: 3,
-		});
+		})
+
+		return { menu: false }
 	}
-	return null
 }
 
 async function sendMsg(conversationId: string, message: string, conversationSourceAccountId: any, schoolId: string) {
@@ -111,13 +118,14 @@ async function sendMsg(conversationId: string, message: string, conversationSour
 	} catch (error) {
 
 		notification.error({
-			message: error ? error : 'Ошибка отправки сообщения',
+			message: error ? error.toString() : 'Ошибка отправки сообщения',
 			placement: 'bottomRight',
 			bottom: 50,
 			duration: 3,
-		});
+		})
+
+		return { menu: false }
 	}
-	return null
 }
 
 async function getUserData() {
@@ -135,13 +143,14 @@ async function getUserData() {
 		return res
 	} catch (error) {
 		notification.error({
-			message: error ? error : 'Ошибка получения аккаунта',
+			message: error ? error.toString() : 'Ошибка получения аккаунта',
 			placement: 'bottomRight',
 			bottom: 50,
 			duration: 3,
-		});
+		})
+
+		return null
 	}
-	return null
 }
 
 async function isLogged() {
@@ -159,13 +168,14 @@ async function isLogged() {
 		return res
 	} catch (error) {
 		notification.error({
-			message: error ? error : 'Ошибка получения аккаунта',
+			message: error ? error.toString() : 'Ошибка получения аккаунта',
 			placement: 'bottomRight',
 			bottom: 50,
 			duration: 3,
-		});
+		})
+
+		return null
 	}
-	return null
 }
 
 async function setSession(sessionId: any) {
@@ -187,13 +197,14 @@ async function setSession(sessionId: any) {
 		return res
 	} catch (error) {
 		notification.error({
-			message: error ? error : 'Ошибка setSession',
+			message: error ? error.toString() : 'Ошибка setSession',
 			placement: 'bottomRight',
 			bottom: 50,
 			duration: 3,
-		});
+		})
+
+		return null
 	}
-	return null
 }
 
 async function getSchools() {
@@ -211,13 +222,14 @@ async function getSchools() {
 		return res
 	} catch (error) {
 		notification.error({
-			message: error ? error : 'Ошибка получения школ',
+			message: error ? error.toString() : 'Ошибка получения школ',
 			placement: 'bottomRight',
 			bottom: 50,
 			duration: 3,
-		});
+		})
+
+		return null
 	}
-	return null
 }
 
 export {
