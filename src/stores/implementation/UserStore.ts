@@ -1,5 +1,6 @@
 import { action, observable, reaction } from 'mobx'
 import { IUserStore, IUser } from '@stores/interface'
+import {getUserData} from "@actions";
 
 export class UserStore implements IUserStore {
 	@observable hero: IUser
@@ -12,8 +13,8 @@ export class UserStore implements IUserStore {
 	}
 
 	@action
-	async initHero(data: any) {
-		this.hero = data
+	async initHero() {
+		this.hero = await getUserData()
 	}
 }
 

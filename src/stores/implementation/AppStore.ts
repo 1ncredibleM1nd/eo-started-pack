@@ -1,7 +1,7 @@
 import { action, observable } from 'mobx'
 import { IAppStore } from '@stores/interface'
 import { contactStore, userStore } from '@stores/implementation'
-import { getConversations, getSchools, getUserData } from '@actions'
+import { getConversations, getSchools } from '@actions'
 import { notification } from "antd"
 // @ts-ignore
 import { NotificationSettings } from '../../Config/Config'
@@ -60,9 +60,7 @@ export class AppStore implements IAppStore {
 
 	@action
 	async initialization() {
-		let user_data = await getUserData()
-
-		await userStore.initHero(user_data)
+		await userStore.initHero()
 
 		await this.initSchools()
 
