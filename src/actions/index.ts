@@ -2,8 +2,6 @@ import { API, AUTH } from './axios'
 import { contactStore } from '@stores/implementation'
 import qs from 'qs'
 import { notification } from 'antd'
-// @ts-ignore
-import { NotificationSettings } from '../Config/Config'
 
 async function getConversations(school_id?: any, page?: number) {
 	let search: any = {
@@ -37,14 +35,14 @@ async function getConversations(school_id?: any, page?: number) {
 				error.description = Object.values(response.data.data.error_data)
 			}
 
-			notification.error(Object.assign({}, error, NotificationSettings))
+			notification.error(error)
 		}
 
 		return { data: response.data.data }
 	} catch (error) {
-		notification.error(Object.assign({}, {
+		notification.error({
 			message: error.toString() ?? 'Ошибка получения контактов'
-		}, NotificationSettings))
+		})
 
 		return { data: [] }
 	}
@@ -61,7 +59,7 @@ async function getMessages(conversationId: string, page: number, school_id: stri
 	}
 
 	try {
-		const response = await API.get(`/conversation/get-messages?${params}`)
+		const response = await API.get(`/conversation/get-messages?${ params }`)
 
 		if (response.data.error !== 0) {
 			const error: any = {
@@ -72,14 +70,14 @@ async function getMessages(conversationId: string, page: number, school_id: stri
 				error.description = Object.values(response.data.data.error_data)
 			}
 
-			notification.error(Object.assign({}, error, NotificationSettings))
+			notification.error(error)
 		}
 
 		return { messages: response.data.data }
 	} catch (error) {
-		notification.error(Object.assign({}, {
+		notification.error({
 			message: error.toString() ?? 'Ошибка получения сообщений'
-		}, NotificationSettings))
+		})
 
 		return { messages: [] }
 	}
@@ -98,14 +96,14 @@ async function sendMsgFile(formData: any) {
 				error.description = Object.values(response.data.data.error_data)
 			}
 
-			notification.error(Object.assign({}, error, NotificationSettings))
+			notification.error(error)
 		}
 
 		return { menu: response.data.data }
 	} catch (error) {
-		notification.error(Object.assign({}, {
+		notification.error({
 			message: error.toString() ?? 'Ошибка отправки медиаконтента'
-		}, NotificationSettings))
+		})
 
 		return { menu: false }
 	}
@@ -119,8 +117,6 @@ async function sendMsg(conversationId: string, message: string, conversationSour
 		message
 	}
 
-	console.log('send message 2')
-
 	try {
 		const response = await API.post(`/conversation/send-message`, body)
 
@@ -133,14 +129,14 @@ async function sendMsg(conversationId: string, message: string, conversationSour
 				error.description = Object.values(response.data.data.error_data)
 			}
 
-			notification.error(Object.assign({}, error, NotificationSettings))
+			notification.error(error)
 		}
 
 		return { menu: response.data.data }
 	} catch (error) {
-		notification.error(Object.assign({}, {
+		notification.error({
 			message: error.toString() ?? 'Ошибка отправки сообщения'
-		}, NotificationSettings))
+		})
 
 		return { menu: false }
 	}
@@ -159,14 +155,14 @@ async function getUserData() {
 				error.description = Object.values(response.data.data.error_data)
 			}
 
-			notification.error(Object.assign({}, error, NotificationSettings))
+			notification.error(error)
 		}
 
 		return response
 	} catch (error) {
-		notification.error(Object.assign({}, {
+		notification.error({
 			message: error.toString() ?? 'Ошибка получения аккаунта'
-		}, NotificationSettings))
+		})
 
 		return null
 	}
@@ -185,14 +181,14 @@ async function isLogged() {
 				error.description = Object.values(response.data.data.error_data)
 			}
 
-			notification.error(Object.assign({}, error, NotificationSettings))
+			notification.error(error)
 		}
 
 		return response
 	} catch (error) {
-		notification.error(Object.assign({}, {
+		notification.error({
 			message: error.toString() ?? 'Ошибка проверки авторизации'
-		}, NotificationSettings))
+		})
 
 		return null
 	}
@@ -215,14 +211,14 @@ async function setSession(sessionId: any) {
 				error.description = Object.values(response.data.data.error_data)
 			}
 
-			notification.error(Object.assign({}, error, NotificationSettings))
+			notification.error(error)
 		}
 
 		return response
 	} catch (error) {
-		notification.error(Object.assign({}, {
+		notification.error({
 			message: error.toString() ?? 'Ошибка установки сессии'
-		}, NotificationSettings))
+		})
 
 		return null
 	}
@@ -241,14 +237,14 @@ async function getSchools() {
 				error.description = Object.values(response.data.data.error_data)
 			}
 
-			notification.error(Object.assign({}, error, NotificationSettings))
+			notification.error(error)
 		}
 
 		return response
 	} catch (error) {
-		notification.error(Object.assign({}, {
+		notification.error({
 			message: error.toString() ?? 'Ошибка получения школ'
-		}, NotificationSettings))
+		})
 
 		return null
 	}

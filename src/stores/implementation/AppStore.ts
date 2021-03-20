@@ -2,7 +2,9 @@ import { action, observable } from 'mobx'
 import { IAppStore } from '@stores/interface'
 import { contactStore, userStore } from '@stores/implementation'
 import { getConversations, getSchools, getUserData } from '@actions'
-
+import { notification } from "antd"
+// @ts-ignore
+import { NotificationSettings } from '../../Config/Config'
 
 export class AppStore implements IAppStore {
 	@observable loaded: boolean = false
@@ -64,13 +66,19 @@ export class AppStore implements IAppStore {
 	async initialization() {
 		let u_data = await getUserData()
 		await this.initSchools()
+
 		let hero = u_data.data.data
 		await userStore.initHero(hero)
+
+		// сконфигурируем уведомления
+		notification.config(NotificationSettings)
+
 		try {
 			let run = async () => {
 				await this.updateContact()
 				setTimeout(run, 2000)
 			}
+
 			run()
 		} catch (e) {
 			throw new Error(e)
