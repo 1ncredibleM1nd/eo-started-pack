@@ -72,7 +72,7 @@ export class AppStore implements IAppStore {
 		let run = async () => {
 			await this.updateContact()
 
-			setTimeout(run, 2000)
+			setTimeout(run, 1000)
 		}
 
 		run()

@@ -2,6 +2,7 @@ import { action, computed, observable, reaction } from 'mobx'
 import { IContactStore, IContact } from '@stores/interface'
 import { chatStore, appStore } from '@stores/implementation'
 import { getConversations } from '@actions'
+import $ from 'jquery'
 
 export class ContactStore implements IContactStore {
 	@observable contact: IContact[] = []
@@ -181,7 +182,7 @@ export class ContactStore implements IContactStore {
 
 			if (this.contact.length) {
 				// Замена первых 20 контактов
-				for (let i = 0; i < 19; i++) {
+				for (let i = 0; i <= 19; i++) {
 					this.contact[i] = dataContact[i]
 				}
 			} else {

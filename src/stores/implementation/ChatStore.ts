@@ -20,7 +20,6 @@ export class ChatStore implements IChatStore {
 	readAllMsg: (id: string) => void
 	changeSocial: (social: string) => void
 
-
 	constructor() {
 		reaction(() => {
 			return this.chat
@@ -42,7 +41,6 @@ export class ChatStore implements IChatStore {
 		//Используется для деактивации, сетится чат в Init внизу
 		this.activeChat = chat
 	}
-
 
 	@action
 	async sendMessage(message: string, conversationSourceAccountId: any, school: any) {
@@ -68,7 +66,6 @@ export class ChatStore implements IChatStore {
 
 		await sendMsgFile(formData)
 	}
-
 
 	@action
 	async loadMessages(contact_id: string, pageNum?: number) {
