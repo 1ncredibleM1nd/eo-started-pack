@@ -69,7 +69,7 @@ export class ChatStore implements IChatStore {
 				break
 			}
 
-			await message_list.forEach((msg_item: any, index: number) => {
+			message_list.forEach((msg_item: any, index: number) => {
 				let avatar = msg_item.income ?
 					contactStore.getAvatar(contact_id) :
 					userStore.hero.avatar
@@ -145,6 +145,7 @@ export class ChatStore implements IChatStore {
 
 				pageArray.unshift(msg)
 			})
+
 			messages.unshift(pageArray)
 		}
 

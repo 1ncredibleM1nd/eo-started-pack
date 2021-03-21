@@ -92,6 +92,7 @@ const Inputer = inject((stores: IStores) => ({
 
 		const handleEnter = async (e: any) => {
 			e.preventDefault()
+
 			let message = draft[activeContact.id + status]
 			setDraft({ ...draft, [activeContact.id + status]: '' })
 			if (keys.alt || keys.shift || keys.ctrl) {
@@ -157,7 +158,6 @@ const Inputer = inject((stores: IStores) => ({
 			if (draft[activeContact.id + status] !== undefined && draft[activeContact.id + status] !== '') {
 				$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
 			}
-
 		}
 
 		const activeFileHandler = async (value: string, type: string) => {
@@ -198,7 +198,6 @@ const Inputer = inject((stores: IStores) => ({
 
 		setTimeout(() => inputRef.current.focus(), 100)
 
-
 		const handleFileInput = (e: any) => {
 			e.preventDefault()
 
@@ -236,8 +235,13 @@ const Inputer = inject((stores: IStores) => ({
 
 		const bytesToSize = (bytes: any) => {
 			let sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
-			if (bytes == 0) return '0 Byte'
+
+			if (bytes == 0) {
+				return '0 Byte'
+			}
+
 			let i = parseInt(String(Math.floor(Math.log(bytes) / Math.log(1024))))
+
 			// @ts-ignore
 			return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i]
 		}
@@ -246,6 +250,10 @@ const Inputer = inject((stores: IStores) => ({
 			let fileOnHoldCopy = fileOnHold.slice()
 			fileOnHoldCopy.splice(index, 1)
 			setFileOnHold(fileOnHoldCopy)
+
+			let fileToSendCopy = fileToSend.slice()
+			fileToSendCopy.splice(index, 1)
+			setFileToSend(fileToSendCopy)
 		}
 
 		const changeFileOnHold = async (index: number) => {
@@ -274,10 +282,16 @@ const Inputer = inject((stores: IStores) => ({
 		return (
 			<div className="inputer">
 				<Modal visible={fileOnHold.length > 0}
-					onCancel={() => setFileOnHold([])}
+					onCancel={() => {
+						setFileOnHold([])
+						setFileToSend([])
+					}}
 					footer={[
 						<Button key="back" className='font_size-normal' type="primary"
-							onClick={() => setFileOnHold([])}>
+							onClick={() => {
+								setFileOnHold([])
+								setFileToSend([])
+							}}>
 							Отмена
 					       </Button>,
 						<Button key="submit" className='font_size-normal' type="primary"
