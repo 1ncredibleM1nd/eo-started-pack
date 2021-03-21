@@ -24,21 +24,26 @@ export class AppStore implements IAppStore {
 	}
 
 	@action
-	setLoading(value: boolean) {
-		this.loaded = value
+	setLoading(loading: boolean) {
+		this.loaded = loading
+	}
+
+	@action
+	setSchool(school: string) {
+		this.school = school
 	}
 
 	@action
 	setSchoolId(id: string) {
-		this.loaded = false
-		this.school = id
+		this.setLoading(false)
+		this.setSchool(id)
 		contactStore.contact = []
 		this.updateContact()
 	}
 
 	@action
-	setLayout(value: string) {
-		this.layout = value
+	setLayout(layout: string) {
+		this.layout = layout
 	}
 
 	@action

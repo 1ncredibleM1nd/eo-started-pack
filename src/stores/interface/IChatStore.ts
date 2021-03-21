@@ -8,16 +8,17 @@ export default interface IChatStore {
 	activeMsg: IMsg;
 	modalWindow: string;
 	loaded: boolean;
-	activeChatPageNumber: number
-	pageLoading: boolean
+	activeChatPageNumber: number;
+	pageLoading: boolean;
 	addPageNumber: () => void;
+	setPageNumber: (number: number) => void;
+	getPageNumber: () => number;
 	updateMessages: (contact_id: string) => any;
 	loadMessages: (contact_id: string, pageNumber?: number) => void;
 	setModalWindow: (status: string) => void;
 	readAllMsg: (id: string) => void;
 	setActiveMsg: (msg: IMsg, chat_id: string) => void;
 	getUnreadCount: (id: string) => number;
-	init: (data: any) => void;
 	addMsg: (content: any, from: any, social_media: string, status: string) => void;
 	sendMessage: (message: string, conversationSourceAccountId: any, school: any, files: any) => void;
 	getMsg: (id: string, chat_id: string) => IMsg;
@@ -25,5 +26,4 @@ export default interface IChatStore {
 	changeSocial: (social: string) => void;
 	getChat: (id: string) => IChat;
 	deleteMsg: (id: string, chat_id: string) => void;
-	setActiveChat: (contact_id: string) => void;
 }

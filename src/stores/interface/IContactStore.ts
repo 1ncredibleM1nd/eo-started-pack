@@ -17,5 +17,4 @@ export default interface IContactStore {
 	setSearch: (id: string) => void;
 	setStatus: (id: string, status: string) => void;
 	init: (data: any) => void;
-
 }

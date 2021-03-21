@@ -19,8 +19,7 @@ const Search = inject((stores: IStores) => ({
 	chatStore: stores.chatStore
 }))(
 	observer((props: IProps) => {
-
-		const { contactStore, appStore, chatStore } = props
+		const { contactStore, appStore } = props
 		const [searchText, setSearchText] = useState('')
 		const [drawer, setDrawer] = useState('')
 		let school_list: any = appStore.school_list
@@ -32,9 +31,9 @@ const Search = inject((stores: IStores) => ({
 			contactStore.setSearch(value)
 		}
 
-		function handleMenuClick(school_id: any) {
-			contactStore.setActiveContact(null)
-			chatStore.init(contactStore.activeContact)
+		async function handleMenuClick(school_id: any) {
+			await contactStore.setActiveContact(null)
+
 			appStore.setLayout('chat')
 
 			appStore.setSchoolId(school_id)

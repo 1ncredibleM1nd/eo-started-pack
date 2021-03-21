@@ -42,21 +42,21 @@ const Inputer = inject((stores: IStores) => ({
 			currentChat = chatStore.activeChat
 		}
 
-
 		useEffect(() => {
 			if (currentChat && currentChat.msg.length) {
-				$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
+				setTimeout(() => {
+					$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
+				})
+
 				if (activeContact && !draft[activeContact.id + status]) $('.main_input input').val('')
 			}
 		}, [])
-
 
 		const [keys, setKeys] = useState({
 			shift: false,
 			alt: false,
 			ctrl: false
 		})
-
 
 		const handleKeyDown = (e: any) => {
 			switch (e.key) {
@@ -97,12 +97,17 @@ const Inputer = inject((stores: IStores) => ({
 			setDraft({ ...draft, [activeContact.id + status]: '' })
 			if (keys.alt || keys.shift || keys.ctrl) {
 				let text = ''
-				if (draft[activeContact.id + status]) text = draft[activeContact.id + status] + '\n'
+				if (draft[activeContact.id + status]) {
+					text = draft[activeContact.id + status] + '\n'
+				}
+
 				setDraft({ ...draft, [activeContact.id + status]: text })
 			} else {
 				if (draft[activeContact.id + status] && draft[activeContact.id + status].length) {
 					await chatStore.addMsg(message, hero.id, currentChat.activeSocial, null)
-					$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
+					setTimeout(() => {
+						$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
+					})
 					await chatStore.sendMessage(message, activeContact.conversation_source_account_id, appStore.school, fileToSend)
 					setFileOnHold([])
 					setFileToSend([])
@@ -115,7 +120,9 @@ const Inputer = inject((stores: IStores) => ({
 
 		const onChange = (name: string, value: string, event: any) => {
 			setDraft({ ...draft, [name + status]: value })
-			$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
+			setTimeout(() => {
+				$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
+			})
 		}
 
 		// const onFocusInput = () => {
@@ -156,7 +163,9 @@ const Inputer = inject((stores: IStores) => ({
 			$('.main_input input').val('')
 
 			if (draft[activeContact.id + status] !== undefined && draft[activeContact.id + status] !== '') {
-				$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
+				setTimeout(() => {
+					$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
+				})
 			}
 		}
 

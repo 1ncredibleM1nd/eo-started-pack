@@ -87,6 +87,7 @@ export class ContactStore implements IContactStore {
 			if (conversations.length === 20) {
 				setTimeout(() => {
 					appStore.setContactPageNumber(appStore.activeContactPageNumber + 1)
+
 					this.contactLoading = false
 				}, 500)
 			}
@@ -105,29 +106,35 @@ export class ContactStore implements IContactStore {
 
 	@action
 	setLastMsg(id: string, message_id: string) {
-		let contact = this.contact.find((contact_item: IContact) => contact_item.id === id)
+		let contact = this.getContact(id)
+
 		contact.setLastMsg(message_id)
 	}
 
 	@action
 	setStatus(id: string, status: string) {
-		let contact = this.contact.find((contact_item: IContact) => contact_item.id === id)
+		let contact = this.getContact(id)
+
 		contact.setStatus(status)
 	}
 
 	@action
-	setActiveContact(id: string) {
+	async setActiveContact(id: string) {
+		chatStore.setPageNumber(1)
+
 		if (id === null) {
-			chatStore.activeChatPageNumber = 1
 			this.activeContact = null
 		} else if (this.activeContact && this.activeContact.id === id) {
-			chatStore.activeChatPageNumber = 1
 			this.activeContact = null
 		} else {
-			chatStore.setActiveChat(null)
-			this.activeContact = this.contact.find(item => item.id === id)
-			chatStore.activeChatPageNumber = 1
-			chatStore.init(this.activeContact)
+			chatStore.loaded = false
+
+			await this.setActiveContact(null)
+			await chatStore.setActiveChat(null)
+
+			this.activeContact = this.contact.find(contact => contact.id === id)
+			await chatStore.setActiveChat(this.activeContact)
+			// await chatStore.init(this.activeContact)
 		}
 	}
 
@@ -155,8 +162,8 @@ export class ContactStore implements IContactStore {
 				setStatus(status: string) {
 					this.status = status
 				},
-				setLastMsg(msg_id: string) {
-					this.last_message_id = msg_id
+				setLastMsg(message_id: string) {
+					this.last_message_id = message_id
 				}
 			}
 
@@ -176,7 +183,10 @@ export class ContactStore implements IContactStore {
 				if (this.activeContact && this.activeContact.id === localContact.id) {
 					if (localContact.last_message.id !== serverContact.last_message.id) {
 						await chatStore.loadMessages(this.activeContact.id, 1)
-						$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
+
+						setTimeout(() => {
+							$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
+						})
 					}
 				}
 			}

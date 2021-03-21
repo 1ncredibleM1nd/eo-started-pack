@@ -26,7 +26,6 @@ const Chat = inject((stores: IStores) => ({
 	userStore: stores.userStore
 }))(
 	observer((props: IProps) => {
-
 		const { chatStore, contactStore } = props
 		const activeContact = contactStore.activeContact
 		// const [draft, setDraft] = useState({})
@@ -85,13 +84,15 @@ const Chat = inject((stores: IStores) => ({
 		const switcherOff = () => {
 			setSwitcher('')
 		}
+
 		const handleScroll = () => {
 			let parentPos = $('.msg_space')[0].getBoundingClientRect()
 			let childPos = $(`.page-1`)[0].getBoundingClientRect()
 			let topOfLastPage = childPos.top - parentPos.top
 			if (topOfLastPage >= -300) {
-				chatStore.loadMessages(activeContact.id, chatStore.activeChatPageNumber + 1)
+				chatStore.loadMessages(activeContact.id, chatStore.getPageNumber() + 1)
 			}
+
 			if (switcher !== 'social') {
 				switcherOff()
 			}
@@ -106,8 +107,10 @@ const Chat = inject((stores: IStores) => ({
 		}
 
 		const openHelperMenu = () => setIsOpenMnu(!isOpenMenu)
+
 		if (currentChat && !currentChat.msg && activeContact) {
-			chatStore.loadMessages(activeContact.id)
+			chatStore.loadMessages(activeContact.id, null)
+
 			return (
 				<div className="chat">
 					<div className="loading chat_loading">
@@ -116,7 +119,6 @@ const Chat = inject((stores: IStores) => ({
 				</div>
 			)
 		}
-
 
 		//render chat content
 		const renderDataTimeBlock = (time: string) => <div className="date_container">
@@ -136,30 +138,29 @@ const Chat = inject((stores: IStores) => ({
 			</Divider>
 		</div>
 
-
 		// // sms blocks in user
 		// const renderMessagesHeader = (msg: any) => <>
 		// 	{
 		// 		msg.income ? (<Fragment>
 
-		// 			{!msg.flowMsgPrev && msg.flowMsgNext && !msg.center ? (<div className="msg_header">
+		// 			{!msg.flowMessagePrevious && msg.flowMessageNext && !msg.center ? (<div className="msg_header">
 		// 				<span>{msg.username}</span>
 		// 				{/* <span className="msg-role">{msg.role ? msg.role.name : ''}</span> */}
 		// 			</div>) : ''}
 
-		// 			{!msg.flowMsgNext && !msg.flowMsgPrev ? (<div className="msg_header">
+		// 			{!msg.flowMessageNext && !msg.flowMessagePrevious ? (<div className="msg_header">
 		// 				<span>{msg.username}</span>
 		// 				{/* <span className="msg-role">{msg.role ? msg.role.name : ''}</span> */}
 		// 			</div>) : ''}
 
 		// 		</Fragment>) : (<Fragment>
 
-		// 			{!msg.flowMsgPrev && msg.flowMsgNext && !msg.center ? (<div className="msg_header">
+		// 			{!msg.flowMessagePrevious && msg.flowMessageNext && !msg.center ? (<div className="msg_header">
 		// 				<span>{hero.username}</span>
 		// 				{/* <span className="msg-role">{msg.role ? msg.role.name : ''}</span> */}
 		// 			</div>) : ''}
 
-		// 			{!msg.flowMsgNext && !msg.flowMsgPrev ? (<div className="msg_header">
+		// 			{!msg.flowMessageNext && !msg.flowMessagePrevious ? (<div className="msg_header">
 		// 				<span>{hero.username}</span>
 		// 				{/* <span className="msg-role">{msg.role ? msg.role.name : ''}</span> */}
 		// 			</div>) : ''}
@@ -169,7 +170,7 @@ const Chat = inject((stores: IStores) => ({
 		// </>
 
 		const renderMessagesWrapper = (msg: any) => <div className="message-wrapper">
-			<div className={`message-content ${msg.flowMsgNext ? 'not-main' : ''} `}>
+			<div className={`message-content ${msg.flowMessageNext ? 'not-main' : ''} `}>
 				{msg.reply ? (<div className="reply">
 					<span>
 						{msg.reply.content}
@@ -257,7 +258,8 @@ const Chat = inject((stores: IStores) => ({
 				 </div> */}
 			</div>
 		</div>
-		const renderMessagesOptions = (msg: any) => !msg.flowMsgNext ? (<div className="message-options">
+
+		const renderMessagesOptions = (msg: any) => !msg.flowMessageNext ? (<div className="message-options">
 			<div className="avatar avatar-sm">
 				<div className={`social_media_icon ${msg.social_media}`}>
 					<Icon className='icon_s' name={`social_media_${msg.social_media}`} />
@@ -301,18 +303,16 @@ const Chat = inject((stores: IStores) => ({
 			return null
 		}
 
-
 		const renderMyMessages = (msg: any) => {
 			return (<>
 				{dateDivider(msg)}
-				<div key={Math.random()} className={`message self ${msg.flowMsgNext ? 'not-main' : ''} `}>
+				<div key={Math.random()} className={`message self ${msg.flowMessageNext ? 'not-main' : ''} `}>
 					{/* {renderMessagesHeader(msg)} */}
 					{renderMessagesWrapper(msg)}
 					{renderMessagesOptions(msg)}
 				</div>
 			</>)
 		}
-
 
 		return (<div className="chat position-relative">
 			{currentChat !== undefined ? (<>
@@ -330,8 +330,6 @@ const Chat = inject((stores: IStores) => ({
 			</>)
 				: (<ChatPlaceholder />)}
 		</div>)
-
-
 	}))
 
 export default Chat
