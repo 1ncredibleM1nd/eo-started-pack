@@ -6,7 +6,7 @@ import { notification } from 'antd'
 async function getConversations(school_id?: any, page?: number) {
 	let search: any = {
 		query: contactStore.search,
-		source: Object.keys(contactStore.source).filter((key: string) => contactStore.source[key])
+		sources: Object.keys(contactStore.sources).filter((key: string) => contactStore.sources[key])
 	}
 
 	let params: any = {

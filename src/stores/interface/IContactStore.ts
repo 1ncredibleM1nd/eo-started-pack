@@ -5,7 +5,7 @@ export default interface IContactStore {
 	contact: IContact[];
 	activeContact: IContact;
 	name: string;
-	source: any;
+	sources: any;
 	search: string;
 	filterSwitch: boolean;
 	readonly availableContacts?: IContact[] | null;
