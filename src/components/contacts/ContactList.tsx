@@ -36,7 +36,9 @@ const ContactList = inject((stores: IStores) => ({
 
 			await contactStore.setActiveContact(id)
 
-			appStore.setLayout('chat')
+			if (activeContact) {
+				appStore.setLayout('chat')
+			}
 		}
 
 		const handleScroll = () => {
