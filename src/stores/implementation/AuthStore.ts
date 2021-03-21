@@ -48,6 +48,11 @@ export class AuthStore implements IAuthStore {
 	}
 
 	@action
+	checkIsFrame() {
+		this.isFrame = window.self !== window.top
+	}
+
+	@action
 	async login() {
 		if (!this.isFrame) {
 			const currentUrl = new URL(location.href)
@@ -81,9 +86,9 @@ export class AuthStore implements IAuthStore {
 	async initialize(): Promise<boolean> {
 		const currentUrl = new URL(location.href)
 
-		if (currentUrl.searchParams.has('encrypted_data')) {
-			this.isFrame = true
+		this.checkIsFrame()
 
+		if (this.isFrame) {
 			let encrypted_data = currentUrl.searchParams.get('encrypted_data')
 			let decrypted_data = atob(encrypted_data).split('_')
 
