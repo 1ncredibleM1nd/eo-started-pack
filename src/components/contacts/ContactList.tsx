@@ -32,7 +32,9 @@ const ContactList = inject((stores: IStores) => ({
 		const filterSwitch = contactStore.filterSwitch
 
 		const selectContact = async (id: any) => {
-			if (onSelect) onSelect()
+			if (onSelect) {
+				onSelect()
+			}
 			contactStore.setActiveContact(id)
 			chatStore.init(contactStore.activeContact)
 			console.log('appStore.layout', appStore.layout)

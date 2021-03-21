@@ -1,25 +1,26 @@
 import React, { useState, Fragment } from 'react'
 import { inject, observer } from 'mobx-react'
-import IStores, { IAppStore, IContactStore } from '@stores/interface'
+import IStores, { IAppStore, IChatStore, IContactStore } from '@stores/interface'
 import { Input, Switch, Collapse, Button, Drawer, Select } from 'antd'
 import Settings from './comp/Settings'
 import AllContacts from './comp/AllContacts'
 import './Search.scss'
 import { Icon } from '@ui'
 
-
 type IProps = {
 	contactStore?: IContactStore,
-	appStore?: IAppStore
+	appStore?: IAppStore,
+	chatStore?: IChatStore
 }
 
 const Search = inject((stores: IStores) => ({
 	contactStore: stores.contactStore,
-	appStore: stores.appStore
+	appStore: stores.appStore,
+	chatStore: stores.chatStore
 }))(
 	observer((props: IProps) => {
 
-		const { contactStore, appStore } = props
+		const { contactStore, appStore, chatStore } = props
 		const [searchText, setSearchText] = useState('')
 		const [drawer, setDrawer] = useState('')
 		let school_list: any = appStore.school_list
@@ -31,8 +32,12 @@ const Search = inject((stores: IStores) => ({
 			contactStore.setSearch(value)
 		}
 
-		function handleMenuClick(v: any) {
-			appStore.setSchoolId(v)
+		function handleMenuClick(school_id: any) {
+			contactStore.setActiveContact(null)
+			chatStore.init(contactStore.activeContact)
+			appStore.setLayout('chat')
+
+			appStore.setSchoolId(school_id)
 		}
 
 
