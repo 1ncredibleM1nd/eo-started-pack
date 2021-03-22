@@ -72,13 +72,13 @@ export class AppStore implements IAppStore {
 		// сконфигурируем уведомления
 		notification.config(NotificationSettings)
 
-		let run = async () => {
-			await this.updateContact()
+		this.runUpdateContact()
+	}
 
-			setTimeout(run, 1000)
-		}
+	async runUpdateContact() {
+		await this.updateContact()
 
-		run()
+		setTimeout(() => this.runUpdateContact(), 1000)
 	}
 }
 

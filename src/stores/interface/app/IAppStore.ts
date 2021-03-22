@@ -10,4 +10,5 @@ export default interface IAppStore {
 	setLoading: (loading: boolean) => void;
 	setSchoolId: (id: string) => void;
 	initialization: () => void;
+	runUpdateContact: () => void;
 }

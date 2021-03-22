@@ -10,7 +10,10 @@ type IProps = {
     authStore?: IAuthStore
 }
 
-const App = inject((stores: IStores) => ({ appStore: stores.appStore, authStore: stores.authStore }))(
+const App = inject((stores: IStores) => ({
+    appStore: stores.appStore,
+    authStore: stores.authStore
+}))(
     observer((props: IProps) => {
         const { appStore, authStore } = props
 
@@ -27,7 +30,9 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore, authStore:
 
         // Check auth when changing browser tabs
         document.addEventListener('visibilitychange', async () => {
-            await authStore.login()
+            if (document.visibilityState === 'visible') {
+                await authStore.login()
+            }
         })
 
         return (
