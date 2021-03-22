@@ -42,6 +42,11 @@ export class ChatStore implements IChatStore {
 	}
 
 	@action
+	setPageLoading(pageLoading: boolean) {
+		this.pageLoading = pageLoading
+	}
+
+	@action
 	async sendMessage(message: string, conversationSourceAccountId: any, school: any, files: any) {
 		await sendMessage(this.activeChat.id, message, conversationSourceAccountId, school, files)
 	}
@@ -57,7 +62,7 @@ export class ChatStore implements IChatStore {
 		}
 
 		let messages: IMsg[][] = []
-		this.pageLoading = true
+		this.setPageLoading(true)
 
 		for (let i = 1; i <= pageNum; i++) {
 			const pageArray: IMsg[] = []
@@ -94,9 +99,9 @@ export class ChatStore implements IChatStore {
 				this.addPageNumber()
 			}
 
-			this.pageLoading = false
+			this.setPageLoading(false)
 		} else {
-			this.pageLoading = false
+			this.setPageLoading(false)
 
 			return messages
 		}
@@ -131,14 +136,15 @@ export class ChatStore implements IChatStore {
 
 	@action
 	getLastMsg(id: string): any {
-		let chat = this.chat.find((chat_item: IChat) => chat_item.contact_id === id)
+		let chat = this.getChat_contactId(id)
+
 		return chat.msg[chat.msg.length - 1]
 	}
 
 	@action
 	getUnreadCount(id: string): number {
 		let unreadedCount = 0
-		let chat = this.chat.find((chat_item: IChat) => chat_item.contact_id === id)
+		let chat = this.getChat_contactId(id)
 		let counting = true
 		for (let i = chat.msg.length; i >= 0; i--) {
 			let page = chat.msg[i]
