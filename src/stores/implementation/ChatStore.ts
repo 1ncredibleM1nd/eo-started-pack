@@ -53,10 +53,6 @@ export class ChatStore implements IChatStore {
 
 	@action
 	async loadMessages(contact_id: string, pageNum?: number) {
-		// Сообщения грузятся по страницам. ТО есть у первой страницы будет контейнер page-1, у второй page-2
-		// В страницах находятся сообщения
-		// Сделано это для того чтобы можно было легко обновлять первую страницу и заменять ее
-
 		if (this.pageLoading) {
 			return null
 		}
@@ -64,6 +60,7 @@ export class ChatStore implements IChatStore {
 		let messages: IMsg[][] = []
 		this.setPageLoading(true)
 
+		// загружаем пачки сообщений постранично
 		for (let i = 1; i <= pageNum; i++) {
 			const pageArray: IMsg[] = []
 
@@ -73,6 +70,7 @@ export class ChatStore implements IChatStore {
 				break
 			}
 
+			// обработка пачки сообщений
 			for (let j = 0; j < message_list.length; j++) {
 				const message = this.collectMessage({
 					previous: message_list[j - 1],
@@ -86,13 +84,14 @@ export class ChatStore implements IChatStore {
 			messages.unshift(pageArray)
 		}
 
+		// если находимся в чате
 		if (this.activeChat && this.activeChat.msg) {
-			this.activeChat.msg = messages
+			this.activeChat.setMessages(messages)
 
 			if (document.querySelector(`.page-${ this.getPageNumber() }`)) {
 				if (this.activeChat.msg[0].length > 29) {
 					setTimeout(() => {
-						$('.msg_space').animate({ scrollTop: Number($(`.page-1`).height()) }, 0)
+						$('.msg_space').animate({ scrollTop: $(`.page-1`).height() }, 0)
 					})
 				}
 
@@ -287,11 +286,12 @@ export class ChatStore implements IChatStore {
 	}
 
 	async collectChat(contact: any) {
-		const chat: any = {
+		const chat: IChat = {
 			contact_id: contact.id,
 			id: contact.id,
 			activeSocial: contact.last_message.social_media,
 			role: [],
+			msg: [],
 			user: contact.user,
 			active_msg: null,
 			setActiveMsg(message: IMsg) {

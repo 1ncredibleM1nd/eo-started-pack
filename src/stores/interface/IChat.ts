@@ -11,4 +11,5 @@ export default interface IChat {
     activeSocial: string;
     setActiveMsg: (msg: IMsg) => void;
     changeSocial: (social: string) => void;
+    setMessages: (messages: IMsg[][]) => void;
 }
