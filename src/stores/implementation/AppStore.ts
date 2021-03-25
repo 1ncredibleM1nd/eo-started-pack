@@ -1,8 +1,10 @@
 import { action, observable } from 'mobx'
 import { IAppStore } from '@stores/interface'
 import { contactStore, userStore } from '@stores/implementation'
-import { getConversations, getSchools, getUserData } from '@actions'
-
+import { getConversations, getSchools } from '@actions'
+import { notification } from "antd"
+// @ts-ignore
+import { NotificationSettings } from '../../Config/Config'
 
 export class AppStore implements IAppStore {
 	@observable loaded: boolean = false
@@ -11,7 +13,6 @@ export class AppStore implements IAppStore {
 	@observable school: any = ''
 	@observable school_list: any = []
 	activeContactPageNumber: number = 1
-
 
 	@action
 	setInfoTab(tab: string) {
@@ -23,21 +24,26 @@ export class AppStore implements IAppStore {
 	}
 
 	@action
-	setLoading(value: boolean) {
-		this.loaded = value
+	setLoading(loading: boolean) {
+		this.loaded = loading
+	}
+
+	@action
+	setSchool(school: string) {
+		this.school = school
 	}
 
 	@action
 	setSchoolId(id: string) {
-		this.loaded = false
-		this.school = id
+		this.setLoading(false)
+		this.setSchool(id)
 		contactStore.contact = []
 		this.updateContact()
 	}
 
 	@action
-	setLayout(value: string) {
-		this.layout = value
+	setLayout(layout: string) {
+		this.layout = layout
 	}
 
 	@action
@@ -47,40 +53,33 @@ export class AppStore implements IAppStore {
 
 	@action
 	async initSchools() {
-		let school_res = await getSchools()
-		this.school_list = school_res.data.data
-		let paramsString = document.location.search
-		let searchParams = new URLSearchParams(paramsString)
-		this.school = searchParams.get('school') ? searchParams.get('school') : this.school
+		this.school_list = await getSchools()
 	}
 
 	@action
 	async updateContact() {
-		let conversations = await getConversations(this.school, 1)
-		await contactStore.init(conversations.data)
+		const conversation_list = await getConversations(this.school, 1)
+
+		await contactStore.init(conversation_list)
 	}
 
 	@action
 	async initialization() {
-		let u_data = await getUserData()
-		await this.initSchools()
-		let hero = u_data.data.data
-		await userStore.initHero(hero)
-		try {
-			let run = async () => {
-				try {
-					await this.updateContact()
-					setTimeout(run, 2000)
-				} catch (error) {
-					console.error(error)
-				}
-			}
-			run()
-		} catch (e) {
-			throw new Error(e)
-		}
-	};
+		await userStore.initHero()
 
+		await this.initSchools()
+
+		// сконфигурируем уведомления
+		notification.config(NotificationSettings)
+
+		this.runUpdateContact()
+	}
+
+	async runUpdateContact() {
+		await this.updateContact()
+
+		setTimeout(() => this.runUpdateContact(), 1000)
+	}
 }
 
 export const appStore = new AppStore()

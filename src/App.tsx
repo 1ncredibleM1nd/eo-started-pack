@@ -10,24 +10,30 @@ type IProps = {
     authStore?: IAuthStore
 }
 
-const App = inject((stores: IStores) => ({ appStore: stores.appStore, authStore: stores.authStore }))(
+const App = inject((stores: IStores) => ({
+    appStore: stores.appStore,
+    authStore: stores.authStore
+}))(
     observer((props: IProps) => {
-        const { appStore, authStore } = props;
-        useEffect(() => {
+        const { appStore, authStore } = props
 
+        useEffect(() => {
             async function init() {
-                console.log('Init')
-                let res = await authStore.initialize()
-                if (res) appStore.initialization();
+                let response = await authStore.initialize()
+                if (response) {
+                    appStore.initialization()
+                }
             }
 
-            init();
-        }, []);
+            init()
+        }, [])
 
         // Check auth when changing browser tabs
-        // document.addEventListener('visibilitychange', async () => {
-        //     await authStore.login()
-        // })
+        document.addEventListener('visibilitychange', async () => {
+            if (document.visibilityState === 'visible') {
+                await authStore.login()
+            }
+        })
 
         return (
             <Layout>
@@ -40,7 +46,7 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore, authStore:
                     </div>
                 </Layout>
             </Layout>
-        );
-    }));
+        )
+    }))
 
-export default App;
+export default App

@@ -42,21 +42,21 @@ const Inputer = inject((stores: IStores) => ({
 			currentChat = chatStore.activeChat
 		}
 
-
 		useEffect(() => {
 			if (currentChat && currentChat.msg.length) {
-				$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
+				setTimeout(() => {
+					$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
+				})
+
 				if (activeContact && !draft[activeContact.id + status]) $('.main_input input').val('')
 			}
 		}, [])
-
 
 		const [keys, setKeys] = useState({
 			shift: false,
 			alt: false,
 			ctrl: false
 		})
-
 
 		const handleKeyDown = (e: any) => {
 			switch (e.key) {
@@ -92,22 +92,26 @@ const Inputer = inject((stores: IStores) => ({
 
 		const handleEnter = async (e: any) => {
 			e.preventDefault()
+
 			let message = draft[activeContact.id + status]
 			setDraft({ ...draft, [activeContact.id + status]: '' })
 			if (keys.alt || keys.shift || keys.ctrl) {
 				let text = ''
-				if (draft[activeContact.id + status]) text = draft[activeContact.id + status] + '\n'
+				if (draft[activeContact.id + status]) {
+					text = draft[activeContact.id + status] + '\n'
+				}
+
 				setDraft({ ...draft, [activeContact.id + status]: text })
 			} else {
 				if (draft[activeContact.id + status] && draft[activeContact.id + status].length) {
 					await chatStore.addMsg(message, hero.id, currentChat.activeSocial, null)
-					$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
-					await chatStore.sendMessage(message, activeContact.conversation_source_account_id, appStore.school)
+					setTimeout(() => {
+						$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
+					})
+					await chatStore.sendMessage(message, activeContact.conversation_source_account_id, appStore.school, fileToSend)
+					setFileOnHold([])
+					setFileToSend([])
 					await chatStore.loadMessages(activeContact.id, 1)
-					// sendMsg(currentChat.id, draft[activeContact.id + status],
-					// 	activeContact.conversation_source_account_id, appStore.school)
-					// sendMsg(currentChat.id,
-					// 	draft[activeContact.id + status])
 				}
 				setDraft({ ...draft, [activeContact.id + status]: '' })
 			}
@@ -116,20 +120,14 @@ const Inputer = inject((stores: IStores) => ({
 
 		const onChange = (name: string, value: string, event: any) => {
 			setDraft({ ...draft, [name + status]: value })
-			$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
+			setTimeout(() => {
+				$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
+			})
 		}
 
 		// const onFocusInput = () => {
 		// 	chatStore.readAllMsg(currentChat.id)
 		// }
-
-		const onSendFile = async () => {
-			await chatStore.addMsg(fileOnHold, hero.id, currentChat.activeSocial, null)
-			await chatStore.sendMessageFile(fileToSend, activeContact.conversation_source_account_id, appStore.school)
-			// await chatStore.loadMessages(activeContact.id, 1)
-			setFileOnHold([])
-			setFileToSend([])
-		}
 
 		const onSend = async () => {
 			let message = draft[activeContact.id + status]
@@ -138,7 +136,7 @@ const Inputer = inject((stores: IStores) => ({
 				case 'default':
 					if (draft[activeContact.id + status] && draft[activeContact.id + status].length) {
 						await chatStore.addMsg(draft[activeContact.id + status], hero.id, currentChat.activeSocial, null)
-						await chatStore.sendMessage(draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.school)
+						await chatStore.sendMessage(draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.school, fileToSend)
 						await chatStore.loadMessages(activeContact.id, 1)
 						//sendMsg(currentChat.id, draft[activeContact.id + status],
 						// activeContact.conversation_source_account_id, appStore.school) sendMsg(currentChat.id,
@@ -165,9 +163,10 @@ const Inputer = inject((stores: IStores) => ({
 			$('.main_input input').val('')
 
 			if (draft[activeContact.id + status] !== undefined && draft[activeContact.id + status] !== '') {
-				$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
+				setTimeout(() => {
+					$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
+				})
 			}
-
 		}
 
 		const activeFileHandler = async (value: string, type: string) => {
@@ -208,7 +207,6 @@ const Inputer = inject((stores: IStores) => ({
 
 		setTimeout(() => inputRef.current.focus(), 100)
 
-
 		const handleFileInput = (e: any) => {
 			e.preventDefault()
 
@@ -246,8 +244,13 @@ const Inputer = inject((stores: IStores) => ({
 
 		const bytesToSize = (bytes: any) => {
 			let sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
-			if (bytes == 0) return '0 Byte'
+
+			if (bytes == 0) {
+				return '0 Byte'
+			}
+
 			let i = parseInt(String(Math.floor(Math.log(bytes) / Math.log(1024))))
+
 			// @ts-ignore
 			return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i]
 		}
@@ -256,6 +259,10 @@ const Inputer = inject((stores: IStores) => ({
 			let fileOnHoldCopy = fileOnHold.slice()
 			fileOnHoldCopy.splice(index, 1)
 			setFileOnHold(fileOnHoldCopy)
+
+			let fileToSendCopy = fileToSend.slice()
+			fileToSendCopy.splice(index, 1)
+			setFileToSend(fileToSendCopy)
 		}
 
 		const changeFileOnHold = async (index: number) => {
@@ -284,14 +291,20 @@ const Inputer = inject((stores: IStores) => ({
 		return (
 			<div className="inputer">
 				<Modal visible={fileOnHold.length > 0}
-					onCancel={() => setFileOnHold([])}
+					onCancel={() => {
+						setFileOnHold([])
+						setFileToSend([])
+					}}
 					footer={[
 						<Button key="back" className='font_size-normal' type="primary"
-							onClick={() => setFileOnHold([])}>
+							onClick={() => {
+								setFileOnHold([])
+								setFileToSend([])
+							}}>
 							Отмена
 					       </Button>,
 						<Button key="submit" className='font_size-normal' type="primary"
-							onClick={() => onSendFile()}>
+							onClick={ handleEnter }>
 							Отправить
 					       </Button>
 					]}

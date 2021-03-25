@@ -8,8 +8,6 @@ type IProps = {}
 
 const ChatLayout = inject((stores: IStores) => ({}))(
     observer((props: IProps) => {
-
-
         return (
             <div className="chat_layout">
                 <Header/>

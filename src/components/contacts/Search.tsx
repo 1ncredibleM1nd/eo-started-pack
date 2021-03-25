@@ -1,29 +1,29 @@
 import React, { useState, Fragment } from 'react'
 import { inject, observer } from 'mobx-react'
-import IStores, { IAppStore, IContactStore } from '@stores/interface'
+import IStores, { IAppStore, IChatStore, IContactStore } from '@stores/interface'
 import { Input, Switch, Collapse, Button, Drawer, Select } from 'antd'
 import Settings from './comp/Settings'
 import AllContacts from './comp/AllContacts'
 import './Search.scss'
 import { Icon } from '@ui'
 
-
 type IProps = {
 	contactStore?: IContactStore,
-	appStore?: IAppStore
+	appStore?: IAppStore,
+	chatStore?: IChatStore
 }
 
 const Search = inject((stores: IStores) => ({
 	contactStore: stores.contactStore,
-	appStore: stores.appStore
+	appStore: stores.appStore,
+	chatStore: stores.chatStore
 }))(
 	observer((props: IProps) => {
-
 		const { contactStore, appStore } = props
 		const [searchText, setSearchText] = useState('')
 		const [drawer, setDrawer] = useState('')
 		let school_list: any = appStore.school_list
-		const socials = contactStore.source
+		const sources = contactStore.sources
 		const switcher = contactStore.filterSwitch
 
 		const onChange = (value: string) => {
@@ -31,8 +31,12 @@ const Search = inject((stores: IStores) => ({
 			contactStore.setSearch(value)
 		}
 
-		function handleMenuClick(v: any) {
-			appStore.setSchoolId(v)
+		async function handleMenuClick(school_id: any) {
+			await contactStore.setActiveContact(null)
+
+			appStore.setLayout('chat')
+
+			appStore.setSchoolId(school_id)
 		}
 
 
@@ -145,42 +149,42 @@ const Search = inject((stores: IStores) => ({
 							<div className='channel-container'>
 								<div className='channel-item'>
 									<Icon name='social_media_telegram' className='icon_s' />
-									<Switch size="small" defaultChecked={socials['telegram']}
+									<Switch size="small" defaultChecked={sources['telegram']}
 										onChange={() => onChangeSocial('telegram')} />
 								</div>
 								<div className='channel-item'>
 									<Icon name='social_media_vkontakte' className='icon_s' />
-									<Switch size="small" defaultChecked={socials['vkontakte']}
+									<Switch size="small" defaultChecked={sources['vkontakte']}
 										onChange={() => onChangeSocial('vkontakte')} />
 								</div>
 								<div className='channel-item'>
 									<Icon name='social_media_odnoklassniki' className='icon_s' />
-									<Switch size="small" defaultChecked={socials['odnoklassniki']}
+									<Switch size="small" defaultChecked={sources['odnoklassniki']}
 										onChange={() => onChangeSocial('odnoklassniki')} />
 								</div>
 								{/* <div className='channel-item'>
 									<Icon name='social_media_whatsapp' className='icon_s' />
-									<Switch disabled={true} size="small" defaultChecked={socials['whatsapp']}
+									<Switch disabled={true} size="small" defaultChecked={sources['whatsapp']}
 										onChange={() => onChangeSocial('whatsapp')} />
 								</div>
 								<div className='channel-item'>
 									<Icon name='social_media_viber' className='icon_s' />
-									<Switch disabled={true} size="small" defaultChecked={socials['viber']}
+									<Switch disabled={true} size="small" defaultChecked={sources['viber']}
 										onChange={() => onChangeSocial('viber')} />
 								</div>
 								<div className='channel-item'>
 									<Icon name='social_media_facebook' className='icon_s' />
-									<Switch disabled={true} size="small" defaultChecked={socials['facebook']}
+									<Switch disabled={true} size="small" defaultChecked={sources['facebook']}
 										onChange={() => onChangeSocial('facebook')} />
 								</div>
 								<div className='channel-item'>
 									<Icon name='social_media_instagram' className='icon_s' />
-									<Switch disabled={true} size="small" defaultChecked={socials['instagram']}
+									<Switch disabled={true} size="small" defaultChecked={sources['instagram']}
 										onChange={() => onChangeSocial('instagram')} />
 								</div>
 								<div className='channel-item'>
 									<Icon name='social_media_email' className='icon_s' />
-									<Switch disabled={true} size="small" defaultChecked={socials['email']}
+									<Switch disabled={true} size="small" defaultChecked={sources['email']}
 										onChange={() => onChangeSocial('email')} />
 								</div> */}
 							</div>

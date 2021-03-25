@@ -1,23 +1,21 @@
 import { action, observable, reaction } from 'mobx'
 import { IUserStore, IUser } from '@stores/interface'
+import {getUserData} from "@actions";
 
 export class UserStore implements IUserStore {
 	@observable hero: IUser
-	@observable avaliableUsers: IUser[] = []
+	@observable availableUsers: IUser[] = []
 
 	constructor() {
 		reaction(() => {
-			return this.avaliableUsers
-		}, () => {
-
-		})
+			return this.availableUsers
+		}, () => {})
 	}
 
 	@action
-	async initHero(data: any) {
-		this.hero = data
-	};
-
+	async initHero() {
+		this.hero = await getUserData()
+	}
 }
 
 export const userStore = new UserStore()

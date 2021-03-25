@@ -6,7 +6,6 @@ import HashLoader from 'react-spinners/HashLoader'
 import './ContactList.scss'
 import './Contact.scss'
 import { Icon } from '@ui'
-import $ from 'jquery'
 import moment from 'moment'
 
 type IProps = {
@@ -25,23 +24,26 @@ const ContactList = inject((stores: IStores) => ({
 	appStore: stores.appStore
 }))(
 	observer((props: IProps) => {
-		const { contactStore, chatStore, appStore, onSelect, userStore } = props
+		const { contactStore, chatStore, appStore, onSelect } = props
 		let ContactsData = contactStore.contact
 		let activeContact = contactStore.activeContact
-		const hero = userStore.hero
 		const filterSwitch = contactStore.filterSwitch
 
 		const selectContact = async (id: any) => {
-			if (onSelect) onSelect()
-			contactStore.setActiveContact(id)
-			chatStore.init(contactStore.activeContact)
-			console.log('appStore.layout', appStore.layout)
-			appStore.setLayout('chat')
+			if (onSelect) {
+				onSelect()
+			}
+
+			await contactStore.setActiveContact(id)
+
+			if (activeContact) {
+				appStore.setLayout('chat')
+			}
 		}
 
 		const handleScroll = () => {
-			let parentPos = $('#chatContactsList')[0].getBoundingClientRect()
-			let childPos = $(`.contact-item-${ContactsData.length - 1}`)[0].getBoundingClientRect()
+			let parentPos = document.querySelector('#chatContactsList').getBoundingClientRect()
+			let childPos = document.querySelector(`.contact-item-${ContactsData.length - 1}`).getBoundingClientRect()
 			let topOfLastContact = childPos.bottom - parentPos.bottom
 
 			if (topOfLastContact <= 10) {
@@ -54,7 +56,6 @@ const ContactList = inject((stores: IStores) => ({
 				<HashLoader color='#3498db' size={50} />
 			</div>
 		}
-
 
 		const contactTime = (date: any, time: any) => {
 			let now = moment(new Date());
@@ -70,8 +71,6 @@ const ContactList = inject((stores: IStores) => ({
 			)
 		}
 
-
-
 		return (
 			<div className={`menu_list ${filterSwitch ? 'active' : ''}`} >
 				<div className="tab-content">
@@ -84,18 +83,22 @@ const ContactList = inject((stores: IStores) => ({
 									data-chat-list=""
 								>
 									{ContactsData.map((contact: any, index: number) => {
-										if (!contact) return null
+										if (!contact) {
+											return null
+										}
+
 										const last_message = contact.last_message
 										let online = contact.online
-										let user, status: any
+
+										let status: any
 										if (last_message) {
-											user = contact.user.find((id: any) => id === last_message.from)
 											status = contact.status
 										}
-										let unreadedCount = 0
-										if (user && hero.id === user.id) user = undefined
-										if (status === 'unread') unreadedCount = chatStore.getUnreadCount(contact.id)
 
+										let unreadedCount = 0
+										if (status === 'unread') {
+											unreadedCount = chatStore.getUnreadCount(contact.id)
+										}
 
 										return (
 											<li onClick={() => selectContact(contact.id)}

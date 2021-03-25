@@ -1,13 +1,12 @@
-import { action, observable, reaction } from 'mobx'
-import { IChat, IChatStore, IMsg } from '@stores/interface'
-import { contactStore, appStore, userStore } from '@stores/implementation'
-import {getMessages, sendMsg, sendMsgFile} from '@actions'
+import {action, observable, reaction} from 'mobx'
+import {IChat, IChatStore, IMsg} from '@stores/interface'
+import {appStore, contactStore, userStore} from '@stores/implementation'
+import {getMessages, sendMessage} from '@actions'
 import moment from 'moment'
 import 'moment/locale/ru'
-
-moment.locale('ru')
 import $ from 'jquery'
 
+moment.locale('ru')
 
 export class ChatStore implements IChatStore {
 	chat: IChat[] = []
@@ -21,14 +20,10 @@ export class ChatStore implements IChatStore {
 	readAllMsg: (id: string) => void
 	changeSocial: (social: string) => void
 
-
 	constructor() {
 		reaction(() => {
 			return this.chat
-		}, () => {
-			if (true) {
-			}
-		})
+		}, () => {})
 	}
 
 	@action
@@ -42,143 +37,76 @@ export class ChatStore implements IChatStore {
 	}
 
 	@action
-	setActiveChat(chat: any) {
-		//Используется для деактивации, сетится чат в Init внизу
-		this.activeChat = chat
-	}
-
-
-	@action
-	async sendMessage(message: string, conversationSourceAccountId: any, school: any) {
-		await sendMsg(this.activeChat.id, message, conversationSourceAccountId, school)
+	getPageNumber() {
+		return this.activeChatPageNumber
 	}
 
 	@action
-	async sendMessageFile(files: any, conversationSourceAccountId: any, school: any) {
-		console.log(files)
-		const formData = new FormData()
-		for (let i = 0; i < files.length; i++) {
-			formData.append(`files[]`, files[i], files[i].name)
-		}
-		formData.append('message', 'empty description')
-		formData.append('conversationSourceAccountId', conversationSourceAccountId)
-		if (school) {
-			formData.append('schoolId', school)
-		}
-		formData.append('conversationId', this.activeChat.id)
-
-		await sendMsgFile(formData)
+	setPageLoading(pageLoading: boolean) {
+		this.pageLoading = pageLoading
 	}
 
+	@action
+	async sendMessage(message: string, conversationSourceAccountId: any, school: any, files: any) {
+		await sendMessage(this.activeChat.id, message, conversationSourceAccountId, school, files)
+	}
 
 	@action
 	async loadMessages(contact_id: string, pageNum?: number) {
-		// Сообщения грузятся по страницам. ТО есть у первой страницы будет контейнер page-1, у второй page-2
-		// В страницах находятся сообщения
-		// Сделано это для того чтобы можно было легко обновлять первую страницу и заменять ее
+		if (this.pageLoading) {
+			return null
+		}
 
-		if (this.pageLoading) return null
 		let messages: IMsg[][] = []
-		this.pageLoading = true
+		this.setPageLoading(true)
 
+		// загружаем пачки сообщений постранично
 		for (let i = 1; i <= pageNum; i++) {
 			const pageArray: IMsg[] = []
-			let pageContent = await getMessages(contact_id, i, appStore.school)
-			if (pageContent.messages.length === 0) break
 
-			await pageContent.messages.forEach((msg_item: any, index: number) => {
-				let avatar = msg_item.income ? contactStore.getAvatar(contact_id) : userStore.hero.avatar
-				// let role = chat.role.find((role: any) => role.id === msg.from)
-				let userId = msg_item.from
-				let prevMsg, nextMsg: any
-				let prevTimeDiff, nextTimeDiff: any
-				let flowMsgNext = false
-				let flowMsgPrev = false
-				let center = false
-				let prevRead, time_scope: any = null
-				let username: string
-				let type = 'message'
+			let message_list = await getMessages(contact_id, i, appStore.school)
 
-				if (contactStore.activeContact.user.find((u: any) => u == msg_item.from)) {
-					username = contactStore.activeContact.name
-				}
+			if (message_list.length === 0) {
+				break
+			}
 
+			// обработка пачки сообщений
+			for (let j = 0; j < message_list.length; j++) {
+				const message = this.collectMessage({
+					previous: message_list[j - 1],
+					current: message_list[j],
+					next: message_list[j + 1]
+				}, contact_id)
 
-				if (pageContent.messages[index - 1]) {
-					prevMsg = pageContent.messages[index - 1]
-					prevRead = prevMsg.readed
-					let currentTime = moment(msg_item.time, 'HH:mm')
-					let prevTime = moment(prevMsg.time, 'HH:mm')
-					prevTimeDiff = prevTime.diff(currentTime, 'minutes')
-				}
+				pageArray.unshift(message)
+			}
 
-				if (pageContent.messages[index + 1]) {
-					nextMsg = pageContent.messages[index + 1]
-					let currentTime = moment(msg_item.time, 'HH:mm')
-					let nextTime = moment(nextMsg.time, 'HH:mm')
-					nextTimeDiff = currentTime.diff(nextTime, 'minutes')
-				}
-
-				if (prevMsg && prevMsg.date !== msg_item.date) {
-					time_scope = msg_item.date
-				} else {
-					time_scope = null
-				}
-
-				if (prevMsg && prevMsg.income === msg_item.income && prevMsg.from === userId && prevTimeDiff < 3) flowMsgNext = true
-				if (nextMsg && nextMsg.income === msg_item.income && nextMsg.from === userId && nextTimeDiff < 3) flowMsgPrev = true
-				if (flowMsgNext && flowMsgPrev) center = true
-
-				const msg = {
-					time_scope,
-					prevRead,
-					flowMsgNext,
-					flowMsgPrev,
-					center,
-					avatar,
-					username,
-					type,
-					...msg_item,
-					readMsg() {
-						this.readed = true
-					},
-					addSmile(smile: any) {
-						this.smiles.push(smile)
-					},
-					editMsg(value: string) {
-						this.content = value
-						this.editted = true
-					}
-				}
-				//console.log(msg.content, msg)
-				pageArray.unshift(msg)
-			})
 			messages.unshift(pageArray)
 		}
 
+		// если находимся в чате
 		if (this.activeChat && this.activeChat.msg) {
-			this.activeChat.msg = messages
-			localStorage.setItem(contact_id + '_chat', JSON.stringify(this.activeChat))
+			this.activeChat.setMessages(messages)
 
-			if ($(`.page-${this.activeChatPageNumber}`)) {
+			if (document.querySelector(`.page-${ this.getPageNumber() }`)) {
 				if (this.activeChat.msg[0].length > 29) {
-					$('.msg_space').animate({ scrollTop: $(`.page-1`).height() + 0 }, 0)
+					setTimeout(() => {
+						$('.msg_space').animate({ scrollTop: $(`.page-1`).height() }, 0)
+					})
 				}
 
-				setTimeout(() => {
-					this.pageLoading = false
-					this.addPageNumber()
-				}, 500)
+				this.addPageNumber()
 			}
 
+			this.setPageLoading(false)
 		} else {
-			this.pageLoading = false
+			this.setPageLoading(false)
+
 			return messages
 		}
 
 		return null
 	}
-
 
 	@action
 	getMsg(id: string, chat_id: string): IMsg {
@@ -189,7 +117,6 @@ export class ChatStore implements IChatStore {
 		}
 		return null
 	}
-
 
 	@action
 	getChat_contactId(contact_id: string): IChat {
@@ -208,14 +135,15 @@ export class ChatStore implements IChatStore {
 
 	@action
 	getLastMsg(id: string): any {
-		let chat = this.chat.find((chat_item: IChat) => chat_item.contact_id === id)
+		let chat = this.getChat_contactId(id)
+
 		return chat.msg[chat.msg.length - 1]
 	}
 
 	@action
 	getUnreadCount(id: string): number {
 		let unreadedCount = 0
-		let chat = this.chat.find((chat_item: IChat) => chat_item.contact_id === id)
+		let chat = this.getChat_contactId(id)
 		let counting = true
 		for (let i = chat.msg.length; i >= 0; i--) {
 			let page = chat.msg[i]
@@ -252,7 +180,6 @@ export class ChatStore implements IChatStore {
 
 			let time_scope: any = null
 
-
 			let currentTime = moment(time, 'HH:mm')
 			let prevTime = moment(prevMsg.time, 'HH:mm')
 			let prevTimeDiff = currentTime.diff(prevTime, 'minutes')
@@ -280,7 +207,6 @@ export class ChatStore implements IChatStore {
 				from: from,
 				social_media: social_media,
 				content: content,
-
 				read: false,
 				smiles: [],
 				reply: reply,
@@ -297,34 +223,35 @@ export class ChatStore implements IChatStore {
 					this.edited = true
 				}
 			}
+
 			this.activeChat.msg[0].push(msg)
-			$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
-			setTimeout(() => $('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0), 100)
+			setTimeout(() => {
+				$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
+			})
 		}
 	}
 
-
 	@action
 	deleteMsg(id: string, chat_id: string) {
-		for (let index = 0; index < this.chat.length; index++) {
-			let chat = this.chat[index]
+		for (let i = 0; i < this.chat.length; i++) {
+			let chat = this.chat[i]
 
 			if (chat.id === chat_id) {
 				chat.msg = chat.msg.filter((msg: any) => msg.id !== id)
 			}
-			this.chat[index] = chat
+
+			this.chat[i] = chat
 		}
 	}
 
 	@action
-	setActiveMsg(msg: IMsg, chat_id: string) {
-		if (msg) {
-			let chat = this.chat.find((chat_item: IChat) => chat_item.id === chat_id)
-			this.activeMsg = msg
-			chat.setActiveMsg(msg)
+	setActiveMsg(message: IMsg, chat_id: string) {
+		let chat = this.chat.find((chat_item: IChat) => chat_item.id === chat_id)
 
+		if (message) {
+			this.activeMsg = message
+			chat.setActiveMsg(message)
 		} else {
-			let chat = this.chat.find((chat_item: IChat) => chat_item.id === chat_id)
 			this.activeMsg = null
 			chat.setActiveMsg(null)
 		}
@@ -344,51 +271,133 @@ export class ChatStore implements IChatStore {
 	//     contactStore.setStatus(chat.contact_id, 'readed')
 	// }
 
+	async setActiveChat(contact: any) {
+		if (!!contact) {
+			this.activeChat = await this.collectChat(contact)
 
-	@action
-	async init(activeContact: any): Promise<any> {
-		if (activeContact) {
-			let messages: any
-			if (localStorage.getItem(activeContact.id + '_chat')) {
-				let localChat = await JSON.parse(localStorage.getItem(activeContact.id + '_chat'))
-				if (!localChat.msg || localChat.msg[0][localChat.msg[0].length - 1].id !== activeContact.last_message.id) {
-					await localStorage.removeItem(activeContact.id + '_chat')
-					return this.init(activeContact)
-				}
-				this.activeChat = localChat
-				this.loaded = true
+			setTimeout(() => {
 				$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
-			} else {
-				if (this.activeChat && this.activeChat.msg) {
-					messages = this.activeChat.msg
-				} else {
-					messages = await this.loadMessages(activeContact.id, 1)
-				}
-				let chat: any = {
-					contact_id: activeContact.id,
-					id: activeContact.id,
-					activeSocial: activeContact.last_message.social_media,
-					role: [],
-					user: activeContact.user,
-					msg: messages,
-					active_msg: null,
-					setActiveMsg(msg: IMsg) {
-						this.active_msg = msg
-					},
-					changeSocial(social: any) {
-						this.activeSocial = social
-					}
-				}
-				if (JSON.stringify(this.activeChat) !== JSON.stringify(chat)) {
-					this.loaded = true
-					this.activeChat = chat
-					localStorage.setItem(activeContact.id + '_chat', JSON.stringify(chat))
-				}
+			})
+		} else {
+			this.activeChat = null
+		}
+
+		this.loaded = true
+	}
+
+	async collectChat(contact: any) {
+		const chat: IChat = {
+			contact_id: contact.id,
+			id: contact.id,
+			activeSocial: contact.last_message.social_media,
+			role: [],
+			msg: [],
+			user: contact.user,
+			active_msg: null,
+			setActiveMsg(message: IMsg) {
+				this.active_msg = message
+			},
+			changeSocial(social: any) {
+				this.activeSocial = social
+			},
+			setMessages(messages: IMsg[][]) {
+				this.msg = messages
+			}
+		}
+
+		const messageList = await this.loadMessages(contact.id, 1)
+
+		chat.setMessages(messageList)
+
+		return chat
+	}
+
+	collectMessage(message: any, contact_id: string) {
+		let avatar = message.current.income ?
+			contactStore.getAvatar(contact_id) :
+			userStore.hero.avatar
+		let userId = message.current.from
+		let previousMessage, nextMessage: any
+		let previousTimeDifference, nextTimeDifference: any
+		let flowMessageNext = false
+		let flowMessagePrevious = false
+		let center = false
+		let previousRead, timeScope: any
+		let username: string
+		let type = 'message'
+
+		if (contactStore.activeContact.user.find((u: any) => u == message.current.from)) {
+			username = contactStore.activeContact.name
+		}
+
+		if (message.previous) {
+			previousMessage = message.previous
+			previousRead = previousMessage.readed
+			let currentTime = moment(message.current.time, 'HH:mm')
+			let prevTime = moment(previousMessage.time, 'HH:mm')
+			previousTimeDifference = prevTime.diff(currentTime, 'minutes')
+		}
+
+		if (message.next) {
+			nextMessage = message.next
+			let currentTime = moment(message.next.time, 'HH:mm')
+			let nextTime = moment(nextMessage.time, 'HH:mm')
+			nextTimeDifference = currentTime.diff(nextTime, 'minutes')
+		}
+
+		if (
+			previousMessage &&
+			previousMessage.date !== message.current.date
+		) {
+			timeScope = message.current.date
+		} else {
+			timeScope = null
+		}
+
+		if (
+			previousMessage &&
+			previousMessage.income === message.current.income &&
+			previousMessage.from === userId &&
+			previousTimeDifference < 3
+		) {
+			flowMessageNext = true
+		}
+
+		if (
+			nextMessage &&
+			nextMessage.income === message.current.income &&
+			nextMessage.from === userId &&
+			nextTimeDifference < 3
+		) {
+			flowMessagePrevious = true
+		}
+
+		if (flowMessageNext && flowMessagePrevious) {
+			center = true
+		}
+
+		return {
+			timeScope,
+			previousRead,
+			flowMessageNext,
+			flowMessagePrevious,
+			center,
+			avatar,
+			username,
+			type,
+			...message.current,
+			readMsg() {
+				this.readed = true
+			},
+			addSmile(smile: any) {
+				this.smiles.push(smile)
+			},
+			editMsg(msg: string) {
+				this.content = msg
+				this.editted = true
 			}
 		}
 	}
-
-
 }
 
 export const chatStore = new ChatStore()

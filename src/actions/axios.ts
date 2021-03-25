@@ -1,10 +1,9 @@
 import axios from 'axios'
 import CONFIG from '../config'
-
-
+import { authStore } from '@stores/implementation'
 
 const AUTH = axios.create({
-	baseURL: CONFIG.BASE_API_URL,
+	baseURL: CONFIG.BASE_API_URL + '/v1',
 	withCredentials: true
 })
 
@@ -13,26 +12,29 @@ const API = axios.create({
 	withCredentials: true
 })
 
+API.interceptors.request.use(request => {
+	let interlayer: string
 
-AUTH.interceptors.request.use(req => {
-	let rest = localStorage.getItem('rest')
-	req.url = '/' + rest + req.url
-	return req;
-});
+	if (authStore.isFrame) {
+		interlayer = '/rest'
+	} else {
+		interlayer = '/v1'
+	}
 
-API.interceptors.request.use(req => {
-	let rest = localStorage.getItem('rest')
-	let token = localStorage.getItem('token')
-	let userId = localStorage.getItem('userId')
-	let timestamp = localStorage.getItem('timestamp')
+	request.headers['Authorization'] = `Bearer ${ authStore.getToken() }`
 
-	req.headers['Authorization'] = `Bearer ${token}`;
-	timestamp ? req.headers['Timestamp'] = timestamp : null
-	userId ? req.headers['User'] = userId : null
-	req.url = '/' + rest + req.url
+	if (authStore.isFrame) {
+		request.headers['Timestamp'] = authStore.getTimestamp()
+	}
 
-	return req;
-});
+	if (authStore.isFrame) {
+		request.headers['User'] = authStore.getUserId()
+	}
+
+	request.url = interlayer + request.url
+
+	return request
+})
 
 
 export { API, AUTH }

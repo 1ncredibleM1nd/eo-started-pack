@@ -5,10 +5,10 @@ export default interface IContactStore {
 	contact: IContact[];
 	activeContact: IContact;
 	name: string;
-	source: any;
+	sources: any;
 	search: string;
 	filterSwitch: boolean;
-	readonly avaliableContacts?: IContact[] | null;
+	readonly availableContacts?: IContact[] | null;
 	loadContact: () => void;
 	filterSocial: (key: string) => void;
 	toggleFilterSwitch: () => void;
@@ -17,5 +17,4 @@ export default interface IContactStore {
 	setSearch: (id: string) => void;
 	setStatus: (id: string, status: string) => void;
 	init: (data: any) => void;
-
 }

@@ -3,7 +3,7 @@ export default interface IUser {
     id?: string;
     username?: string;
     avatar?: string;
-    avaliableSocial?: any;
+    availableSocial?: any;
     online?: any;
     school_list: any
 }
