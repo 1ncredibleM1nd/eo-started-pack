@@ -212,6 +212,10 @@ export class ChatStore implements IChatStore {
 				reply: reply,
 				edited: false,
 				income: false,
+				attachments: [],
+				entity: {
+					type: 'message'
+				},
 				readMsg() {
 					this.read = true
 				},
@@ -324,7 +328,6 @@ export class ChatStore implements IChatStore {
 		let center = false
 		let previousRead, timeScope: any
 		let username: string
-		let type = 'message'
 
 		if (contactStore.activeContact.user.find((u: any) => u == message.current.from)) {
 			username = contactStore.activeContact.name
@@ -384,7 +387,6 @@ export class ChatStore implements IChatStore {
 			center,
 			avatar,
 			username,
-			type,
 			...message.current,
 			readMsg() {
 				this.readed = true
