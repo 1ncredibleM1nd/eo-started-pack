@@ -34,6 +34,10 @@ const ContactList = inject((stores: IStores) => ({
 				onSelect()
 			}
 
+			if (!!chatStore.activeChat) {
+				chatStore.setActiveMsg(null)
+			}
+
 			await contactStore.setActiveContact(id)
 
 			if (activeContact) {

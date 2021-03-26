@@ -2,6 +2,7 @@ import { API, AUTH } from './axios'
 import {chatStore, contactStore} from '@stores/implementation'
 import qs from 'qs'
 import { notification } from 'antd'
+import {EntityDTO} from "@stores/classes/DTO/EntityDTO";
 
 async function getConversations(school_id?: any, page?: number) {
 	let search: any = {
@@ -83,7 +84,7 @@ async function getMessages(conversationId: string, page: number, school_id: stri
 	}
 }
 
-async function sendMessage(conversationId: string, message: string, conversationSourceAccountId: any, schoolId: string, files: any) {
+async function sendMessage(conversationId: string, message: string, conversationSourceAccountId: any, schoolId: string, files: any, entityDTO: EntityDTO) {
 	const formData = new FormData()
 
 	for (let i = 0; i < files.length; i++) {
@@ -95,6 +96,12 @@ async function sendMessage(conversationId: string, message: string, conversation
 
 	if (schoolId) {
 		formData.append('schoolId', schoolId)
+	}
+
+	formData.append('entity[type]', entityDTO.type)
+
+	for (const key in entityDTO.data) {
+		formData.append(`entity[data][${ key }]`, entityDTO.data[key])
 	}
 
 	formData.append('conversationId', chatStore.activeChat.id)

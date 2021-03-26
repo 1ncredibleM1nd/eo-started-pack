@@ -31,7 +31,7 @@ const Chat = inject((stores: IStores) => ({
 		// const [draft, setDraft] = useState({})
 		const [switcher, setSwitcher] = useState('')
 		// const [status, setStatus] = useState('default')
-		// const [reRender, setReRender] = useState(false)
+		const [reRender, setReRender] = useState(false)
 		const [isOpenMenu, setIsOpenMnu] = useState(false)
 		let currentChat: any
 		let last_date: any = null
@@ -58,28 +58,30 @@ const Chat = inject((stores: IStores) => ({
 		// }
 
 
-		// const replyMsg = (id: string) => {
-		// 	setReRender(!reRender)
-		// }
+		const replyMsg = (msg: any) => {
+			chatStore.setActiveMsg(msg)
 
-		// const DropDownMenu = (msg: any) => {
-		// 	return (
-		// 		<Menu>
-		// 			<Menu.Item onClick={() => editMsg(msg.id)}>
-		// 				Редактировать
-		// 			</Menu.Item>
-		// 			<Menu.Item onClick={() => selectMsg(msg.id)}>
-		// 				Выбрать
-		// 			</Menu.Item>
-		// 			<Menu.Item onClick={() => deleteMsg(msg.id)}>
-		// 				Удалить
-		// 			</Menu.Item>
-		// 			<Menu.Item onClick={() => replyMsg(msg.id)}>
-		// 				Переслать
-		// 			</Menu.Item>
-		// 		</Menu>
-		// 	)
-		// }
+			setReRender(!reRender)
+		}
+
+		const DropDownMenu = (msg: any) => {
+			return (
+				<Menu>
+					{/*<Menu.Item onClick={() => editMsg(msg.id)}>*/}
+					{/*	Редактировать*/}
+					{/*</Menu.Item>*/}
+					{/*<Menu.Item onClick={() => selectMsg(msg.id)}>*/}
+					{/*	Выбрать*/}
+					{/*</Menu.Item>*/}
+					{/*<Menu.Item onClick={() => deleteMsg(msg.id)}>*/}
+					{/*	Удалить*/}
+					{/*</Menu.Item>*/}
+					<Menu.Item onClick={() => replyMsg(msg)}>
+						Переслать
+					</Menu.Item>
+				</Menu>
+			)
+		}
 
 		const switcherOff = () => {
 			setSwitcher('')
@@ -285,14 +287,14 @@ const Chat = inject((stores: IStores) => ({
 				<div className="editted_icon"><Icon className='active-grey' name={`solid_pencil-alt`} />{' '}Редак.
 				</div>) : ''}
 				<div className="msg_time">{msg.time} {msg.date}</div>
-				{/*<Dropdown overlay={<DropDownMenu id={msg.id}/>} placement="bottomLeft" trigger={['click']}>*/}
-				{/*    <span*/}
-				{/*        className='dropdown-trigger'>*/}
-				{/*        <Icon*/}
-				{/*            className='active-grey'*/}
-				{/*            name={`regular_three-dots`}/>*/}
-				{/*    </span>*/}
-				{/*</Dropdown>*/}
+				<Dropdown overlay={ DropDownMenu(msg) } placement="bottomLeft" trigger={['click']}>
+				    <span
+				        className='dropdown-trigger'>
+				        <Icon
+				            className='active-grey'
+				            name={`regular_three-dots`}/>
+				    </span>
+				</Dropdown>
 			</span>
 		</div>) : ''
 

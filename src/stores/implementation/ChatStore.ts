@@ -5,6 +5,8 @@ import {getMessages, sendMessage} from '@actions'
 import moment from 'moment'
 import 'moment/locale/ru'
 import $ from 'jquery'
+import { EntityDTO } from "@stores/classes/DTO/EntityDTO";
+import {TypesMessage} from "@stores/classes";
 
 moment.locale('ru')
 
@@ -12,7 +14,6 @@ export class ChatStore implements IChatStore {
 	chat: IChat[] = []
 	@observable loaded: boolean = false
 	@observable activeChat: IChat
-	@observable activeMsg: IMsg
 	@observable modalWindow: string = 'close'
 	activeChatPageNumber: number = 1
 	@observable pageLoading: boolean = false
@@ -47,8 +48,38 @@ export class ChatStore implements IChatStore {
 	}
 
 	@action
-	async sendMessage(message: string, conversationSourceAccountId: any, school: any, files: any) {
-		await sendMessage(this.activeChat.id, message, conversationSourceAccountId, school, files)
+	async sendMessage(message: string, conversationSourceAccountId: any, school: any, files: any, activeMessage: IMsg) {
+		let entityDTO: EntityDTO
+
+		if (!!activeMessage) {
+			switch (activeMessage.entity.type) {
+				case TypesMessage.MESSAGE:
+				case TypesMessage.MESSAGE_REPLY:
+					entityDTO = new EntityDTO(TypesMessage.MESSAGE_REPLY, {
+						messageId: activeMessage.id
+					})
+					break
+				case TypesMessage.COMMENT:
+				case TypesMessage.COMMENT_REPLY:
+					entityDTO = new EntityDTO(TypesMessage.COMMENT_REPLY, {
+						commentId: activeMessage.id
+					})
+					break
+				case TypesMessage.POST:
+					entityDTO = new EntityDTO(TypesMessage.COMMENT, {
+						postId: activeMessage.id
+					})
+					break
+			}
+		}
+
+		if (!entityDTO) {
+			entityDTO = new EntityDTO(TypesMessage.MESSAGE, {})
+		}
+
+		await sendMessage(this.activeChat.id, message, conversationSourceAccountId, school, files, entityDTO)
+
+		this.setActiveMsg(null)
 	}
 
 	@action
@@ -119,7 +150,7 @@ export class ChatStore implements IChatStore {
 	}
 
 	@action
-	getChat_contactId(contact_id: string): IChat {
+	getChatByContactId(contact_id: string): IChat {
 		return this.chat.find((chat_item: IChat) => chat_item.contact_id === contact_id)
 	}
 
@@ -135,7 +166,7 @@ export class ChatStore implements IChatStore {
 
 	@action
 	getLastMsg(id: string): any {
-		let chat = this.getChat_contactId(id)
+		let chat = this.getChatByContactId(id)
 
 		return chat.msg[chat.msg.length - 1]
 	}
@@ -143,7 +174,7 @@ export class ChatStore implements IChatStore {
 	@action
 	getUnreadCount(id: string): number {
 		let unreadedCount = 0
-		let chat = this.getChat_contactId(id)
+		let chat = this.getChatByContactId(id)
 		let counting = true
 		for (let i = chat.msg.length; i >= 0; i--) {
 			let page = chat.msg[i]
@@ -202,7 +233,7 @@ export class ChatStore implements IChatStore {
 				time,
 				date,
 				time_scope,
-				id: `msg_${id}`,
+				id: `msg_${ id }`,
 				avatar: avatar,
 				from: from,
 				social_media: social_media,
@@ -249,16 +280,8 @@ export class ChatStore implements IChatStore {
 	}
 
 	@action
-	setActiveMsg(message: IMsg, chat_id: string) {
-		let chat = this.chat.find((chat_item: IChat) => chat_item.id === chat_id)
-
-		if (message) {
-			this.activeMsg = message
-			chat.setActiveMsg(message)
-		} else {
-			this.activeMsg = null
-			chat.setActiveMsg(null)
-		}
+	setActiveMsg(message: IMsg) {
+		this.activeChat.setActiveMsg(message)
 	}
 
 	// @action
