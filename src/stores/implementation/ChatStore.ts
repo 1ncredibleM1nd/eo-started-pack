@@ -56,18 +56,18 @@ export class ChatStore implements IChatStore {
 				case TypesMessage.MESSAGE:
 				case TypesMessage.MESSAGE_REPLY:
 					entityDTO = new EntityDTO(TypesMessage.MESSAGE_REPLY, {
-						messageId: activeMessage.id
+						replyTo: activeMessage.id
 					})
 					break
 				case TypesMessage.COMMENT:
 				case TypesMessage.COMMENT_REPLY:
 					entityDTO = new EntityDTO(TypesMessage.COMMENT_REPLY, {
-						commentId: activeMessage.id
+						replyTo: activeMessage.id
 					})
 					break
 				case TypesMessage.POST:
 					entityDTO = new EntityDTO(TypesMessage.COMMENT, {
-						postId: activeMessage.id
+						replyTo: activeMessage.id
 					})
 					break
 			}
