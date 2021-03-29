@@ -327,6 +327,7 @@ export class ChatStore implements IChatStore {
 		let center = false
 		let previousRead, timeScope: any
 		let username: string
+		let reply: IMsg = null
 
 		if (contactStore.activeContact.user.find((u: any) => u == message.current.from)) {
 			username = contactStore.activeContact.name
@@ -378,6 +379,12 @@ export class ChatStore implements IChatStore {
 			center = true
 		}
 
+		if (!!message.current.entity.data.replyTo) {
+			reply = this.collectMessage({
+				current: message.current.entity.data.replyTo
+			}, contact_id);
+		}
+
 		return {
 			timeScope,
 			previousRead,
@@ -386,6 +393,7 @@ export class ChatStore implements IChatStore {
 			center,
 			avatar,
 			username,
+			reply,
 			...message.current,
 			readMsg() {
 				this.readed = true

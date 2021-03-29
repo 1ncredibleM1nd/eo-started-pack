@@ -198,7 +198,7 @@ const Chat = inject((stores: IStores) => ({
 
 		const renderMessagesWrapper = (msg: any) => <div className="message-wrapper">
 			<div className={`message-content ${msg.flowMessageNext ? 'not-main' : ''} `}>
-				{msg.reply ? (<div className="reply">
+				{!!msg.reply ? (<div className="reply">
 					<span>
 						{msg.reply.content}
 					</span>
