@@ -7,7 +7,6 @@ import IChat from '@stores/interface/IChat'
 import IMsg from '@stores/interface/IMsg'
 import IUser from '@stores/interface/IUser'
 import IAuthStore from '@stores/interface/app/IAuthStore'
-import IEntityDTO from '@stores/interface/IEntityDTO'
 
 export {
     IUser,
@@ -18,8 +17,7 @@ export {
     IAppStore,
     IChatStore,
     IContactStore,
-    IAuthStore,
-    IEntityDTO
+    IAuthStore
 }
 
 /** Наименования строго в camelCase, без префикса I */

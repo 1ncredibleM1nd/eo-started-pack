@@ -5,8 +5,6 @@ import {getMessages, sendMessage} from '@actions'
 import moment from 'moment'
 import 'moment/locale/ru'
 import $ from 'jquery'
-import { EntityDTO } from "@stores/classes/DTO/EntityDTO";
-import {TypesMessage} from "@stores/classes";
 
 moment.locale('ru')
 
@@ -49,35 +47,13 @@ export class ChatStore implements IChatStore {
 
 	@action
 	async sendMessage(message: string, conversationSourceAccountId: any, school: any, files: any, activeMessage: IMsg) {
-		let entityDTO: EntityDTO
+		let replyTo: any
 
 		if (!!activeMessage) {
-			switch (activeMessage.entity.type) {
-				case TypesMessage.MESSAGE:
-				case TypesMessage.MESSAGE_REPLY:
-					entityDTO = new EntityDTO(TypesMessage.MESSAGE_REPLY, {
-						replyTo: activeMessage.id
-					})
-					break
-				case TypesMessage.COMMENT:
-				case TypesMessage.COMMENT_REPLY:
-					entityDTO = new EntityDTO(TypesMessage.COMMENT_REPLY, {
-						replyTo: activeMessage.id
-					})
-					break
-				case TypesMessage.POST:
-					entityDTO = new EntityDTO(TypesMessage.COMMENT, {
-						replyTo: activeMessage.id
-					})
-					break
-			}
+			replyTo = activeMessage.id
 		}
 
-		if (!entityDTO) {
-			entityDTO = new EntityDTO(TypesMessage.MESSAGE, {})
-		}
-
-		await sendMessage(this.activeChat.id, message, conversationSourceAccountId, school, files, entityDTO)
+		await sendMessage(this.activeChat.id, message, conversationSourceAccountId, school, files, replyTo)
 
 		this.setActiveMsg(null)
 	}
