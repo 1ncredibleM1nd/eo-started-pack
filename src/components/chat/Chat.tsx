@@ -202,6 +202,7 @@ const Chat = inject((stores: IStores) => ({
 					<span>
 						{msg.reply.content}
 					</span>
+					{renderTypeMessage(msg.reply)}
 				</div>) : ''}
 				<div className="inset_border_container">
 					<div className="dummy" />
@@ -303,7 +304,7 @@ const Chat = inject((stores: IStores) => ({
 			return (<>
 				{dateDivider(msg)}
 				{!msg.readed ? renderDataContainerUnread() : ' '}
-				<div key={Math.random()} className="message">
+				<div key={Math.random()} className={`message ${msg.flowMessageNext ? 'not-main' : ''} `}>
 					{/* {renderMessagesHeader(msg)} */}
 					{renderMessagesWrapper(msg)}
 					{renderMessagesOptions(msg)}
