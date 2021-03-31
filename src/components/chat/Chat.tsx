@@ -12,6 +12,7 @@ import PuffLoader from 'react-spinners/PuffLoader'
 import ChatPlaceholder from './comp/ChatPlaceholder'
 import $ from 'jquery'
 import SettingsMo from '@components/chat/comp/SettingsMo'
+import {TypesMessage} from "@stores/classes";
 
 
 type IProps = {
@@ -173,17 +174,20 @@ const Chat = inject((stores: IStores) => ({
 
 		const renderTypeMessage = (msg: any) => {
 			switch (msg.entity.type) {
-				case "message":
+				case TypesMessage.MESSAGE:
 					return <Fragment>
 						<Icon name="regular_envelope" className={`icon_s lite-grey`} />
 					</Fragment>
-				case "comment":
+				case TypesMessage.COMMENT:
+				case TypesMessage.PHOTO_COMMENT:
+				case TypesMessage.VIDEO_COMMENT:
+				case TypesMessage.BOARD_COMMENT:
 					return <Fragment>
 						<a href={ msg.entity.data.url } target="_blank">
 							<Icon name="regular_comment" className={`icon_s lite-grey`} />
 						</a>
 					</Fragment>
-				case "post":
+				case TypesMessage.POST:
 					return <Fragment>
 						<a href={ msg.entity.data.url } target="_blank">
 							<Icon name="regular_clone" className={`icon_s lite-grey`} />
