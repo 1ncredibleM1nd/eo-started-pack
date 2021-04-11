@@ -218,7 +218,7 @@ const Chat = inject((stores: IStores) => ({
 							<div className="msg_file_container">
 								{
 									msg.attachments.map((attachment: any, index: any) => {
-										if (attachment.type === 'image') {
+										if (attachment.type === 'photo') {
 											return (
 												<div className={`msg_content-image ${'image_count_' + index}`}>
 													<img src={attachment.url} alt="" />
@@ -248,10 +248,11 @@ const Chat = inject((stores: IStores) => ({
 									})
 								}
 							</div>
-						) : (<Fragment>
-							{ msg.content }
-						</Fragment>)
+						) : (<Fragment></Fragment>)
 					}
+					<Fragment>
+						{ msg.content }
+					</Fragment>
 				</div>
 				<div className="msg_type">
 					{ renderTypeMessage(msg) }
