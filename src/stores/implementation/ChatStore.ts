@@ -325,7 +325,7 @@ export class ChatStore implements IChatStore {
 		let type = 'message'
 
 		let user: any = message.current.user
-		if (!!user) {
+		if (!!user && !message.current.income) {
 			avatar = user.avatar
 			username = user.full_name
 			userId = user.id
