@@ -335,7 +335,7 @@ export class ChatStore implements IChatStore {
 				userStore.hero.avatar
 
 			if (contactStore.activeContact.user.find((u: any) => u == message.current.from)) {
-				username = contactStore.activeContact.name
+				username = userStore.hero.username
 			}
 
 			userId = message.current.from
