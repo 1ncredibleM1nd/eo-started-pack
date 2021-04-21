@@ -223,6 +223,9 @@ const Chat = inject((stores: IStores) => ({
 						{ msg.content }
 					</Fragment>
 				</div>
+				<div className='msg_time'>
+					{msg.time}
+				</div>
 				<div className="msg_type">
 					{ renderTypeMessage(msg) }
 				</div>
