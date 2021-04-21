@@ -141,37 +141,6 @@ const Chat = inject((stores: IStores) => ({
 			</Divider>
 		</div>
 
-		// // sms blocks in user
-		// const renderMessagesHeader = (msg: any) => <>
-		// 	{
-		// 		msg.income ? (<Fragment>
-
-		// 			{!msg.flowMessagePrevious && msg.flowMessageNext && !msg.center ? (<div className="msg_header">
-		// 				<span>{msg.username}</span>
-		// 				{/* <span className="msg-role">{msg.role ? msg.role.name : ''}</span> */}
-		// 			</div>) : ''}
-
-		// 			{!msg.flowMessageNext && !msg.flowMessagePrevious ? (<div className="msg_header">
-		// 				<span>{msg.username}</span>
-		// 				{/* <span className="msg-role">{msg.role ? msg.role.name : ''}</span> */}
-		// 			</div>) : ''}
-
-		// 		</Fragment>) : (<Fragment>
-
-		// 			{!msg.flowMessagePrevious && msg.flowMessageNext && !msg.center ? (<div className="msg_header">
-		// 				<span>{hero.username}</span>
-		// 				{/* <span className="msg-role">{msg.role ? msg.role.name : ''}</span> */}
-		// 			</div>) : ''}
-
-		// 			{!msg.flowMessageNext && !msg.flowMessagePrevious ? (<div className="msg_header">
-		// 				<span>{hero.username}</span>
-		// 				{/* <span className="msg-role">{msg.role ? msg.role.name : ''}</span> */}
-		// 			</div>) : ''}
-
-		// 		</Fragment>)
-		// 	}
-		// </>
-
 		const renderTypeMessage = (msg: any) => {
 			switch (msg.entity.type) {
 				case TypesMessage.MESSAGE:
@@ -201,7 +170,7 @@ const Chat = inject((stores: IStores) => ({
 		}
 
 		const renderMessagesWrapper = (msg: any) => <div className="message-wrapper">
-			<div className={`message-content ${msg.flowMessageNext ? 'not-main' : ''} `}>
+			<div className={`message-content ${msg.combineWithPrevious ? 'not-main' : ''} `}>
 				{!!msg.reply ? (<div className="reply">
 					<span>
 						{msg.reply.content}
@@ -282,7 +251,7 @@ const Chat = inject((stores: IStores) => ({
 			</div>
 		</div>
 
-		const renderMessagesOptions = (msg: any) => !msg.flowMessageNext ? (<div className="message-options">
+		const renderMessagesOptions = (msg: any) => !msg.combineWithPrevious ? (<div className="message-options">
 			<div className="avatar avatar-sm">
 				<div className={`social_media_icon ${msg.social_media}`}>
 					<Icon className='icon_s' name={`social_media_${msg.social_media}`} />
@@ -310,8 +279,7 @@ const Chat = inject((stores: IStores) => ({
 			return (<>
 				{dateDivider(msg)}
 				{!msg.readed ? renderDataContainerUnread() : ' '}
-				<div key={Math.random()} className={`message ${msg.flowMessageNext ? 'not-main' : ''} `}>
-					{/* {renderMessagesHeader(msg)} */}
+				<div key={Math.random()} className={`message ${msg.combineWithPrevious ? 'not-main' : ''} `}>
 					{renderMessagesWrapper(msg)}
 					{renderMessagesOptions(msg)}
 				</div>
@@ -330,8 +298,7 @@ const Chat = inject((stores: IStores) => ({
 		const renderMyMessages = (msg: any) => {
 			return (<>
 				{dateDivider(msg)}
-				<div key={Math.random()} className={`message self ${msg.flowMessageNext ? 'not-main' : ''} `}>
-					{/* {renderMessagesHeader(msg)} */}
+				<div key={Math.random()} className={`message self ${msg.combineWithPrevious ? 'not-main' : ''} `}>
 					{renderMessagesWrapper(msg)}
 					{renderMessagesOptions(msg)}
 				</div>

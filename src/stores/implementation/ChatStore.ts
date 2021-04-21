@@ -179,33 +179,20 @@ export class ChatStore implements IChatStore {
 			let time = moment().format('HH:mm');
 			let date = moment().format('DD.MM');
 			let firstPage = this.activeChat.msg[0]
-			let prevMsg = firstPage[firstPage.length - 1]
+			let previousMessage = firstPage[firstPage.length - 1]
 
-			let flowMsgNext = false
-			let flowMsgPrev = false
-			let center = false
+			let combineWithPrevious: boolean = false
 
 			let time_scope: any = null
 
-			let currentTime = moment(time, 'HH:mm')
-			let prevTime = moment(prevMsg.time, 'HH:mm')
-			let prevTimeDiff = currentTime.diff(prevTime, 'minutes')
-
-			if (prevMsg && prevMsg.date !== date) {
-				time_scope = prevMsg.date
+			if (previousMessage && previousMessage.date !== date) {
+				time_scope = previousMessage.date
 			} else {
 				time_scope = null
 			}
 
-			if (prevTimeDiff < 3) {
-				prevMsg.flowMsgNext = true
-				flowMsgPrev = true
-			}
-
 			let msg: IMsg = {
-				flowMsgNext,
-				flowMsgPrev,
-				center,
+				combineWithPrevious,
 				time,
 				date,
 				time_scope,
@@ -317,13 +304,9 @@ export class ChatStore implements IChatStore {
 
 	collectMessage(message: any, contact_id: string) {
 		let avatar: string
-		let userId: any
-		let previousMessage, nextMessage: any
-		let previousTimeDifference, nextTimeDifference: any
-		let flowMessageNext = false
-		let flowMessagePrevious = false
-		let center = false
-		let previousRead, timeScope: any
+		let combineWithPrevious: boolean = false
+		let previousRead: any
+		let timeScope: any = null
 		let username: string
 		let reply: IMsg = null
 
@@ -331,7 +314,6 @@ export class ChatStore implements IChatStore {
 		if (!!user && !message.current.income) {
 			avatar = user.avatar
 			username = user.full_name
-			userId = user.id
 		} else {
 			avatar = message.current.income ?
 				contactStore.getAvatar(contact_id) :
@@ -340,54 +322,23 @@ export class ChatStore implements IChatStore {
 			if (contactStore.activeContact.user.find((u: any) => u == message.current.from)) {
 				username = contactStore.activeContact.name
 			}
-
-			userId = message.current.from
 		}
 
 		if (message.previous) {
-			previousMessage = message.previous
+			const previousMessage = message.previous
 			previousRead = previousMessage.readed
-			let currentTime = moment(message.current.time, 'HH:mm')
-			let prevTime = moment(previousMessage.time, 'HH:mm')
-			previousTimeDifference = prevTime.diff(currentTime, 'minutes')
-		}
 
-		if (message.next) {
-			nextMessage = message.next
-			let currentTime = moment(message.next.time, 'HH:mm')
-			let nextTime = moment(nextMessage.time, 'HH:mm')
-			nextTimeDifference = currentTime.diff(nextTime, 'minutes')
-		}
+			if (
+				previousMessage.date === message.current.date &&
+				previousMessage.income === message.current.income &&
+				previousMessage.entity.type === message.current.entity.type
+			) {
+				combineWithPrevious = true
+			}
 
-		if (
-			previousMessage &&
-			previousMessage.date !== message.current.date
-		) {
-			timeScope = message.current.date
-		} else {
-			timeScope = null
-		}
-
-		if (
-			previousMessage &&
-			previousMessage.income === message.current.income &&
-			previousMessage.from === userId &&
-			previousTimeDifference < 3
-		) {
-			flowMessageNext = true
-		}
-
-		if (
-			nextMessage &&
-			nextMessage.income === message.current.income &&
-			nextMessage.from === userId &&
-			nextTimeDifference < 3
-		) {
-			flowMessagePrevious = true
-		}
-
-		if (flowMessageNext && flowMessagePrevious) {
-			center = true
+			if (previousMessage.date !== message.current.date) {
+				timeScope = message.current.date
+			}
 		}
 
 		if (!!message.current.entity.data.replyTo) {
@@ -399,9 +350,7 @@ export class ChatStore implements IChatStore {
 		return {
 			timeScope,
 			previousRead,
-			flowMessageNext,
-			flowMessagePrevious,
-			center,
+			combineWithPrevious,
 			avatar,
 			username,
 			reply,
