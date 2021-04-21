@@ -5,6 +5,7 @@ import { Icon } from '@ui'
 import $ from 'jquery'
 import { Input, Menu, Button, Popover, Modal, Switch } from 'antd'
 import SocialMenu from './SocialMenu'
+import {TypesMessage} from "@stores/classes";
 // import SmileMenu from './comp/SmileMenu'
 
 type IProps = {
@@ -491,7 +492,10 @@ const Inputer = inject((stores: IStores) => ({
 						{
 							chatStore.activeChat.active_msg ? (<Fragment>
 								<div className="selected-container">
-									{ chatStore.activeChat.active_msg.content }
+									<span>{ chatStore.activeChat.active_msg.content }</span>
+									<div className="msg_type">
+										{TypesMessage.getTypeDescription(chatStore.activeChat.active_msg.entity.type)}
+									</div>
 								</div>
 							</Fragment>) : (<Fragment></Fragment>)
 						}

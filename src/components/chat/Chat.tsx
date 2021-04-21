@@ -13,6 +13,7 @@ import ChatPlaceholder from './comp/ChatPlaceholder'
 import $ from 'jquery'
 import SettingsMo from '@components/chat/comp/SettingsMo'
 import {TypesMessage} from "@stores/classes";
+import {MoreOutlined} from "@ant-design/icons";
 
 
 type IProps = {
@@ -141,41 +142,15 @@ const Chat = inject((stores: IStores) => ({
 			</Divider>
 		</div>
 
-		const renderTypeMessage = (msg: any) => {
-			switch (msg.entity.type) {
-				case TypesMessage.MESSAGE:
-					return <Fragment>
-						<Icon name="regular_envelope" className={`icon_s lite-grey`} />
-					</Fragment>
-				case TypesMessage.COMMENT:
-				case TypesMessage.PHOTO_COMMENT:
-				case TypesMessage.VIDEO_COMMENT:
-				case TypesMessage.BOARD_COMMENT:
-					return <Fragment>
-						<a href={ msg.entity.data.url } target="_blank">
-							<Icon name="regular_comment" className={`icon_s lite-grey`} />
-						</a>
-					</Fragment>
-				case TypesMessage.POST:
-					return <Fragment>
-						<a href={ msg.entity.data.url } target="_blank">
-							<Icon name="regular_clone" className={`icon_s lite-grey`} />
-						</a>
-					</Fragment>
-				default:
-					return <Fragment>
-						<Icon name="regular_question" className={`icon_s lite-grey`} />
-					</Fragment>
-			}
-		}
-
 		const renderMessagesWrapper = (msg: any) => <div className="message-wrapper">
 			<div className={`message-content ${msg.combineWithPrevious ? 'not-main' : ''} `}>
 				{!!msg.reply ? (<div className="reply">
 					<span>
 						{msg.reply.content}
 					</span>
-					{renderTypeMessage(msg.reply)}
+					<div className="msg_type">
+						{TypesMessage.getTypeDescription(msg.entity.type)}
+					</div>
 				</div>) : ''}
 				<div className="inset_border_container">
 					<div className="dummy" />
@@ -226,8 +201,10 @@ const Chat = inject((stores: IStores) => ({
 				<div className='msg_time'>
 					{msg.time}
 				</div>
-				<div className="msg_type">
-					{ renderTypeMessage(msg) }
+				<div className='msg_menu'>
+					<Dropdown overlay={ DropDownMenu(msg) } placement="bottomLeft" trigger={['click']}>
+				    	<MoreOutlined className="dropdown-trigger" />
+					</Dropdown>
 				</div>
 				{/* <div className={`smile ${switcher === msg.id ? 'active' : ''}`}>
 				 <Popover onVisibleChange={(e) => { e ? {} : setSwitcher('') }} visible={switcher === msg.id} content={<SmileMenu id={msg.id} chat_id={currentChat.id} switcherOff={switcherOff} /trigger="click">
@@ -266,14 +243,9 @@ const Chat = inject((stores: IStores) => ({
 				</div>) : ''}
 				<div className="msg_username">{msg.username}</div>
 				<div className="msg_time">{msg.time} {msg.date}</div>
-				<Dropdown overlay={ DropDownMenu(msg) } placement="bottomLeft" trigger={['click']}>
-				    <span
-				        className='dropdown-trigger'>
-				        <Icon
-				            className='active-grey'
-				            name={`regular_three-dots`}/>
-				    </span>
-				</Dropdown>
+				<div className="msg_type">
+					{TypesMessage.getTypeDescription(msg.entity.type)}
+				</div>
 			</span>
 		</div>) : ''
 
