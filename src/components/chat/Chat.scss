@@ -1074,6 +1074,8 @@
 
     .selected-container {
       width: 100%;
+      max-height: 40px;
+      overflow: hidden;
       margin-bottom: 5px;
       min-height: 28px;
       border-left: 2px solid $blue_lite;
