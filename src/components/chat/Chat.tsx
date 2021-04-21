@@ -269,6 +269,7 @@ const Chat = inject((stores: IStores) => ({
 			<span className="message-status">{msg.editted ? (
 				<div className="editted_icon"><Icon className='active-grey' name={`solid_pencil-alt`} />{' '}Редак.
 				</div>) : ''}
+				<div className="msg_username">{msg.username}</div>
 				<div className="msg_time">{msg.time} {msg.date}</div>
 				{/*<Dropdown overlay={<DropDownMenu id={msg.id}/>} placement="bottomLeft" trigger={['click']}>*/}
 				{/*    <span*/}
