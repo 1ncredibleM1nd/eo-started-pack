@@ -275,6 +275,11 @@ export class ChatStore implements IChatStore {
 		if (!!contact) {
 			this.activeChat = await this.collectChat(contact)
 
+			let lastMessage: IMsg = this.activeChat.msg[0][this.activeChat.msg[0].length - 1]
+			if (lastMessage.income) {
+				this.setActiveMsg(lastMessage)
+			}
+
 			setTimeout(() => {
 				$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
 			})
