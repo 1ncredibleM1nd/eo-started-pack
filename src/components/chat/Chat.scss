@@ -616,6 +616,9 @@
     top: 7px;
   }
 
+  .message-wrapper .msg_time {
+    text-align: left;
+  }
 
   @include _990 {
     padding-right: 10px !important;
@@ -862,6 +865,13 @@
           max-width: 100%;
         }
       }
+    }
+
+    .msg_time {
+      font-size: 0.75rem;
+      position: relative;
+      z-index: 1;
+      text-align: right;
     }
 
     .msg_text_container {
