@@ -330,11 +330,11 @@ export class ChatStore implements IChatStore {
 			username = user.full_name
 			userId = user.id
 		} else {
-			avatar = message.current.income ?
+			avatar = !!message.current.income ?
 				contactStore.getAvatar(contact_id) :
 				userStore.hero.avatar
 
-			if (message.current.income === 1) {
+			if (!!message.current.income) {
 				username = contactStore.activeContact.name
 			} else {
 				username = userStore.hero.username
