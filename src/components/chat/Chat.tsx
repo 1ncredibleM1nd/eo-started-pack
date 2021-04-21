@@ -79,7 +79,7 @@ const Chat = inject((stores: IStores) => ({
 					{/*	Удалить*/}
 					{/*</Menu.Item>*/}
 					<Menu.Item onClick={() => replyMsg(msg)}>
-						Переслать
+						Ответить
 					</Menu.Item>
 				</Menu>
 			)
