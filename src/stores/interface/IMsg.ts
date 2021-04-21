@@ -19,5 +19,7 @@ export default interface IMsg {
 	addSmile: (smile: string) => void;
 	editMsg: (value: string) => void;
 	readMsg: () => void;
-	income: boolean
+	income: boolean;
+	attachments: any;
+	entity: any;
 }

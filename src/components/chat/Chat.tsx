@@ -12,6 +12,7 @@ import PuffLoader from 'react-spinners/PuffLoader'
 import ChatPlaceholder from './comp/ChatPlaceholder'
 import $ from 'jquery'
 import SettingsMo from '@components/chat/comp/SettingsMo'
+import {TypesMessage} from "@stores/classes";
 
 
 type IProps = {
@@ -31,7 +32,7 @@ const Chat = inject((stores: IStores) => ({
 		// const [draft, setDraft] = useState({})
 		const [switcher, setSwitcher] = useState('')
 		// const [status, setStatus] = useState('default')
-		// const [reRender, setReRender] = useState(false)
+		const [reRender, setReRender] = useState(false)
 		const [isOpenMenu, setIsOpenMnu] = useState(false)
 		let currentChat: any
 		let last_date: any = null
@@ -58,28 +59,30 @@ const Chat = inject((stores: IStores) => ({
 		// }
 
 
-		// const replyMsg = (id: string) => {
-		// 	setReRender(!reRender)
-		// }
+		const replyMsg = (msg: any) => {
+			chatStore.setActiveMsg(msg)
 
-		// const DropDownMenu = (msg: any) => {
-		// 	return (
-		// 		<Menu>
-		// 			<Menu.Item onClick={() => editMsg(msg.id)}>
-		// 				Редактировать
-		// 			</Menu.Item>
-		// 			<Menu.Item onClick={() => selectMsg(msg.id)}>
-		// 				Выбрать
-		// 			</Menu.Item>
-		// 			<Menu.Item onClick={() => deleteMsg(msg.id)}>
-		// 				Удалить
-		// 			</Menu.Item>
-		// 			<Menu.Item onClick={() => replyMsg(msg.id)}>
-		// 				Переслать
-		// 			</Menu.Item>
-		// 		</Menu>
-		// 	)
-		// }
+			setReRender(!reRender)
+		}
+
+		const DropDownMenu = (msg: any) => {
+			return (
+				<Menu>
+					{/*<Menu.Item onClick={() => editMsg(msg.id)}>*/}
+					{/*	Редактировать*/}
+					{/*</Menu.Item>*/}
+					{/*<Menu.Item onClick={() => selectMsg(msg.id)}>*/}
+					{/*	Выбрать*/}
+					{/*</Menu.Item>*/}
+					{/*<Menu.Item onClick={() => deleteMsg(msg.id)}>*/}
+					{/*	Удалить*/}
+					{/*</Menu.Item>*/}
+					<Menu.Item onClick={() => replyMsg(msg)}>
+						Переслать
+					</Menu.Item>
+				</Menu>
+			)
+		}
 
 		const switcherOff = () => {
 			setSwitcher('')
@@ -169,12 +172,41 @@ const Chat = inject((stores: IStores) => ({
 		// 	}
 		// </>
 
+		const renderTypeMessage = (msg: any) => {
+			switch (msg.entity.type) {
+				case TypesMessage.MESSAGE:
+					return <Fragment>
+						<Icon name="regular_envelope" className={`icon_s lite-grey`} />
+					</Fragment>
+				case TypesMessage.COMMENT:
+				case TypesMessage.PHOTO_COMMENT:
+				case TypesMessage.VIDEO_COMMENT:
+				case TypesMessage.BOARD_COMMENT:
+					return <Fragment>
+						<a href={ msg.entity.data.url } target="_blank">
+							<Icon name="regular_comment" className={`icon_s lite-grey`} />
+						</a>
+					</Fragment>
+				case TypesMessage.POST:
+					return <Fragment>
+						<a href={ msg.entity.data.url } target="_blank">
+							<Icon name="regular_clone" className={`icon_s lite-grey`} />
+						</a>
+					</Fragment>
+				default:
+					return <Fragment>
+						<Icon name="regular_question" className={`icon_s lite-grey`} />
+					</Fragment>
+			}
+		}
+
 		const renderMessagesWrapper = (msg: any) => <div className="message-wrapper">
 			<div className={`message-content ${msg.flowMessageNext ? 'not-main' : ''} `}>
-				{msg.reply ? (<div className="reply">
+				{!!msg.reply ? (<div className="reply">
 					<span>
 						{msg.reply.content}
 					</span>
+					{renderTypeMessage(msg.reply)}
 				</div>) : ''}
 				<div className="inset_border_container">
 					<div className="dummy" />
@@ -182,57 +214,48 @@ const Chat = inject((stores: IStores) => ({
 				</div>
 				<div className='msg_text_container'>
 					{
-						Array.isArray(msg.content) ? (
+						msg.attachments.length !== 0 ? (
 							<div className="msg_file_container">
 								{
-									msg.content.map((content_item: any, index: number) => {
-										if (content_item.type === 'image') {
+									msg.attachments.map((attachment: any, index: any) => {
+										if (attachment.type === 'photo') {
 											return (
-												<div
-													className={`msg_content-image ${'image_count_' + msg.content.length}`}>
-													<img src={content_item.url} alt="" />
+												<div className={`msg_content-image ${'image_count_' + index}`}>
+													<img src={attachment.url} alt="" />
 												</div>
 											)
-										}
-										if (content_item.type === 'file') {
+										} else if (attachment.type === 'document') {
 											return (
-												<div className="msg_content-file">
-													File
+												<div className="msg_content-document">
+													Document
 												</div>
 											)
-										}
-										if (content_item.type === 'audio') {
+										} else if (attachment.type === 'audio') {
 											return (
 												<div className="msg_content-audio">
 													Audio
 												</div>
 											)
-										}
-										if (content_item.type === 'video') {
+										} else if (attachment.type === 'video') {
 											return (
 												<div className="msg_content-video">
 													Video
 												</div>
-
 											)
 										}
+
 										return null
 									})
 								}
 							</div>
-						) : (<Fragment>
-							{msg.content}
-						</Fragment>)
+						) : (<Fragment></Fragment>)
 					}
+					<Fragment>
+						{ msg.content }
+					</Fragment>
 				</div>
 				<div className="msg_type">
-					{/* Конвертики */}
-					{/* {
-						msg.type === 'message' ? (<Fragment>
-							<Icon name="regular_envelope" className={`icon_s lite-grey`} />
-						</Fragment>) : (<Fragment></Fragment>)
-					} */}
-
+					{ renderTypeMessage(msg) }
 				</div>
 				{/* <div className={`smile ${switcher === msg.id ? 'active' : ''}`}>
 				 <Popover onVisibleChange={(e) => { e ? {} : setSwitcher('') }} visible={switcher === msg.id} content={<SmileMenu id={msg.id} chat_id={currentChat.id} switcherOff={switcherOff} /trigger="click">
@@ -271,14 +294,14 @@ const Chat = inject((stores: IStores) => ({
 				</div>) : ''}
 				<div className="msg_username">{msg.username}</div>
 				<div className="msg_time">{msg.time} {msg.date}</div>
-				{/*<Dropdown overlay={<DropDownMenu id={msg.id}/>} placement="bottomLeft" trigger={['click']}>*/}
-				{/*    <span*/}
-				{/*        className='dropdown-trigger'>*/}
-				{/*        <Icon*/}
-				{/*            className='active-grey'*/}
-				{/*            name={`regular_three-dots`}/>*/}
-				{/*    </span>*/}
-				{/*</Dropdown>*/}
+				<Dropdown overlay={ DropDownMenu(msg) } placement="bottomLeft" trigger={['click']}>
+				    <span
+				        className='dropdown-trigger'>
+				        <Icon
+				            className='active-grey'
+				            name={`regular_three-dots`}/>
+				    </span>
+				</Dropdown>
 			</span>
 		</div>) : ''
 
@@ -287,7 +310,7 @@ const Chat = inject((stores: IStores) => ({
 			return (<>
 				{dateDivider(msg)}
 				{!msg.readed ? renderDataContainerUnread() : ' '}
-				<div key={Math.random()} className="message">
+				<div key={Math.random()} className={`message ${msg.flowMessageNext ? 'not-main' : ''} `}>
 					{/* {renderMessagesHeader(msg)} */}
 					{renderMessagesWrapper(msg)}
 					{renderMessagesOptions(msg)}
