@@ -57,18 +57,26 @@ const ContactList = inject((stores: IStores) => ({
 			</div>
 		}
 
-		const contactTime = (date: any, time: any) => {
-			let now = moment(new Date());
-			let contact_date = moment(date, 'DD.MM')
-			let diff = now.diff(contact_date, 'days');
+		const contactTime = (timestamp: any) => {
+			let time: any = moment(timestamp, 'X').format('HH:mm')
+			let date: any = moment(timestamp, 'X').format('DD.MM.YY')
+
+			let now = moment(new Date())
+			let contact_date = moment(date, 'DD.MM.YY')
+			let diff = now.diff(contact_date, 'days')
 			if (diff === 0) {
 				return (
 					<span>{time}</span>
 				)
+			} else if (diff <= 7) {
+				return (
+					<span>{contact_date.format('dd')}</span>
+				)
+			} else {
+				return (
+					<span>{date}</span>
+				)
 			}
-			return (
-				<span>{contact_date.format('dd')} {date}</span>
-			)
 		}
 
 		return (
@@ -124,7 +132,7 @@ const ContactList = inject((stores: IStores) => ({
 														<div className="chat-time">
 															{
 																last_message ? (<Fragment>
-																	{contactTime(last_message.date, last_message.time)}
+																	{contactTime(last_message.timestamp)}
 																</Fragment>) : (<Fragment></Fragment>)
 															}
 
