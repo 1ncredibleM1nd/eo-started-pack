@@ -7,7 +7,7 @@ import './ContactList.scss'
 import './Contact.scss'
 import { Icon } from '@ui'
 import moment from 'moment'
-import {userStore} from "@stores";
+import { userStore } from "@stores"
 
 type IProps = {
 	contactStore?: IContactStore,
@@ -137,9 +137,9 @@ const ContactList = inject((stores: IStores) => ({
 																<div className={`last_msg ${status}`}>
 																	<div className="from">
 																		{
-																			!contact.last_message.income &&
-																			contact.last_message.user &&
-																			contact.last_message.user.id === userStore.hero.id ?
+																			!last_message.income &&
+																			last_message.user &&
+																			last_message.user.id === userStore.hero.id ?
 																				'Вы:' :
 																				''
 																		}
