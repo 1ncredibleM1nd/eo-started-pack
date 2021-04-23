@@ -104,7 +104,7 @@
 
 
 .last_msg {
-  width: 100%;
+  width: 85%;
   overflow: hidden;
   font-size: 15px;
   white-space: nowrap;
@@ -115,6 +115,17 @@
     margin-right: 5px;
     display: inline-block;
     color: $blue_origin;
+  }
+
+  .unreaded_count {
+    background: $blue_active;
+    padding: 4px;
+    border-radius: 50%;
+    color: $white;
+    position: absolute;
+    right: 10px;
+    font-size: 12px;
+    bottom: 10px;
   }
 }
 
@@ -282,17 +293,6 @@
       width: 36px !important;
       height: 36px !important;
     }
-  }
-
-  .unreaded_count {
-    background: $blue_active;
-    padding: 0px 10px;
-    border-radius: 10px;
-    color: $white;
-    position: absolute;
-    right: 10px;
-    font-size: 12px;
-    bottom: 10px;
   }
 
   .content {

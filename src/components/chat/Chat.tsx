@@ -129,6 +129,7 @@ const Chat = inject((stores: IStores) => ({
 				</div>
 			</Divider>
 		</div>
+
 		const renderDataContainerUnread = () => <div className="date_container unread">
 			<Divider orientation="center"
 				className='date_divider unread'>
@@ -285,7 +286,7 @@ const Chat = inject((stores: IStores) => ({
 		const renderToMeMessages = (msg: any) => {
 			return (<>
 				{dateDivider(msg)}
-				{!msg.readed ? renderDataContainerUnread() : ' '}
+				{/*{!msg.readed ? renderDataContainerUnread() : ' '}*/}
 				<div key={Math.random()} className="message">
 					{/* {renderMessagesHeader(msg)} */}
 					{renderMessagesWrapper(msg)}
