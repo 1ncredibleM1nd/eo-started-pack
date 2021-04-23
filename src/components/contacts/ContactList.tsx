@@ -7,7 +7,6 @@ import './ContactList.scss'
 import './Contact.scss'
 import { Icon } from '@ui'
 import moment from 'moment'
-import { userStore } from "@stores"
 
 type IProps = {
 	contactStore?: IContactStore,
@@ -25,7 +24,7 @@ const ContactList = inject((stores: IStores) => ({
 	appStore: stores.appStore
 }))(
 	observer((props: IProps) => {
-		const { contactStore, chatStore, appStore, onSelect } = props
+		const { contactStore, chatStore, appStore, onSelect, userStore } = props
 		let ContactsData = contactStore.contact
 		let activeContact = contactStore.activeContact
 		const filterSwitch = contactStore.filterSwitch
