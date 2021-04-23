@@ -130,14 +130,14 @@ const Chat = inject((stores: IStores) => ({
 			</Divider>
 		</div>
 
-		const renderDataContainerUnread = () => <div className="date_container unread">
-			<Divider orientation="center"
-				className='date_divider unread'>
-				<div className="date unread">
-					Непрочитанные сообщения
-				</div>
-			</Divider>
-		</div>
+		// const renderDataContainerUnread = () => <div className="date_container unread">
+		// 	<Divider orientation="center"
+		// 		className='date_divider unread'>
+		// 		<div className="date unread">
+		// 			Непрочитанные сообщения
+		// 		</div>
+		// 	</Divider>
+		// </div>
 
 		// // sms blocks in user
 		// const renderMessagesHeader = (msg: any) => <>
