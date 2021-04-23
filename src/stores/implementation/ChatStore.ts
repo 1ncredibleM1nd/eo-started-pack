@@ -330,26 +330,21 @@ export class ChatStore implements IChatStore {
 			username = contactStore.activeContact.name
 		}
 
+		// костыль
+		message.current.time = moment(message.current.timestamp, 'X').format('HH:mm')
+		message.current.date = moment(message.current.timestamp, 'X').format('DD.MM')
+		delete message.current.timestamp
+
 		if (message.previous) {
 			previousMessage = message.previous
 			previousRead = previousMessage.readed
 			let currentTime = moment(message.current.time, 'HH:mm')
 			let prevTime = moment(previousMessage.time, 'HH:mm')
 			previousTimeDifference = prevTime.diff(currentTime, 'minutes')
-		} else {
-			// костыль
-			message.current.time = moment(message.current.timestamp, 'X').format('HH:mm')
-			message.current.date = moment(message.current.timestamp, 'X').format('DD.MM')
-			delete message.current.timestamp
 		}
 
 		if (message.next) {
 			nextMessage = message.next
-
-			nextMessage.time = moment(nextMessage.timestamp, 'X').format('HH:mm')
-			nextMessage.date = moment(nextMessage.timestamp, 'X').format('DD.MM')
-			delete nextMessage.timestamp
-
 			let currentTime = moment(message.next.time, 'HH:mm')
 			let nextTime = moment(nextMessage.time, 'HH:mm')
 			nextTimeDifference = currentTime.diff(nextTime, 'minutes')
