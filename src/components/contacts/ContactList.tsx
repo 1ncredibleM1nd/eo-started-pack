@@ -136,7 +136,12 @@ const ContactList = inject((stores: IStores) => ({
 															last_message ? (<Fragment>
 																<div className={`last_msg ${status}`}>
 																	<div className="from">
-																		{contact.last_message.user.id === userStore.hero.id ? 'Вы:' : ''}
+																		{
+																			contact.last_message.user &&
+																			contact.last_message.user.id === userStore.hero.id ?
+																				'Вы:' :
+																				''
+																		}
 																	</div>
 																	{last_message.content}
 																	{
