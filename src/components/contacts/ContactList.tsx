@@ -137,8 +137,9 @@ const ContactList = inject((stores: IStores) => ({
 																<div className={`last_msg ${status}`}>
 																	<div className="from">
 																		{
-																			(!contact.last_message.user ||
-																				(contact.last_message.user && contact.last_message.user.id === userStore.hero.id)) ?
+																			!contact.last_message.income &&
+																			contact.last_message.user &&
+																			contact.last_message.user.id === userStore.hero.id ?
 																				'Вы:' :
 																				''
 																		}
