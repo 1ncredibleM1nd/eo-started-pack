@@ -5,6 +5,7 @@ import {getMessages, sendMessage} from '@actions'
 import moment from 'moment'
 import 'moment/locale/ru'
 import $ from 'jquery'
+import {TypesMessage} from "@stores/classes";
 
 moment.locale('ru')
 
@@ -276,7 +277,7 @@ export class ChatStore implements IChatStore {
 			this.activeChat = await this.collectChat(contact)
 
 			let lastMessage: IMsg = this.activeChat.msg[0][this.activeChat.msg[0].length - 1]
-			if (lastMessage.income) {
+			if (lastMessage.income && lastMessage.entity.type !== TypesMessage.MESSAGE) {
 				this.setActiveMsg(lastMessage)
 			}
 
