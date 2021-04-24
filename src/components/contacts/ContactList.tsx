@@ -92,7 +92,7 @@ const ContactList = inject((stores: IStores) => ({
 
 										let status: any
 										if (!!last_message) {
-											status = last_message.income && last_message.readed ?
+											status = !last_message.income || last_message.readed ?
 												'read' :
 												'unread'
 										}
