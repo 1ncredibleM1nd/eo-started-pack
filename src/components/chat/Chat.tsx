@@ -242,7 +242,6 @@ const Chat = inject((stores: IStores) => ({
 				<div className="editted_icon"><Icon className='active-grey' name={`solid_pencil-alt`} />{' '}Редак.
 				</div>) : ''}
 				<div className="msg_username">{msg.username}</div>
-				<div className="msg_time">{msg.time} {msg.date}</div>
 				<div className="msg_type">
 					{TypesMessage.getTypeDescription(msg.entity.type)}
 				</div>

@@ -333,7 +333,8 @@ export class ChatStore implements IChatStore {
 			if (
 				previousMessage.date === message.current.date &&
 				previousMessage.income === message.current.income &&
-				previousMessage.entity.type === message.current.entity.type
+				previousMessage.entity.type === message.current.entity.type &&
+				(!previousMessage.user && !user || (previousMessage.user && user && previousMessage.user.id === user.id))
 			) {
 				combineWithPrevious = true
 			}
