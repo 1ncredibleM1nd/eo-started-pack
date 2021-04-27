@@ -12,7 +12,6 @@ export class ChatStore implements IChatStore {
 	chat: IChat[] = []
 	@observable loaded: boolean = false
 	@observable activeChat: IChat
-	@observable activeMsg: IMsg
 	@observable modalWindow: string = 'close'
 	activeChatPageNumber: number = 1
 	@observable pageLoading: boolean = false
@@ -47,8 +46,16 @@ export class ChatStore implements IChatStore {
 	}
 
 	@action
-	async sendMessage(message: string, conversationSourceAccountId: any, school: any, files: any) {
-		await sendMessage(this.activeChat.id, message, conversationSourceAccountId, school, files)
+	async sendMessage(message: string, conversationSourceAccountId: any, school: any, files: any, activeMessage: IMsg) {
+		let replyTo: any
+
+		if (!!activeMessage) {
+			replyTo = activeMessage.id
+		}
+
+		await sendMessage(this.activeChat.id, message, conversationSourceAccountId, school, files, replyTo)
+
+		this.setActiveMsg(null)
 	}
 
 	@action
@@ -119,7 +126,7 @@ export class ChatStore implements IChatStore {
 	}
 
 	@action
-	getChat_contactId(contact_id: string): IChat {
+	getChatByContactId(contact_id: string): IChat {
 		return this.chat.find((chat_item: IChat) => chat_item.contact_id === contact_id)
 	}
 
@@ -135,7 +142,7 @@ export class ChatStore implements IChatStore {
 
 	@action
 	getLastMsg(id: string): any {
-		let chat = this.getChat_contactId(id)
+		let chat = this.getChatByContactId(id)
 
 		return chat.msg[chat.msg.length - 1]
 	}
@@ -143,7 +150,7 @@ export class ChatStore implements IChatStore {
 	@action
 	getUnreadCount(id: string): number {
 		let unreadedCount = 0
-		let chat = this.getChat_contactId(id)
+		let chat = this.getChatByContactId(id)
 		let counting = true
 		for (let i = chat.msg.length; i >= 0; i--) {
 			let page = chat.msg[i]
@@ -202,7 +209,7 @@ export class ChatStore implements IChatStore {
 				time,
 				date,
 				time_scope,
-				id: `msg_${id}`,
+				id: `msg_${ id }`,
 				avatar: avatar,
 				from: from,
 				social_media: social_media,
@@ -212,6 +219,10 @@ export class ChatStore implements IChatStore {
 				reply: reply,
 				edited: false,
 				income: false,
+				attachments: [],
+				entity: {
+					type: 'message'
+				},
 				readMsg() {
 					this.read = true
 				},
@@ -245,16 +256,8 @@ export class ChatStore implements IChatStore {
 	}
 
 	@action
-	setActiveMsg(message: IMsg, chat_id: string) {
-		let chat = this.chat.find((chat_item: IChat) => chat_item.id === chat_id)
-
-		if (message) {
-			this.activeMsg = message
-			chat.setActiveMsg(message)
-		} else {
-			this.activeMsg = null
-			chat.setActiveMsg(null)
-		}
+	setActiveMsg(message: IMsg) {
+		this.activeChat.setActiveMsg(message)
 	}
 
 	// @action
@@ -322,7 +325,7 @@ export class ChatStore implements IChatStore {
 		let center = false
 		let previousRead, timeScope: any
 		let username: string
-		let type = 'message'
+		let reply: IMsg = null
 
 		let user: any = message.current.user
 		if (!!user && !message.current.income) {
@@ -389,6 +392,12 @@ export class ChatStore implements IChatStore {
 			center = true
 		}
 
+		if (!!message.current.entity.data.replyTo) {
+			reply = this.collectMessage({
+				current: message.current.entity.data.replyTo
+			}, contact_id);
+		}
+
 		return {
 			timeScope,
 			previousRead,
@@ -397,7 +406,7 @@ export class ChatStore implements IChatStore {
 			center,
 			avatar,
 			username,
-			type,
+			reply,
 			...message.current,
 			readMsg() {
 				this.readed = true
