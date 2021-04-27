@@ -24,7 +24,7 @@ const ContactList = inject((stores: IStores) => ({
 	appStore: stores.appStore
 }))(
 	observer((props: IProps) => {
-		const { contactStore, chatStore, appStore, onSelect } = props
+		const { contactStore, chatStore, appStore, onSelect, userStore } = props
 		let ContactsData = contactStore.contact
 		let activeContact = contactStore.activeContact
 		const filterSwitch = contactStore.filterSwitch
@@ -32,6 +32,10 @@ const ContactList = inject((stores: IStores) => ({
 		const selectContact = async (id: any) => {
 			if (onSelect) {
 				onSelect()
+			}
+
+			if (!!chatStore.activeChat) {
+				chatStore.setActiveMsg(null)
 			}
 
 			await contactStore.setActiveContact(id)
@@ -143,7 +147,13 @@ const ContactList = inject((stores: IStores) => ({
 															last_message ? (<Fragment>
 																<div className={`last_msg ${status}`}>
 																	<div className="from">
-																		{contact.last_message.income ? '' : 'You:'}
+																		{
+																			!last_message.income &&
+																			last_message.user &&
+																			last_message.user.id === userStore.hero.id ?
+																				'Ты:' :
+																				''
+																		}
 																	</div>
 																	{last_message.content}
 																	{
