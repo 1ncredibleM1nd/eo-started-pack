@@ -83,7 +83,7 @@ async function getMessages(conversationId: string, page: number, school_id: stri
 	}
 }
 
-async function sendMessage(conversationId: string, message: string, conversationSourceAccountId: any, schoolId: string, files: any) {
+async function sendMessage(conversationId: string, message: string, conversationSourceAccountId: any, schoolId: string, files: any, replyTo: any) {
 	const formData = new FormData()
 
 	for (let i = 0; i < files.length; i++) {
@@ -95,6 +95,10 @@ async function sendMessage(conversationId: string, message: string, conversation
 
 	if (schoolId) {
 		formData.append('schoolId', schoolId)
+	}
+
+	if (!!replyTo) {
+		formData.append('replyTo', replyTo)
 	}
 
 	formData.append('conversationId', chatStore.activeChat.id)
