@@ -507,17 +507,17 @@ const Inputer = inject((stores: IStores) => ({
 							value={ draft[activeContact.id + status] } />
 					</div>
 
-					<div className="inputer_btn">
-						<Popover onVisibleChange={(e) => {
-							e ? {} : setSwitcher('')
-						}} visible={ switcher === 'attachments' } content={ <DropDownAttachments /> } trigger="click">
-							<Button onClick={() => {
-								switcher === 'attachments' ? setSwitcher('') : setSwitcher('attachments')
-							}} className='transparent'>
-								<Icon className='icon_m blue-lite' name='solid_paperclip' />
-							</Button>
-						</Popover>
-					</div>
+					{/*<div className="inputer_btn">*/}
+					{/*	<Popover onVisibleChange={(e) => {*/}
+					{/*		e ? {} : setSwitcher('')*/}
+					{/*	}} visible={ switcher === 'attachments' } content={ <DropDownAttachments /> } trigger="click">*/}
+					{/*		<Button onClick={() => {*/}
+					{/*			switcher === 'attachments' ? setSwitcher('') : setSwitcher('attachments')*/}
+					{/*		}} className='transparent'>*/}
+					{/*			<Icon className='icon_m blue-lite' name='solid_paperclip' />*/}
+					{/*		</Button>*/}
+					{/*	</Popover>*/}
+					{/*</div>*/}
 
 				</div>
 
