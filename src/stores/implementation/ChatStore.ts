@@ -5,6 +5,7 @@ import {getMessages, sendMessage} from '@actions'
 import moment from 'moment'
 import 'moment/locale/ru'
 import $ from 'jquery'
+import {TypesMessage} from "@stores/classes";
 
 moment.locale('ru')
 
@@ -12,7 +13,6 @@ export class ChatStore implements IChatStore {
 	chat: IChat[] = []
 	@observable loaded: boolean = false
 	@observable activeChat: IChat
-	@observable activeMsg: IMsg
 	@observable modalWindow: string = 'close'
 	activeChatPageNumber: number = 1
 	@observable pageLoading: boolean = false
@@ -47,8 +47,16 @@ export class ChatStore implements IChatStore {
 	}
 
 	@action
-	async sendMessage(message: string, conversationSourceAccountId: any, school: any, files: any) {
-		await sendMessage(this.activeChat.id, message, conversationSourceAccountId, school, files)
+	async sendMessage(message: string, conversationSourceAccountId: any, school: any, files: any, activeMessage: IMsg) {
+		let replyTo: any
+
+		if (!!activeMessage) {
+			replyTo = activeMessage.id
+		}
+
+		await sendMessage(this.activeChat.id, message, conversationSourceAccountId, school, files, replyTo)
+
+		this.setActiveMsg(null)
 	}
 
 	@action
@@ -119,7 +127,7 @@ export class ChatStore implements IChatStore {
 	}
 
 	@action
-	getChat_contactId(contact_id: string): IChat {
+	getChatByContactId(contact_id: string): IChat {
 		return this.chat.find((chat_item: IChat) => chat_item.contact_id === contact_id)
 	}
 
@@ -135,7 +143,7 @@ export class ChatStore implements IChatStore {
 
 	@action
 	getLastMsg(id: string): any {
-		let chat = this.getChat_contactId(id)
+		let chat = this.getChatByContactId(id)
 
 		return chat.msg[chat.msg.length - 1]
 	}
@@ -143,7 +151,7 @@ export class ChatStore implements IChatStore {
 	@action
 	getUnreadCount(id: string): number {
 		let unreadedCount = 0
-		let chat = this.getChat_contactId(id)
+		let chat = this.getChatByContactId(id)
 		let counting = true
 		for (let i = chat.msg.length; i >= 0; i--) {
 			let page = chat.msg[i]
@@ -172,37 +180,24 @@ export class ChatStore implements IChatStore {
 			let time = moment().format('HH:mm');
 			let date = moment().format('DD.MM');
 			let firstPage = this.activeChat.msg[0]
-			let prevMsg = firstPage[firstPage.length - 1]
+			let previousMessage = firstPage[firstPage.length - 1]
 
-			let flowMsgNext = false
-			let flowMsgPrev = false
-			let center = false
+			let combineWithPrevious: boolean = false
 
 			let time_scope: any = null
 
-			let currentTime = moment(time, 'HH:mm')
-			let prevTime = moment(prevMsg.time, 'HH:mm')
-			let prevTimeDiff = currentTime.diff(prevTime, 'minutes')
-
-			if (prevMsg && prevMsg.date !== date) {
-				time_scope = prevMsg.date
+			if (previousMessage && previousMessage.date !== date) {
+				time_scope = previousMessage.date
 			} else {
 				time_scope = null
 			}
 
-			if (prevTimeDiff < 3) {
-				prevMsg.flowMsgNext = true
-				flowMsgPrev = true
-			}
-
 			let msg: IMsg = {
-				flowMsgNext,
-				flowMsgPrev,
-				center,
+				combineWithPrevious,
 				time,
 				date,
 				time_scope,
-				id: `msg_${id}`,
+				id: `msg_${ id }`,
 				avatar: avatar,
 				from: from,
 				social_media: social_media,
@@ -212,6 +207,10 @@ export class ChatStore implements IChatStore {
 				reply: reply,
 				edited: false,
 				income: false,
+				attachments: [],
+				entity: {
+					type: 'message'
+				},
 				readMsg() {
 					this.read = true
 				},
@@ -245,16 +244,8 @@ export class ChatStore implements IChatStore {
 	}
 
 	@action
-	setActiveMsg(message: IMsg, chat_id: string) {
-		let chat = this.chat.find((chat_item: IChat) => chat_item.id === chat_id)
-
-		if (message) {
-			this.activeMsg = message
-			chat.setActiveMsg(message)
-		} else {
-			this.activeMsg = null
-			chat.setActiveMsg(null)
-		}
+	setActiveMsg(message: IMsg) {
+		this.activeChat.setActiveMsg(message)
 	}
 
 	// @action
@@ -274,6 +265,11 @@ export class ChatStore implements IChatStore {
 	async setActiveChat(contact: any) {
 		if (!!contact) {
 			this.activeChat = await this.collectChat(contact)
+
+			let lastMessage: IMsg = this.activeChat.msg[0][this.activeChat.msg[0].length - 1]
+			if (lastMessage.income && lastMessage.entity.type !== TypesMessage.MESSAGE) {
+				this.setActiveMsg(lastMessage)
+			}
 
 			setTimeout(() => {
 				$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
@@ -314,21 +310,16 @@ export class ChatStore implements IChatStore {
 
 	collectMessage(message: any, contact_id: string) {
 		let avatar: string
-		let userId: any
-		let previousMessage, nextMessage: any
-		let previousTimeDifference, nextTimeDifference: any
-		let flowMessageNext = false
-		let flowMessagePrevious = false
-		let center = false
-		let previousRead, timeScope: any
+		let combineWithPrevious: boolean = false
+		let previousRead: any
+		let timeScope: any = null
 		let username: string
-		let type = 'message'
+		let reply: IMsg = null
 
 		let user: any = message.current.user
 		if (!!user && !message.current.income) {
 			avatar = user.avatar
 			username = user.full_name
-			userId = user.id
 		} else {
 			avatar = !!message.current.income ?
 				contactStore.getAvatar(contact_id) :
@@ -339,65 +330,44 @@ export class ChatStore implements IChatStore {
 			} else {
 				username = userStore.hero.username
 			}
-
-			userId = message.current.from
 		}
+
+		// костыль
+		message.current.time = moment(message.current.timestamp, 'X').format('HH:mm')
+		message.current.date = moment(message.current.timestamp, 'X').format('DD.MM')
+		delete message.current.timestamp
 
 		if (message.previous) {
-			previousMessage = message.previous
+			const previousMessage = message.previous
 			previousRead = previousMessage.readed
-			let currentTime = moment(message.current.time, 'HH:mm')
-			let prevTime = moment(previousMessage.time, 'HH:mm')
-			previousTimeDifference = prevTime.diff(currentTime, 'minutes')
+
+			if (
+				previousMessage.date === message.current.date &&
+				previousMessage.income === message.current.income &&
+				previousMessage.entity.type === message.current.entity.type &&
+				(!previousMessage.user && !user || (previousMessage.user && user && previousMessage.user.id === user.id))
+			) {
+				combineWithPrevious = true
+			}
+
+			if (previousMessage.date !== message.current.date) {
+				timeScope = message.current.date
+			}
 		}
 
-		if (message.next) {
-			nextMessage = message.next
-			let currentTime = moment(message.next.time, 'HH:mm')
-			let nextTime = moment(nextMessage.time, 'HH:mm')
-			nextTimeDifference = currentTime.diff(nextTime, 'minutes')
-		}
-
-		if (
-			previousMessage &&
-			previousMessage.date !== message.current.date
-		) {
-			timeScope = message.current.date
-		} else {
-			timeScope = null
-		}
-
-		if (
-			previousMessage &&
-			previousMessage.income === message.current.income &&
-			previousMessage.from === userId &&
-			previousTimeDifference < 3
-		) {
-			flowMessageNext = true
-		}
-
-		if (
-			nextMessage &&
-			nextMessage.income === message.current.income &&
-			nextMessage.from === userId &&
-			nextTimeDifference < 3
-		) {
-			flowMessagePrevious = true
-		}
-
-		if (flowMessageNext && flowMessagePrevious) {
-			center = true
+		if (!!message.current.entity.data.replyTo) {
+			reply = this.collectMessage({
+				current: message.current.entity.data.replyTo
+			}, contact_id);
 		}
 
 		return {
 			timeScope,
 			previousRead,
-			flowMessageNext,
-			flowMessagePrevious,
-			center,
+			combineWithPrevious,
 			avatar,
 			username,
-			type,
+			reply,
 			...message.current,
 			readMsg() {
 				this.readed = true

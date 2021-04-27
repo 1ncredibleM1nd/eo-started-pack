@@ -5,6 +5,8 @@ import { Icon } from '@ui'
 import $ from 'jquery'
 import { Input, Menu, Button, Popover, Modal, Switch } from 'antd'
 import SocialMenu from './SocialMenu'
+import {TypesMessage} from "@stores/classes";
+import {CloseOutlined} from "@ant-design/icons";
 // import SmileMenu from './comp/SmileMenu'
 
 type IProps = {
@@ -22,10 +24,8 @@ const Inputer = inject((stores: IStores) => ({
 	appStore: stores.appStore
 }))(
 	observer((props: IProps) => {
-
 		const { chatStore, contactStore, userStore, appStore } = props
 		const activeContact = contactStore.activeContact
-		const activeMsg = chatStore.activeMsg
 		const hero = userStore.hero
 		const [draft, setDraft] = useState({})
 		const [switcher, setSwitcher] = useState('')
@@ -48,7 +48,9 @@ const Inputer = inject((stores: IStores) => ({
 					$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
 				})
 
-				if (activeContact && !draft[activeContact.id + status]) $('.main_input input').val('')
+				if (activeContact && !draft[activeContact.id + status]) {
+					$('.main_input input').val('')
+				}
 			}
 		}, [])
 
@@ -108,7 +110,7 @@ const Inputer = inject((stores: IStores) => ({
 					setTimeout(() => {
 						$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
 					})
-					await chatStore.sendMessage(message, activeContact.conversation_source_account_id, appStore.school, fileToSend)
+					await chatStore.sendMessage(message, activeContact.conversation_source_account_id, appStore.school, fileToSend, currentChat.active_msg)
 					setFileOnHold([])
 					setFileToSend([])
 					await chatStore.loadMessages(activeContact.id, 1)
@@ -117,9 +119,9 @@ const Inputer = inject((stores: IStores) => ({
 			}
 		}
 
-
 		const onChange = (name: string, value: string, event: any) => {
 			setDraft({ ...draft, [name + status]: value })
+
 			setTimeout(() => {
 				$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
 			})
@@ -136,7 +138,7 @@ const Inputer = inject((stores: IStores) => ({
 				case 'default':
 					if (draft[activeContact.id + status] && draft[activeContact.id + status].length) {
 						await chatStore.addMsg(draft[activeContact.id + status], hero.id, currentChat.activeSocial, null)
-						await chatStore.sendMessage(draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.school, fileToSend)
+						await chatStore.sendMessage(draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.school, fileToSend, currentChat.active_msg)
 						await chatStore.loadMessages(activeContact.id, 1)
 						//sendMsg(currentChat.id, draft[activeContact.id + status],
 						// activeContact.conversation_source_account_id, appStore.school) sendMsg(currentChat.id,
@@ -145,15 +147,15 @@ const Inputer = inject((stores: IStores) => ({
 					setDraft({ ...draft, [activeContact.id + status]: '' })
 					break
 				case 'edit':
-					activeMsg.editMsg(draft[activeContact.id + status])
+					chatStore.activeChat.active_msg.editMsg(draft[activeContact.id + status])
 					setDraft({ ...draft, [activeContact.id + status]: '' })
-					chatStore.setActiveMsg(null, currentChat.id)
+					chatStore.setActiveMsg(null)
 					setStatus('default')
 					break
 				case 'reply':
-					chatStore.addMsg(message, hero.id, currentChat.activeSocial, activeMsg['content'])
+					chatStore.addMsg(message, hero.id, currentChat.activeSocial, chatStore.activeChat.active_msg.content)
 					setDraft({ ...draft, [activeContact.id + 'default']: '', [activeContact.id + status]: '' })
-					chatStore.setActiveMsg(null, currentChat.id)
+					chatStore.setActiveMsg(null)
 					setStatus('default')
 					break
 				default:
@@ -342,14 +344,13 @@ const Inputer = inject((stores: IStores) => ({
 											<div className="file-holder video-holder">
 												{modalFileContoller(index)}
 												<div className="file-holder-preview">
-
 													<div className="content">
 														<div className="play-icon">
 															<Icon className='icon_m white' name='solid_file-audio' />
 														</div>
 														{
 															file_item.url ? (<Fragment>
-																< video autoPlay muted>
+																<video autoPlay muted>
 																	<source src={file_item.url} type='video/mp4' />
 																</video>
 															</Fragment>) : (<Fragment></Fragment>)
@@ -369,8 +370,8 @@ const Inputer = inject((stores: IStores) => ({
 											</div>
 										)
 									}
-									if (file_item.type === 'file') {
 
+									if (file_item.type === 'file') {
 										return (
 											<div className="file-holder video-holder">
 												{modalFileContoller(index)}
@@ -393,8 +394,8 @@ const Inputer = inject((stores: IStores) => ({
 												</div>
 											</div>
 										)
-
 									}
+
 									if (file_item.type === 'video') {
 										return (
 											<div className="file-holder video-holder">
@@ -406,13 +407,12 @@ const Inputer = inject((stores: IStores) => ({
 														</div>
 														{
 															file_item.url ? (<Fragment>
-																< video autoPlay muted>
+																<video autoPlay muted>
 																	<source src={file_item.url} type='video/mp4' />
 																</video>
 															</Fragment>) : (<Fragment></Fragment>)
 														}
 													</div>
-
 												</div>
 												<div className="file-holder-info">
 													<div className="name">
@@ -427,6 +427,7 @@ const Inputer = inject((stores: IStores) => ({
 											</div>
 										)
 									}
+
 									return null
 								})
 							}
@@ -483,32 +484,35 @@ const Inputer = inject((stores: IStores) => ({
 
 							<Button onClick={() => setSwitcher('social')} className='transparent not-allowed'>
 								<Icon className='icon_l'
-									name={`social_media_${currentChat.activeSocial ? currentChat.activeSocial : ''}`} />
+									name={`social_media_${ currentChat.activeSocial ? currentChat.activeSocial : '' }`} />
 							</Button>
 						</Popover>
 					</div>
 
 					<div className="main_input">
 						{
-							activeMsg ? (<Fragment>
+							chatStore.activeChat.active_msg ? (<Fragment>
 								<div className="selected-container">
-									{activeMsg['content']}
+									<span>{ chatStore.activeChat.active_msg.content }</span>
+									<div className="msg_type">
+										{TypesMessage.getTypeDescription(chatStore.activeChat.active_msg.entity.type)}
+									</div>
+									<CloseOutlined className="close" onClick={() => chatStore.setActiveMsg(null)} />
 								</div>
 							</Fragment>) : (<Fragment></Fragment>)
 						}
-						<TextArea onKeyDown={(e) => handleKeyDown(e)} onKeyUp={(e) => handleKeyUp(e)}
-							onPressEnter={(e) => handleEnter(e)} autoSize
+						<TextArea onKeyDown={ handleKeyDown } onKeyUp={ handleKeyUp }
+							onPressEnter={ handleEnter } autoSize
 							placeholder='Ваше сообщение'
-							ref={inputRef}
+							ref={ inputRef }
 							onChange={(e) => onChange(activeContact.id, e.target.value, e)}
-							value={draft[activeContact.id + status]} />
+							value={ draft[activeContact.id + status] } />
 					</div>
-
 
 					{/*<div className="inputer_btn">*/}
 					{/*	<Popover onVisibleChange={(e) => {*/}
 					{/*		e ? {} : setSwitcher('')*/}
-					{/*	}} visible={switcher === 'attachments'} content={<DropDownAttachments />} trigger="click">*/}
+					{/*	}} visible={ switcher === 'attachments' } content={ <DropDownAttachments /> } trigger="click">*/}
 					{/*		<Button onClick={() => {*/}
 					{/*			switcher === 'attachments' ? setSwitcher('') : setSwitcher('attachments')*/}
 					{/*		}} className='transparent'>*/}

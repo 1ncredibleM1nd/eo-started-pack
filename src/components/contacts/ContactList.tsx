@@ -24,7 +24,7 @@ const ContactList = inject((stores: IStores) => ({
 	appStore: stores.appStore
 }))(
 	observer((props: IProps) => {
-		const { contactStore, chatStore, appStore, onSelect } = props
+		const { contactStore, chatStore, appStore, onSelect, userStore } = props
 		let ContactsData = contactStore.contact
 		let activeContact = contactStore.activeContact
 		const filterSwitch = contactStore.filterSwitch
@@ -32,6 +32,10 @@ const ContactList = inject((stores: IStores) => ({
 		const selectContact = async (id: any) => {
 			if (onSelect) {
 				onSelect()
+			}
+
+			if (!!chatStore.activeChat) {
+				chatStore.setActiveMsg(null)
 			}
 
 			await contactStore.setActiveContact(id)
@@ -57,18 +61,26 @@ const ContactList = inject((stores: IStores) => ({
 			</div>
 		}
 
-		const contactTime = (date: any, time: any) => {
-			let now = moment(new Date());
-			let contact_date = moment(date, 'DD.MM')
-			let diff = now.diff(contact_date, 'days');
+		const contactTime = (timestamp: any) => {
+			let time: any = moment(timestamp, 'X').format('HH:mm')
+			let date: any = moment(timestamp, 'X').format('DD.MM.YY')
+
+			let now = moment(new Date())
+			let contact_date = moment(date, 'DD.MM.YY')
+			let diff = now.diff(contact_date, 'days')
 			if (diff === 0) {
 				return (
 					<span>{time}</span>
 				)
+			} else if (diff <= 7) {
+				return (
+					<span>{contact_date.format('dd')}</span>
+				)
+			} else {
+				return (
+					<span>{date}</span>
+				)
 			}
-			return (
-				<span>{contact_date.format('dd')} {date}</span>
-			)
 		}
 
 		return (
@@ -126,7 +138,7 @@ const ContactList = inject((stores: IStores) => ({
 														<div className="chat-time">
 															{
 																last_message ? (<Fragment>
-																	{contactTime(last_message.date, last_message.time)}
+																	{contactTime(last_message.timestamp)}
 																</Fragment>) : (<Fragment></Fragment>)
 															}
 
@@ -137,7 +149,13 @@ const ContactList = inject((stores: IStores) => ({
 															last_message ? (<Fragment>
 																<div className={`last_msg ${status}`}>
 																	<div className="from">
-																		{contact.last_message.income ? '' : 'You:'}
+																		{
+																			!last_message.income &&
+																			last_message.user &&
+																			last_message.user.id === userStore.hero.id ?
+																				'Ты:' :
+																				''
+																		}
 																	</div>
 																	{last_message.content}
 																	{
