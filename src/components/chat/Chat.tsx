@@ -133,14 +133,15 @@ const Chat = inject((stores: IStores) => ({
 				</div>
 			</Divider>
 		</div>
-		const renderDataContainerUnread = () => <div className="date_container unread">
-			<Divider orientation="center"
-				className='date_divider unread'>
-				<div className="date unread">
-					Непрочитанные сообщения
-				</div>
-			</Divider>
-		</div>
+
+		// const renderDataContainerUnread = () => <div className="date_container unread">
+		// 	<Divider orientation="center"
+		// 		className='date_divider unread'>
+		// 		<div className="date unread">
+		// 			Непрочитанные сообщения
+		// 		</div>
+		// 	</Divider>
+		// </div>
 
 		const renderMessagesWrapper = (msg: any) => <div className="message-wrapper">
 			<div className={`message-content ${msg.combineWithPrevious ? 'not-main' : ''} `}>
@@ -252,7 +253,7 @@ const Chat = inject((stores: IStores) => ({
 		const renderToMeMessages = (msg: any) => {
 			return (<>
 				{dateDivider(msg)}
-				{!msg.readed ? renderDataContainerUnread() : ' '}
+				{/*{!msg.readed ? renderDataContainerUnread() : ' '}*/}
 				<div key={Math.random()} className={`message ${msg.combineWithPrevious ? 'not-main' : ''} `}>
 					{renderMessagesWrapper(msg)}
 					{renderMessagesOptions(msg)}
