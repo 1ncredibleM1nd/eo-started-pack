@@ -316,10 +316,8 @@ export class ChatStore implements IChatStore {
 	}
 
 	collectMessage(message: any, contact_id: string) {
-		let avatar = message.current.income ?
-			contactStore.getAvatar(contact_id) :
-			userStore.hero.avatar
-		let userId = message.current.from
+		let avatar: string
+		let userId: any
 		let previousMessage, nextMessage: any
 		let previousTimeDifference, nextTimeDifference: any
 		let flowMessageNext = false
@@ -329,8 +327,23 @@ export class ChatStore implements IChatStore {
 		let username: string
 		let reply: IMsg = null
 
-		if (contactStore.activeContact.user.find((u: any) => u == message.current.from)) {
-			username = contactStore.activeContact.name
+		let user: any = message.current.user
+		if (!!user && !message.current.income) {
+			avatar = user.avatar
+			username = user.full_name
+			userId = user.id
+		} else {
+			avatar = !!message.current.income ?
+				contactStore.getAvatar(contact_id) :
+				userStore.hero.avatar
+
+			if (!!message.current.income) {
+				username = contactStore.activeContact.name
+			} else {
+				username = userStore.hero.username
+			}
+
+			userId = message.current.from
 		}
 
 		if (message.previous) {
