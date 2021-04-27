@@ -10,10 +10,8 @@ export default interface IMsg {
 	smiles: string[];
 	edited: boolean;
 	avatar?: string;
-	flowMsgNext?: any;
+	combineWithPrevious: boolean;
 	role?: any;
-	flowMsgPrev?: any;
-	center?: any;
 	prevRead?: any;
 	time_scope?: any;
 	addSmile: (smile: string) => void;

@@ -13,6 +13,7 @@ import ChatPlaceholder from './comp/ChatPlaceholder'
 import $ from 'jquery'
 import SettingsMo from '@components/chat/comp/SettingsMo'
 import {TypesMessage} from "@stores/classes";
+import {MoreOutlined} from "@ant-design/icons";
 
 
 type IProps = {
@@ -78,7 +79,7 @@ const Chat = inject((stores: IStores) => ({
 					{/*	Удалить*/}
 					{/*</Menu.Item>*/}
 					<Menu.Item onClick={() => replyMsg(msg)}>
-						Переслать
+						Ответить
 					</Menu.Item>
 				</Menu>
 			)
@@ -141,72 +142,15 @@ const Chat = inject((stores: IStores) => ({
 			</Divider>
 		</div>
 
-		// // sms blocks in user
-		// const renderMessagesHeader = (msg: any) => <>
-		// 	{
-		// 		msg.income ? (<Fragment>
-
-		// 			{!msg.flowMessagePrevious && msg.flowMessageNext && !msg.center ? (<div className="msg_header">
-		// 				<span>{msg.username}</span>
-		// 				{/* <span className="msg-role">{msg.role ? msg.role.name : ''}</span> */}
-		// 			</div>) : ''}
-
-		// 			{!msg.flowMessageNext && !msg.flowMessagePrevious ? (<div className="msg_header">
-		// 				<span>{msg.username}</span>
-		// 				{/* <span className="msg-role">{msg.role ? msg.role.name : ''}</span> */}
-		// 			</div>) : ''}
-
-		// 		</Fragment>) : (<Fragment>
-
-		// 			{!msg.flowMessagePrevious && msg.flowMessageNext && !msg.center ? (<div className="msg_header">
-		// 				<span>{hero.username}</span>
-		// 				{/* <span className="msg-role">{msg.role ? msg.role.name : ''}</span> */}
-		// 			</div>) : ''}
-
-		// 			{!msg.flowMessageNext && !msg.flowMessagePrevious ? (<div className="msg_header">
-		// 				<span>{hero.username}</span>
-		// 				{/* <span className="msg-role">{msg.role ? msg.role.name : ''}</span> */}
-		// 			</div>) : ''}
-
-		// 		</Fragment>)
-		// 	}
-		// </>
-
-		const renderTypeMessage = (msg: any) => {
-			switch (msg.entity.type) {
-				case TypesMessage.MESSAGE:
-					return <Fragment>
-						<Icon name="regular_envelope" className={`icon_s lite-grey`} />
-					</Fragment>
-				case TypesMessage.COMMENT:
-				case TypesMessage.PHOTO_COMMENT:
-				case TypesMessage.VIDEO_COMMENT:
-				case TypesMessage.BOARD_COMMENT:
-					return <Fragment>
-						<a href={ msg.entity.data.url } target="_blank">
-							<Icon name="regular_comment" className={`icon_s lite-grey`} />
-						</a>
-					</Fragment>
-				case TypesMessage.POST:
-					return <Fragment>
-						<a href={ msg.entity.data.url } target="_blank">
-							<Icon name="regular_clone" className={`icon_s lite-grey`} />
-						</a>
-					</Fragment>
-				default:
-					return <Fragment>
-						<Icon name="regular_question" className={`icon_s lite-grey`} />
-					</Fragment>
-			}
-		}
-
 		const renderMessagesWrapper = (msg: any) => <div className="message-wrapper">
-			<div className={`message-content ${msg.flowMessageNext ? 'not-main' : ''} `}>
+			<div className={`message-content ${msg.combineWithPrevious ? 'not-main' : ''} `}>
 				{!!msg.reply ? (<div className="reply">
 					<span>
 						{msg.reply.content}
 					</span>
-					{renderTypeMessage(msg.reply)}
+					<div className="msg_type">
+						{TypesMessage.getTypeDescription(msg.entity.type)}
+					</div>
 				</div>) : ''}
 				<div className="inset_border_container">
 					<div className="dummy" />
@@ -254,8 +198,13 @@ const Chat = inject((stores: IStores) => ({
 						{ msg.content }
 					</Fragment>
 				</div>
-				<div className="msg_type">
-					{ renderTypeMessage(msg) }
+				<div className='msg_time'>
+					{msg.time}
+				</div>
+				<div className='msg_menu'>
+					<Dropdown overlay={ DropDownMenu(msg) } placement="bottomLeft" trigger={['click']}>
+				    	<MoreOutlined className="dropdown-trigger" />
+					</Dropdown>
 				</div>
 				{/* <div className={`smile ${switcher === msg.id ? 'active' : ''}`}>
 				 <Popover onVisibleChange={(e) => { e ? {} : setSwitcher('') }} visible={switcher === msg.id} content={<SmileMenu id={msg.id} chat_id={currentChat.id} switcherOff={switcherOff} /trigger="click">
@@ -282,7 +231,7 @@ const Chat = inject((stores: IStores) => ({
 			</div>
 		</div>
 
-		const renderMessagesOptions = (msg: any) => !msg.flowMessageNext ? (<div className="message-options">
+		const renderMessagesOptions = (msg: any) => !msg.combineWithPrevious ? (<div className="message-options">
 			<div className="avatar avatar-sm">
 				<div className={`social_media_icon ${msg.social_media}`}>
 					<Icon className='icon_s' name={`social_media_${msg.social_media}`} />
@@ -293,15 +242,9 @@ const Chat = inject((stores: IStores) => ({
 				<div className="editted_icon"><Icon className='active-grey' name={`solid_pencil-alt`} />{' '}Редак.
 				</div>) : ''}
 				<div className="msg_username">{msg.username}</div>
-				<div className="msg_time">{msg.time} {msg.date}</div>
-				<Dropdown overlay={ DropDownMenu(msg) } placement="bottomLeft" trigger={['click']}>
-				    <span
-				        className='dropdown-trigger'>
-				        <Icon
-				            className='active-grey'
-				            name={`regular_three-dots`}/>
-				    </span>
-				</Dropdown>
+				<div className="msg_type">
+					{TypesMessage.getTypeDescription(msg.entity.type)}
+				</div>
 			</span>
 		</div>) : ''
 
@@ -310,8 +253,7 @@ const Chat = inject((stores: IStores) => ({
 			return (<>
 				{dateDivider(msg)}
 				{!msg.readed ? renderDataContainerUnread() : ' '}
-				<div key={Math.random()} className={`message ${msg.flowMessageNext ? 'not-main' : ''} `}>
-					{/* {renderMessagesHeader(msg)} */}
+				<div key={Math.random()} className={`message ${msg.combineWithPrevious ? 'not-main' : ''} `}>
 					{renderMessagesWrapper(msg)}
 					{renderMessagesOptions(msg)}
 				</div>
@@ -330,8 +272,7 @@ const Chat = inject((stores: IStores) => ({
 		const renderMyMessages = (msg: any) => {
 			return (<>
 				{dateDivider(msg)}
-				<div key={Math.random()} className={`message self ${msg.flowMessageNext ? 'not-main' : ''} `}>
-					{/* {renderMessagesHeader(msg)} */}
+				<div key={Math.random()} className={`message self ${msg.combineWithPrevious ? 'not-main' : ''} `}>
 					{renderMessagesWrapper(msg)}
 					{renderMessagesOptions(msg)}
 				</div>

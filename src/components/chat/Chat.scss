@@ -509,11 +509,6 @@
   align-items: center;
   cursor: pointer;
 
-
-  .dropdown-trigger {
-    margin-right: 5px;
-  }
-
   svg {
     opacity: .4;
 
@@ -528,10 +523,6 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-
-  .dropdown-trigger {
-    margin-right: 5px;
-  }
 
   svg {
     cursor: pointer;
@@ -610,12 +601,15 @@
   padding-right: 20px !important;
   padding-left: 0rem !important;
 
-  .message-wrapper .msg_type {
+  .message-wrapper .msg_menu {
     position: absolute;
     left: -30px;
     top: 7px;
   }
 
+  .message-wrapper .msg_time {
+    text-align: left;
+  }
 
   @include _990 {
     padding-right: 10px !important;
@@ -761,7 +755,7 @@
     justify-content: flex-start !important;
     align-items: flex-start;
 
-    .msg_type {
+    .msg_menu {
       position: absolute;
       right: -30px;
       top: 7px;
@@ -864,11 +858,22 @@
       }
     }
 
+    .msg_time {
+      font-size: 0.75rem;
+      position: relative;
+      z-index: 1;
+      text-align: right;
+    }
+
     .msg_text_container {
       max-width: 300rem;
       word-wrap: break-word;
       z-index: 10;
       position: relative;
+    }
+
+    .msg_menu .dropdown-trigger {
+      color: $grey_default;
     }
 
     .readed-status {
@@ -884,6 +889,10 @@
       margin-bottom: 5px;
       z-index: 1;
       position: relative;
+
+      .msg_type {
+        font-size: 0.75rem;
+      }
     }
 
 
