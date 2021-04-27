@@ -103,14 +103,16 @@ const ContactList = inject((stores: IStores) => ({
 										let online = contact.online
 
 										let status: any
-										if (last_message) {
-											status = contact.status
+										if (!!last_message) {
+											status = !last_message.income || last_message.readed ?
+												'read' :
+												'unread'
 										}
 
-										let unreadedCount = 0
-										if (status === 'unread') {
-											unreadedCount = chatStore.getUnreadCount(contact.id)
-										}
+										// let unreadedCount = 1
+										// if (status === 'unread') {
+										// 	unreadedCount = chatStore.getUnreadCount(contact.id)
+										// }
 
 										return (
 											<li onClick={() => selectContact(contact.id)}
@@ -159,12 +161,7 @@ const ContactList = inject((stores: IStores) => ({
 																	{
 																		status === 'unread' ? (<Fragment>
 																			<div className="unreaded_count">
-
-																			</div>
-																			<div
-
-																				className="badge badge-rounded badge-primary ml-1">
-																				{unreadedCount}
+																				{/*{unreadedCount}*/}
 																			</div>
 																		</Fragment>) : (<Fragment></Fragment>)
 																	}
