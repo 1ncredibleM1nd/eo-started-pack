@@ -139,7 +139,7 @@ const ContactList = inject((stores: IStores) => ({
 																			!last_message.income &&
 																			last_message.user &&
 																			last_message.user.id === userStore.hero.id ?
-																				'Вы:' :
+																				'Ты:' :
 																				''
 																		}
 																	</div>
