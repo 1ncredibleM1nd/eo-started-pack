@@ -217,11 +217,13 @@ const Chat = inject((stores: IStores) => ({
 									})
 								}
 							</div>
-						) : (<Fragment></Fragment>)
+						) : (<Fragment>
+							{msg.content}
+						</Fragment>)
 					}
-					<Fragment>
-						{ msg.content }
-					</Fragment>
+				</div>
+				<div className='msg_time'>
+					{msg.time}
 				</div>
 				<div className="msg_type">
 					{ renderTypeMessage(msg) }
@@ -262,15 +264,14 @@ const Chat = inject((stores: IStores) => ({
 				<div className="editted_icon"><Icon className='active-grey' name={`solid_pencil-alt`} />{' '}Редак.
 				</div>) : ''}
 				<div className="msg_username">{msg.username}</div>
-				<div className="msg_time">{msg.time} {msg.date}</div>
-				<Dropdown overlay={ DropDownMenu(msg) } placement="bottomLeft" trigger={['click']}>
-				    <span
-				        className='dropdown-trigger'>
-				        <Icon
-				            className='active-grey'
-				            name={`regular_three-dots`}/>
-				    </span>
-				</Dropdown>
+				{/*<Dropdown overlay={<DropDownMenu id={msg.id}/>} placement="bottomLeft" trigger={['click']}>*/}
+				{/*    <span*/}
+				{/*        className='dropdown-trigger'>*/}
+				{/*        <Icon*/}
+				{/*            className='active-grey'*/}
+				{/*            name={`regular_three-dots`}/>*/}
+				{/*    </span>*/}
+				{/*</Dropdown>*/}
 			</span>
 		</div>) : ''
 
