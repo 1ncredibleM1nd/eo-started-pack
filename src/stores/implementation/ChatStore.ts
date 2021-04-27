@@ -332,6 +332,11 @@ export class ChatStore implements IChatStore {
 			}
 		}
 
+		// костыль
+		message.current.time = moment(message.current.timestamp, 'X').format('HH:mm')
+		message.current.date = moment(message.current.timestamp, 'X').format('DD.MM')
+		delete message.current.timestamp
+
 		if (message.previous) {
 			const previousMessage = message.previous
 			previousRead = previousMessage.readed
