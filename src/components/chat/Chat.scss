@@ -1082,17 +1082,20 @@
       min-width: 200px;
     }
 
-
     .selected-container {
       width: 100%;
       margin-bottom: 5px;
       min-height: 28px;
       border-left: 2px solid $blue_lite;
       padding-left: 6px;
+      padding-right: 10px;
+      position: relative;
 
-      .msg_type {
-        font-size: 0.75rem;
-        color: $grey_lite;
+      .close {
+        position: absolute;
+        top: 1px;
+        right: 5px;
+        font-size: 15px;
       }
     }
 

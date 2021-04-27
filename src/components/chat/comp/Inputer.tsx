@@ -6,6 +6,7 @@ import $ from 'jquery'
 import { Input, Menu, Button, Popover, Modal, Switch } from 'antd'
 import SocialMenu from './SocialMenu'
 import {TypesMessage} from "@stores/classes";
+import {CloseOutlined} from "@ant-design/icons";
 // import SmileMenu from './comp/SmileMenu'
 
 type IProps = {
@@ -496,6 +497,7 @@ const Inputer = inject((stores: IStores) => ({
 									<div className="msg_type">
 										{TypesMessage.getTypeDescription(chatStore.activeChat.active_msg.entity.type)}
 									</div>
+									<CloseOutlined className="close" onClick={() => chatStore.setActiveMsg(null)} />
 								</div>
 							</Fragment>) : (<Fragment></Fragment>)
 						}
