@@ -3,7 +3,7 @@ import {chatStore, contactStore} from '@stores/implementation'
 import qs from 'qs'
 import { notification } from 'antd'
 
-async function getConversations(school_id?: any, page?: number) {
+async function getConversations(schoolIds: Array<number>, page?: number) {
 	let search: any = {
 		query: contactStore.search,
 		sources: Object.keys(contactStore.sources).filter((key: string) => contactStore.sources[key])
@@ -11,11 +11,8 @@ async function getConversations(school_id?: any, page?: number) {
 
 	let params: any = {
 		search,
-		page
-	}
-
-	if (!!school_id) {
-		params.schoolId = school_id
+		page,
+		schoolIds
 	}
 
 	try {
@@ -48,15 +45,15 @@ async function getConversations(school_id?: any, page?: number) {
 	}
 }
 
-async function getMessages(conversationId: string, page: number, school_id: string) {
+async function getMessages(conversationId: string, page: number, schoolIds: Array<number>) {
 	const params = new URLSearchParams()
 
 	params.set('page', page.toString())
 	params.set('conversationId', conversationId)
 
-	if (!!school_id) {
-		params.set('schoolId', school_id)
-	}
+	schoolIds.forEach((schoolId: number, index: number) => {
+		params.set(`schoolIds[${index}]`, schoolId.toString())
+	})
 
 	try {
 		const response = await API.get(`/conversation/get-messages?${ params }`)
@@ -83,7 +80,7 @@ async function getMessages(conversationId: string, page: number, school_id: stri
 	}
 }
 
-async function sendMessage(conversationId: string, message: string, conversationSourceAccountId: any, schoolId: string, files: any, replyTo: any) {
+async function sendMessage(conversationId: string, message: string, conversationSourceAccountId: string, schoolIds: Array<number>, files: Array<File>, replyTo: string) {
 	const formData = new FormData()
 
 	for (let i = 0; i < files.length; i++) {
@@ -93,12 +90,12 @@ async function sendMessage(conversationId: string, message: string, conversation
 	formData.append('message', message)
 	formData.append('conversationSourceAccountId', conversationSourceAccountId)
 
-	if (schoolId) {
-		formData.append('schoolId', schoolId)
-	}
+	schoolIds.forEach((schoolId: number, index: number) => {
+		formData.append(`schoolIds[${index}]`, schoolId.toString())
+	})
 
-	if (!!replyTo) {
-		formData.append('replyTo', replyTo)
+	if (replyTo) {
+		formData.append('replyTo', replyTo.toString())
 	}
 
 	formData.append('conversationId', chatStore.activeChat.id)
@@ -178,7 +175,7 @@ async function isLogged() {
 	}
 }
 
-async function setSession(sessionId: any) {
+async function setSession(sessionId: string) {
 	try {
 		const formData = new FormData()
 

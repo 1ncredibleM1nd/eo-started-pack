@@ -5,13 +5,13 @@ import { getConversations, getSchools } from '@actions'
 import { notification } from "antd"
 // @ts-ignore
 import { NotificationSettings } from '../../Config/Config'
+import ISchool from "@stores/interface/app/ISchool";
 
 export class AppStore implements IAppStore {
 	@observable loaded: boolean = false
 	@observable info_tab: string = 'none'
 	@observable layout: string = 'contact'
-	@observable school: any = ''
-	@observable school_list: any = []
+	@observable schoolList: Array<ISchool> = []
 	activeContactPageNumber: number = 1
 
 	@action
@@ -29,19 +29,6 @@ export class AppStore implements IAppStore {
 	}
 
 	@action
-	setSchool(school: string) {
-		this.school = school
-	}
-
-	@action
-	setSchoolId(id: string) {
-		this.setLoading(false)
-		this.setSchool(id)
-		contactStore.contact = []
-		this.updateContact()
-	}
-
-	@action
 	setLayout(layout: string) {
 		this.layout = layout
 	}
@@ -52,13 +39,55 @@ export class AppStore implements IAppStore {
 	}
 
 	@action
-	async initSchools() {
-		this.school_list = await getSchools()
+	setSchoolList(schoolList: Array<ISchool>)
+	{
+		this.schoolList = schoolList
+	}
+
+	@action
+	async initSchools()
+	{
+		let schoolList: any = await getSchools()
+
+		Object.keys(schoolList).forEach(schoolId => {
+			const schoolName: any = schoolList[schoolId]
+
+			schoolList[schoolId] = {
+				name: schoolName,
+				active: true
+			}
+		})
+
+		this.setSchoolList(schoolList)
+	}
+
+	@action
+	activeSchool(schoolId: number): void
+	{
+		contactStore.contact = []
+		this.setLoading(false)
+
+		this.schoolList[schoolId].active = !this.schoolList[schoolId].active
+	}
+
+	getActiveSchools(): Array<number>
+	{
+		let schoolIds: Array<number> = []
+
+		Object.keys(this.schoolList).forEach(schoolId => {
+			const school: any = this.schoolList[schoolId]
+
+			if (school.active) {
+				schoolIds.push(Number(schoolId))
+			}
+		})
+
+		return schoolIds
 	}
 
 	@action
 	async updateContact() {
-		const conversation_list = await getConversations(this.school, 1)
+		const conversation_list = await getConversations(this.getActiveSchools(), 1)
 
 		await contactStore.init(conversation_list)
 	}

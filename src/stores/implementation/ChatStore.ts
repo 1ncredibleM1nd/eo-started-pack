@@ -47,14 +47,14 @@ export class ChatStore implements IChatStore {
 	}
 
 	@action
-	async sendMessage(message: string, conversationSourceAccountId: any, school: any, files: any, activeMessage: IMsg) {
-		let replyTo: any
+	async sendMessage(message: string, conversationSourceAccountId: string, schoolIds: Array<number>, files: Array<File>, activeMessage: IMsg) {
+		let replyTo: string = null
 
-		if (!!activeMessage) {
+		if (activeMessage) {
 			replyTo = activeMessage.id
 		}
 
-		await sendMessage(this.activeChat.id, message, conversationSourceAccountId, school, files, replyTo)
+		await sendMessage(this.activeChat.id, message, conversationSourceAccountId, schoolIds, files, replyTo)
 
 		this.setActiveMsg(null)
 	}
@@ -72,7 +72,7 @@ export class ChatStore implements IChatStore {
 		for (let i = 1; i <= pageNum; i++) {
 			const pageArray: IMsg[] = []
 
-			let message_list = await getMessages(contact_id, i, appStore.school)
+			let message_list = await getMessages(contact_id, i, appStore.getActiveSchools())
 
 			if (message_list.length === 0) {
 				break

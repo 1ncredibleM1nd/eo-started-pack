@@ -63,7 +63,7 @@ export class ContactStore implements IContactStore {
 
 		this.contactLoading = true
 
-		let conversations = await getConversations(appStore.school, appStore.activeContactPageNumber + 1)
+		let conversations = await getConversations(appStore.getActiveSchools(), appStore.activeContactPageNumber + 1)
 
 		let dataContact: any = []
 		if (!!conversations.length) {
