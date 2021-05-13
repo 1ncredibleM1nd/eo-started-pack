@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from 'react'
 import { inject, observer } from 'mobx-react'
 import IStores, { IAppStore, IChatStore, IContactStore } from '@stores/interface'
-import { Input, Switch, Collapse, Button, Drawer, Select } from 'antd'
+import { Input, Switch, Collapse, Button, Drawer } from 'antd'
 import Settings from './comp/Settings'
 import AllContacts from './comp/AllContacts'
 import './Search.scss'
@@ -22,7 +22,6 @@ const Search = inject((stores: IStores) => ({
 		const { contactStore, appStore } = props
 		const [searchText, setSearchText] = useState('')
 		const [drawer, setDrawer] = useState('')
-		let school_list: any = appStore.school_list
 		const sources = contactStore.sources
 		const switcher = contactStore.filterSwitch
 
@@ -31,17 +30,16 @@ const Search = inject((stores: IStores) => ({
 			contactStore.setSearch(value)
 		}
 
-		async function handleMenuClick(school_id: any) {
+		const onChangeSocial = (social: string) => {
+			contactStore.filterSocial(social)
+		}
+
+		async function onChangeSchool(schoolId: number) {
 			await contactStore.setActiveContact(null)
 
 			appStore.setLayout('chat')
 
-			appStore.setSchoolId(school_id)
-		}
-
-
-		const onChangeSocial = (social: any) => {
-			contactStore.filterSocial(social)
+			appStore.activeSchool(schoolId)
 		}
 
 		// const onChangeType = (type: any) => {
@@ -70,7 +68,6 @@ const Search = inject((stores: IStores) => ({
 
 		const { Panel } = Collapse
 		const { Search } = Input
-		const { Option } = Select
 
 		return (
 			<Fragment>
@@ -199,11 +196,21 @@ const Search = inject((stores: IStores) => ({
 								</Radio.Group>
 							</div> */}
 							<div className="school-filter">
-								<Select defaultValue={null} onChange={handleMenuClick}>
-									<Option value={null}>Все контакты</Option>
-									{Object.keys(school_list).map((s: any) => <Option
-										value={s}>{school_list[s]}</Option>)}
-								</Select>
+								<h5>Школы</h5>
+								{
+									Object.keys(appStore.schoolList).map(schoolId => {
+										const school: any = appStore.schoolList[schoolId]
+
+										return (
+											<div className={"school-item"}>
+												<p>{school.name}</p>
+												<Switch
+													size="small" defaultChecked={school.active}
+													onChange={() => onChangeSchool(Number(schoolId))} />
+											</div>
+										)
+									})
+								}
 							</div>
 						</Panel>
 					</Collapse>

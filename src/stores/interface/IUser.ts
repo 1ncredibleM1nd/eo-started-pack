@@ -1,3 +1,5 @@
+import ISchool from "@stores/interface/app/ISchool";
+
 export default interface IUser {
     unic?: string;
     id?: string;
@@ -5,5 +7,5 @@ export default interface IUser {
     avatar?: string;
     availableSocial?: any;
     online?: any;
-    school_list: any
+    schoolList: Array<ISchool>;
 }

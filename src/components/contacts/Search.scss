@@ -149,6 +149,22 @@
   }
 }
 
+.school-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+
+  p {
+    margin: 0;
+    display: inline-block;
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
 .ant-radio-group {
   display: flex;
   flex-direction: row;

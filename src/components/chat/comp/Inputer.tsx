@@ -110,7 +110,7 @@ const Inputer = inject((stores: IStores) => ({
 					setTimeout(() => {
 						$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
 					})
-					await chatStore.sendMessage(message, activeContact.conversation_source_account_id, appStore.school, fileToSend, currentChat.active_msg)
+					await chatStore.sendMessage(message, activeContact.conversation_source_account_id, appStore.getActiveSchools(), fileToSend, currentChat.active_msg)
 					setFileOnHold([])
 					setFileToSend([])
 					await chatStore.loadMessages(activeContact.id, 1)
@@ -138,7 +138,7 @@ const Inputer = inject((stores: IStores) => ({
 				case 'default':
 					if (draft[activeContact.id + status] && draft[activeContact.id + status].length) {
 						await chatStore.addMsg(draft[activeContact.id + status], hero.id, currentChat.activeSocial, null)
-						await chatStore.sendMessage(draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.school, fileToSend, currentChat.active_msg)
+						await chatStore.sendMessage(draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.getActiveSchools(), fileToSend, currentChat.active_msg)
 						await chatStore.loadMessages(activeContact.id, 1)
 						//sendMsg(currentChat.id, draft[activeContact.id + status],
 						// activeContact.conversation_source_account_id, appStore.school) sendMsg(currentChat.id,
