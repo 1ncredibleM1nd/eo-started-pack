@@ -159,6 +159,11 @@ const Search = inject((stores: IStores) => ({
 									<Switch size="small" defaultChecked={sources['odnoklassniki']}
 										onChange={() => onChangeSocial('odnoklassniki')} />
 								</div>
+								<div className='channel-item'>
+									<Icon name='social_media_facebook' className='icon_s' />
+									<Switch size="small" defaultChecked={sources['facebook']}
+										onChange={() => onChangeSocial('facebook')} />
+								</div>
 								{/* <div className='channel-item'>
 									<Icon name='social_media_whatsapp' className='icon_s' />
 									<Switch disabled={true} size="small" defaultChecked={sources['whatsapp']}
@@ -168,11 +173,6 @@ const Search = inject((stores: IStores) => ({
 									<Icon name='social_media_viber' className='icon_s' />
 									<Switch disabled={true} size="small" defaultChecked={sources['viber']}
 										onChange={() => onChangeSocial('viber')} />
-								</div>
-								<div className='channel-item'>
-									<Icon name='social_media_facebook' className='icon_s' />
-									<Switch disabled={true} size="small" defaultChecked={sources['facebook']}
-										onChange={() => onChangeSocial('facebook')} />
 								</div>
 								<div className='channel-item'>
 									<Icon name='social_media_instagram' className='icon_s' />

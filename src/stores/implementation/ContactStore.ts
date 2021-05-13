@@ -15,7 +15,7 @@ export class ContactStore implements IContactStore {
 		'vkontakte': true,
 		'odnoklassniki': true,
 		'viber': false,
-		'facebook': false,
+		'facebook': true,
 		'telegram': true,
 		'email': false
 	}
