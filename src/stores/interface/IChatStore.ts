@@ -15,7 +15,7 @@ export default interface IChatStore {
 	loadMessages: (contact_id: string, pageNumber?: number) => void;
 	setModalWindow: (status: string) => void;
 	readAllMsg: (id: string) => void;
-	setActiveMsg: (msg: IMsg) => void;
+	setActiveMessage: (msg: IMsg) => void;
 	getUnreadCount: (id: string) => number;
 	addMsg: (content: any, from: any, social_media: string, status: string) => void;
 	sendMessage: (message: string, conversationSourceAccountId: any, school: any, files: any, activeMessage: IMsg) => void;

@@ -1,5 +1,5 @@
 import { action, computed, observable, reaction } from 'mobx'
-import { IContactStore, IContact } from '@stores/interface'
+import {IContactStore, IContact, IMsg} from '@stores/interface'
 import { chatStore, appStore } from '@stores/implementation'
 import { getConversations } from '@actions'
 import $ from 'jquery'
@@ -124,17 +124,25 @@ export class ContactStore implements IContactStore {
 
 		if (id === null) {
 			this.activeContact = null
-		} else if (this.activeContact && this.activeContact.id === id) {
-			this.activeContact = null
 		} else {
-			chatStore.loaded = false
+			chatStore.setPageLoading(true)
 
 			await this.setActiveContact(null)
 			await chatStore.setActiveChat(null)
 
 			this.activeContact = this.contact.find(contact => contact.id === id)
 			await chatStore.setActiveChat(this.activeContact)
-			// await chatStore.init(this.activeContact)
+			chatStore.collectMessagesList(chatStore.activeChat.contact_id, 1)
+				.then((messages: Array<Array<IMsg>>) => {
+					chatStore.activeChat.setMessages(messages)
+					chatStore.setPageLoading(false)
+
+					chatStore.activateLastMessage()
+
+					setTimeout(() => {
+						$('.msg_space').animate({ scrollTop: $(`.page-1`).height() }, 0)
+					})
+				})
 		}
 	}
 
@@ -183,6 +191,7 @@ export class ContactStore implements IContactStore {
 				if (this.activeContact && this.activeContact.id === localContact.id) {
 					if (localContact.last_message.id !== serverContact.last_message.id) {
 						await chatStore.loadMessages(this.activeContact.id, 1)
+						chatStore.activateLastMessage()
 
 						setTimeout(() => {
 							$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
