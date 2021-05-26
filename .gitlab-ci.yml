@@ -1,8 +1,8 @@
 image: node:8
 stages:
     - build_makeup
-    - build_deploy
-    - build_master
+    - build_dev
+    - build_demo
 
 build_makeup:
     stage: build_makeup
@@ -14,8 +14,8 @@ build_makeup:
             git pull origin dev && 
             npm install && npm run build"
 
-build_deploy:
-    stage: build_deploy
+build_dev:
+    stage: build_dev
     only:
         - dev
     script:
@@ -25,12 +25,12 @@ build_deploy:
             npm install && npm run build  &&
             rm -rf build && mv dist build"
 
-build_master:
-    stage: build_master
+build_demo:
+    stage: build_demo
     only:
         - master
     script:
-       - sshpass ssh -t admin@84.201.139.43 "cd web/chat.prodamus.pro/public_html && 
+       - sshpass ssh -t admin@84.201.139.43 "cd web/chat.demo.prodamus.pro/public_html &&
             git checkout -f && 
             git pull origin master && 
             npm install && npm run build  &&
