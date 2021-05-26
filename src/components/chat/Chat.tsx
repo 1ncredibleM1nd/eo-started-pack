@@ -61,7 +61,7 @@ const Chat = inject((stores: IStores) => ({
 
 
 		const replyMsg = (msg: any) => {
-			chatStore.setActiveMsg(msg)
+			chatStore.setActiveMessage(msg)
 
 			setReRender(!reRender)
 		}

@@ -21,12 +21,16 @@
         width: 100%;
         height: 100%;
         display: flex;
-    justify-content: center;
-    align-items: center;
+        justify-content: center;
+        align-items: center;
 
         .transparent {
             width: 60px;
         }
+    }
+
+    @include _375 {
+        display: none;
     }
 }
 
@@ -175,18 +179,28 @@
 
     .title {
         width: 100%;
-        font-size: 18px;
         height: 100%;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
         justify-content: center;
+
+        p {
+            font-size: 18px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 100%;
+            margin: 0;
+        }
     }
-
-
 
     &.user {
         display: flex !important;
+    }
+
+    @include _375 {
+        padding: 0;
     }
 }
 

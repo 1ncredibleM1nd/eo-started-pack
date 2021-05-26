@@ -149,13 +149,13 @@ const Inputer = inject((stores: IStores) => ({
 				case 'edit':
 					chatStore.activeChat.active_msg.editMsg(draft[activeContact.id + status])
 					setDraft({ ...draft, [activeContact.id + status]: '' })
-					chatStore.setActiveMsg(null)
+					chatStore.setActiveMessage(null)
 					setStatus('default')
 					break
 				case 'reply':
 					chatStore.addMsg(message, hero.id, currentChat.activeSocial, chatStore.activeChat.active_msg.content)
 					setDraft({ ...draft, [activeContact.id + 'default']: '', [activeContact.id + status]: '' })
-					chatStore.setActiveMsg(null)
+					chatStore.setActiveMessage(null)
 					setStatus('default')
 					break
 				default:
@@ -497,7 +497,7 @@ const Inputer = inject((stores: IStores) => ({
 									<div className="msg_type">
 										{TypesMessage.getTypeDescription(chatStore.activeChat.active_msg.entity.type)}
 									</div>
-									<CloseOutlined className="close" onClick={() => chatStore.setActiveMsg(null)} />
+									<CloseOutlined className="close" onClick={() => chatStore.setActiveMessage(null)} />
 								</div>
 							</Fragment>) : (<Fragment></Fragment>)
 						}

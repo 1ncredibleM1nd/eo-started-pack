@@ -26,23 +26,20 @@ const ContactList = inject((stores: IStores) => ({
 	observer((props: IProps) => {
 		const { contactStore, chatStore, appStore, onSelect, userStore } = props
 		let ContactsData = contactStore.contact
-		let activeContact = contactStore.activeContact
 		const filterSwitch = contactStore.filterSwitch
 
 		const selectContact = async (id: any) => {
+			if (chatStore.activeChat && chatStore.activeChat.id == id) {
+				return
+			}
+
 			if (onSelect) {
 				onSelect()
 			}
 
-			if (!!chatStore.activeChat) {
-				chatStore.setActiveMsg(null)
-			}
-
 			await contactStore.setActiveContact(id)
 
-			if (activeContact) {
-				appStore.setLayout('chat')
-			}
+			appStore.setLayout('chat')
 		}
 
 		const handleScroll = () => {
@@ -117,7 +114,7 @@ const ContactList = inject((stores: IStores) => ({
 										return (
 											<li onClick={() => selectContact(contact.id)}
 												className={`contacts-item friends contact-item-${index}
-                                                    ${activeContact && activeContact.id === contact.id
+                                                    ${contactStore.activeContact && contactStore.activeContact.id === contact.id
 														? 'active' : ''}`}
 												key={index}
 											>
@@ -127,7 +124,7 @@ const ContactList = inject((stores: IStores) => ({
 															name={`social_media_${contact.last_message.social_media}`} />
 													</div>
 													<Badge
-														className={`online_dot ${activeContact && activeContact.id === contact.id ? 'active' : ''}`}
+														className={`online_dot ${contactStore.activeContact && contactStore.activeContact.id === contact.id ? 'active' : ''}`}
 														dot={Boolean(online)}>
 														<img src={contact.avatar} alt="" />
 													</Badge>

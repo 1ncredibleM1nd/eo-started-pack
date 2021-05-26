@@ -56,7 +56,47 @@ export class ChatStore implements IChatStore {
 
 		await sendMessage(this.activeChat.id, message, conversationSourceAccountId, schoolIds, files, replyTo)
 
-		this.setActiveMsg(null)
+		this.setActiveMessage(null)
+	}
+
+	@action
+	activateLastMessage()
+	{
+		const messagesList: Array<Array<IMsg>> = this.activeChat.msg
+		if (messagesList.length) {
+			const lastPageMessage: Array<IMsg> = messagesList[0]
+
+			if (lastPageMessage.length) {
+				const lastMessage: IMsg = lastPageMessage[lastPageMessage.length - 1]
+
+				if (lastMessage.income && lastMessage.entity.type !== TypesMessage.MESSAGE) {
+					this.setActiveMessage(lastMessage)
+				}
+			}
+		}
+	}
+
+	@action
+	async collectMessagesList(contactId: string, neededPage?: number): Promise<Array<Array<IMsg>>>
+	{
+		const messagesOfPages: Array<Array<IMsg>> = []
+
+		for (let pageNumber: number = 1; pageNumber <= neededPage; pageNumber++) {
+			const messagesArray: Array<any> = await getMessages(contactId, pageNumber, appStore.getActiveSchools())
+
+			const messagesOfPage: Array<IMsg> = []
+			messagesArray.forEach((message, index: number) => {
+				messagesOfPage.unshift(this.collectMessage({
+					previous: messagesArray[index - 1],
+					current: messagesArray[index],
+					next: messagesArray[index + 1]
+				}, contactId))
+			})
+
+			messagesOfPages.unshift(messagesOfPage)
+		}
+
+		return messagesOfPages
 	}
 
 	@action
@@ -69,28 +109,7 @@ export class ChatStore implements IChatStore {
 		this.setPageLoading(true)
 
 		// загружаем пачки сообщений постранично
-		for (let i = 1; i <= pageNum; i++) {
-			const pageArray: IMsg[] = []
-
-			let message_list = await getMessages(contact_id, i, appStore.getActiveSchools())
-
-			if (message_list.length === 0) {
-				break
-			}
-
-			// обработка пачки сообщений
-			for (let j = 0; j < message_list.length; j++) {
-				const message = this.collectMessage({
-					previous: message_list[j - 1],
-					current: message_list[j],
-					next: message_list[j + 1]
-				}, contact_id)
-
-				pageArray.unshift(message)
-			}
-
-			messages.unshift(pageArray)
-		}
+		messages = await this.collectMessagesList(contact_id, pageNum)
 
 		// если находимся в чате
 		if (this.activeChat && this.activeChat.msg) {
@@ -244,7 +263,7 @@ export class ChatStore implements IChatStore {
 	}
 
 	@action
-	setActiveMsg(message: IMsg) {
+	setActiveMessage(message: IMsg) {
 		this.activeChat.setActiveMsg(message)
 	}
 
@@ -266,10 +285,10 @@ export class ChatStore implements IChatStore {
 		if (!!contact) {
 			this.activeChat = await this.collectChat(contact)
 
-			let lastMessage: IMsg = this.activeChat.msg[0][this.activeChat.msg[0].length - 1]
-			if (lastMessage.income && lastMessage.entity.type !== TypesMessage.MESSAGE) {
-				this.setActiveMsg(lastMessage)
-			}
+			// let lastMessage: IMsg = this.activeChat.msg[0][this.activeChat.msg[0].length - 1]
+			// if (lastMessage.income && lastMessage.entity.type !== TypesMessage.MESSAGE) {
+			// 	this.setActiveMsg(lastMessage)
+			// }
 
 			setTimeout(() => {
 				$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
@@ -301,9 +320,10 @@ export class ChatStore implements IChatStore {
 			}
 		}
 
-		const messageList = await this.loadMessages(contact.id, 1)
-
-		chat.setMessages(messageList)
+		// const messageList = await this.loadMessages(contact.id, 1)
+		// const messageList: IMsg[][] = []
+		//
+		// chat.setMessages(messageList)
 
 		return chat
 	}

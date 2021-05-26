@@ -165,7 +165,7 @@ const Header = inject((stores: IStores) => ({
 									</div>
 									<div className={`header_title`}>
 										<div className='title'>
-											{chatTitle}
+											<p>{chatTitle}</p>
 										</div>
 										{/*{*/}
 										{/*    user ? (<Fragment>*/}
