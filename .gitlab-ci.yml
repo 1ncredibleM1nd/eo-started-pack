@@ -3,35 +3,54 @@ stages:
     - build_makeup
     - build_dev
     - build_demo
+    - build_prod
 
 build_makeup:
     stage: build_makeup
     only:
         - makeup
     script:
-        - sshpass ssh -t admin@84.201.139.43 "cd web/chat.makeup.dev.prodamus.pro/public_html && 
-            git checkout -f && 
-            git pull origin dev && 
-            npm install && npm run build"
+        - sshpass ssh -t admin@84.201.139.43 "cd web/chat.makeup.dev.prodamus.pro/public_html
+            && git checkout -f
+            && git pull origin dev
+            && npm install
+            && npm run build"
 
 build_dev:
     stage: build_dev
     only:
         - dev
     script:
-        - sshpass ssh -t admin@84.201.139.43 "cd web/chat.dev.prodamus.pro/public_html && 
-            git checkout -f && 
-            git pull origin dev && 
-            npm install && npm run build  &&
-            rm -rf build && mv dist build"
+        - sshpass ssh -t admin@84.201.139.43 "cd web/chat.dev.prodamus.pro/public_html
+            && git checkout -f
+            && git pull origin dev
+            && npm install
+            && npm run build
+            && rm -rf build
+            && mv dist build"
 
 build_demo:
     stage: build_demo
     only:
         - master
     script:
-       - sshpass ssh -t admin@84.201.139.43 "cd web/chat.demo.prodamus.pro/public_html &&
-            git checkout -f && 
-            git pull origin master && 
-            npm install && npm run build  &&
-            rm -rf build && mv dist build"
+       - sshpass ssh -t admin@84.201.139.43 "cd web/chat.demo.prodamus.pro/public_html
+            && git checkout -f
+            && git pull origin master
+            && npm install
+            && npm run build
+            && rm -rf build
+            && mv dist build"
+
+build_prod:
+    stage: build_prod
+    only:
+        - /^v[\d\.]+$/
+    script:
+        - sshpass ssh -t prodamus@papabot.ru -p 1002 "cd /var/www/chat.prodamus.ru/backend
+            && git fetch --tags
+            && git checkout -f tags/$CI_COMMIT_TAG
+            && npm install
+            && npm run build
+            && rm -rf build
+            && mv dist build"
