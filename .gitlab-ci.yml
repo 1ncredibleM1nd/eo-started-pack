@@ -47,7 +47,7 @@ build_prod:
     only:
         - /^v[\d\.]+$/
     script:
-        - sshpass ssh -t prodamus@papabot.ru -p 1002 "cd /var/www/chat.prodamus.ru/backend
+        - sshpass ssh -t prodamus@papabot.ru -p 1002 "cd /var/www/chat.prodamus.ru/frontend
             && git fetch --tags
             && git checkout -f tags/$CI_COMMIT_TAG
             && npm install
