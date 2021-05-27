@@ -49,6 +49,10 @@ export class AuthStore implements IAuthStore {
 
 	@action
 	checkIsFrame() {
+	    if(localStorage.getItem('isTest')){
+            this.isFrame = false;
+	        return;
+        }
 		this.isFrame = window.self !== window.top
 	}
 

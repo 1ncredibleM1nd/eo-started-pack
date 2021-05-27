@@ -207,7 +207,9 @@ const Inputer = inject((stores: IStores) => ({
 
 		const { TextArea } = Input
 
-		setTimeout(() => inputRef.current.focus(), 100)
+        if(inputRef && inputRef.current){
+    		setTimeout(() => inputRef.current.focus(), 100)
+        }
 
 		const handleFileInput = (e: any) => {
 			e.preventDefault()
