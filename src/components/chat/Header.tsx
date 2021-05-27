@@ -65,16 +65,11 @@ const Header = inject((stores: IStores) => ({
 												{
 													chatStore.pageLoading ? (<Fragment>
 														<MoonLoader color='#3498db' size={18} />
-													</Fragment>) : (<Fragment></Fragment>)
+													</Fragment>) : (<Fragment/>)
 												}
 
 											</div>
 										</div>
-									</div>
-									<div className="header_info">
-										<Button onClick={() => appStore.setLayout('info')} className='transparent'>
-											<Icon className='icon_l lite-grey' name={`solid_users-cog`} />
-										</Button>
 									</div>
 								</div>
 							</Fragment>) : (<Fragment>
