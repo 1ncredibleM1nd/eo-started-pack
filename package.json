@@ -11,6 +11,8 @@
   "license": "",
   "dependencies": {
     "@bem-react/classname": "^1.5.8",
+    "@sentry/react": "^6.4.1",
+    "@sentry/tracing": "^6.4.1",
     "@types/youtube-player": "^5.5.3",
     "antd": "4.2.2",
     "axios": "^0.21.1",

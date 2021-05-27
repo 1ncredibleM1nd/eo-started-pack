@@ -2,7 +2,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Row, Col, Layout } from 'antd';
-import { ChatLayout, InfoLayout, ContactsLayout } from '@layouts'
+import { ChatLayout, ContactsLayout } from '@layouts'
 import IStores, { IAppStore, IContactStore } from '@stores/interface';
 import '@styles/index.scss'
 
@@ -40,10 +40,12 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
                     <Col
                         xs={layout === 'chat' ? 24 : 0}
                         sm={layout === 'chat' ? 24 : 0}
-                        md={14}
-                        lg={10} xl={12} xxl={12}>
+                        md={24}
+                        lg={17} xl={18} xxl={18}>
                         <ChatLayout />
                     </Col>
+                    {/*
+                    // TODO: вернуть, когда будем готовы получать данные. См. коммит, чтобы увидеть исходные значения
                     <Col
                         xs={layout === 'info' ? 24 : 0}
                         sm={layout === 'info' ? 24 : 0}
@@ -51,6 +53,7 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
                         lg={7} xl={6} xxl={6}>
                         <InfoLayout />
                     </Col>
+                    */}
                 </Row>
             </Layout >
         )

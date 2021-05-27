@@ -6,6 +6,7 @@ import moment from 'moment'
 import 'moment/locale/ru'
 import $ from 'jquery'
 import {TypesMessage} from "@stores/classes";
+import IMessagesList from "@stores/interface/app/IMessagesList";
 
 moment.locale('ru')
 
@@ -60,7 +61,7 @@ export class ChatStore implements IChatStore {
 	}
 
 	@action
-	activateLastMessage()
+	activateLastMessage(): void
 	{
 		const messagesList: Array<Array<IMsg>> = this.activeChat.msg
 		if (messagesList.length) {
@@ -77,7 +78,7 @@ export class ChatStore implements IChatStore {
 	}
 
 	@action
-	async collectMessagesList(contactId: string, neededPage?: number): Promise<Array<Array<IMsg>>>
+	async collectMessagesList(contactId: string, neededPage?: number): Promise<IMessagesList>
 	{
 		const messagesOfPages: Array<Array<IMsg>> = []
 
@@ -96,7 +97,12 @@ export class ChatStore implements IChatStore {
 			messagesOfPages.unshift(messagesOfPage)
 		}
 
-		return messagesOfPages
+		const messagesList: IMessagesList = {
+			contactId,
+			messages: messagesOfPages
+		}
+
+		return messagesList
 	}
 
 	@action
@@ -109,7 +115,7 @@ export class ChatStore implements IChatStore {
 		this.setPageLoading(true)
 
 		// загружаем пачки сообщений постранично
-		messages = await this.collectMessagesList(contact_id, pageNum)
+		messages = (await this.collectMessagesList(contact_id, pageNum)).messages
 
 		// если находимся в чате
 		if (this.activeChat && this.activeChat.msg) {

@@ -1,8 +1,9 @@
 import { action, computed, observable, reaction } from 'mobx'
-import {IContactStore, IContact, IMsg} from '@stores/interface'
+import {IContactStore, IContact} from '@stores/interface'
 import { chatStore, appStore } from '@stores/implementation'
 import { getConversations } from '@actions'
 import $ from 'jquery'
+import IMessagesList from "@stores/interface/app/IMessagesList";
 
 export class ContactStore implements IContactStore {
 	@observable contact: IContact[] = []
@@ -122,6 +123,10 @@ export class ContactStore implements IContactStore {
 	async setActiveContact(id: string) {
 		chatStore.setPageNumber(1)
 
+        if(this.activeContact && this.activeContact.id === id){
+            return
+        }
+
 		if (id === null) {
 			this.activeContact = null
 		} else {
@@ -133,7 +138,11 @@ export class ContactStore implements IContactStore {
 			this.activeContact = this.contact.find(contact => contact.id === id)
 			await chatStore.setActiveChat(this.activeContact)
 			chatStore.collectMessagesList(chatStore.activeChat.contact_id, 1)
-				.then((messages: Array<Array<IMsg>>) => {
+				.then(({ contactId, messages }: IMessagesList) => {
+					if (contactId !== this.activeContact.id) {
+						return
+					}
+
 					chatStore.activeChat.setMessages(messages)
 					chatStore.setPageLoading(false)
 

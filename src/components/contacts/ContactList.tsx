@@ -29,12 +29,12 @@ const ContactList = inject((stores: IStores) => ({
 		const filterSwitch = contactStore.filterSwitch
 
 		const selectContact = async (id: any) => {
-			if (chatStore.activeChat && chatStore.activeChat.id == id) {
-				return
-			}
-
 			if (onSelect) {
 				onSelect()
+			}
+
+			if (chatStore.activeChat) {
+				chatStore.setActiveMessage(null)
 			}
 
 			await contactStore.setActiveContact(id)
@@ -43,6 +43,9 @@ const ContactList = inject((stores: IStores) => ({
 		}
 
 		const handleScroll = () => {
+		    if(!document.querySelector('#chatContactsList') || document.querySelector(`.contact-item-${ContactsData.length - 1}`)){
+		        return;
+            }
 			let parentPos = document.querySelector('#chatContactsList').getBoundingClientRect()
 			let childPos = document.querySelector(`.contact-item-${ContactsData.length - 1}`).getBoundingClientRect()
 			let topOfLastContact = childPos.bottom - parentPos.bottom
@@ -106,6 +109,10 @@ const ContactList = inject((stores: IStores) => ({
 												'unread'
 										}
 
+                                        const isIAm = !last_message.income &&
+                                                last_message.user &&
+                                                last_message.user.id === userStore.hero.id
+
 										// let unreadedCount = 1
 										// if (status === 'unread') {
 										// 	unreadedCount = chatStore.getUnreadCount(contact.id)
@@ -145,22 +152,14 @@ const ContactList = inject((stores: IStores) => ({
 														{
 															last_message ? (<Fragment>
 																<div className={`last_msg ${status}`}>
-																	<div className="from">
-																		{
-																			!last_message.income &&
-																			last_message.user &&
-																			last_message.user.id === userStore.hero.id ?
-																				'Ты:' :
-																				''
-																		}
-																	</div>
+                                                                    {isIAm?<div className="from">Ты:</div>:''}
 																	{last_message.content}
 																	{
 																		status === 'unread' ? (<Fragment>
 																			<div className="unreaded_count">
 																				{/*{unreadedCount}*/}
 																			</div>
-																		</Fragment>) : (<Fragment></Fragment>)
+																		</Fragment>) : (<Fragment />)
 																	}
 																</div>
 															</Fragment>) : (<Fragment>
@@ -181,7 +180,7 @@ const ContactList = inject((stores: IStores) => ({
 													Контактов нет ¯\_(ツ)_/¯
 												</div>
 											</li>
-										</Fragment>) : (<Fragment></Fragment>)
+										</Fragment>) : (<Fragment />)
 									}
 								</ul>
 							</div>
