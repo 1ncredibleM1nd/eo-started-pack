@@ -1,7 +1,17 @@
-import { API, AUTH } from './axios'
+import {API, AUTH} from './axios'
 import {chatStore, contactStore} from '@stores/implementation'
 import qs from 'qs'
-import { notification } from 'antd'
+import {notification} from 'antd'
+import * as Sentry from "@sentry/react";
+
+function messageError(error: Error, defaultMessage?: string, section = 'other') {
+	let message = error.toString() ?? defaultMessage;
+	Sentry.captureException(new Error(message), {
+		tags: {
+			section: section,
+		},
+	});
+}
 
 async function getConversations(schoolIds: Array<number>, page?: number) {
 	let search: any = {
@@ -37,10 +47,7 @@ async function getConversations(schoolIds: Array<number>, page?: number) {
 
 		return response.data.data
 	} catch (error) {
-		notification.error({
-			message: error.toString() ?? 'Ошибка получения контактов'
-		})
-
+		messageError(error, "Ошибка получения конатктов", 'contacts')
 		return []
 	}
 }
@@ -56,7 +63,7 @@ async function getMessages(conversationId: string, page: number, schoolIds: Arra
 	})
 
 	try {
-		const response = await API.get(`/conversation/get-messages?${ params }`)
+		const response = await API.get(`/conversation/get-messages?${params}`)
 
 		if (response.data.error !== 0) {
 			const error: any = {
@@ -72,10 +79,7 @@ async function getMessages(conversationId: string, page: number, schoolIds: Arra
 
 		return response.data.data
 	} catch (error) {
-		notification.error({
-			message: error.toString() ?? 'Ошибка получения сообщений'
-		})
-
+		messageError(error, "Ошибка получения сообщений", 'messages')
 		return []
 	}
 }
@@ -115,9 +119,7 @@ async function sendMessage(conversationId: string, message: string, conversation
 			notification.error(error)
 		}
 	} catch (error) {
-		notification.error({
-			message: error.toString() ?? 'Ошибка отправки сообщения'
-		})
+		messageError(error, "Ошибка отправки сообщения", 'messages')
 	}
 }
 
@@ -139,9 +141,7 @@ async function getUserData() {
 
 		return response.data.data
 	} catch (error) {
-		notification.error({
-			message: error.toString() ?? 'Ошибка получения аккаунта'
-		})
+		messageError(error, "Ошибка получения аккаунта", 'auth')
 
 		return null
 	}
@@ -165,9 +165,7 @@ async function isLogged() {
 
 		return response.data.data
 	} catch (error) {
-		notification.error({
-			message: error.toString() ?? 'Ошибка проверки авторизации'
-		})
+		messageError(error, "Ошибка проверки авторизации", 'auth')
 
 		return {
 			success: false
@@ -197,9 +195,7 @@ async function setSession(sessionId: string) {
 
 		return response.data.data
 	} catch (error) {
-		notification.error({
-			message: error.toString() ?? 'Ошибка установки сессии'
-		})
+		messageError(error, "Ошибка установки сессии", 'auth')
 
 		return null
 	}
@@ -223,9 +219,7 @@ async function getSchools() {
 
 		return response.data.data
 	} catch (error) {
-		notification.error({
-			message: error.toString() ?? 'Ошибка получения школ'
-		})
+		messageError(error, "Ошибка получения школ", 'school')
 
 		return {}
 	}

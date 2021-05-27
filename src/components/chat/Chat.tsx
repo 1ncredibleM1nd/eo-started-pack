@@ -42,23 +42,6 @@ const Chat = inject((stores: IStores) => ({
 			currentChat = chatStore.activeChat
 		}
 
-		// const editMsg = (id: string) => {
-		// 	let msg = chatStore.getMsg(id, currentChat.id)
-		// 	chatStore.setActiveMsg(msg, currentChat.id)
-		// 	setDraft({...draft, [activeContact.id + 'edit']: msg.content})
-		// 	setStatus('edit')
-		// }
-		// const deleteMsg = (id: string) => {
-		// 	chatStore.deleteMsg(id, currentChat.id)
-		// 	setReRender(!reRender)
-		// }
-		// const selectMsg = (id: string) => {
-		// 	let msg = chatStore.getMsg(id, currentChat.id)
-		// 	chatStore.setActiveMsg(msg, currentChat.id)
-		// 	setDraft({...draft, [activeContact.id + 'reply']: draft[activeContact.id + status]})
-		// 	setStatus('reply')
-		// }
-
 
 		const replyMsg = (msg: any) => {
 			chatStore.setActiveMessage(msg)
@@ -69,15 +52,6 @@ const Chat = inject((stores: IStores) => ({
 		const DropDownMenu = (msg: any) => {
 			return (
 				<Menu>
-					{/*<Menu.Item onClick={() => editMsg(msg.id)}>*/}
-					{/*	Редактировать*/}
-					{/*</Menu.Item>*/}
-					{/*<Menu.Item onClick={() => selectMsg(msg.id)}>*/}
-					{/*	Выбрать*/}
-					{/*</Menu.Item>*/}
-					{/*<Menu.Item onClick={() => deleteMsg(msg.id)}>*/}
-					{/*	Удалить*/}
-					{/*</Menu.Item>*/}
 					<Menu.Item onClick={() => replyMsg(msg)}>
 						Ответить
 					</Menu.Item>
@@ -112,7 +86,8 @@ const Chat = inject((stores: IStores) => ({
 
 		const openHelperMenu = () => setIsOpenMnu(!isOpenMenu)
 
-		if (currentChat && !currentChat.msg && activeContact) {
+		// TODO: вынести в событие isLoading - потому что, если придёт пустой чат - будет постоянная загрузка
+		if (currentChat && currentChat.msg.length === 0 && activeContact) {
 			chatStore.loadMessages(activeContact.id, null)
 
 			return (
@@ -133,15 +108,6 @@ const Chat = inject((stores: IStores) => ({
 				</div>
 			</Divider>
 		</div>
-
-		// const renderDataContainerUnread = () => <div className="date_container unread">
-		// 	<Divider orientation="center"
-		// 		className='date_divider unread'>
-		// 		<div className="date unread">
-		// 			Непрочитанные сообщения
-		// 		</div>
-		// 	</Divider>
-		// </div>
 
 		const renderMessagesWrapper = (msg: any) => <div className="message-wrapper">
 			<div className={`message-content ${msg.combineWithPrevious ? 'not-main' : ''} `}>
@@ -207,28 +173,6 @@ const Chat = inject((stores: IStores) => ({
 				    	<MoreOutlined className="dropdown-trigger" />
 					</Dropdown>
 				</div>
-				{/* <div className={`smile ${switcher === msg.id ? 'active' : ''}`}>
-				 <Popover onVisibleChange={(e) => { e ? {} : setSwitcher('') }} visible={switcher === msg.id} content={<SmileMenu id={msg.id} chat_id={currentChat.id} switcherOff={switcherOff} /trigger="click">
-				 <Button onClick={() => { switcher === msg.id ? setSwitcher('') : setSwitcher(msg.id) }} className='transparent'>
-				 <Icon className={`icon_s active-grey`} name='regular_smile' />
-				 </Button>
-				 </Popover>
-				 </div> */}
-				{/* <div className="smile_realization">
-				 {
-				 msg.smiles && msg.smiles.length ? (<Fragment>
-				 {
-				 msg.smiles.map((smile: string) => {
-				 return (
-				 <div className="smile_msg">
-				 {smile}
-				 </div>
-				 )
-				 })
-				 }
-				 </Fragment>) : (<Fragment></Fragment>)
-				 }
-				 </div> */}
 			</div>
 		</div>
 
