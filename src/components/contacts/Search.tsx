@@ -37,8 +37,6 @@ const Search = inject((stores: IStores) => ({
 		async function onChangeSchool(schoolId: number) {
 			await contactStore.setActiveContact(null)
 
-			appStore.setLayout('chat')
-
 			appStore.activeSchool(schoolId)
 		}
 
