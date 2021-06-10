@@ -19,7 +19,8 @@ export default interface IChatStore {
     content: any,
     from: any,
     socialMedia: string,
-    status: string
+    reply: any,
+    files: any
   ) => void;
   sendMessage: (
     message: string,

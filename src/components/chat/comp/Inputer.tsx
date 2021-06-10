@@ -190,7 +190,8 @@ const Inputer = inject((stores: IStores) => ({
               draft[activeContact.id + status],
               hero.id,
               currentChat.activeSocial,
-              null
+              null,
+              fileOnHold
             );
             chatStore.sendMessage(
               draft[activeContact.id + status],
@@ -218,7 +219,8 @@ const Inputer = inject((stores: IStores) => ({
               message,
               hero.id,
               currentChat.activeSocial,
-              chatStore.activeChat.activeMessage.content
+              chatStore.activeChat.activeMessage.content,
+              fileOnHold
             );
             chatStore.setActiveMessage(null);
             break;
@@ -245,12 +247,10 @@ const Inputer = inject((stores: IStores) => ({
     const DropDownAttachments = () => {
       return (
         <Menu>
-          <Menu.Item onClick={() => activeFileHandler("image/*", "image")}>
+          {/* <Menu.Item onClick={() => activeFileHandler("image/*", "image")}>
             Фотография
-          </Menu.Item>
-          <Menu.Item onClick={() => activeFileHandler("video/*", "video")}>
-            Видео
-          </Menu.Item>
+          </Menu.Item> */}
+          {/* <Menu.Item onClick={() => activeFileHandler("video/*", "video")}>Видео</Menu.Item> */}
           <Menu.Item
             onClick={() =>
               activeFileHandler(
@@ -261,9 +261,7 @@ const Inputer = inject((stores: IStores) => ({
           >
             Документ
           </Menu.Item>
-          <Menu.Item onClick={() => activeFileHandler("audio/*", "audio")}>
-            Аудио
-          </Menu.Item>
+          {/* <Menu.Item onClick={() => activeFileHandler("audio/*", "audio")}>Аудио</Menu.Item> */}
         </Menu>
       );
     };
@@ -336,23 +334,25 @@ const Inputer = inject((stores: IStores) => ({
             />
           </div>
 
-          {/* <div className='inputer_btn'>
+          <div className="inputer_btn">
             <Popover
               onVisibleChange={(e) => (e ? {} : setSwitcher(""))}
               visible={switcher === "attachments"}
               content={<DropDownAttachments />}
-              trigger='click'
+              trigger="click"
             >
               <Button
                 onClick={() => {
-                  switcher === "attachments" ? setSwitcher("") : setSwitcher("attachments");
+                  switcher === "attachments"
+                    ? setSwitcher("")
+                    : setSwitcher("attachments");
                 }}
-                className='transparent'
+                className="transparent"
               >
-                <Icon className='icon_m blue-lite' name='solid_paperclip' />
+                <Icon className="icon_m blue-lite" name="solid_paperclip" />
               </Button>
             </Popover>
-          </div> */}
+          </div>
         </div>
 
         <div onClick={sendMessage} className="send_btn">
