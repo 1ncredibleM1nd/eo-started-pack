@@ -21,7 +21,7 @@ import { ReactComponent as WallpaperSvg } from "../../../assets/media/icons/wall
 import { ReactComponent as ArchiveSvg } from "../../../assets/media/icons/archive.svg";
 import { ReactComponent as DeleteSvg } from "../../../assets/media/icons/delete.svg";
 import { ReactComponent as BlockSvg } from "../../../assets/media/icons/block.svg";
-import { ReactComponent as ChatDocFileSvg } from "../../../assets/media/icons/chatdocmessage.svg";
+import { ReactComponent as ChatDocFileSvg } from "../../../assets/media/icons/chatdoMessage.svg";
 
 import { ReactComponent as ChatPlusSvg } from "../../../assets/media/icons/chatplus.svg";
 import { ReactComponent as GallarySvg } from "../../../assets/media/icons/gallary.svg";

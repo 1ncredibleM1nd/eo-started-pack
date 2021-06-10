@@ -1,13 +1,21 @@
-import { API, AUTH } from "./axios";
-import { chatStore, contactStore } from "@stores/implementation";
-import qs from "qs";
+import { contactStore } from "@stores/implementation";
+import * as resolver from "../ApiResolvers/index";
 import * as Sentry from "@sentry/react";
+import { AxiosResponse } from "axios";
 
+/**
+ *
+ * @param message
+ * @param section
+ * @param description
+ *
+ * @return void
+ */
 function messageError(
   message?: string,
   section: string = "other",
   description?: string
-) {
+): void {
   Sentry.captureException(new Error(message), {
     tags: {
       section,
@@ -18,44 +26,55 @@ function messageError(
   });
 }
 
-async function getConversations(schoolIds: Array<number>, page?: number) {
-  let search: any = {
-    query: contactStore.search,
-    sources: Object.keys(contactStore.sources).filter(
-      (key: string) => contactStore.sources[key]
-    ),
-  };
+function isError(
+  response: AxiosResponse<any>,
+  section: string,
+  action: string,
+  sendMesage: boolean = false
+): boolean {
+  if (response.data.error === 0) {
+    return false;
+  }
 
-  let params: any = {
-    search,
-    page,
-    schoolIds,
-  };
+  if (!sendMesage) {
+    const error: { message: string; description: any } = {
+      message: response.data.data.error_message ?? action,
+      description: undefined,
+    };
 
-  try {
-    const response = await API.get(`/conversation/get-conversations`, {
-      params,
-      paramsSerializer: (paramsObject) => {
-        return qs.stringify(paramsObject);
-      },
-    });
-
-    if (response.data.error !== 0) {
-      const error: any = {
-        message:
-          response.data.data.error_message ?? "Ошибка получения контактов",
-      };
-
-      if (response.data.data.error_data) {
-        error.description = Object.values(response.data.data.error_data);
-      }
-
-      messageError(error.message, "contacts", error.description);
+    if (response.data.data.error_data) {
+      error.description = Object.values(response.data.data.error_data);
     }
 
-    return response.data.data;
+    messageError(error.message, section, error.description);
+  }
+
+  return true;
+}
+
+async function getConversations(schoolIds: Array<number>, page?: number) {
+  let sources = Object.keys(contactStore.sources).filter(
+    (key: string) => contactStore.sources[key]
+  );
+
+  const action = "Ошибка получения контактов";
+  const section = "contacts";
+
+  try {
+    const response = await resolver.conversation.conversations(
+      contactStore.search,
+      sources,
+      schoolIds,
+      page
+    );
+
+    if (!isError(response, section, action, true)) {
+      return response.data.data;
+    }
+
+    return [];
   } catch (error) {
-    messageError(error.toString() ?? "Ошибка получения контактов", "contacts");
+    messageError(error.toString() ?? action, section);
     return [];
   }
 }
@@ -65,34 +84,23 @@ async function getMessages(
   page: number,
   schoolIds: Array<number>
 ) {
-  const params = new URLSearchParams();
-
-  params.set("page", page.toString());
-  params.set("conversationId", conversationId);
-
-  schoolIds.forEach((schoolId: number, index: number) => {
-    params.set(`schoolIds[${index}]`, schoolId.toString());
-  });
+  const action = "Ошибка получения сообщений";
+  const section = "messages";
 
   try {
-    const response = await API.get(`/conversation/get-messages?${params}`);
+    const response = await resolver.conversation.messages(
+      schoolIds,
+      conversationId,
+      page
+    );
 
-    if (response.data.error !== 0) {
-      const error: any = {
-        message:
-          response.data.data.error_message ?? "Ошибка получения сообщений",
-      };
-
-      if (response.data.data.error_data) {
-        error.description = Object.values(response.data.data.error_data);
-      }
-
-      messageError(error.message, "messages", error.description);
+    if (!isError(response, section, action, true)) {
+      return response.data.data;
     }
 
-    return response.data.data;
+    return [];
   } catch (error) {
-    messageError(error.toString() ?? "Ошибка получения сообщений", "messages");
+    messageError(error.toString() ?? action, section);
     return [];
   }
 }
@@ -105,90 +113,60 @@ async function sendMessage(
   files: Array<File>,
   replyTo: string
 ) {
-  const formData = new FormData();
-
-  for (let i = 0; i < files.length; i++) {
-    formData.append(`files[]`, files[i], files[i].name);
-  }
-
-  formData.append("message", message);
-  formData.append("conversationSourceAccountId", conversationSourceAccountId);
-
-  schoolIds.forEach((schoolId: number, index: number) => {
-    formData.append(`schoolIds[${index}]`, schoolId.toString());
-  });
-
-  if (replyTo) {
-    formData.append("replyTo", replyTo.toString());
-  }
-
-  formData.append("conversationId", chatStore.activeChat.id);
+  const action = "Ошибка отправки сообщения";
+  const section = "messages";
 
   try {
-    const response = await API.post(`/conversation/send-message`, formData);
+    const response = await resolver.conversation.sendMessage(
+      conversationId,
+      message,
+      conversationSourceAccountId,
+      schoolIds,
+      files,
+      replyTo
+    );
 
-    if (response.data.error !== 0) {
-      const error: any = {
-        message:
-          response.data.data.error_message ?? "Ошибка отправки сообщения",
-      };
-
-      if (response.data.data.error_data) {
-        error.description = Object.values(response.data.data.error_data);
-      }
-
-      messageError(error.message, "messages", error.description);
-    }
+    isError(response, section, action, true);
   } catch (error) {
-    messageError(error.toString() ?? "Ошибка получения сообщений", "messages");
+    messageError(error.toString() ?? action, section);
   }
 }
 
 async function getUserData() {
+  const action = "Ошибка получения аккаунта";
+  const section = "auth";
+
   try {
-    let response = await API.get("/account/get-account");
+    let response = await resolver.account.info();
 
-    if (response.data.error !== 0) {
-      const error: any = {
-        message:
-          response.data.data.error_message ?? "Ошибка получения аккаунта",
-      };
-
-      if (response.data.data.error_data) {
-        error.description = Object.values(response.data.data.error_data);
-      }
-
-      messageError(error.message, "auth", error.description);
+    if (!isError(response, section, action, true)) {
+      return response.data.data;
     }
 
-    return response.data.data;
+    return null;
   } catch (error) {
-    messageError(error.toString() ?? "Ошибка получения аккаунта", "auth");
+    messageError(error.toString() ?? action, section);
 
     return null;
   }
 }
 
 async function isLogged() {
+  const action = "Ошибка проверки авторизации";
+  const section = "auth";
+
   try {
-    let response = await AUTH.get(`/account/is-logged`);
+    let response = await resolver.account.isLogged();
 
-    if (response.data.error !== 0) {
-      const error: any = {
-        message:
-          response.data.data.error_message ?? "Ошибка проверки авторизации",
-      };
-
-      if (response.data.data.error_data) {
-        error.description = Object.values(response.data.data.error_data);
-      }
-
-      messageError(error.message, "auth", error.description);
+    if (!isError(response, section, action, true)) {
+      return response.data.data;
     }
 
-    return response.data.data;
+    return {
+      success: false,
+    };
   } catch (error) {
-    messageError(error.toString() ?? "Ошибка проверки авторизации", "auth");
+    messageError(error.toString() ?? action, section);
     return {
       success: false,
     };
@@ -196,52 +174,36 @@ async function isLogged() {
 }
 
 async function setSession(sessionId: string) {
+  const action = "Ошибка установки сессии";
+  const section = "auth";
+
   try {
-    const formData = new FormData();
+    let response = await resolver.account.setSession(sessionId);
 
-    formData.append("encrypted_session_data", sessionId);
-
-    let response = await AUTH.post(`/account/set-session`, formData);
-
-    if (response.data.error !== 0) {
-      const error: any = {
-        message: response.data.data.error_message ?? "Ошибка установки сессии",
-      };
-
-      if (response.data.data.error_data) {
-        error.description = Object.values(response.data.data.error_data);
-      }
-
-      messageError(error.message, "auth", error.description);
+    if (!isError(response, section, action, true)) {
+      return response.data.data;
     }
-
-    return response.data.data;
+    return {};
   } catch (error) {
-    messageError(error.toString() ?? "Ошибка установки сессии", "auth");
-
-    return null;
+    messageError(error.toString() ?? action, section);
+    return {};
   }
 }
 
 async function getSchools() {
+  const action = "Ошибка получения школ";
+  const section = "school";
+
   try {
-    let response = await API.get("/account/get-schools");
+    let response = await resolver.account.getSchools();
 
-    if (response.data.error !== 0) {
-      const error: any = {
-        message: response.data.data.error_message ?? "Ошибка получения школ",
-      };
-
-      if (response.data.data.error_data) {
-        error.description = Object.values(response.data.data.error_data);
-      }
-
-      messageError(error.message, "school", error.description);
+    if (!isError(response, section, action, true)) {
+      return response.data.data;
     }
 
-    return response.data.data;
+    return {};
   } catch (error) {
-    messageError(error.toString() ?? "Ошибка получения школ", "school");
+    messageError(error.toString() ?? action, section);
 
     return {};
   }

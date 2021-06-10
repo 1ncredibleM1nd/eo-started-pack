@@ -5,8 +5,7 @@
 }
 
 .ant-modal-content {
-  max-height: 80vh;
-  min-height: 60vh;
+  height: 70vh;
   overflow: scroll;
   display: flex;
   justify-content: space-between;
@@ -28,7 +27,6 @@
 
   span {
     font-size: 16px;
-
   }
 
   svg {
@@ -60,12 +58,10 @@
   }
 }
 
-
 .user_btns {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-
 
   .btn_item {
     display: flex;
@@ -150,20 +146,15 @@
           height: 150%;
         }
       }
-
-
     }
   }
 }
 
-
 .modal_content {
-
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 100%;
-
 
   .header {
     width: 100%;
@@ -176,7 +167,7 @@
 
     .avatar {
       img {
-        border-radius: 40%;
+        border-radius: 50%;
       }
     }
 
@@ -191,7 +182,6 @@
       cursor: pointer;
       position: absolute;
       right: 0;
-
 
       &:hover {
         opacity: 0.8;
@@ -212,7 +202,6 @@
           font-weight: 600;
         }
       }
-
     }
 
     .ant-collapse-header {
@@ -232,6 +221,4 @@
       margin-right: 10px;
     }
   }
-
-
 }

@@ -1,7 +1,8 @@
-import IUser from './IUser'
+import IUser from "./IUser";
+import { User } from "../../entities";
 
 export default interface IUserStore {
-	hero: IUser,
-	availableUsers: IUser[];
-	initHero: (data: any) => void;
+  hero: User;
+  availableUsers: IUser[];
+  initHero: (data: any) => void;
 }
