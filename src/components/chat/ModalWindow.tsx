@@ -1,131 +1,132 @@
-import React, { Fragment } from 'react';
-import { inject, observer } from 'mobx-react';
-import IStores, { IChatStore, IContactStore, IUserStore, } from '@stores/interface';
+import React, { Fragment } from "react";
+import { inject, observer } from "mobx-react";
+import IStores, {
+  IChatStore,
+  IContactStore,
+  IUserStore,
+} from "@stores/interface";
 // import { SettingsModal, Button, Popover, Menu, Divider, Switch, Collapse, Badge } from 'antd';
-import './ModalWindow.scss'
+import "./ModalWindow.scss";
 // import { Icon } from '@ui'
 
 type IProps = {
-    chatStore?: IChatStore,
-    userStore?: IUserStore,
-    contactStore?: IContactStore
-}
+  chatStore?: IChatStore;
+  userStore?: IUserStore;
+  contactStore?: IContactStore;
+};
 
-const ModalWindow = inject((stores: IStores) => ({ chatStore: stores.chatStore, userStore: stores.userStore, contactStore: stores.contactStore }))(
-    observer((props: IProps) => {
+const ModalWindow = inject((stores: IStores) => ({
+  chatStore: stores.chatStore,
+  userStore: stores.userStore,
+  contactStore: stores.contactStore,
+}))(
+  observer((props: IProps) => {
+    // const { chatStore } = props;
 
-        const { chatStore } = props;
+    // const [switcher, setSwitcher] = useState(false)
+    // const [attachmentLimit, setAttachmentLimit] = useState(4)
 
-        // const [switcher, setSwitcher] = useState(false)
-        // const [attachmentLimit, setAttachmentLimit] = useState(4)
+    //const status = chatStore.modalWindow
+    // const chat = chatStore.activeChat;
+    //let hero = userStore.hero
+    //let contact: any
+    // let user: any;
 
-        //const status = chatStore.modalWindow
-        const chat = chatStore.activeChat
-        //let hero = userStore.hero
-        //let contact: any
-        // let user: any;
+    // if (chat) {
+    //   if (chat.user && chat.user.length <= 2) {
+    //     let userId = chat.user.find((id: any) => id !== hero.id)
+    //     user = userStore.getUser(userId)
+    //   }
+    //   contact = contactStore.getContact(chat.contactId)
+    // }
 
-        if (chat) {
-            if (chat.user && chat.user.length <= 2) {
-                //let userId = chat.user.find((id: any) => id !== hero.id)
-                //user = userStore.getUser(userId)
-            }
-            //contact = contactStore.getContact(chat.contact_id)
-        }
+    // const handleSelect = () => {
 
+    // }
 
-        // const handleSelect = () => {
+    // const editContact = () => {
 
-        // }
+    // }
+    // const deleteContact = () => {
 
-        // const handleCancel = () => {
-        //     chatStore.setModalWindow('close')
-        // }
+    // }
+    // const blockUser = () => {
 
-        // const editContact = () => {
+    // }
 
-        // }
-        // const deleteContact = () => {
+    // const addFavorite = () => {
 
-        // }
-        // const blockUser = () => {
+    // }
 
-        // }
+    // const shareContact = () => {
 
-        // const addFavorite = () => {
+    // }
 
-        // }
+    // const editUser = () => {
 
-        // const shareContact = () => {
+    // }
 
-        // }
+    // const exitDelete = () => {
 
-        // const editUser = () => {
+    // }
 
-        // }
+    // const openUser = (userId: string) => {
 
-        // const exitDelete = () => {
+    // }
 
-        // }
+    // const addUser = () => {
 
-        // const openUser = (userId: string) => {
+    // }
 
-        // }
+    // const DropDownMenu = () => {
 
-        // const addUser = () => {
+    //     if (status === 'group') {
+    //         return (
+    //             <Menu>
+    //                 <Menu.Item onClick={() => shareContact()} >
+    //                     Поделится группой
+    //                 </Menu.Item>
+    //                 <Menu.Item onClick={() => deleteContact()}>
+    //                     Очистить историю
+    //             </Menu.Item>
+    //                 <Menu.Item onClick={() => addFavorite()} >
+    //                     Удалить чат
+    //             </Menu.Item>
+    //                 <Menu.Item onClick={() => blockUser()} >
+    //                     Удалить и выйти
+    //             </Menu.Item>
+    //             </Menu>
+    //         )
+    //     }
+    //     if (status === 'user') {
+    //         return (
+    //             <Menu>
+    //                 <Menu.Item onClick={() => shareContact()} >
+    //                     Поделится контактом
+    //                 </Menu.Item>
+    //                 <Menu.Item onClick={() => editContact()}>
+    //                     Редакт. Контакт
+    //                 </Menu.Item>
+    //                 <Menu.Item onClick={() => deleteContact()}>
+    //                     Удалить контакт
+    //                 </Menu.Item>
+    //                 <Menu.Item onClick={() => addFavorite()} >
+    //                     Добавить в избранное
+    //                 </Menu.Item>
+    //                 <Menu.Item onClick={() => blockUser()} >
+    //                     Заблокировать
+    //                 </Menu.Item>
+    //             </Menu>
+    //         )
+    //     }
+    //     return null
+    // }
 
-        // }
+    // const { Panel } = Collapse;
 
-
-        // const DropDownMenu = () => {
-
-        //     if (status === 'group') {
-        //         return (
-        //             <Menu>
-        //                 <Menu.Item onClick={() => shareContact()} >
-        //                     Поделится группой
-        //                 </Menu.Item>
-        //                 <Menu.Item onClick={() => deleteContact()}>
-        //                     Очистить историю
-        //             </Menu.Item>
-        //                 <Menu.Item onClick={() => addFavorite()} >
-        //                     Удалить чат
-        //             </Menu.Item>
-        //                 <Menu.Item onClick={() => blockUser()} >
-        //                     Удалить и выйти
-        //             </Menu.Item>
-        //             </Menu>
-        //         )
-        //     }
-        //     if (status === 'user') {
-        //         return (
-        //             <Menu>
-        //                 <Menu.Item onClick={() => shareContact()} >
-        //                     Поделится контактом
-        //                 </Menu.Item>
-        //                 <Menu.Item onClick={() => editContact()}>
-        //                     Редакт. Контакт
-        //                 </Menu.Item>
-        //                 <Menu.Item onClick={() => deleteContact()}>
-        //                     Удалить контакт
-        //                 </Menu.Item>
-        //                 <Menu.Item onClick={() => addFavorite()} >
-        //                     Добавить в избранное
-        //                 </Menu.Item>
-        //                 <Menu.Item onClick={() => blockUser()} >
-        //                     Заблокировать
-        //                 </Menu.Item>
-        //             </Menu>
-        //         )
-        //     }
-        //     return null
-        // }
-
-        // const { Panel } = Collapse;
-
-        return (
-            <Fragment>
-                {/*
+    return (
+      <Fragment>
+        {/*
                 <SettingsModal title="Настройки группы" visible={status === 'group'} onOk={handleSelect} onCancel={handleCancel} footer={[<Fragment></Fragment>]}>
                     {
                         contact ? (<Fragment>
@@ -207,8 +208,8 @@ const ModalWindow = inject((stores: IStores) => ({ chatStore: stores.chatStore, 
                                                     if (index < attachmentLimit) {
                                                         return (
                                                             <div className="attachment_item">
-                                                                <div className={`social_media_icon white ${item.social_media}`}>
-                                                                    <Icon className='icon_s' name={`social_media_${item.social_media}`} />
+                                                                <div className={`social_media_icon white ${item.socialMedia}`}>
+                                                                    <Icon className='icon_s' name={`social_media_${item.socialMedia}`} />
                                                                 </div>
                                                                 <div className="img_container">
                                                                     <img src={item.url} alt="" />
@@ -362,8 +363,8 @@ const ModalWindow = inject((stores: IStores) => ({ chatStore: stores.chatStore, 
                                                     if (index < attachmentLimit) {
                                                         return (
                                                             <div className="attachment_item">
-                                                                <div className={`social_media_icon white ${item.social_media}`}>
-                                                                    <Icon className='icon_s' name={`social_media_${item.social_media}`} />
+                                                                <div className={`social_media_icon white ${item.socialMedia}`}>
+                                                                    <Icon className='icon_s' name={`social_media_${item.socialMedia}`} />
                                                                 </div>
                                                                 <div className="img_container">
                                                                     <img src={item.url} alt="" />
@@ -386,9 +387,9 @@ const ModalWindow = inject((stores: IStores) => ({ chatStore: stores.chatStore, 
                         </Fragment>) : (<Fragment></Fragment>)
                     }
                 </SettingsModal > */}
-            </Fragment >
-
-        );
-    }));
+      </Fragment>
+    );
+  })
+);
 
 export default ModalWindow;

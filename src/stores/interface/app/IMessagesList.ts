@@ -1,8 +1,8 @@
-import { IMsg } from "@stores/interface";
+import { Message } from "@entities";
 
 interface IMessagesList {
-    contactId: string
-    messages: Array<Array<IMsg>>
+  contactId: string;
+  messages: Array<Array<Message>>;
 }
 
-export default IMessagesList
+export default IMessagesList;

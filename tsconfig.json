@@ -16,72 +16,28 @@
     "experimentalDecorators": true,
     "baseUrl": "./src",
     "paths": {
-      "rappid": [
-        "vendor/rappid.min"
-      ],
-      "@constants/*": [
-        "constants/*"
-      ],
-      "@script/*": [
-        "script/*"
-      ],
-      "@pages/*": [
-        "pages/*"
-      ],
-      "@ui/*": [
-        "ui/*"
-      ],
-      "@chat_ui/*": [
-        "chat_ui/*"
-      ],
-      "@ui": [
-        "ui/index"
-      ],
-      "@layouts/*": [
-        "layouts/*"
-      ],
-      "@layouts": [
-        "layouts/index"
-      ],
-      "@images/*": [
-        "images/*"
-      ],
-      "@components/*": [
-        "components/*"
-      ],
-      "@flowchart/*": [
-        "flowchart/*"
-      ],
-      "@styles/*": [
-        "styles/*"
-      ],
-      "@interfaces/*": [
-        "interfaces/*"
-      ],
-      "@utils/*": [
-        "utils/*"
-      ],
-      "@stores/*": [
-        "stores/*"
-      ],
-      "@stores": [
-        "stores/implementation/index"
-      ],
-      "@hooks": [
-        "hooks/index"
-      ],
-      "@actions": [
-        "actions/index"
-      ]
+      "rappid": ["vendor/rappid.min"],
+      "@constants/*": ["constants/*"],
+      "@script/*": ["script/*"],
+      "@pages/*": ["pages/*"],
+      "@ui/*": ["ui/*"],
+      "@chat_ui/*": ["chat_ui/*"],
+      "@ui": ["ui/index"],
+      "@layouts/*": ["layouts/*"],
+      "@layouts": ["layouts/index"],
+      "@images/*": ["images/*"],
+      "@components/*": ["components/*"],
+      "@flowchart/*": ["flowchart/*"],
+      "@styles/*": ["styles/*"],
+      "@interfaces/*": ["interfaces/*"],
+      "@utils/*": ["utils/*"],
+      "@stores/*": ["stores/*"],
+      "@stores": ["stores/implementation/index"],
+      "@hooks": ["hooks/index"],
+      "@actions": ["actions/index"],
+      "@entities": ["entities/index"]
     },
-    "types": [
-      "node",
-      "moment"
-    ]
+    "types": ["node", "moment"]
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "build"
-  ]
+  "exclude": ["node_modules", "dist", "build"]
 }

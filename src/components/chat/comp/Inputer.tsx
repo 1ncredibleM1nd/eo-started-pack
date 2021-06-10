@@ -1,539 +1,375 @@
-import React, { Fragment, useState, useEffect, useRef } from 'react'
-import { inject, observer } from 'mobx-react'
-import IStores, { IChatStore, IContactStore, IUserStore, IAppStore } from '@stores/interface'
-import { Icon } from '@ui'
-import $ from 'jquery'
-import { Input, Menu, Button, Popover, Modal, Switch } from 'antd'
-import SocialMenu from './SocialMenu'
-import {TypesMessage} from "@stores/classes";
-import {CloseOutlined} from "@ant-design/icons";
-// import SmileMenu from './comp/SmileMenu'
+import React, { useState, useEffect, useRef } from "react";
+import { inject, observer } from "mobx-react";
+import IStores, {
+  IChatStore,
+  IContactStore,
+  IUserStore,
+  IAppStore,
+} from "@stores/interface";
+import { Icon } from "@ui";
+import $ from "jquery";
+import { Input, Button, Popover, Menu } from "antd";
+import SocialMenu from "./SocialMenu";
+import { TypesMessage } from "@stores/classes";
+import { CloseOutlined } from "@ant-design/icons";
+import { User } from "../../../entities";
+import FileUploadModal from "./FileUploadModal";
 
 type IProps = {
-	chatStore?: IChatStore,
-	contactStore?: IContactStore,
-	userStore?: IUserStore,
-	appStore?: IAppStore
-	helperMenu?: any
-}
+  chatStore?: IChatStore;
+  contactStore?: IContactStore;
+  userStore?: IUserStore;
+  appStore?: IAppStore;
+};
 
 const Inputer = inject((stores: IStores) => ({
-	chatStore: stores.chatStore,
-	contactStore: stores.contactStore,
-	userStore: stores.userStore,
-	appStore: stores.appStore
+  chatStore: stores.chatStore,
+  contactStore: stores.contactStore,
+  userStore: stores.userStore,
+  appStore: stores.appStore,
 }))(
-	observer((props: IProps) => {
-		const { chatStore, contactStore, userStore, appStore } = props
-		const activeContact = contactStore.activeContact
-		const hero = userStore.hero
-		const [draft, setDraft] = useState({})
-		const [switcher, setSwitcher] = useState('')
-		const [status, setStatus] = useState('default')
-		const [acceptType, setAcceptType] = useState('file_extension|audio/*|video/*|image/*|media_type')
-		const [currentFileType, setCurrentFileType] = useState('file')
-		const [fileOnHold, setFileOnHold] = useState([])
-		const [fileToSend, setFileToSend] = useState([])
-		const inputRef = useRef(null)
-		const fileInputRef = useRef(null)
+  observer((props: IProps) => {
+    const { chatStore, contactStore, userStore, appStore } = props;
 
-		let currentChat: any
-		if (chatStore.loaded && activeContact) {
-			currentChat = chatStore.activeChat
-		}
+    const { TextArea } = Input;
 
-		useEffect(() => {
-			if (currentChat && currentChat.msg.length) {
-				setTimeout(() => {
-					$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
-				})
+    const activeContact = contactStore.activeContact;
+    const hero: User = userStore.hero;
 
-				if (activeContact && !draft[activeContact.id + status]) {
-					$('.main_input input').val('')
-				}
-			}
-		}, [])
+    const [draft, setDraft] = useState({});
+    const [switcher, setSwitcher] = useState("");
+    const [status, setStatus] = useState("default");
+    const [acceptType, setAcceptType] = useState(
+      "file_extension|audio/*|video/*|image/*|media_type"
+    );
+    const [fileOnHold, setFileOnHold] = useState([]);
+    const inputRef = useRef(null);
+    const fileInputRef = useRef(null);
 
-		const [keys, setKeys] = useState({
-			shift: false,
-			alt: false,
-			ctrl: false
-		})
+    let currentChat: any;
+    if (chatStore.isLoaded && activeContact) {
+      currentChat = chatStore.activeChat;
+    }
 
-		const handleKeyDown = (e: any) => {
-			switch (e.key) {
-				case 'Control':
-					setKeys({ ...keys, ctrl: true })
-					break
-				case 'Shift':
-					setKeys({ ...keys, shift: true })
-					break
-				case 'Alt':
-					setKeys({ ...keys, alt: true })
-					break
-				default:
-					break
-			}
-		}
+    useEffect(() => {
+      if (currentChat && currentChat.messages.length) {
+        setTimeout(() => {
+          $(".msg_space").animate(
+            { scrollTop: $(".msg_space").prop("scrollHeight") },
+            0
+          );
+        });
+      }
+    }, [currentChat.messanges]);
 
-		const handleKeyUp = (e: any) => {
-			switch (e.key) {
-				case 'Control':
-					setKeys({ ...keys, ctrl: false })
-					break
-				case 'Shift':
-					setKeys({ ...keys, shift: false })
-					break
-				case 'Alt':
-					setKeys({ ...keys, alt: false })
-					break
-				default:
-					break
-			}
-		}
+    const [keys, setKeys] = useState({
+      shift: false,
+      alt: false,
+      ctrl: false,
+    });
 
-		const handleEnter = async (e: any) => {
-			e.preventDefault()
+    const handleKeyDown = (e: any) => {
+      switch (e.key) {
+        case "Control":
+          setKeys({ ...keys, ctrl: true });
+          break;
+        case "Shift":
+          setKeys({ ...keys, shift: true });
+          break;
+        case "Alt":
+          setKeys({ ...keys, alt: true });
+          break;
+        default:
+          break;
+      }
+    };
 
-			let message = draft[activeContact.id + status]
-			setDraft({ ...draft, [activeContact.id + status]: '' })
-			if (keys.alt || keys.shift || keys.ctrl) {
-				let text = ''
-				if (draft[activeContact.id + status]) {
-					text = draft[activeContact.id + status] + '\n'
-				}
+    const handleKeyUp = (e: any) => {
+      switch (e.key) {
+        case "Control":
+          setKeys({ ...keys, ctrl: false });
+          break;
+        case "Shift":
+          setKeys({ ...keys, shift: false });
+          break;
+        case "Alt":
+          setKeys({ ...keys, alt: false });
+          break;
+        default:
+          break;
+      }
+    };
 
-				setDraft({ ...draft, [activeContact.id + status]: text })
-			} else {
-				if (draft[activeContact.id + status] && draft[activeContact.id + status].length) {
-					await chatStore.addMsg(message, hero.id, currentChat.activeSocial, null)
-					setTimeout(() => {
-						$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
-					})
-					await chatStore.sendMessage(message, activeContact.conversation_source_account_id, appStore.getActiveSchools(), fileToSend, currentChat.active_msg)
-					setFileOnHold([])
-					setFileToSend([])
-					await chatStore.loadMessages(activeContact.id, 1)
-				}
-				setDraft({ ...draft, [activeContact.id + status]: '' })
-			}
-		}
+    const resetInputAndKeys = () => {
+      setKeys({ alt: false, ctrl: false, shift: false });
+      if (status !== "default") {
+        setDraft({
+          ...draft,
+          [activeContact.id + "default"]: "",
+          [activeContact.id + status]: "",
+        });
+      } else {
+        setDraft({ ...draft, [activeContact.id + status]: "" });
+      }
+    };
 
-		const onChange = (name: string, value: string, event: any) => {
-			setDraft({ ...draft, [name + status]: value })
+    const onChange = (name: string, value: string, event: any) => {
+      setDraft({ ...draft, [name + status]: value });
+    };
 
-			setTimeout(() => {
-				$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
-			})
-		}
+    const selectSocial = (social: string) => {
+      currentChat.activeSocial = social;
+      switcherOff();
+    };
 
-		// const onFocusInput = () => {
-		// 	chatStore.readAllMsg(currentChat.id)
-		// }
+    const switcherOff = () => {
+      setSwitcher("");
+    };
 
-		const onSend = async () => {
-			let message = draft[activeContact.id + status]
-			setDraft({ ...draft, [activeContact.id + status]: '' })
-			switch (status) {
-				case 'default':
-					if (draft[activeContact.id + status] && draft[activeContact.id + status].length) {
-						await chatStore.addMsg(draft[activeContact.id + status], hero.id, currentChat.activeSocial, null)
-						await chatStore.sendMessage(draft[activeContact.id + status], activeContact.conversation_source_account_id, appStore.getActiveSchools(), fileToSend, currentChat.active_msg)
-						await chatStore.loadMessages(activeContact.id, 1)
-						//sendMsg(currentChat.id, draft[activeContact.id + status],
-						// activeContact.conversation_source_account_id, appStore.school) sendMsg(currentChat.id,
-						// draft[activeContact.id + status])
-					}
-					setDraft({ ...draft, [activeContact.id + status]: '' })
-					break
-				case 'edit':
-					chatStore.activeChat.active_msg.editMsg(draft[activeContact.id + status])
-					setDraft({ ...draft, [activeContact.id + status]: '' })
-					chatStore.setActiveMessage(null)
-					setStatus('default')
-					break
-				case 'reply':
-					chatStore.addMsg(message, hero.id, currentChat.activeSocial, chatStore.activeChat.active_msg.content)
-					setDraft({ ...draft, [activeContact.id + 'default']: '', [activeContact.id + status]: '' })
-					chatStore.setActiveMessage(null)
-					setStatus('default')
-					break
-				default:
-					break
-			}
+    if (inputRef && inputRef.current) {
+      setTimeout(() => inputRef.current.focus(), 100);
+    }
 
-			$('.main_input input').val('')
+    const handleFileInput = (e: any) => {
+      e.preventDefault();
+      setFileOnHold([...fileOnHold, ...e.target.files]);
+    };
 
-			if (draft[activeContact.id + status] !== undefined && draft[activeContact.id + status] !== '') {
-				setTimeout(() => {
-					$('.msg_space').animate({ scrollTop: $('.msg_space').prop('scrollHeight') }, 0)
-				})
-			}
-		}
+    const deleteFileOnHold = (index: number) => {
+      let fileOnHoldCopy = fileOnHold.slice();
+      fileOnHoldCopy.splice(index, 1);
+      setFileOnHold(fileOnHoldCopy);
+    };
 
-		const activeFileHandler = async (value: string, type: string) => {
-			await setCurrentFileType(type)
-			await setAcceptType(value)
-			await setSwitcher('')
-			fileInputRef.current.click()
-		}
+    const changeFileOnHold = async (index: number) => {
+      await fileInputRef.current.click();
+      await deleteFileOnHold(index);
+    };
 
-		const DropDownAttachments = () => {
-			return (<Menu>
-				<Menu.Item onClick={() => activeFileHandler('image/*', 'image')}>
-					Фотография
-				</Menu.Item>
-				<Menu.Item onClick={() => activeFileHandler('video/*', 'video')}>
-					Видео
-				</Menu.Item>
-				<Menu.Item
-					onClick={() => activeFileHandler('file_extension|audio/*|video/*|image/*|media_type', 'file')}>
-					Документ
-				</Menu.Item>
-				<Menu.Item onClick={() => activeFileHandler('audio/*', 'audio')}>
-					Аудио
-				</Menu.Item>
-			</Menu>)
-		}
+    const activeFileHandler = async (value: string, type: string) => {
+      setAcceptType(value);
+      setSwitcher("");
+      fileInputRef.current.click();
+    };
 
-		const selectSocial = (social: string) => {
-			currentChat.changeSocial(social)
-			switcherOff()
-		}
+    if (!currentChat) {
+      return <div className="chat">Loading</div>;
+    }
 
-		const switcherOff = () => {
-			setSwitcher('')
-		}
+    const clearFiles = () => {
+      setFileOnHold([]);
+      fileInputRef.current.value = null;
+    };
 
-		const { TextArea } = Input
-
-        if(inputRef && inputRef.current){
-    		setTimeout(() => inputRef.current.focus(), 100)
+    const handleEnter = async (e: any) => {
+      e.preventDefault();
+      if (keys.alt || keys.shift || keys.ctrl) {
+        let text = "";
+        if (draft[activeContact.id + status]) {
+          text = draft[activeContact.id + status] + "\n";
         }
+        setDraft({ ...draft, [activeContact.id + status]: text });
+      } else {
+        clearFiles();
+        sendMessage();
+      }
+    };
 
-		const handleFileInput = (e: any) => {
-			e.preventDefault()
+    const sendMessage = async () => {
+      let message = draft[activeContact.id + status];
 
-			let fileArray: any = []
-			for (let i = 0; i < e.target.files.length; i++) {
-				let file = e.target.files.item(i)
+      if (
+        (draft[activeContact.id + status] &&
+          draft[activeContact.id + status].length) ||
+        fileOnHold.length > 0
+      ) {
+        switch (status) {
+          case "default":
+            resetInputAndKeys();
+            chatStore.addMsg(
+              draft[activeContact.id + status],
+              hero.id,
+              currentChat.activeSocial,
+              null
+            );
+            chatStore.sendMessage(
+              draft[activeContact.id + status],
+              activeContact.id,
+              appStore.getActiveSchools(),
+              fileOnHold,
+              currentChat.activeMessage
+            );
 
-				if ((file.size > 10485760 && currentFileType === 'video') || currentFileType === 'file' || currentFileType === 'audio') {
-					let data = {
-						type: currentFileType,
-						file: file
-					}
-					fileArray.push(data)
-					continue
-				}
+            break;
+          case "edit":
+            resetInputAndKeys();
+            setStatus("default");
+            chatStore.setActiveMessage(null);
+            chatStore.activeChat.activeMessage.editMessage(
+              draft[activeContact.id + status]
+            );
 
-				let reader = new FileReader()
-				reader.readAsDataURL(file)
-				reader.onload = e => {
-					const { result } = e.target
-					let data = {
-						url: result,
-						type: currentFileType,
-						file: file
-					}
-					fileArray.push(data)
-				}
-			}
+            break;
+          case "reply":
+            resetInputAndKeys();
+            setStatus("default");
 
-			setFileToSend([...fileToSend, ...e.target.files])
-			setFileOnHold([...fileOnHold, ...fileArray])
+            chatStore.addMsg(
+              message,
+              hero.id,
+              currentChat.activeSocial,
+              chatStore.activeChat.activeMessage.content
+            );
+            chatStore.setActiveMessage(null);
+            break;
+          default:
+            break;
+        }
+      }
 
-			fileInputRef.current.value = null
-		}
+      $(".main_input input").val("");
 
-		const bytesToSize = (bytes: any) => {
-			let sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
+      if (
+        draft[activeContact.id + status] &&
+        draft[activeContact.id + status] !== ""
+      ) {
+        setTimeout(() => {
+          $(".msg_space").animate(
+            { scrollTop: $(".msg_space").prop("scrollHeight") },
+            0
+          );
+        });
+      }
+    };
 
-			if (bytes == 0) {
-				return '0 Byte'
-			}
+    const DropDownAttachments = () => {
+      return (
+        <Menu>
+          <Menu.Item onClick={() => activeFileHandler("image/*", "image")}>
+            Фотография
+          </Menu.Item>
+          <Menu.Item onClick={() => activeFileHandler("video/*", "video")}>
+            Видео
+          </Menu.Item>
+          <Menu.Item
+            onClick={() =>
+              activeFileHandler(
+                "file_extension|audio/*|video/*|image/*|media_type",
+                "file"
+              )
+            }
+          >
+            Документ
+          </Menu.Item>
+          <Menu.Item onClick={() => activeFileHandler("audio/*", "audio")}>
+            Аудио
+          </Menu.Item>
+        </Menu>
+      );
+    };
 
-			let i = parseInt(String(Math.floor(Math.log(bytes) / Math.log(1024))))
+    return (
+      <div className="inputer">
+        <FileUploadModal
+          clearFiles={clearFiles}
+          deleteFileOnHold={deleteFileOnHold}
+          changeFileOnHold={changeFileOnHold}
+          DropDownAttachments={DropDownAttachments}
+          handleKeyDown={handleKeyDown}
+          handleKeyUp={handleKeyUp}
+          handleEnter={handleEnter}
+          onChange={onChange}
+          setSwitcher={setSwitcher}
+          switcher={switcher}
+          messageContent={draft[activeContact.id + status]}
+          inputRef={inputRef}
+          fileOnHold={fileOnHold}
+          activeContactId={activeContact.id}
+        />
 
-			// @ts-ignore
-			return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i]
-		}
+        <div className="input-container">
+          <div className="inputer_btn">
+            <Popover
+              visible={switcher === "1social"}
+              content={<SocialMenu selectSocial={selectSocial} />}
+              trigger="click"
+            >
+              <Button
+                onClick={() => setSwitcher("social")}
+                className="transparent not-allowed"
+              >
+                <Icon
+                  className="icon_l"
+                  name={`social_media_${
+                    currentChat.activeSocial ? currentChat.activeSocial : ""
+                  }`}
+                />
+              </Button>
+            </Popover>
+          </div>
 
-		const deleteFileOnHold = (index: number) => {
-			let fileOnHoldCopy = fileOnHold.slice()
-			fileOnHoldCopy.splice(index, 1)
-			setFileOnHold(fileOnHoldCopy)
+          <div className="main_input">
+            {chatStore.activeChat.activeMessage && (
+              <div className="selected-container">
+                <span>{chatStore.activeChat.activeMessage.content}</span>
+                <div className="msg_type">
+                  {TypesMessage.getTypeDescription(
+                    chatStore.activeChat.activeMessage.entity.type
+                  )}
+                </div>
+                <CloseOutlined
+                  className="close"
+                  onClick={() => chatStore.setActiveMessage(null)}
+                />
+              </div>
+            )}
 
-			let fileToSendCopy = fileToSend.slice()
-			fileToSendCopy.splice(index, 1)
-			setFileToSend(fileToSendCopy)
-		}
+            <TextArea
+              onKeyDown={handleKeyDown}
+              onKeyUp={handleKeyUp}
+              onPressEnter={handleEnter}
+              autoSize
+              placeholder="Ваше сообщение"
+              ref={inputRef}
+              onChange={(e) => onChange(activeContact.id, e.target.value, e)}
+              value={draft[activeContact.id + status]}
+            />
+          </div>
 
-		const changeFileOnHold = async (index: number) => {
-			await fileInputRef.current.click()
-			await deleteFileOnHold(index)
-		}
+          {/* <div className='inputer_btn'>
+            <Popover
+              onVisibleChange={(e) => (e ? {} : setSwitcher(""))}
+              visible={switcher === "attachments"}
+              content={<DropDownAttachments />}
+              trigger='click'
+            >
+              <Button
+                onClick={() => {
+                  switcher === "attachments" ? setSwitcher("") : setSwitcher("attachments");
+                }}
+                className='transparent'
+              >
+                <Icon className='icon_m blue-lite' name='solid_paperclip' />
+              </Button>
+            </Popover>
+          </div> */}
+        </div>
 
-		const modalFileContoller = (index: number) => <div className="file_modal-file-controller">
-			<div onClick={() => deleteFileOnHold(index)} className="file_controller-item delete">
-				<Icon className='icon_m lite-grey' name='solid_times' />
-			</div>
-			<div onClick={() => changeFileOnHold(index)} className="file_controller-item change">
-				<Icon className='icon_s lite-grey' name='solid_pen' />
-			</div>
-		</div>
+        <div onClick={sendMessage} className="send_btn">
+          <Icon className="icon_x white" name="solid_another-arrow" />
+        </div>
+        <input
+          type="file"
+          hidden
+          accept={acceptType}
+          name="files"
+          ref={fileInputRef}
+          multiple
+          onChange={handleFileInput}
+        />
+      </div>
+    );
+  })
+);
 
-
-		if (!currentChat) {
-			return (
-				<div className="chat">
-					Loading
-				</div>
-			)
-		}
-
-		return (
-			<div className="inputer">
-				<Modal visible={fileOnHold.length > 0}
-					onCancel={() => {
-						setFileOnHold([])
-						setFileToSend([])
-					}}
-					footer={[
-						<Button key="back" className='font_size-normal' type="primary"
-							onClick={() => {
-								setFileOnHold([])
-								setFileToSend([])
-							}}>
-							Отмена
-					       </Button>,
-						<Button key="submit" className='font_size-normal' type="primary"
-							onClick={ handleEnter }>
-							Отправить
-					       </Button>
-					]}
-				>
-
-					<div className="file_modal">
-						<div className="file-holder-container">
-							{
-								fileOnHold.map((file_item: any, index: number) => {
-									if (file_item.type === 'image') {
-										return (
-											<div className="file-holder">
-												{modalFileContoller(index)}
-												<div className="file-holder-preview">
-													<div className="content">
-														<img src={file_item.url} alt="" />
-													</div>
-												</div>
-
-												<div className="file-holder-info">
-													<div className="name">
-														{file_item.file.name}
-													</div>
-													<div className="size">
-														{
-															bytesToSize(file_item.file.size)
-														}
-													</div>
-												</div>
-											</div>
-										)
-									}
-									if (file_item.type === 'audio') {
-										return (
-											<div className="file-holder video-holder">
-												{modalFileContoller(index)}
-												<div className="file-holder-preview">
-													<div className="content">
-														<div className="play-icon">
-															<Icon className='icon_m white' name='solid_file-audio' />
-														</div>
-														{
-															file_item.url ? (<Fragment>
-																<video autoPlay muted>
-																	<source src={file_item.url} type='video/mp4' />
-																</video>
-															</Fragment>) : (<Fragment></Fragment>)
-														}
-													</div>
-												</div>
-												<div className="file-holder-info">
-													<div className="name">
-														{file_item.file.name}
-													</div>
-													<div className="size">
-														{
-															bytesToSize(file_item.file.size)
-														}
-													</div>
-												</div>
-											</div>
-										)
-									}
-
-									if (file_item.type === 'file') {
-										return (
-											<div className="file-holder video-holder">
-												{modalFileContoller(index)}
-												<div className="file-holder-preview file">
-													<div className="content">
-														<div className="play-icon">
-															<Icon className='icon_m white' name='solid_file' />
-														</div>
-													</div>
-												</div>
-												<div className="file-holder-info">
-													<div className="name">
-														{file_item.file.name}
-													</div>
-													<div className="size">
-														{
-															bytesToSize(file_item.file.size)
-														}
-													</div>
-												</div>
-											</div>
-										)
-									}
-
-									if (file_item.type === 'video') {
-										return (
-											<div className="file-holder video-holder">
-												{modalFileContoller(index)}
-												<div className="file-holder-preview">
-													<div className="content">
-														<div className="play-icon">
-															<Icon className='icon_m white' name='solid_play' />
-														</div>
-														{
-															file_item.url ? (<Fragment>
-																<video autoPlay muted>
-																	<source src={file_item.url} type='video/mp4' />
-																</video>
-															</Fragment>) : (<Fragment></Fragment>)
-														}
-													</div>
-												</div>
-												<div className="file-holder-info">
-													<div className="name">
-														{file_item.file.name}
-													</div>
-													<div className="size">
-														{
-															bytesToSize(file_item.file.size)
-														}
-													</div>
-												</div>
-											</div>
-										)
-									}
-
-									return null
-								})
-							}
-						</div>
-						<div className="file_modal-options">
-							{
-								fileOnHold.find((file: any) => file.type === 'image') &&
-								<div className="compression-switch">
-									<Switch size="small" defaultChecked />
-                                    Оптимизировать изображения
-                                </div>
-							}
-						</div>
-						<div className="file_modal-input">
-							<div className="inputer_btn">
-								<Popover onVisibleChange={(e) => {
-									e ? {} : setSwitcher('')
-								}} visible={switcher === 'attachments_modal'} content={<DropDownAttachments />}
-									trigger="click">
-									<Button onClick={() => {
-										switcher === 'attachments_modal' ? setSwitcher('') : setSwitcher('attachments_modal')
-									}} className='transparent'>
-										<Icon className='icon_m blue-lite' name='solid_plus' />
-									</Button>
-								</Popover>
-							</div>
-							<div className="main_input in_modal">
-								<TextArea onKeyDown={(e) => handleKeyDown(e)} onKeyUp={(e) => handleKeyUp(e)}
-									onPressEnter={(e) => handleEnter(e)} autoSize
-									placeholder='Ваше сообщение'
-									ref={inputRef}
-									onChange={(e) => onChange(activeContact.id, e.target.value, e)}
-									value={draft[activeContact.id + status]} />
-							</div>
-						</div>
-					</div>
-				</Modal>
-
-
-				<div className="input-container">
-
-					{/*<div className="inputer_btn">*/}
-					{/*	<div className='helper_menu'>*/}
-					{/*		<AlignCenterOutlined onClick={props.helperMenu}/>*/}
-					{/*	</div>*/}
-					{/*</div>*/}
-
-					<div className="inputer_btn">
-						{/* убрать единичку */}
-						<Popover onVisibleChange={(e) => {
-							e ? {} : setSwitcher('')
-						}} visible={switcher === '1social'} content={<SocialMenu selectSocial={selectSocial} />}
-							trigger="click">
-
-							<Button onClick={() => setSwitcher('social')} className='transparent not-allowed'>
-								<Icon className='icon_l'
-									name={`social_media_${ currentChat.activeSocial ? currentChat.activeSocial : '' }`} />
-							</Button>
-						</Popover>
-					</div>
-
-					<div className="main_input">
-						{
-							chatStore.activeChat.active_msg ? (<Fragment>
-								<div className="selected-container">
-									<span>{ chatStore.activeChat.active_msg.content }</span>
-									<div className="msg_type">
-										{TypesMessage.getTypeDescription(chatStore.activeChat.active_msg.entity.type)}
-									</div>
-									<CloseOutlined className="close" onClick={() => chatStore.setActiveMessage(null)} />
-								</div>
-							</Fragment>) : (<Fragment></Fragment>)
-						}
-						<TextArea onKeyDown={ handleKeyDown } onKeyUp={ handleKeyUp }
-							onPressEnter={ handleEnter } autoSize
-							placeholder='Ваше сообщение'
-							ref={ inputRef }
-							onChange={(e) => onChange(activeContact.id, e.target.value, e)}
-							value={ draft[activeContact.id + status] } />
-					</div>
-
-					{/*<div className="inputer_btn">*/}
-					{/*	<Popover onVisibleChange={(e) => {*/}
-					{/*		e ? {} : setSwitcher('')*/}
-					{/*	}} visible={ switcher === 'attachments' } content={ <DropDownAttachments /> } trigger="click">*/}
-					{/*		<Button onClick={() => {*/}
-					{/*			switcher === 'attachments' ? setSwitcher('') : setSwitcher('attachments')*/}
-					{/*		}} className='transparent'>*/}
-					{/*			<Icon className='icon_m blue-lite' name='solid_paperclip' />*/}
-					{/*		</Button>*/}
-					{/*	</Popover>*/}
-					{/*</div>*/}
-
-				</div>
-
-				<div onClick={() => onSend()} className="send_btn">
-					<Icon className='icon_x white' name='solid_another-arrow' />
-				</div>
-				<input type="file" hidden accept={acceptType} name='files' ref={fileInputRef} multiple
-					   onChange={handleFileInput} />
-
-			</div>
-		)
-	}))
-
-
-export default Inputer
+export default Inputer;
