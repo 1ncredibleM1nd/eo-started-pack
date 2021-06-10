@@ -4,7 +4,7 @@ import { Icon } from "@ui";
 
 import { Menu, Dropdown, Divider } from "antd";
 import { TypesMessage } from "@stores/classes";
-import { MoreOutlined } from "@ant-design/icons";
+import { MoreOutlined, LoadingOutlined } from "@ant-design/icons";
 import { Message } from "@entities";
 import { UserAvatar } from "@components/user_info/UserAvatar";
 
@@ -16,8 +16,6 @@ type IProps = {
 
 const MessageComponent = observer((props: IProps) => {
   const { message, replyMsg, messageDateDivider } = props;
-
-  console.log("message", message);
 
   const renderDataTimeBlock = (time: string) => (
     <div className="date_container">
@@ -60,12 +58,20 @@ const MessageComponent = observer((props: IProps) => {
           {message.attachments.length > 0 && (
             <div className="msg_file_container">
               {message.attachments.map((attachment: any, index: any) => {
-                console.log({ attachment });
-
                 if (attachment.type === "file") {
-                  return <div className="msg_content-document">Document</div>;
+                  return (
+                    <div className="msg-content-file">
+                      <div className="document-preview">
+                        {attachment.data ? (
+                          <img src={attachment.data.preview} alt="" />
+                        ) : (
+                          <LoadingOutlined />
+                        )}
+                      </div>
+                    </div>
+                  );
                 }
-
+                //
                 // if (attachment.type === "photo") {
                 //   return (
                 //     <div

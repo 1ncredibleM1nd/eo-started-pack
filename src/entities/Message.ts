@@ -1,6 +1,7 @@
 import { observable, action } from "mobx";
 import Entity from "./Entity";
 import User from "./User";
+import Attachment from "./Attachment";
 
 class Message {
   id: string;
@@ -14,7 +15,7 @@ class Message {
   reply: Message = null;
   edited: boolean = false;
   income: boolean;
-  attachments: Array<any> = [];
+  attachments: Attachment[] | [];
   entity: Entity;
   user: User;
   timestamp: number;
@@ -31,7 +32,8 @@ class Message {
     timestamp: number,
     entity: Entity,
     user: User,
-    readed?: boolean
+    readed?: boolean,
+    attachments?: Attachment[]
   ) {
     this.id = id;
     this.time = time;
@@ -44,6 +46,7 @@ class Message {
     this.entity = entity;
     this.user = user;
     this.readed = readed ? readed : false;
+    this.attachments = attachments && attachments.length > 0 ? attachments : [];
   }
 
   @action

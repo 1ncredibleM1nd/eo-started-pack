@@ -5,7 +5,13 @@ import moment from "moment";
 import "moment/locale/ru";
 import $ from "jquery";
 import { TypesMessage } from "@stores/classes";
-import { Conversation, Entity, Message, User } from "../../entities";
+import {
+  Attachment,
+  Conversation,
+  Entity,
+  Message,
+  User,
+} from "../../entities";
 import { contactStore } from "./ContactStore";
 
 moment.locale("ru");
@@ -42,7 +48,14 @@ export class ChatStore {
       replyTo = activeMessage.id;
     }
 
-    console.log("files", files);
+    if (!message && files.length) {
+      message = "";
+      files.map((file, index) => {
+        message +=
+          file.name +
+          (files.length > 1 && index !== files.length - 1 ? ", " : " ");
+      });
+    }
 
     await sendMessage(
       this.activeChat.id,
@@ -179,7 +192,8 @@ export class ChatStore {
     content: any,
     from: any,
     socialMedia: string,
-    reply: any
+    reply: any,
+    files: any[]
   ): Promise<void> {
     if (this.activeChat) {
       const id: string = "msg_" + Math.random();
@@ -188,6 +202,22 @@ export class ChatStore {
       const combineWithPrevious: boolean = false;
       const entity: Entity = new Entity(TypesMessage.MESSAGE);
       const user: User = userStore.hero;
+
+      //? Текст сообщения  = названию файлов через запятую
+      // TODO Переделать когда появться изменения от Бэка
+
+      const attachments: Attachment[] = [];
+
+      if (!content && files.length) {
+        content = "";
+        files.map((file, index) => {
+          content +=
+            file.name +
+            (files.length > 1 && index !== files.length - 1 ? ", " : " ");
+          // const type = file.type.split("/")[0];
+          attachments.push({ type: "file", url: null, data: null });
+        });
+      }
 
       let message: Message = new Message(
         id,
@@ -199,7 +229,9 @@ export class ChatStore {
         false,
         moment().unix(),
         entity,
-        user
+        user,
+        false,
+        attachments
       );
 
       message.reply = reply;
@@ -296,7 +328,8 @@ export class ChatStore {
       current.timestamp,
       entity,
       user,
-      current.readed
+      current.readed,
+      current.attachments
     );
 
     if (current.entity.data.replyTo) {
