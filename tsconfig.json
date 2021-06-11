@@ -1,19 +1,23 @@
 {
-  "module": "ESNext",
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es5",
-    "jsx": "react",
-    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "target": "ES5",
+    "moduleResolution": "Node",
+
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
     "strictNullChecks": false,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
+
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
+
+    "jsx": "react",
+    "forceConsistentCasingInFileNames": true,
+
     "baseUrl": "./src",
     "paths": {
       "rappid": ["vendor/rappid.min"],
