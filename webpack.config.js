@@ -172,6 +172,9 @@ module.exports = (env, { mode }) => {
         },
       ],
     },
+    cache: {
+      type: "filesystem",
+    },
     optimization: {
       splitChunks: {
         chunks: "all",
