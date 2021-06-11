@@ -1,7 +1,6 @@
 import { action, observable } from "mobx";
 import { isLogged, setSession } from "@actions";
 import IAuthStore from "@stores/interface/app/IAuthStore";
-import CONFIG from "../../config";
 import { userStore } from "@stores/implementation/UserStore";
 
 export class AuthStore implements IAuthStore {
@@ -88,7 +87,7 @@ export class AuthStore implements IAuthStore {
 
           await userStore.initHero();
         } else {
-          window.location.href = `${CONFIG.BASE_AUTH_URL}/?redirect_url=${window.location.href}`;
+          window.location.href = `${process.env.APP_AUTH_URL}/?redirect_url=${window.location.href}`;
         }
       }
     }
