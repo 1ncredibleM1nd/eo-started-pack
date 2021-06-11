@@ -2,10 +2,9 @@ const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const tsImportPluginFactory = require("ts-import-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const { TsconfigPathsPlugin } = require("tsconfig-paths-webpack-plugin");
 const FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin");
-const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const SpriteLoaderPlugin = require("svg-sprite-loader/plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 
@@ -36,51 +35,65 @@ module.exports = {
     },
   },
   resolve: {
-    alias: {
-      "@pages": path.resolve(__dirname, "src/pages"),
-      "@constants": path.resolve(__dirname, "src/constants"),
-      "@script": path.resolve(__dirname, "src/script"),
-      "@layouts": path.resolve(__dirname, "src/layouts"),
-      "@images": path.resolve(__dirname, "src/images"),
-      "@components": path.resolve(__dirname, "src/components"),
-      "@ui": path.resolve(__dirname, "src/ui"),
-      "@flowchart": path.resolve(__dirname, "src/flowchart"),
-      "@styles": path.resolve(__dirname, "src/styles"),
-      "@interfaces": path.resolve(__dirname, "src/interfaces"),
-      "@utils": path.resolve(__dirname, "src/utils"),
-      "@stores": path.resolve(__dirname, "src/stores"),
-      "@hooks": path.resolve(__dirname, "src/hooks"),
-      "@actions": path.resolve(__dirname, "src/actions"),
-      "@chat_ui": path.resolve(__dirname, "src/chat_ui"),
-      "@entities": path.resolve(__dirname, "src/entities"),
-    },
-    extensions: [".ts", ".tsx", ".js", ".json", ".scss", ".png", ".jpg", ".gif", ".jpeg", ".otf", ".ttf", ".svg"],
+    plugins: [new TsconfigPathsPlugin()],
+    extensions: [
+      ".ts",
+      ".tsx",
+      ".js",
+      ".json",
+      ".scss",
+      ".png",
+      ".jpg",
+      ".gif",
+      ".jpeg",
+      ".otf",
+      ".ttf",
+      ".svg",
+    ],
   },
   module: {
     rules: [
       {
-        test: /\.(jsx|tsx|js|ts)$/,
+        test: /\.(jsx?|tsx?)$/,
+        exclude: /node_modules/,
         use: [
           {
-            loader: "ts-loader",
+            loader: require.resolve("babel-loader"),
             options: {
-              transpileOnly: true,
-              getCustomTransformers: () => ({
-                before: [
-                  tsImportPluginFactory({
+              presets: [
+                require.resolve("@babel/preset-env"),
+                require.resolve("@babel/preset-react"),
+                require.resolve("@babel/preset-typescript"),
+              ],
+              plugins: [
+                [
+                  require.resolve("babel-plugin-import"),
+                  {
                     libraryName: "antd",
                     libraryDirectory: "es",
                     style: true,
-                  }),
+                  },
                 ],
-              }),
-              compilerOptions: {
-                module: "es2015",
-              },
+                [
+                  require.resolve("@babel/plugin-proposal-decorators"),
+                  { legacy: true },
+                ],
+                [
+                  require.resolve("@babel/plugin-proposal-private-methods"),
+                  { loose: true },
+                ],
+                [
+                  require.resolve("@babel/plugin-proposal-class-properties"),
+                  { loose: true },
+                ],
+                require.resolve("@babel/plugin-proposal-optional-chaining"),
+                require.resolve(
+                  "@babel/plugin-proposal-nullish-coalescing-operator"
+                ),
+              ],
             },
           },
         ],
-        exclude: /node_modules/,
       },
       {
         test: /\.scss$/,
@@ -90,7 +103,9 @@ module.exports = {
           { loader: "css-loader" },
           {
             loader: "postcss-loader",
-            options: { config: { path: path.join(__dirname, "./postcss.config.ts") } },
+            options: {
+              config: { path: path.join(__dirname, "./postcss.config.ts") },
+            },
           },
           { loader: "sass-loader", options: { sourceMap: true } },
         ],
@@ -107,7 +122,9 @@ module.exports = {
           },
           {
             loader: "postcss-loader",
-            options: { config: { path: path.join(__dirname, "./postcss.config.ts") } },
+            options: {
+              config: { path: path.join(__dirname, "./postcss.config.ts") },
+            },
           },
           {
             loader: "less-loader", // compiles Less to CSS,
@@ -176,7 +193,6 @@ module.exports = {
     }),
     new webpack.ProgressPlugin(),
     new CleanWebpackPlugin(),
-    new ForkTsCheckerWebpackPlugin(),
     new FriendlyErrorsPlugin({
       clearConsole: true,
       compilationSuccessInfo: {

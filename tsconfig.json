@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
     "module": "ESNext",
-    "target": "ES5",
+    "target": "ESNext",
     "moduleResolution": "Node",
+
+    "allowJs": true,
 
     "noImplicitReturns": true,
     "noImplicitThis": true,
@@ -14,6 +16,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
+    "useDefineForClassFields": true,
 
     "jsx": "react",
     "forceConsistentCasingInFileNames": true,
