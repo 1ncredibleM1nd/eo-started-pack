@@ -24,7 +24,7 @@ build_dev:
         - sshpass ssh -t admin@84.201.139.43 "cd web/chat.dev.prodamus.pro/public_html
             && git checkout -f
             && git pull origin dev
-            && npm install
+            && npm ci
             && npm run build
             && rm -rf build
             && mv dist build"
