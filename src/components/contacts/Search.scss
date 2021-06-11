@@ -24,9 +24,10 @@
 //   cursor: wait;
 // }
 
-.school-filter {
+.filter-item {
   width: 100%;
-  margin-top: 15px;
+  margin-bottom: 15px;
+  padding: 0 10px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -76,7 +77,6 @@
   padding: 10px;
   background: $ui_white;
   align-items: center;
-
 }
 
 .profile_trigger {
@@ -94,33 +94,31 @@
   }
 }
 
-
 .search .search-input {
   input {
     margin: 0 !important;
   }
 }
 
-.ant-collapse-borderless>.ant-collapse-item:last-child,
-.ant-collapse-borderless>.ant-collapse-item:last-child .ant-collapse-header {
+.ant-collapse-borderless > .ant-collapse-item:last-child,
+.ant-collapse-borderless > .ant-collapse-item:last-child .ant-collapse-header {
   border: none !important;
 }
 
 .ant-collapse-content-box {
   border: none !important;
   background: transparent !important;
-
 }
 
-.contact_layout .contact_header .ant-collapse-content>.ant-collapse-content-box {
+.contact_layout .contact_header .ant-collapse-content > .ant-collapse-content-box {
   padding-left: 10px !important;
 }
 
-.ant-collapse-content>.ant-collapse-content-box {
+.ant-collapse-content > .ant-collapse-content-box {
   padding-bottom: 15px;
 }
 
-.ant-collapse>.ant-collapse-item>.ant-collapse-header {
+.ant-collapse > .ant-collapse-item > .ant-collapse-header {
   padding: 0;
   overflow: hidden;
   border: none !important;
@@ -131,25 +129,22 @@
   background: transparent !important;
 }
 
-
-.channel-container {
-  display: flex;
-  // height: 70px;
-  height: 25px;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-bottom: 10px;
-}
-
 .channel-item {
-  width: 25%;
+  width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  padding: 5px 0px;
+
+  .channel-name {
+    &::first-letter {
+      text-transform: capitalize;
+    }
+  }
 
   svg {
-    margin-right: 5px;
+    margin: 0px 10px;
   }
 }
 
@@ -157,15 +152,16 @@
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
+  justify-content: flex-start;
+  padding: 5px 0px;
 
   p {
     margin: 0;
     display: inline-block;
-    max-width: 90%;
+    max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-left: 10px;
   }
 }
 
@@ -194,7 +190,6 @@
   background: $blue_soft !important;
   border-color: #1890ffa8 !important;
 }
-
 
 .filter_container {
   display: none;
@@ -228,7 +223,6 @@
     height: 100%;
     display: flex;
     align-items: center;
-
 
     input {
       width: 100%;

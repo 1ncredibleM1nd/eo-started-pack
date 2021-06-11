@@ -9,6 +9,7 @@ export class ContactStore {
   @observable activeContact: Conversation;
   @observable search: string = "";
   @observable filterSwitch: boolean = false;
+
   @observable sources: any = {
     whatsapp: false,
     instagram: false,
@@ -19,6 +20,14 @@ export class ContactStore {
     telegram: true,
     email: false,
   };
+
+  avaliableChannels: string[] = [
+    "vkontakte",
+    "odnoklassniki",
+    "facebook",
+    "telegram",
+  ];
+
   contactLoading: boolean = false;
 
   constructor() {

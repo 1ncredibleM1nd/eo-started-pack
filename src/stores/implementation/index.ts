@@ -1,13 +1,18 @@
-import { appStore } from './AppStore';
-import { userStore } from './UserStore';
-import { chatStore } from './ChatStore';
-import { contactStore } from './ContactStore';
-import { authStore } from './AuthStore'
+import { appStore, AppStore } from "./AppStore";
+import { userStore, UserStore } from "./UserStore";
+import { chatStore, ChatStore } from "./ChatStore";
+import { contactStore, ContactStore } from "./ContactStore";
+import { authStore, AuthStore } from "./AuthStore";
 
 export {
-    appStore,
-    contactStore,
-    chatStore,
-    userStore,
-    authStore
-}
+  appStore,
+  AppStore,
+  contactStore,
+  ContactStore,
+  chatStore,
+  ChatStore,
+  userStore,
+  UserStore,
+  authStore,
+  AuthStore,
+};

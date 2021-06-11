@@ -600,10 +600,8 @@
   padding-right: 20px !important;
   padding-left: 0rem !important;
 
-  .message-wrapper .msg_menu {
-    position: absolute;
+  .msg_menu-container {
     left: -30px;
-    top: 7px;
   }
 
   .message-wrapper .msg_time {
@@ -743,17 +741,39 @@
     padding-left: 20px !important;
   }
 
+  .msg_menu-container {
+    position: absolute;
+    right: -30px;
+    top: 0;
+    height: 100%;
+    width: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .msg_menu {
+      width: 100%;
+      height: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .editted_icon {
+      width: 100%;
+      height: 32px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
   .message-wrapper {
     display: flex;
     flex-direction: row;
     justify-content: flex-start !important;
     align-items: flex-start;
-
-    .msg_menu {
-      position: absolute;
-      right: -30px;
-      top: 7px;
-    }
   }
 
   .msg_header {
@@ -890,13 +910,6 @@
       .msg_type {
         font-size: 0.75rem;
       }
-    }
-
-    .editted_icon {
-      width: 24px;
-      height: 24px;
-      position: absolute;
-      right: -28px;
     }
 
     .smile {
