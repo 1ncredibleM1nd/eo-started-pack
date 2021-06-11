@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const { TsconfigPathsPlugin } = require("tsconfig-paths-webpack-plugin");
-const FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin");
+// const FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin");
 const SpriteLoaderPlugin = require("svg-sprite-loader/plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const DotenvFlow = require("dotenv-flow-webpack");
@@ -19,24 +19,9 @@ module.exports = (env, { mode }) => {
       filename: "[name].js",
     },
     devServer: {
+      stats: "minimal",
       historyApiFallback: true,
       watchOptions: { aggregateTimeout: 300, poll: 1000 },
-      stats: {
-        colors: true,
-        hash: false,
-        version: false,
-        timings: false,
-        assets: false,
-        chunks: false,
-        modules: false,
-        reasons: false,
-        children: false,
-        source: false,
-        errors: true,
-        errorDetails: true,
-        warnings: true,
-        publicPath: false,
-      },
     },
     resolve: {
       plugins: [new TsconfigPathsPlugin()],
@@ -94,6 +79,7 @@ module.exports = (env, { mode }) => {
                   require.resolve(
                     "@babel/plugin-proposal-nullish-coalescing-operator"
                   ),
+                  require.resolve("@babel/plugin-transform-runtime"),
                 ],
               },
             },
@@ -103,13 +89,15 @@ module.exports = (env, { mode }) => {
           test: /\.scss$/,
           use: [
             { loader: "style-loader" },
-            MiniCssExtractPlugin.loader,
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                esModule: false,
+              },
+            },
             { loader: "css-loader" },
             {
               loader: "postcss-loader",
-              options: {
-                config: { path: path.join(__dirname, "./postcss.config.ts") },
-              },
             },
             { loader: "sass-loader", options: { sourceMap: true } },
           ],
@@ -120,20 +108,25 @@ module.exports = (env, { mode }) => {
             {
               loader: "style-loader", // creates style nodes from JS strings
             },
-            MiniCssExtractPlugin.loader,
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                esModule: false,
+              },
+            },
             {
               loader: "css-loader", // translates CSS into CommonJS
             },
             {
               loader: "postcss-loader",
-              options: {
-                config: { path: path.join(__dirname, "./postcss.config.ts") },
-              },
             },
             {
               loader: "less-loader", // compiles Less to CSS,
               options: {
-                javascriptEnabled: true,
+                lessOptions: {
+                  javascriptEnabled: true,
+                  math: "always",
+                },
               },
             },
           ],
@@ -198,14 +191,14 @@ module.exports = (env, { mode }) => {
       }),
       new webpack.ProgressPlugin(),
       new CleanWebpackPlugin(),
-      new FriendlyErrorsPlugin({
-        clearConsole: true,
-        compilationSuccessInfo: {
-          messages: [
-            "PapaBot application is running here http://localhost:8080",
-          ],
-        },
-      }),
+      // new FriendlyErrorsPlugin({
+      //   clearConsole: true,
+      //   compilationSuccessInfo: {
+      //     messages: [
+      //       "PapaBot application is running here http://localhost:8080",
+      //     ],
+      //   },
+      // }),
     ],
   };
 };
