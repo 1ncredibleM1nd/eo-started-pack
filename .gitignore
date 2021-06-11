@@ -5,7 +5,6 @@ dist
 build
 public
 dist_backup
-package-lock.json
 .DS_store
 .DS_Store
 npm-debug.log
