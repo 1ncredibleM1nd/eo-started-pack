@@ -4,7 +4,6 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const { TsconfigPathsPlugin } = require("tsconfig-paths-webpack-plugin");
-// const FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin");
 const SpriteLoaderPlugin = require("svg-sprite-loader/plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const DotenvFlow = require("dotenv-flow-webpack");

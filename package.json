@@ -1,8 +1,7 @@
 {
-  "name": "app",
+  "private": true,
+  "name": "@prodamus/single-window",
   "version": "1.0.0",
-  "description": "base",
-  "main": "index.js",
   "scripts": {
     "start": "webpack serve --mode development --progress",
     "build": "webpack --mode production",
