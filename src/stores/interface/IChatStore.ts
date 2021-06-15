@@ -3,7 +3,6 @@ import { Conversation, Message } from "@entities";
 export default interface IChatStore {
   chat: Array<Conversation>;
   activeChat: Conversation;
-  modalWindow: string;
   isLoaded: boolean;
   activeChatPageNumber: number;
   addPageNumber: () => void;
@@ -11,7 +10,6 @@ export default interface IChatStore {
   getPageNumber: () => number;
   updateMessages: (contactId: string) => any;
   loadMessages: (contactId: string, pageNumber?: number) => void;
-  setModalWindow: (status: string) => void;
   readAllMsg: (id: string) => void;
   setActiveMessage: (msg: Message) => void;
   getUnreadCount: (id: string) => number;

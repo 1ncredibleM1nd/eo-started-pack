@@ -20,7 +20,7 @@ type IProps = {
   fileOnHold?: any[];
   activeContactId?: string;
 };
-
+//
 const { TextArea } = Input;
 
 const FileUploadModal = observer((props: IProps) => {
@@ -189,7 +189,6 @@ const FileUploadModal = observer((props: IProps) => {
       onCancel={clearFiles}
       footer={[
         <Button
-          key="back"
           className="font_size-normal"
           type="primary"
           onClick={clearFiles}
@@ -197,7 +196,6 @@ const FileUploadModal = observer((props: IProps) => {
           Отмена
         </Button>,
         <Button
-          key="submit"
           className="font_size-normal"
           type="primary"
           onClick={handleEnter}
@@ -209,7 +207,13 @@ const FileUploadModal = observer((props: IProps) => {
       <div className="file_modal">
         <div className="file-holder-container">
           {fileOnHold.map((fileItem: any, index: number) => {
-            return <UploadMediaPreview fileItem={fileItem} index={index} />;
+            return (
+              <UploadMediaPreview
+                key={Math.random()}
+                fileItem={fileItem}
+                index={index}
+              />
+            );
           })}
 
           <div className="file_modal-options">

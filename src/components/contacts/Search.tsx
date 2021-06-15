@@ -84,6 +84,7 @@ const Search = inject((stores: IStores) => ({
                   if (avaliableChannels.find((channel) => channel === key)) {
                     return (
                       <ChannelFilterItem
+                        key={Math.random()}
                         channelName={key}
                         onChangeSocial={onChangeSocial}
                         defaultChecked={sources[key]}
@@ -100,7 +101,7 @@ const Search = inject((stores: IStores) => ({
                   const school: any = appStore.schoolList[schoolId];
 
                   return (
-                    <div className={"school-item"}>
+                    <div key={Math.random()} className={"school-item"}>
                       <Switch
                         size="small"
                         defaultChecked={school.active}
