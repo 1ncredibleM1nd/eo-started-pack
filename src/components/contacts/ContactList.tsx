@@ -6,14 +6,11 @@ import IStores, {
   IContactStore,
   IUserStore,
 } from "@stores/interface";
-import { Badge } from "antd";
 import HashLoader from "react-spinners/HashLoader";
 import "./ContactList.scss";
 import "./Contact.scss";
-import { Icon } from "@ui";
-import moment from "moment";
-import { UserAvatar } from "@components/user_info/UserAvatar";
-import { Conversation, Message, User } from "../../entities";
+import { Conversation, Message } from "@entities";
+import ContactItem from "./comp/ContactItem";
 
 type IProps = {
   contactStore?: IContactStore;
@@ -69,20 +66,6 @@ const ContactList = inject((stores: IStores) => ({
       );
     }
 
-    const contactTime = (message: Message) => {
-      let now = moment(new Date());
-      let contactDate = moment(message.date, "DD.MM.YY");
-      let diff = now.diff(contactDate, "days");
-
-      if (diff === 0) {
-        return <span>{message.time}</span>;
-      } else if (diff <= 7) {
-        return <span>{contactDate.format("dd")}</span>;
-      } else {
-        return <span>{message.date}</span>;
-      }
-    };
-
     return (
       <div className={`menu_list ${filterSwitch ? "active" : ""}`}>
         <div className="tab-content">
@@ -100,120 +83,39 @@ const ContactList = inject((stores: IStores) => ({
                   data-chat-list=""
                 >
                   {ContactsData.map((contact: Conversation, index: number) => {
-                    if (!contact) {
-                      return null;
-                    }
+                    if (!contact) return null;
 
                     const lastMessage: Message = contact.getLastMessage();
-                    const user: User = contact.user;
-
                     const online: boolean = false;
-                    let social_media: string = "";
-                    let status: string = "read";
-
-                    if (lastMessage) {
-                      if (lastMessage.income && !lastMessage.readed) {
-                        status = "unread";
-                      }
-
-                      social_media = lastMessage.social_media;
-                    }
-
-                    const isIAm =
-                      lastMessage &&
-                      !lastMessage.income &&
-                      lastMessage.user &&
-                      lastMessage.user.id === userStore.hero.id;
 
                     return (
-                      <li
-                        onClick={() => selectContact(contact.id)}
-                        className={`contacts-item friends contact-item-${index}
-                                                    ${
-                                                      contactStore.activeContact &&
-                                                      contactStore.activeContact
-                                                        .id === contact.id
-                                                        ? "active"
-                                                        : ""
-                                                    }`}
-                        key={index}
-                      >
-                        <div className="avatar">
-                          <div
-                            className={`social_media_icon white ${social_media}`}
-                          >
-                            <Icon
-                              className="icon_s"
-                              name={`social_media_${social_media}`}
-                            />
-                          </div>
-                          <Badge
-                            className={`online_dot ${
-                              contactStore.activeContact &&
-                              contactStore.activeContact.id === contact.id
-                                ? "active"
-                                : ""
-                            }`}
-                            dot={online}
-                          >
-                            <UserAvatar
-                              size="48"
-                              user={user}
-                              round={true}
-                              textSizeRatio={1.75}
-                            />
-                          </Badge>
-                        </div>
-                        <div className="contacts-content">
-                          <div className="contacts-info">
-                            <h4 className="chat-name user_name_to">
-                              {user.username}
-                            </h4>
-                            <div className="chat-time">
-                              {lastMessage ? (
-                                <Fragment>{contactTime(lastMessage)}</Fragment>
-                              ) : (
-                                <Fragment></Fragment>
-                              )}
-                            </div>
-                          </div>
-                          <div className="contacts-texts">
-                            {lastMessage ? (
-                              <Fragment>
-                                <div className={`last_msg ${status}`}>
-                                  {isIAm ? <div className="from">Ты:</div> : ""}
-                                  {lastMessage.content}
-                                  {status === "unread" && (
-                                    <>
-                                      <Fragment>&nbsp;</Fragment>
-                                      <div className="unreaded_count"></div>
-                                    </>
-                                  )}
-                                </div>
-                              </Fragment>
-                            ) : (
-                              <Fragment>
-                                <div className={`last_msg ${status}`}>
-                                  *Добавлен в контакты*
-                                </div>
-                              </Fragment>
-                            )}
-                          </div>
-                        </div>
-                      </li>
+                      <ContactItem
+                        isIAm={
+                          lastMessage &&
+                          !lastMessage.income &&
+                          lastMessage.user &&
+                          lastMessage.user.id === userStore.hero.id
+                        }
+                        index={index}
+                        lastMessage={lastMessage}
+                        key={Math.random()}
+                        contact={contact}
+                        online={online}
+                        active={
+                          contactStore.activeContact &&
+                          contactStore.activeContact.id === contact.id
+                        }
+                        selectContact={selectContact}
+                      />
                     );
                   })}
 
-                  {ContactsData && !ContactsData.length ? (
-                    <Fragment>
-                      <li className={`contacts-item friends`}>
-                        <div className="announcement">
-                          Контактов нет ¯\_(ツ)_/¯
-                        </div>
-                      </li>
-                    </Fragment>
-                  ) : (
-                    <Fragment />
+                  {ContactsData && !ContactsData.length && (
+                    <li className={`contacts-item friends`}>
+                      <div className="announcement">
+                        Контактов нет ¯\_(ツ)_/¯
+                      </div>
+                    </li>
                   )}
                 </ul>
               </div>
