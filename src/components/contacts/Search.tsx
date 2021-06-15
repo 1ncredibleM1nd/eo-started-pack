@@ -101,12 +101,13 @@ const Search = inject((stores: IStores) => ({
                   const school: any = appStore.schoolList[schoolId];
 
                   return (
-                    <div key={Math.random()} className={"school-item"}>
+                    <div key={`filter_school_{schoolId}`} className={"school-item"}>
                       <Switch
                         size="small"
                         defaultChecked={school.active}
                         onChange={() => onChangeSchool(Number(schoolId))}
                       />
+                      <img src={school.logo} className="school-logo" />
                       <p>{school.name}</p>
                     </div>
                   );
