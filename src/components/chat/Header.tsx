@@ -7,6 +7,7 @@ import { Icon } from "@ui";
 import { ChatStore } from "@stores/implementation/ChatStore";
 
 import MoonLoader from "react-spinners/MoonLoader";
+import { useOrientation } from "../../hooks/useOrientation";
 
 type IProps = {
   contactStore?: IContactStore;
@@ -20,6 +21,8 @@ const Header = inject((stores: IStores) => ({
   chatStore: stores.chatStore,
 }))(
   observer((props: IProps) => {
+    const orientation = useOrientation();
+
     const { contactStore, appStore, chatStore } = props;
     const activeContact = contactStore.activeContact;
     let chatTitle: any;

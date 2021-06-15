@@ -47,6 +47,15 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
+html {
+  height: -webkit-fill-available!important;
+}
+
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
 article,
 aside,
 figcaption,
