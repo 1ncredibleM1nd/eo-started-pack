@@ -57,7 +57,7 @@ const MessageComponent = observer((props: IProps) => {
               {message.attachments.map((attachment: any, index: any) => {
                 if (attachment.type === "file") {
                   return (
-                    <div className="msg-content-file">
+                    <div key={Math.random()} className="msg-content-file">
                       <div className="document-preview">
                         {attachment.data ? (
                           <img src={attachment.data.preview} alt="" />

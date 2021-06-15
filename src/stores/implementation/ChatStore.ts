@@ -214,7 +214,6 @@ export class ChatStore {
           content +=
             file.name +
             (files.length > 1 && index !== files.length - 1 ? ", " : " ");
-          // const type = file.type.split("/")[0];
           attachments.push({ type: "file", url: null, data: null });
         });
       }
@@ -234,7 +233,7 @@ export class ChatStore {
         attachments
       );
 
-      message.reply = reply;
+      message.reply = reply ? reply : this.activeChat.activeMessage;
       message.isLastMessage = true;
 
       message = this.collectMessage(
@@ -335,6 +334,10 @@ export class ChatStore {
     if (current.entity.data.replyTo) {
       message.reply = this.collectMessage({
         current: current.entity.data.replyTo,
+      });
+    } else if (current.reply) {
+      message.reply = this.collectMessage({
+        current: current.reply,
       });
     }
 

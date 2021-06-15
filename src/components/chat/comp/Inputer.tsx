@@ -266,8 +266,10 @@ const Inputer = inject((stores: IStores) => ({
       );
     };
 
+    let chatError = false;
+
     return (
-      <div className="inputer">
+      <div className={`inputer ${!!chatError ? "has-error" : ""}`}>
         <FileUploadModal
           clearFiles={clearFiles}
           deleteFileOnHold={deleteFileOnHold}
@@ -293,6 +295,7 @@ const Inputer = inject((stores: IStores) => ({
               trigger="click"
             >
               <Button
+                disabled={!!chatError}
                 onClick={() => setSwitcher("social")}
                 className="transparent not-allowed"
               >
@@ -307,31 +310,39 @@ const Inputer = inject((stores: IStores) => ({
           </div>
 
           <div className="main_input">
-            {chatStore.activeChat.activeMessage && (
-              <div className="selected-container">
-                <span>{chatStore.activeChat.activeMessage.content}</span>
-                <div className="msg_type">
-                  {TypesMessage.getTypeDescription(
-                    chatStore.activeChat.activeMessage.entity.type
-                  )}
-                </div>
-                <CloseOutlined
-                  className="close"
-                  onClick={() => chatStore.setActiveMessage(null)}
-                />
-              </div>
-            )}
+            {!!chatError ? (
+              <div className="input-error">{chatError}</div>
+            ) : (
+              <>
+                {chatStore.activeChat.activeMessage && (
+                  <div className="selected-container">
+                    <span>{chatStore.activeChat.activeMessage.content}</span>
+                    <div className="msg_type">
+                      {TypesMessage.getTypeDescription(
+                        chatStore.activeChat.activeMessage.entity.type
+                      )}
+                    </div>
+                    <CloseOutlined
+                      className="close"
+                      onClick={() => chatStore.setActiveMessage(null)}
+                    />
+                  </div>
+                )}
 
-            <TextArea
-              onKeyDown={handleKeyDown}
-              onKeyUp={handleKeyUp}
-              onPressEnter={handleEnter}
-              autoSize
-              placeholder="Ваше сообщение"
-              ref={inputRef}
-              onChange={(e) => onChange(activeContact.id, e.target.value, e)}
-              value={draft[activeContact.id + status]}
-            />
+                <TextArea
+                  onKeyDown={handleKeyDown}
+                  onKeyUp={handleKeyUp}
+                  onPressEnter={handleEnter}
+                  autoSize
+                  placeholder="Ваше сообщение"
+                  ref={inputRef}
+                  onChange={(e) =>
+                    onChange(activeContact.id, e.target.value, e)
+                  }
+                  value={draft[activeContact.id + status]}
+                />
+              </>
+            )}
           </div>
 
           <div className="inputer_btn">
@@ -342,6 +353,7 @@ const Inputer = inject((stores: IStores) => ({
               trigger="click"
             >
               <Button
+                disabled={!!chatError}
                 onClick={() => {
                   switcher === "attachments"
                     ? setSwitcher("")
@@ -355,9 +367,13 @@ const Inputer = inject((stores: IStores) => ({
           </div>
         </div>
 
-        <div onClick={sendMessage} className="send_btn">
+        <Button
+          disabled={!!chatError}
+          onClick={sendMessage}
+          className="send_btn"
+        >
           <Icon className="icon_x white" name="solid_another-arrow" />
-        </div>
+        </Button>
         <input
           type="file"
           hidden

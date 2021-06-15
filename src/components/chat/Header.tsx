@@ -1,5 +1,4 @@
 import React, { Fragment } from "react";
-import ModalWindow from "./ModalWindow";
 import { inject, observer } from "mobx-react";
 import IStores, { IAppStore, IContactStore } from "@stores/interface";
 import { Button } from "antd";
@@ -89,7 +88,6 @@ const Header = inject((stores: IStores) => ({
             )}
           </Fragment>
         )}
-        <ModalWindow />
       </div>
     );
   })

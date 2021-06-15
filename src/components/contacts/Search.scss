@@ -18,6 +18,14 @@
   text-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none;
+  border: none;
+  filter: grayscale(1);
+}
+
+.search {
+  .ant-btn[disabled] {
+    filter: none !important;
+  }
 }
 
 // .ant-input[disabled] {

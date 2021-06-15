@@ -1,52 +1,59 @@
-import React, { useEffect } from 'react';
-import { inject, observer } from 'mobx-react';
-import { Layout } from 'antd';
-import IStores, { IAppStore, IAuthStore } from '@stores/interface';
-import Chats from '@pages/Chat'
-import '@styles/index.scss'
+import React, { useEffect } from "react";
+import { inject, observer } from "mobx-react";
+import { Layout } from "antd";
+import IStores, { IAppStore, IAuthStore } from "@stores/interface";
+import Chats from "@pages/Chat";
+import "@styles/index.scss";
 
 type IProps = {
-    appStore?: IAppStore
-    authStore?: IAuthStore
-}
+  appStore?: IAppStore;
+  authStore?: IAuthStore;
+};
 
 const App = inject((stores: IStores) => ({
-    appStore: stores.appStore,
-    authStore: stores.authStore
+  appStore: stores.appStore,
+  authStore: stores.authStore,
 }))(
-    observer((props: IProps) => {
-        const { appStore, authStore } = props
+  observer((props: IProps) => {
+    const { appStore, authStore } = props;
 
-        useEffect(() => {
-            async function init() {
-                let response = await authStore.initialize()
-                if (response) {
-                    appStore.initialization()
-                }
-            }
+    useEffect(() => {
+      async function init() {
+        //for safari browser
+        setTimeout(function () {
+          // Hide the address bar!
+          window.scrollTo(0, 1);
+        }, 0);
 
-            init()
-        }, [])
+        let response = await authStore.initialize();
+        if (response) {
+          appStore.initialization();
+        }
+      }
 
-        // Check auth when changing browser tabs
-        document.addEventListener('visibilitychange', async () => {
-            if (document.visibilityState === 'visible') {
-                await authStore.login()
-            }
-        })
+      init();
+    }, []);
 
-        return (
-            <Layout>
-                <Layout className="site-layout">
-                    <div className="chats-tab-open h-100">
-                        <div className={"main-layout h-100"}>
-                            <Chats />
-                            {/*<NavBarLayout /> */}
-                        </div>
-                    </div>
-                </Layout>
-            </Layout>
-        )
-    }))
+    // Check auth when changing browser tabs
+    document.addEventListener("visibilitychange", async () => {
+      if (document.visibilityState === "visible") {
+        await authStore.login();
+      }
+    });
 
-export default App
+    return (
+      <Layout>
+        <Layout className="site-layout">
+          <div className="chats-tab-open h-100">
+            <div className={"main-layout h-100"}>
+              <Chats />
+              {/*<NavBarLayout /> */}
+            </div>
+          </div>
+        </Layout>
+      </Layout>
+    );
+  })
+);
+
+export default App;
