@@ -3,8 +3,6 @@ import { IAppStore } from "@stores/interface";
 import { contactStore, userStore } from "@stores/implementation";
 import { getConversations, getSchools } from "@actions";
 import { notification } from "antd";
-// @ts-ignore
-import { NotificationSettings } from "../../Config/Config";
 import ISchool from "@stores/interface/app/ISchool";
 
 export class AppStore implements IAppStore {
@@ -100,7 +98,7 @@ export class AppStore implements IAppStore {
     await this.initSchools();
 
     // сконфигурируем уведомления
-    notification.config(NotificationSettings);
+    notification.config({ placement: "bottomRight", bottom: 50, duration: 3 });
 
     this.runUpdateContact();
   }
