@@ -50,10 +50,12 @@ export class AppStore implements IAppStore {
 		let schoolList: any = await getSchools()
 
 		Object.keys(schoolList).forEach(schoolId => {
-			const schoolName: any = schoolList[schoolId]
+			const schoolName: any = schoolList[schoolId]['schoolName']
+			const schoolLogo: any = schoolList[schoolId]['logo']
 
 			schoolList[schoolId] = {
 				name: schoolName,
+				logo: schoolLogo,
 				active: true
 			}
 		})
