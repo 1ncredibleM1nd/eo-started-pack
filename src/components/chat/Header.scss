@@ -106,10 +106,9 @@
         }
     }
 
-    @include _1000 {
-        display: flex;
-    }
-
+  @media (max-width: 1025px) and (orientation: portrait) {
+    display: flex;
+  }
 }
 
 
