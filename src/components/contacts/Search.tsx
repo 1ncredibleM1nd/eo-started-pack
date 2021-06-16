@@ -79,29 +79,15 @@ const Search = inject((stores: IStores) => ({
           >
             <Panel header="" key="1">
               <div className="filter-item">
-                <h5>Каналы</h5>
-                {Object.keys(sources).map((key: string) => {
-                  if (avaliableChannels.find((channel) => channel === key)) {
-                    return (
-                      <ChannelFilterItem
-                        key={Math.random()}
-                        channelName={key}
-                        onChangeSocial={onChangeSocial}
-                        defaultChecked={sources[key]}
-                      />
-                    );
-                  }
-                  return null;
-                })}
-              </div>
-
-              <div className="filter-item">
                 <h5>Школы</h5>
                 {Object.keys(appStore.schoolList).map((schoolId) => {
-                  const school: any = appStore.schoolList[schoolId];
+                  const school = appStore.schoolList[schoolId];
 
                   return (
-                    <div key={`filter_school_{schoolId}`} className={"school-item"}>
+                    <div
+                      key={`filter_school_${schoolId}`}
+                      className={"school-item"}
+                    >
                       <Switch
                         size="small"
                         defaultChecked={school.active}
@@ -111,6 +97,23 @@ const Search = inject((stores: IStores) => ({
                       <p>{school.name}</p>
                     </div>
                   );
+                })}
+              </div>
+
+              <div className="filter-item">
+                <h5>Каналы</h5>
+                {Object.keys(sources).map((key: string) => {
+                  if (avaliableChannels.find((channel) => channel === key)) {
+                    return (
+                      <ChannelFilterItem
+                        key={key}
+                        channelName={`filter_channel_${key}`}
+                        onChangeSocial={onChangeSocial}
+                        defaultChecked={sources[key]}
+                      />
+                    );
+                  }
+                  return null;
                 })}
               </div>
 

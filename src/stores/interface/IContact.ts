@@ -12,4 +12,5 @@ export default interface IContact {
   conversation_source_account_id?: any;
   id: string;
   setLastMsg: (msg_id: string) => void;
+  schoolId: string;
 }
