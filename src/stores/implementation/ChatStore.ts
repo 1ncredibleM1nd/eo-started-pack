@@ -358,7 +358,8 @@ export class ChatStore {
       contact.id,
       contact.id,
       contact.last_message.social_media,
-      user
+      user,
+      contact.schoolId
     );
 
     const message: Message = this.collectMessage({

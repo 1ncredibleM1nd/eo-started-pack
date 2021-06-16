@@ -87,7 +87,8 @@ const ContactList = inject((stores: IStores) => ({
 
                     const lastMessage: Message = contact.getLastMessage();
                     const online: boolean = false;
-
+                    const school: any = appStore.schoolList[contact.schoolId];
+                    
                     return (
                       <ContactItem
                         isIAm={
@@ -98,7 +99,7 @@ const ContactList = inject((stores: IStores) => ({
                         }
                         index={index}
                         lastMessage={lastMessage}
-                        key={Math.random()}
+                        key={`contacts_item_${contact.id}`}
                         contact={contact}
                         online={online}
                         active={
@@ -106,6 +107,7 @@ const ContactList = inject((stores: IStores) => ({
                           contactStore.activeContact.id === contact.id
                         }
                         selectContact={selectContact}
+                        schoolLogo={school['logo']}
                       />
                     );
                   })}

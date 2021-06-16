@@ -11,19 +11,26 @@ class Conversation {
   messages: Array<Array<Message>> = [];
   user: User;
   activeMessage: Message = null;
+  schoolId: string;
 
-  constructor(id: string, contactId: string, activeSocial: string, user: User) {
+  constructor(
+    id: string,
+    contactId: string,
+    activeSocial: string,
+    user: User,
+    schoolId: string
+  ) {
     makeObservable(this, {
       activeSocial: observable,
       messages: observable,
       user: observable,
       activeMessage: observable,
     });
-
     this.id = id;
     this.contactId = contactId;
     this.activeSocial = activeSocial;
     this.user = user;
+    this.schoolId = schoolId;
   }
 
   addMessage(message: Message): void {
