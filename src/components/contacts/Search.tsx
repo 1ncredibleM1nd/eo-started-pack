@@ -106,8 +106,8 @@ const Search = inject((stores: IStores) => ({
                   if (avaliableChannels.find((channel) => channel === key)) {
                     return (
                       <ChannelFilterItem
-                        key={key}
-                        channelName={`filter_channel_${key}`}
+                        key={`filter_channel_${key}`}
+                        channelName={key}
                         onChangeSocial={onChangeSocial}
                         defaultChecked={sources[key]}
                       />
