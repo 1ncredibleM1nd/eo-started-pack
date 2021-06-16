@@ -1,7 +1,5 @@
-
-
 export default interface IRole {
-    id: string;
-    name: string;
-    status: string;
+  id: string;
+  name: string;
+  status: string;
 }

@@ -17,8 +17,16 @@ type IProps = {
 };
 
 const ContactItem = observer((props: IProps) => {
-  const { index, lastMessage, contact, online, active, selectContact, isIAm, schoolLogo } =
-    props;
+  const {
+    index,
+    lastMessage,
+    contact,
+    online,
+    active,
+    selectContact,
+    isIAm,
+    schoolLogo,
+  } = props;
 
   let social_media: string = "";
   let status: string = "read";
@@ -47,7 +55,9 @@ const ContactItem = observer((props: IProps) => {
   return (
     <li
       onClick={() => selectContact(contact.id)}
-      className={`contacts-item friends contact-item-${index} ${active && "active"}`}
+      className={`contacts-item friends contact-item-${index} ${
+        active && "active"
+      }`}
     >
       <div className="avatar">
         <div className={`social_media_icon white ${social_media}`}>
