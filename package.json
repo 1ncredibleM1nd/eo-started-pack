@@ -5,7 +5,7 @@
   "scripts": {
     "start": "webpack serve --mode development --progress",
     "build": "webpack --mode production",
-    "lint": "eslint --fix 'src/**/*.{tsx,jsx,ts,js,json}'"
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx"
   },
   "author": "",
   "license": "",
