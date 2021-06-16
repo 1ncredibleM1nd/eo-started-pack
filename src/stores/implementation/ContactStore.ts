@@ -1,16 +1,16 @@
-import { action, observable, reaction } from "mobx";
+import { action, observable, reaction, makeObservable } from "mobx";
 import { chatStore, appStore } from "@stores/implementation";
 import { getConversations } from "@actions";
 import $ from "jquery";
 import { Conversation } from "../../entities";
 
 export class ContactStore {
-  @observable contact: Array<Conversation> = [];
-  @observable activeContact: Conversation;
-  @observable search: string = "";
-  @observable filterSwitch: boolean = false;
+  contact: Array<Conversation> = [];
+  activeContact: Conversation;
+  search: string = "";
+  filterSwitch: boolean = false;
 
-  @observable sources: any = {
+  sources: any = {
     whatsapp: false,
     instagram: false,
     vkontakte: true,
@@ -31,6 +31,21 @@ export class ContactStore {
   contactLoading: boolean = false;
 
   constructor() {
+    makeObservable(this, {
+      contact: observable,
+      activeContact: observable,
+      search: observable,
+      filterSwitch: observable,
+      sources: observable,
+      toggleFilterSwitch: action,
+      filterSocial: action,
+      setSearch: action,
+      loadContact: action,
+      getContact: action,
+      setActiveContact: action.bound,
+      init: action,
+    });
+
     reaction(
       () => {
         return this.contact;
@@ -41,12 +56,10 @@ export class ContactStore {
   filter: any;
   name: string;
 
-  @action
   toggleFilterSwitch() {
     this.filterSwitch = !this.filterSwitch;
   }
 
-  @action
   filterSocial(key: string) {
     this.sources[key] = !this.sources[key];
     this.contact = [];
@@ -54,7 +67,6 @@ export class ContactStore {
     appStore.updateContact();
   }
 
-  @action
   setSearch(search: string) {
     this.search = search;
     this.contact = [];
@@ -62,7 +74,6 @@ export class ContactStore {
     appStore.updateContact();
   }
 
-  @action
   async loadContact(): Promise<any> {
     if (this.contactLoading) {
       return null;
@@ -99,14 +110,12 @@ export class ContactStore {
     }
   }
 
-  @action
   getContact(id: string) {
     return this.contact.find(
       (contactItem: Conversation) => contactItem.id === id
     );
   }
 
-  @action.bound
   async setActiveContact(id: string) {
     if (this.activeContact && this.activeContact.id === id) {
       return;
@@ -133,7 +142,6 @@ export class ContactStore {
     chatStore.isLoaded = true;
   }
 
-  @action
   async init(data: any) {
     const dataContact: Array<Conversation> = [];
 

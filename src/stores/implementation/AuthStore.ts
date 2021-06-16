@@ -1,54 +1,64 @@
-import { action, observable } from "mobx";
+import { action, observable, makeObservable } from "mobx";
 import { isLogged, setSession } from "@actions";
 import IAuthStore from "@stores/interface/app/IAuthStore";
 import { userStore } from "@stores/implementation/UserStore";
 
 export class AuthStore implements IAuthStore {
   checkLogin: () => void;
-  @observable loading: boolean = false;
-  @observable isFrame: boolean = false;
-  @observable token: string;
-  @observable userId: string;
-  @observable timestamp: string;
+  loading: boolean = false;
+  isFrame: boolean = false;
+  token: string;
+  userId: string;
+  timestamp: string;
 
-  constructor() {}
+  constructor() {
+    makeObservable(this, {
+      loading: observable,
+      isFrame: observable,
+      token: observable,
+      userId: observable,
+      timestamp: observable,
+      setLoader: action,
+      setToken: action,
+      getToken: action,
+      setTimestamp: action,
+      getTimestamp: action,
+      setUserId: action,
+      getUserId: action,
+      checkIsFrame: action,
+      login: action,
+      initialize: action,
+    });
+  }
 
-  @action
   setLoader(loading: boolean) {
     this.loading = loading;
   }
 
-  @action
   setToken(token: string) {
     localStorage.setItem("token", token);
   }
 
-  @action
   getToken() {
     return localStorage.getItem("token");
   }
 
-  @action
   setTimestamp(timestamp: string) {
     this.timestamp = timestamp;
   }
 
-  @action
   getTimestamp() {
     return this.timestamp;
   }
 
-  @action
   setUserId(userId: string) {
     this.userId = userId;
   }
 
-  @action
   getUserId() {
     return this.userId;
   }
 
-  @action
   checkIsFrame() {
     if (localStorage.getItem("isTest")) {
       this.isFrame = false;
@@ -57,7 +67,6 @@ export class AuthStore implements IAuthStore {
     this.isFrame = window.self !== window.top;
   }
 
-  @action
   async login() {
     if (!this.isFrame) {
       const currentUrl = new URL(window.location.href);
@@ -93,7 +102,6 @@ export class AuthStore implements IAuthStore {
     }
   }
 
-  @action
   async initialize(): Promise<boolean> {
     const currentUrl = new URL(window.location.href);
 

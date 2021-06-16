@@ -1,4 +1,4 @@
-import { action, computed, observable } from "mobx";
+import { action, computed, observable, makeObservable } from "mobx";
 import { appStore, userStore } from "@stores/implementation";
 import { getMessages, sendMessage } from "@actions";
 import moment from "moment";
@@ -18,23 +18,39 @@ moment.locale("ru");
 
 export class ChatStore {
   chat: Array<Conversation> = [];
-  @observable isLoaded: boolean = false;
-  @observable activeChat: Conversation = null;
-  @observable isPageLoading: boolean = false;
+  isLoaded: boolean = false;
+  activeChat: Conversation = null;
+  isPageLoading: boolean = false;
 
-  constructor() {}
+  constructor() {
+    makeObservable(this, {
+      isLoaded: observable,
+      activeChat: observable,
+      isPageLoading: observable,
+      getPageNumber: computed,
+      getNextPageNumber: computed,
+      sendMessage: action,
+      loadMessages: action,
+      activateLastMessage: action,
+      collectMessagesList: action,
+      getMsg: action,
+      getChatByContactId: action,
+      getLastMsg: action,
+      getUnreadCount: action,
+      addMsg: action,
+      deleteMsg: action,
+      setActiveMessage: action,
+    });
+  }
 
-  @computed
   get getPageNumber() {
     return this.activeChat ? this.activeChat.messages.length : 0;
   }
 
-  @computed
   get getNextPageNumber() {
     return (this.activeChat ? this.activeChat.messages.length : 0) + 1;
   }
 
-  @action
   async sendMessage(
     message: string,
     conversationSourceAccountId: string,
@@ -69,7 +85,6 @@ export class ChatStore {
     this.setActiveMessage(null);
   }
 
-  @action
   async loadMessages(contactId: string, pageNum?: number) {
     this.isPageLoading = pageNum > 1;
     // загружаем пачки сообщений постранично
@@ -86,7 +101,6 @@ export class ChatStore {
     this.isPageLoading = false;
   }
 
-  @action
   activateLastMessage(): void {
     const messagesList: Array<Array<Message>> = this.activeChat.messages;
     if (messagesList.length) {
@@ -106,7 +120,6 @@ export class ChatStore {
     }
   }
 
-  @action
   async collectMessagesList(
     contactId: string,
     page?: number
@@ -136,7 +149,6 @@ export class ChatStore {
     return messagesOfPages;
   }
 
-  @action
   getMsg(id: string, chat_id: string): Message {
     let chat = this.chat.find(
       (chat_item: Conversation) => chat_item.id === chat_id
@@ -150,21 +162,18 @@ export class ChatStore {
     return null;
   }
 
-  @action
   getChatByContactId(contactId: string): Conversation {
     return this.chat.find(
       (chatItem: Conversation) => chatItem.contactId === contactId
     );
   }
 
-  @action
   getLastMsg(id: string): any {
     let chat = this.getChatByContactId(id);
 
     return chat.messages[chat.messages.length - 1];
   }
 
-  @action
   getUnreadCount(id: string): number {
     let unreadedCount = 0;
     let chat = this.getChatByContactId(id);
@@ -187,7 +196,6 @@ export class ChatStore {
     return unreadedCount;
   }
 
-  @action
   async addMsg(
     content: any,
     from: any,
@@ -256,7 +264,6 @@ export class ChatStore {
     }
   }
 
-  @action
   deleteMsg(id: string, chat_id: string): void {
     for (let i = 0; i < this.chat.length; i++) {
       let chat = this.chat[i];
@@ -269,7 +276,6 @@ export class ChatStore {
     }
   }
 
-  @action
   setActiveMessage(message: Message): void {
     this.activeChat.activeMessage = message;
   }
