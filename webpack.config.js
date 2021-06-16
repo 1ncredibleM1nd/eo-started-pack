@@ -5,7 +5,6 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const { TsconfigPathsPlugin } = require("tsconfig-paths-webpack-plugin");
 const SpriteLoaderPlugin = require("svg-sprite-loader/plugin");
-const CopyPlugin = require("copy-webpack-plugin");
 const DotenvFlow = require("dotenv-flow-webpack");
 
 module.exports = (env, { mode }) => {
@@ -181,9 +180,6 @@ module.exports = (env, { mode }) => {
     },
     plugins: [
       new DotenvFlow(),
-      new CopyPlugin({
-        patterns: [{ from: "manifest.json" }],
-      }),
       new SpriteLoaderPlugin(),
       new HtmlWebpackPlugin({
         template: "./src/index.html",
@@ -193,14 +189,6 @@ module.exports = (env, { mode }) => {
       }),
       new webpack.ProgressPlugin(),
       new CleanWebpackPlugin(),
-      // new FriendlyErrorsPlugin({
-      //   clearConsole: true,
-      //   compilationSuccessInfo: {
-      //     messages: [
-      //       "PapaBot application is running here http://localhost:8080",
-      //     ],
-      //   },
-      // }),
     ],
   };
 };
