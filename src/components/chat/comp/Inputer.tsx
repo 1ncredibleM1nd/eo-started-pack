@@ -346,7 +346,7 @@ const Inputer = inject((stores: IStores) => ({
           accept={acceptType}
           name="files"
           ref={fileInputRef}
-          multiple
+          // multiple
           onChange={handleFileInput}
         />
       </div>
