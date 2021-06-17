@@ -1,10 +1,13 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { observer } from "mobx-react";
 import { Icon } from "@ui";
-
 import { Menu, Dropdown, Divider } from "antd";
 import { TypesMessage } from "@stores/classes";
-import { MoreOutlined, LoadingOutlined } from "@ant-design/icons";
+import {
+  MoreOutlined,
+  LoadingOutlined,
+  VerticalAlignBottomOutlined,
+} from "@ant-design/icons";
 import { Message } from "@entities";
 import { UserAvatar } from "@components/user_info/UserAvatar";
 
@@ -25,13 +28,11 @@ const MessageComponent = observer((props: IProps) => {
     </div>
   );
 
-  const DropDownMenu = (message: any) => {
-    return (
-      <Menu>
-        <Menu.Item onClick={() => replyMsg(message)}>Ответить</Menu.Item>
-      </Menu>
-    );
-  };
+  const DropDownMenu = (message: any) => (
+    <Menu>
+      <Menu.Item onClick={() => replyMsg(message)}>Ответить</Menu.Item>
+    </Menu>
+  );
 
   const renderMessagesWrapper = (message: any) => (
     <div className="message-wrapper">
@@ -60,13 +61,20 @@ const MessageComponent = observer((props: IProps) => {
               {message.attachments.map((attachment: any, index: any) => {
                 if (attachment.type === "file") {
                   return (
-                    <div className="msg-content-file">
+                    <div
+                      key={`message_attach_${index + 1}`}
+                      className="msg-content-file"
+                    >
                       <div className="document-preview">
                         {attachment.data ? (
                           <img src={attachment.data.preview} alt="" />
                         ) : (
                           <LoadingOutlined />
                         )}
+                      </div>
+                      <div className="file-title-container">
+                        <span className={"file-title"}>{attachment.title}</span>
+                        <VerticalAlignBottomOutlined />
                       </div>
                     </div>
                   );
@@ -85,47 +93,47 @@ const MessageComponent = observer((props: IProps) => {
                 // } else if (attachment.type === "video") {
                 //   return <div className="msg_content-video">Video</div>;
                 // }
-
                 return null;
               })}
             </div>
           )}
-          <Fragment>
-            {" "}
+          <>
             <div style={{ whiteSpace: "pre-line" }}>{message.content}</div>
-          </Fragment>
+          </>
         </div>
         <div className="msg_time">{message.time}</div>
-        <div className="msg_menu">
-          <Dropdown
-            overlay={DropDownMenu(message)}
-            placement="bottomLeft"
-            trigger={["click"]}
-          >
-            <MoreOutlined className="dropdown-trigger" />
-          </Dropdown>
+        <div className="msg_menu-container">
+          <div className="msg_menu">
+            <Dropdown
+              overlay={DropDownMenu(message)}
+              placement="bottomLeft"
+              trigger={["click"]}
+            >
+              <MoreOutlined className="dropdown-trigger" />
+            </Dropdown>
+          </div>
+          {message.editted && (
+            <div className="editted_icon">
+              <Icon className="active-grey" name={`solid_pencil-alt`} />
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 
-  const renderUserAvatar = (user: any) => {
-    if (user) {
-      return (
-        <UserAvatar size="36" user={user} round={true} textSizeRatio={1.75} />
-      );
-    } else {
-      return (
-        <img
-          src="https://png.pngitem.com/pimgs/s/150-1503945_transparent-user-png-default-user-image-png-png.png"
-          alt=""
-        />
-      );
-    }
-  };
+  const renderUserAvatar = (user: any) =>
+    user ? (
+      <UserAvatar size="36" user={user} round={true} textSizeRatio={1.75} />
+    ) : (
+      <img
+        src="https://png.pngitem.com/pimgs/s/150-1503945_transparent-user-png-default-user-image-png-png.png"
+        alt=""
+      />
+    );
 
   const renderMessagesOptions = (message: any) =>
-    !message.combineWithPrevious ? (
+    !message.combineWithPrevious && (
       <div className="message-options">
         <div className="avatar avatar-sm">
           <div className={`social_media_icon ${message.social_media}`}>
@@ -137,55 +145,43 @@ const MessageComponent = observer((props: IProps) => {
           {renderUserAvatar(message.user)}
         </div>
         <span className="message-status">
-          {message.editted ? (
-            <div className="editted_icon">
-              <Icon className="active-grey" name={`solid_pencil-alt`} /> Редак.
-            </div>
-          ) : (
-            ""
-          )}
           <div className="msg_username">{message.username}</div>
           <div className="msg_type">
             {TypesMessage.getTypeDescription(message.entity.type)}
           </div>
         </span>
       </div>
-    ) : (
-      ""
     );
 
-  if (message.income) {
-    return (
-      <>
-        {messageDateDivider && renderDataTimeBlock(messageDateDivider)}
-        {/*{!message.readed ? renderDataContainerUnread() : ' '}*/}
-        <div
-          key={Math.random()}
-          className={`message ${
-            message.combineWithPrevious ? "not-main" : ""
-          } `}
-        >
-          {renderMessagesWrapper(message)}
-          {renderMessagesOptions(message)}
-        </div>
-      </>
-    );
-  } else {
-    return (
-      <>
-        {messageDateDivider && renderDataTimeBlock(messageDateDivider)}
-        <div
-          key={Math.random()}
-          className={`message self ${
-            message.combineWithPrevious ? "not-main" : ""
-          } `}
-        >
-          {renderMessagesWrapper(message)}
-          {renderMessagesOptions(message)}
-        </div>
-      </>
-    );
-  }
+  return (
+    <>
+      {message.income ? (
+        <>
+          {messageDateDivider && renderDataTimeBlock(messageDateDivider)}
+          <div
+            className={`message ${
+              message.combineWithPrevious ? "not-main" : ""
+            } `}
+          >
+            {renderMessagesWrapper(message)}
+            {renderMessagesOptions(message)}
+          </div>
+        </>
+      ) : (
+        <>
+          {messageDateDivider && renderDataTimeBlock(messageDateDivider)}
+          <div
+            className={`message self ${
+              message.combineWithPrevious ? "not-main" : ""
+            } `}
+          >
+            {renderMessagesWrapper(message)}
+            {renderMessagesOptions(message)}
+          </div>
+        </>
+      )}
+    </>
+  );
 });
 
 export default MessageComponent;

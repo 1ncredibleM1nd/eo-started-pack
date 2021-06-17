@@ -1,9 +1,21 @@
 @import "@styles/variables.scss";
 @import "@styles/media.scss";
 
+.input-error {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 0px 15px;
+}
+
 .ant-modal-body {
   padding: 0px !important;
-  padding-top: 18px !important;
+  padding-top: 30px !important;
   height: 90%;
 }
 
@@ -51,7 +63,7 @@
 }
 
 .ant-modal-content {
-  padding-top: 30px;
+  padding: 30px;
 }
 
 .file-holder-container {
@@ -294,7 +306,7 @@
   form {
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: flex-start;
 
     input {
       padding: 1% 2%;
@@ -600,10 +612,8 @@
   padding-right: 20px !important;
   padding-left: 0rem !important;
 
-  .message-wrapper .msg_menu {
-    position: absolute;
+  .msg_menu-container {
     left: -30px;
-    top: 7px;
   }
 
   .message-wrapper .msg_time {
@@ -743,17 +753,39 @@
     padding-left: 20px !important;
   }
 
+  .msg_menu-container {
+    position: absolute;
+    right: -30px;
+    top: 0;
+    height: 100%;
+    width: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .msg_menu {
+      width: 100%;
+      height: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .editted_icon {
+      width: 100%;
+      height: 32px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
   .message-wrapper {
     display: flex;
     flex-direction: row;
     justify-content: flex-start !important;
     align-items: flex-start;
-
-    .msg_menu {
-      position: absolute;
-      right: -30px;
-      top: 7px;
-    }
   }
 
   .msg_header {
@@ -780,14 +812,73 @@
     appearance: none;
 
     .msg_file_container {
-      padding: 7px 0;
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
       justify-content: space-between;
 
+      padding-bottom: 7px;
+      margin-bottom: 7px;
+
+      border-bottom: 1px solid #b4d4e9;
+
       .msg-content-file {
-        margin: 0px 5px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 5px;
+        border-radius: 5px;
+        width: 100%;
+
+        cursor: pointer;
+
+        &:hover {
+          background: #ffffff20;
+
+          .file-title-container {
+            svg {
+              opacity: 0.3;
+            }
+          }
+        }
+
+        .file-title-container {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          .file-title {
+            width: 90%;
+          }
+
+          span {
+            padding: 0 0 0 10px;
+          }
+
+          svg {
+            opacity: 0;
+          }
+        }
+      }
+
+      .document-preview {
+        width: 32px;
+        height: 32px;
+        border-radius: 5px;
+        background: #fff;
+        font-size: 18px;
+        text-align: center;
+        color: $blue_lite;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+          width: 80%;
+          height: 80%;
+        }
       }
 
       .msg_content-image {
@@ -890,13 +981,6 @@
       .msg_type {
         font-size: 0.75rem;
       }
-    }
-
-    .editted_icon {
-      width: 24px;
-      height: 24px;
-      position: absolute;
-      right: -28px;
     }
 
     .smile {
@@ -1015,6 +1099,7 @@
   overflow-x: hidden;
   overflow-y: auto;
   position: relative;
+  padding-top: 30px;
   padding-bottom: 30px;
   max-height: calc(100% - 73px);
 }
@@ -1032,6 +1117,14 @@
   align-items: flex-end;
   padding: 10px 25px;
   background: #fff;
+
+  &.has-error {
+    background: transparent;
+
+    .input-container {
+      background: transparent;
+    }
+  }
 
   @include _990 {
     padding: 10px;
@@ -1066,6 +1159,7 @@
     min-width: 200px;
     width: 100%;
     min-height: 40px;
+    height: 100%;
     padding: 5px;
     display: flex;
     flex-direction: column;
@@ -1188,21 +1282,5 @@
 
   .msg_content {
     background: #688eca;
-  }
-}
-
-.document-preview {
-  padding: 10px;
-  width: 72px;
-  height: 72px;
-  border-radius: 5px;
-  background: #fff;
-  font-size: 27px;
-  text-align: center;
-  color: $blue_lite;
-
-  img {
-    width: 100%;
-    height: 100%;
   }
 }

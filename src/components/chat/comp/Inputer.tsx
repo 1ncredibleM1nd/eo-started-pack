@@ -8,7 +8,7 @@ import IStores, {
 } from "@stores/interface";
 import { Icon } from "@ui";
 import $ from "jquery";
-import { Input, Button, Popover, Menu } from "antd";
+import { Input, Button, Popover } from "antd";
 import SocialMenu from "./SocialMenu";
 import { TypesMessage } from "@stores/classes";
 import { CloseOutlined } from "@ant-design/icons";
@@ -146,12 +146,6 @@ const Inputer = inject((stores: IStores) => ({
       await deleteFileOnHold(index);
     };
 
-    const activeFileHandler = async (value: string, type: string) => {
-      setAcceptType(value);
-      setSwitcher("");
-      fileInputRef.current.click();
-    };
-
     if (!currentChat) {
       return <div className="chat">Loading</div>;
     }
@@ -244,35 +238,20 @@ const Inputer = inject((stores: IStores) => ({
       }
     };
 
-    const DropDownAttachments = () => {
-      return (
-        <Menu>
-          {/* <Menu.Item onClick={() => activeFileHandler("image/*", "image")}>
-            Фотография
-          </Menu.Item> */}
-          {/* <Menu.Item onClick={() => activeFileHandler("video/*", "video")}>Видео</Menu.Item> */}
-          <Menu.Item
-            onClick={() =>
-              activeFileHandler(
-                "file_extension|audio/*|video/*|image/*|media_type",
-                "file"
-              )
-            }
-          >
-            Документ
-          </Menu.Item>
-          {/* <Menu.Item onClick={() => activeFileHandler("audio/*", "audio")}>Аудио</Menu.Item> */}
-        </Menu>
-      );
+    const openFileInput = () => {
+      fileInputRef.current.click();
+      switcher === "attachments" ? setSwitcher("") : setSwitcher("attachments");
     };
 
+    let chatError = false;
+
     return (
-      <div className="inputer">
+      <div className={`inputer ${!!chatError ? "has-error" : ""}`}>
         <FileUploadModal
           clearFiles={clearFiles}
           deleteFileOnHold={deleteFileOnHold}
           changeFileOnHold={changeFileOnHold}
-          DropDownAttachments={DropDownAttachments}
+          openFileInput={openFileInput}
           handleKeyDown={handleKeyDown}
           handleKeyUp={handleKeyUp}
           handleEnter={handleEnter}
@@ -286,6 +265,54 @@ const Inputer = inject((stores: IStores) => ({
         />
 
         <div className="input-container">
+          {/* Button Attachment */}
+          <div className="inputer_btn">
+            <Button
+              disabled={!!chatError}
+              onClick={openFileInput}
+              className="transparent"
+            >
+              <Icon className="icon_m blue-lite" name="solid_paperclip" />
+            </Button>
+          </div>
+
+          <div className="main_input">
+            {!!chatError ? (
+              <div className="input-error">{chatError}</div>
+            ) : (
+              <>
+                {chatStore.activeChat.activeMessage && (
+                  <div className="selected-container">
+                    <span>{chatStore.activeChat.activeMessage.content}</span>
+                    <div className="msg_type">
+                      {TypesMessage.getTypeDescription(
+                        chatStore.activeChat.activeMessage.entity.type
+                      )}
+                    </div>
+                    <CloseOutlined
+                      className="close"
+                      onClick={() => chatStore.setActiveMessage(null)}
+                    />
+                  </div>
+                )}
+
+                <TextArea
+                  onKeyDown={handleKeyDown}
+                  onKeyUp={handleKeyUp}
+                  onPressEnter={handleEnter}
+                  autoSize
+                  placeholder="Ваше сообщение"
+                  ref={inputRef}
+                  onChange={(e) =>
+                    onChange(activeContact.id, e.target.value, e)
+                  }
+                  value={draft[activeContact.id + status]}
+                />
+              </>
+            )}
+          </div>
+
+          {/* Button Social */}
           <div className="inputer_btn">
             <Popover
               visible={switcher === "1social"}
@@ -293,6 +320,7 @@ const Inputer = inject((stores: IStores) => ({
               trigger="click"
             >
               <Button
+                disabled={!!chatError}
                 onClick={() => setSwitcher("social")}
                 className="transparent not-allowed"
               >
@@ -305,66 +333,22 @@ const Inputer = inject((stores: IStores) => ({
               </Button>
             </Popover>
           </div>
-
-          <div className="main_input">
-            {chatStore.activeChat.activeMessage && (
-              <div className="selected-container">
-                <span>{chatStore.activeChat.activeMessage.content}</span>
-                <div className="msg_type">
-                  {TypesMessage.getTypeDescription(
-                    chatStore.activeChat.activeMessage.entity.type
-                  )}
-                </div>
-                <CloseOutlined
-                  className="close"
-                  onClick={() => chatStore.setActiveMessage(null)}
-                />
-              </div>
-            )}
-
-            <TextArea
-              onKeyDown={handleKeyDown}
-              onKeyUp={handleKeyUp}
-              onPressEnter={handleEnter}
-              autoSize
-              placeholder="Ваше сообщение"
-              ref={inputRef}
-              onChange={(e) => onChange(activeContact.id, e.target.value, e)}
-              value={draft[activeContact.id + status]}
-            />
-          </div>
-
-          <div className="inputer_btn">
-            <Popover
-              onVisibleChange={(e) => (e ? {} : setSwitcher(""))}
-              visible={switcher === "attachments"}
-              content={<DropDownAttachments />}
-              trigger="click"
-            >
-              <Button
-                onClick={() => {
-                  switcher === "attachments"
-                    ? setSwitcher("")
-                    : setSwitcher("attachments");
-                }}
-                className="transparent"
-              >
-                <Icon className="icon_m blue-lite" name="solid_paperclip" />
-              </Button>
-            </Popover>
-          </div>
         </div>
 
-        <div onClick={sendMessage} className="send_btn">
+        <Button
+          disabled={!!chatError}
+          onClick={sendMessage}
+          className="send_btn"
+        >
           <Icon className="icon_x white" name="solid_another-arrow" />
-        </div>
+        </Button>
         <input
           type="file"
           hidden
           accept={acceptType}
           name="files"
           ref={fileInputRef}
-          multiple
+          // multiple
           onChange={handleFileInput}
         />
       </div>

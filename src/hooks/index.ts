@@ -1,5 +1,3 @@
-import useClassName from './useClassName';
+import useClassName from "./useClassName";
 
-export {
-    useClassName
-}
+export { useClassName };

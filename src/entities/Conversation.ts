@@ -1,4 +1,4 @@
-import { observable } from "mobx";
+import { observable, makeObservable } from "mobx";
 import IRole from "@stores/interface/IRole";
 import Message from "./Message";
 import User from "./User";
@@ -7,16 +7,30 @@ class Conversation {
   id: string;
   contactId: string;
   role: Array<IRole> = [];
-  @observable activeSocial: string;
-  @observable messages: Array<Array<Message>> = [];
-  @observable user: User;
-  @observable activeMessage: Message = null;
+  activeSocial: string;
+  messages: Array<Array<Message>> = [];
+  user: User;
+  activeMessage: Message = null;
+  schoolId: string;
 
-  constructor(id: string, contactId: string, activeSocial: string, user: User) {
+  constructor(
+    id: string,
+    contactId: string,
+    activeSocial: string,
+    user: User,
+    schoolId?: string
+  ) {
+    makeObservable(this, {
+      activeSocial: observable,
+      messages: observable,
+      user: observable,
+      activeMessage: observable,
+    });
     this.id = id;
     this.contactId = contactId;
     this.activeSocial = activeSocial;
     this.user = user;
+    this.schoolId = schoolId;
   }
 
   addMessage(message: Message): void {

@@ -86,7 +86,10 @@ const Chat = inject((stores: IStores) => ({
               {activeChat.messages.map(
                 (page: Array<Message>, index: number) => {
                   return (
-                    <div className={`page page-${index + 1}`}>
+                    <div
+                      key={`page_${index + 1}`}
+                      className={`page page-${index + 1}`}
+                    >
                       {page.map((message: Message) => {
                         let messageDateDivider = null;
                         let currentDate = moment(message.date, "DD.MM");
@@ -103,6 +106,7 @@ const Chat = inject((stores: IStores) => ({
 
                         return (
                           <MessageComponent
+                            key={`message_${message.id}`}
                             message={message}
                             replyMsg={replyMsg}
                             messageDateDivider={messageDateDivider}
