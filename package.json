@@ -3,7 +3,7 @@
   "name": "@prodamus/single-window",
   "version": "1.0.0",
   "scripts": {
-    "start": "webpack serve --mode development --progress",
+    "start": "webpack serve --progress --mode development",
     "build": "webpack --mode production",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx"
   },
