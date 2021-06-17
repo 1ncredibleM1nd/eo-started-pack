@@ -8,7 +8,7 @@ type IProps = {
   clearFiles?: () => void;
   deleteFileOnHold?: (index: number) => void;
   changeFileOnHold?: (index: number) => void;
-  DropDownAttachments?: () => JSX.Element;
+  openFileInput?: () => void;
   handleKeyDown?: (e: any) => void;
   handleKeyUp?: (e: any) => void;
   handleEnter?: (e: any) => void;
@@ -28,7 +28,7 @@ const FileUploadModal = observer((props: IProps) => {
     clearFiles,
     deleteFileOnHold,
     changeFileOnHold,
-    DropDownAttachments,
+    openFileInput,
     handleKeyDown,
     handleKeyUp,
     handleEnter,
@@ -161,24 +161,22 @@ const FileUploadModal = observer((props: IProps) => {
     //   );
     // }
 
-    if (type) {
-      return (
-        <div className="file-holder video-holder">
-          {modalFileContoller(index)}
-          <div className="file-holder-preview file">
-            <div className="content">
-              <div className="play-icon">
-                <Icon className="icon_m white" name="solid_file" />
-              </div>
+    return (
+      <div className="file-holder video-holder">
+        {modalFileContoller(index)}
+        <div className="file-holder-preview file">
+          <div className="content">
+            <div className="play-icon">
+              <Icon className="icon_m white" name="solid_file" />
             </div>
           </div>
-          <div className="file-holder-info">
-            <div className="name">{fileItem.name}</div>
-            <div className="size">{bytesToSize(fileItem.size)}</div>
-          </div>
         </div>
-      );
-    }
+        <div className="file-holder-info">
+          <div className="name">{fileItem.name}</div>
+          <div className="size">{bytesToSize(fileItem.size)}</div>
+        </div>
+      </div>
+    );
 
     return null;
   };
@@ -228,22 +226,9 @@ const FileUploadModal = observer((props: IProps) => {
 
         <div className="file_modal-input">
           <div className="inputer_btn">
-            <Popover
-              visible={switcher === "attachments_modal"}
-              content={<DropDownAttachments />}
-              trigger="click"
-            >
-              <Button
-                onClick={() => {
-                  switcher === "attachments_modal"
-                    ? setSwitcher("")
-                    : setSwitcher("attachments_modal");
-                }}
-                className="transparent"
-              >
-                <Icon className="icon_m blue-lite" name="solid_plus" />
-              </Button>
-            </Popover>
+            <Button onClick={openFileInput} className="transparent">
+              <Icon className="icon_m blue-lite" name="solid_plus" />
+            </Button>
           </div>
           <div className="main_input in_modal">
             <TextArea

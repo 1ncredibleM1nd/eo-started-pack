@@ -18,7 +18,7 @@ class Conversation {
     contactId: string,
     activeSocial: string,
     user: User,
-    schoolId: string
+    schoolId?: string
   ) {
     makeObservable(this, {
       activeSocial: observable,

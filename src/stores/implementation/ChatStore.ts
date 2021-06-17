@@ -60,18 +60,8 @@ export class ChatStore {
   ) {
     let replyTo: string = null;
 
-    if (activeMessage) {
-      replyTo = activeMessage.id;
-    }
-
-    if (!message && files.length) {
-      message = "";
-      files.map((file, index) => {
-        message +=
-          file.name +
-          (files.length > 1 && index !== files.length - 1 ? ", " : " ");
-      });
-    }
+    if (activeMessage) replyTo = activeMessage.id;
+    if (!message) message = "Files";
 
     await sendMessage(
       this.activeChat.id,
@@ -216,13 +206,16 @@ export class ChatStore {
 
       const attachments: Attachment[] = [];
 
-      if (!content && files.length) {
-        content = "";
-        files.map((file, index) => {
-          content +=
-            file.name +
-            (files.length > 1 && index !== files.length - 1 ? ", " : " ");
-          attachments.push({ type: "file", url: null, data: null });
+      if (!content) content = "Files";
+
+      if (files.length) {
+        files.map((file) => {
+          attachments.push({
+            type: "file",
+            url: null,
+            data: null,
+            title: file.name,
+          });
         });
       }
 
@@ -310,7 +303,12 @@ export class ChatStore {
         combineWithPrevious = false;
       }
 
-      if (current.user && !previous.income && defaultCheck) {
+      if (
+        current.user &&
+        !previous.income &&
+        defaultCheck &&
+        current.user.id === previous.user.id
+      ) {
         combineWithPrevious = true;
       }
 

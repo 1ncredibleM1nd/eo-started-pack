@@ -8,7 +8,7 @@ import IStores, {
 } from "@stores/interface";
 import { Icon } from "@ui";
 import $ from "jquery";
-import { Input, Button, Popover, Menu } from "antd";
+import { Input, Button, Popover } from "antd";
 import SocialMenu from "./SocialMenu";
 import { TypesMessage } from "@stores/classes";
 import { CloseOutlined } from "@ant-design/icons";
@@ -146,12 +146,6 @@ const Inputer = inject((stores: IStores) => ({
       await deleteFileOnHold(index);
     };
 
-    const activeFileHandler = async (value: string, type: string) => {
-      setAcceptType(value);
-      setSwitcher("");
-      fileInputRef.current.click();
-    };
-
     if (!currentChat) {
       return <div className="chat">Loading</div>;
     }
@@ -244,26 +238,9 @@ const Inputer = inject((stores: IStores) => ({
       }
     };
 
-    const DropDownAttachments = () => {
-      return (
-        <Menu>
-          {/* <Menu.Item onClick={() => activeFileHandler("image/*", "image")}>
-            Фотография
-          </Menu.Item> */}
-          {/* <Menu.Item onClick={() => activeFileHandler("video/*", "video")}>Видео</Menu.Item> */}
-          <Menu.Item
-            onClick={() =>
-              activeFileHandler(
-                "file_extension|audio/*|video/*|image/*|media_type",
-                "file"
-              )
-            }
-          >
-            Документ
-          </Menu.Item>
-          {/* <Menu.Item onClick={() => activeFileHandler("audio/*", "audio")}>Аудио</Menu.Item> */}
-        </Menu>
-      );
+    const openFileInput = () => {
+      fileInputRef.current.click();
+      switcher === "attachments" ? setSwitcher("") : setSwitcher("attachments");
     };
 
     let chatError = false;
@@ -274,7 +251,7 @@ const Inputer = inject((stores: IStores) => ({
           clearFiles={clearFiles}
           deleteFileOnHold={deleteFileOnHold}
           changeFileOnHold={changeFileOnHold}
-          DropDownAttachments={DropDownAttachments}
+          openFileInput={openFileInput}
           handleKeyDown={handleKeyDown}
           handleKeyUp={handleKeyUp}
           handleEnter={handleEnter}
@@ -346,24 +323,13 @@ const Inputer = inject((stores: IStores) => ({
           </div>
 
           <div className="inputer_btn">
-            <Popover
-              onVisibleChange={(e) => (e ? {} : setSwitcher(""))}
-              visible={switcher === "attachments"}
-              content={<DropDownAttachments />}
-              trigger="click"
+            <Button
+              disabled={!!chatError}
+              onClick={openFileInput}
+              className="transparent"
             >
-              <Button
-                disabled={!!chatError}
-                onClick={() => {
-                  switcher === "attachments"
-                    ? setSwitcher("")
-                    : setSwitcher("attachments");
-                }}
-                className="transparent"
-              >
-                <Icon className="icon_m blue-lite" name="solid_paperclip" />
-              </Button>
-            </Popover>
+              <Icon className="icon_m blue-lite" name="solid_paperclip" />
+            </Button>
           </div>
         </div>
 

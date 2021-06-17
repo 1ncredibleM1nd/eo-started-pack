@@ -14,6 +14,7 @@ type IProps = {
   active: any;
   selectContact: any;
   isIAm: boolean;
+  school: any;
 };
 
 const ContactItem = observer((props: IProps) => {
@@ -25,7 +26,7 @@ const ContactItem = observer((props: IProps) => {
     active,
     selectContact,
     isIAm,
-    schoolLogo,
+    school,
   } = props;
 
   let social_media: string = "";
@@ -74,7 +75,7 @@ const ContactItem = observer((props: IProps) => {
       </div>
       <div className="contacts-content">
         <div className="contacts-info">
-          <img src={schoolLogo} className="school-logo" />
+          <img src={school.logo} className="school-logo" title={school.name} />
           <h4 className="chat-name user_name_to">{contact.user.username}</h4>
           <div className="chat-time">
             {lastMessage && <>{contactTime(lastMessage)}</>}
