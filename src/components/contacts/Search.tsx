@@ -61,15 +61,17 @@ const Search = inject((stores: IStores) => ({
                 )}
               </Button>
             </div>
-            <div className="search-input">
-              <Search
-                disabled
-                placeholder="Поиск..."
-                value={searchText}
-                onChange={(e) => onChange(e.target.value)}
-                enterButton
-              />
-            </div>
+
+            {/* TODO: temporary hide by PROD-2058 */}
+            {/*<div className="search-input">*/}
+            {/*  <Search*/}
+            {/*    disabled*/}
+            {/*    placeholder="Поиск..."*/}
+            {/*    value={searchText}*/}
+            {/*    onChange={(e) => onChange(e.target.value)}*/}
+            {/*    enterButton*/}
+            {/*  />*/}
+            {/*</div>*/}
           </div>
 
           <Collapse
