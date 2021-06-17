@@ -107,7 +107,7 @@ const ContactList = inject((stores: IStores) => ({
                           contactStore.activeContact.id === contact.id
                         }
                         selectContact={selectContact}
-                        schoolLogo={school["logo"]}
+                        school={school}
                       />
                     );
                   })}

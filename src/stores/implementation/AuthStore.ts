@@ -76,9 +76,9 @@ export class AuthStore implements IAuthStore {
         encryptedSessionData = currentUrl.searchParams.get(
           "encrypted_session_data"
         );
-        const setSessionData = await setSession(encryptedSessionData);
+        const { token } = await setSession(encryptedSessionData);
 
-        this.setToken(setSessionData.token);
+        this.setToken(token);
 
         currentUrl.searchParams.delete("encrypted_session_data");
         currentUrl.searchParams.delete("pid");
@@ -89,14 +89,21 @@ export class AuthStore implements IAuthStore {
           currentUrl.href
         );
       } else {
-        const loggedData = await isLogged();
+        const { success, token } = await isLogged();
 
-        if (loggedData.success) {
-          this.setToken(loggedData.token);
+        if (success) {
+          let oldToken = this.getToken();
 
+          if (oldToken) {
+            this.setToken(token);
+          } else {
+            window.location.href = `${process.env.APP_AUTH_URL}/v1/user/check-authentication-redirect?redirect_url=${window.location.href}`;
+          }
+
+          this.setToken(token);
           await userStore.initHero();
         } else {
-          window.location.href = `${process.env.APP_AUTH_URL}/?redirect_url=${window.location.href}`;
+          window.location.href = `${process.env.APP_ACCOUNT_URL}/?redirect_url=${window.location.href}`;
         }
       }
     }

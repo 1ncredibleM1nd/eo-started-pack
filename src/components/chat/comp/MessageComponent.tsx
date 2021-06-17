@@ -3,7 +3,11 @@ import { observer } from "mobx-react";
 import { Icon } from "@ui";
 import { Menu, Dropdown, Divider } from "antd";
 import { TypesMessage } from "@stores/classes";
-import { MoreOutlined, LoadingOutlined } from "@ant-design/icons";
+import {
+  MoreOutlined,
+  LoadingOutlined,
+  VerticalAlignBottomOutlined,
+} from "@ant-design/icons";
 import { Message } from "@entities";
 import { UserAvatar } from "@components/user_info/UserAvatar";
 
@@ -67,6 +71,10 @@ const MessageComponent = observer((props: IProps) => {
                         ) : (
                           <LoadingOutlined />
                         )}
+                      </div>
+                      <div className="file-title">
+                        <span>{attachment.title}</span>
+                        <VerticalAlignBottomOutlined />
                       </div>
                     </div>
                   );
