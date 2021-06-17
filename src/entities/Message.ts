@@ -1,4 +1,4 @@
-import { observable, action } from "mobx";
+import { observable, action, makeObservable } from "mobx";
 import Entity from "./Entity";
 import User from "./User";
 import Attachment from "./Attachment";
@@ -7,7 +7,7 @@ class Message {
   id: string;
   time: string;
   date: string;
-  @observable combineWithPrevious: boolean;
+  combineWithPrevious: boolean;
   social_media: string;
   content: string;
   readed: boolean = false;
@@ -35,6 +35,11 @@ class Message {
     readed?: boolean,
     attachments?: Attachment[]
   ) {
+    makeObservable(this, {
+      combineWithPrevious: observable,
+      setCombineWithPrevious: action,
+    });
+
     this.id = id;
     this.time = time;
     this.date = date;
@@ -49,7 +54,6 @@ class Message {
     this.attachments = attachments && attachments.length > 0 ? attachments : [];
   }
 
-  @action
   setCombineWithPrevious(key: boolean): void {
     this.combineWithPrevious = key;
   }

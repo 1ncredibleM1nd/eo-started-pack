@@ -1,13 +1,19 @@
-import { action, observable, reaction } from "mobx";
+import { action, observable, reaction, makeObservable } from "mobx";
 import { IUserStore, IUser } from "@stores/interface";
 import { getUserData } from "@actions";
 import { User } from "../../entities";
 
 export class UserStore implements IUserStore {
-  @observable hero: User;
-  @observable availableUsers: IUser[] = [];
+  hero: User;
+  availableUsers: IUser[] = [];
 
   constructor() {
+    makeObservable(this, {
+      hero: observable,
+      availableUsers: observable,
+      initHero: action,
+    });
+
     reaction(
       () => {
         return this.availableUsers;
@@ -16,7 +22,6 @@ export class UserStore implements IUserStore {
     );
   }
 
-  @action
   async initHero() {
     const userData = await getUserData();
 

@@ -1,4 +1,4 @@
-import { action, computed, observable } from "mobx";
+import { action, computed, observable, makeObservable } from "mobx";
 import { appStore, userStore } from "@stores/implementation";
 import { getMessages, sendMessage } from "@actions";
 import moment from "moment";
@@ -18,23 +18,39 @@ moment.locale("ru");
 
 export class ChatStore {
   chat: Array<Conversation> = [];
-  @observable isLoaded: boolean = false;
-  @observable activeChat: Conversation = null;
-  @observable isPageLoading: boolean = false;
+  isLoaded: boolean = false;
+  activeChat: Conversation = null;
+  isPageLoading: boolean = false;
 
-  constructor() {}
+  constructor() {
+    makeObservable(this, {
+      isLoaded: observable,
+      activeChat: observable,
+      isPageLoading: observable,
+      getPageNumber: computed,
+      getNextPageNumber: computed,
+      sendMessage: action,
+      loadMessages: action,
+      activateLastMessage: action,
+      collectMessagesList: action,
+      getMsg: action,
+      getChatByContactId: action,
+      getLastMsg: action,
+      getUnreadCount: action,
+      addMsg: action,
+      deleteMsg: action,
+      setActiveMessage: action,
+    });
+  }
 
-  @computed
   get getPageNumber() {
     return this.activeChat ? this.activeChat.messages.length : 0;
   }
 
-  @computed
   get getNextPageNumber() {
     return (this.activeChat ? this.activeChat.messages.length : 0) + 1;
   }
 
-  @action
   async sendMessage(
     message: string,
     conversationSourceAccountId: string,
@@ -44,18 +60,8 @@ export class ChatStore {
   ) {
     let replyTo: string = null;
 
-    if (activeMessage) {
-      replyTo = activeMessage.id;
-    }
-
-    if (!message && files.length) {
-      message = "";
-      files.map((file, index) => {
-        message +=
-          file.name +
-          (files.length > 1 && index !== files.length - 1 ? ", " : " ");
-      });
-    }
+    if (activeMessage) replyTo = activeMessage.id;
+    if (!message) message = "Files";
 
     await sendMessage(
       this.activeChat.id,
@@ -69,7 +75,6 @@ export class ChatStore {
     this.setActiveMessage(null);
   }
 
-  @action
   async loadMessages(contactId: string, pageNum?: number) {
     this.isPageLoading = pageNum > 1;
     // загружаем пачки сообщений постранично
@@ -86,7 +91,6 @@ export class ChatStore {
     this.isPageLoading = false;
   }
 
-  @action
   activateLastMessage(): void {
     const messagesList: Array<Array<Message>> = this.activeChat.messages;
     if (messagesList.length) {
@@ -106,7 +110,6 @@ export class ChatStore {
     }
   }
 
-  @action
   async collectMessagesList(
     contactId: string,
     page?: number
@@ -136,7 +139,6 @@ export class ChatStore {
     return messagesOfPages;
   }
 
-  @action
   getMsg(id: string, chat_id: string): Message {
     let chat = this.chat.find(
       (chat_item: Conversation) => chat_item.id === chat_id
@@ -150,21 +152,18 @@ export class ChatStore {
     return null;
   }
 
-  @action
   getChatByContactId(contactId: string): Conversation {
     return this.chat.find(
       (chatItem: Conversation) => chatItem.contactId === contactId
     );
   }
 
-  @action
   getLastMsg(id: string): any {
     let chat = this.getChatByContactId(id);
 
     return chat.messages[chat.messages.length - 1];
   }
 
-  @action
   getUnreadCount(id: string): number {
     let unreadedCount = 0;
     let chat = this.getChatByContactId(id);
@@ -187,7 +186,6 @@ export class ChatStore {
     return unreadedCount;
   }
 
-  @action
   async addMsg(
     content: any,
     from: any,
@@ -208,14 +206,16 @@ export class ChatStore {
 
       const attachments: Attachment[] = [];
 
-      if (!content && files.length) {
-        content = "";
-        files.map((file, index) => {
-          content +=
-            file.name +
-            (files.length > 1 && index !== files.length - 1 ? ", " : " ");
-          // const type = file.type.split("/")[0];
-          attachments.push({ type: "file", url: null, data: null });
+      if (!content) content = "Files";
+
+      if (files.length) {
+        files.map((file) => {
+          attachments.push({
+            type: "file",
+            url: null,
+            data: null,
+            title: file.name,
+          });
         });
       }
 
@@ -234,7 +234,7 @@ export class ChatStore {
         attachments
       );
 
-      message.reply = reply;
+      message.reply = reply ? reply : this.activeChat.activeMessage;
       message.isLastMessage = true;
 
       message = this.collectMessage(
@@ -257,7 +257,6 @@ export class ChatStore {
     }
   }
 
-  @action
   deleteMsg(id: string, chat_id: string): void {
     for (let i = 0; i < this.chat.length; i++) {
       let chat = this.chat[i];
@@ -270,7 +269,6 @@ export class ChatStore {
     }
   }
 
-  @action
   setActiveMessage(message: Message): void {
     this.activeChat.activeMessage = message;
   }
@@ -305,7 +303,12 @@ export class ChatStore {
         combineWithPrevious = false;
       }
 
-      if (current.user && !previous.income && defaultCheck) {
+      if (
+        current.user &&
+        !previous.income &&
+        defaultCheck &&
+        current.user.id === previous.user.id
+      ) {
         combineWithPrevious = true;
       }
 
@@ -336,6 +339,10 @@ export class ChatStore {
       message.reply = this.collectMessage({
         current: current.entity.data.replyTo,
       });
+    } else if (current.reply) {
+      message.reply = this.collectMessage({
+        current: current.reply,
+      });
     }
 
     return message;
@@ -349,7 +356,8 @@ export class ChatStore {
       contact.id,
       contact.id,
       contact.last_message.social_media,
-      user
+      user,
+      contact.schoolId
     );
 
     const message: Message = this.collectMessage({

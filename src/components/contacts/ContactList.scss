@@ -11,6 +11,26 @@
     &:hover {
       background: #1111110a;
     }
+
+    &--icon {
+      margin: 0 10px 0 0;
+    }
+  }
+
+  .contacts-info-icon {
+    margin: 0 6px 0 0;
+
+    .social_media_icon {
+      position: relative;
+      top: 1px;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+
+    .school-logo {
+      margin: 0;
+    }
   }
 
   //временно
