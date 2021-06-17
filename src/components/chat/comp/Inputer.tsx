@@ -265,25 +265,15 @@ const Inputer = inject((stores: IStores) => ({
         />
 
         <div className="input-container">
+          {/* Button Attachment */}
           <div className="inputer_btn">
-            <Popover
-              visible={switcher === "1social"}
-              content={<SocialMenu selectSocial={selectSocial} />}
-              trigger="click"
+            <Button
+              disabled={!!chatError}
+              onClick={openFileInput}
+              className="transparent"
             >
-              <Button
-                disabled={!!chatError}
-                onClick={() => setSwitcher("social")}
-                className="transparent not-allowed"
-              >
-                <Icon
-                  className="icon_l"
-                  name={`social_media_${
-                    currentChat.activeSocial ? currentChat.activeSocial : ""
-                  }`}
-                />
-              </Button>
-            </Popover>
+              <Icon className="icon_m blue-lite" name="solid_paperclip" />
+            </Button>
           </div>
 
           <div className="main_input">
@@ -322,14 +312,26 @@ const Inputer = inject((stores: IStores) => ({
             )}
           </div>
 
+          {/* Button Social */}
           <div className="inputer_btn">
-            <Button
-              disabled={!!chatError}
-              onClick={openFileInput}
-              className="transparent"
+            <Popover
+              visible={switcher === "1social"}
+              content={<SocialMenu selectSocial={selectSocial} />}
+              trigger="click"
             >
-              <Icon className="icon_m blue-lite" name="solid_paperclip" />
-            </Button>
+              <Button
+                disabled={!!chatError}
+                onClick={() => setSwitcher("social")}
+                className="transparent not-allowed"
+              >
+                <Icon
+                  className="icon_l"
+                  name={`social_media_${
+                    currentChat.activeSocial ? currentChat.activeSocial : ""
+                  }`}
+                />
+              </Button>
+            </Popover>
           </div>
         </div>
 
