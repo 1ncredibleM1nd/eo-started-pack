@@ -56,14 +56,9 @@ const ContactItem = observer((props: IProps) => {
   return (
     <li
       onClick={() => selectContact(contact.id)}
-      className={`contacts-item friends contact-item-${index} ${
-        active && "active"
-      }`}
+      className={`contacts-item friends ${active && "active"}`}
     >
       <div className="avatar">
-        <div className={`social_media_icon white ${social_media}`}>
-          <Icon className="icon_s" name={`social_media_${social_media}`} />
-        </div>
         <Badge className={`online_dot ${active && "active"}`} dot={online}>
           <UserAvatar
             size="48"
@@ -75,7 +70,20 @@ const ContactItem = observer((props: IProps) => {
       </div>
       <div className="contacts-content">
         <div className="contacts-info">
-          <img src={school.logo} className="school-logo" title={school.name} />
+          <div className={"contacts-info-icon"}>
+            <img
+              src={school.logo}
+              className="school-logo"
+              title={school.name}
+            />
+          </div>
+
+          <div className={"contacts-info-icon"}>
+            <div className={`social_media_icon white ${social_media}`}>
+              <Icon className="icon_s" name={`social_media_${social_media}`} />
+            </div>
+          </div>
+
           <h4 className="chat-name user_name_to">{contact.user.username}</h4>
           <div className="chat-time">
             {lastMessage && <>{contactTime(lastMessage)}</>}
