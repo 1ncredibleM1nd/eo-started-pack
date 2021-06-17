@@ -225,11 +225,11 @@ const FileUploadModal = observer((props: IProps) => {
         </div>
 
         <div className="file_modal-input">
-          <div className="inputer_btn">
+          {/* <div className="inputer_btn">
             <Button onClick={openFileInput} className="transparent">
               <Icon className="icon_m blue-lite" name="solid_plus" />
             </Button>
-          </div>
+          </div> */}
           <div className="main_input in_modal">
             <TextArea
               onKeyDown={handleKeyDown}
