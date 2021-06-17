@@ -72,8 +72,8 @@ const MessageComponent = observer((props: IProps) => {
                           <LoadingOutlined />
                         )}
                       </div>
-                      <div className="file-title">
-                        <span>{attachment.title}</span>
+                      <div className="file-title-container">
+                        <span className={"file-title"}>{attachment.title}</span>
                         <VerticalAlignBottomOutlined />
                       </div>
                     </div>
