@@ -87,7 +87,7 @@ const Chat = inject((stores: IStores) => ({
                 (page: Array<Message>, index: number) => {
                   return (
                     <div
-                      key={Math.random()}
+                      key={`page_${index + 1}`}
                       className={`page page-${index + 1}`}
                     >
                       {page.map((message: Message) => {
@@ -106,7 +106,7 @@ const Chat = inject((stores: IStores) => ({
 
                         return (
                           <MessageComponent
-                            key={Math.random()}
+                            key={`message_${message.id}`}
                             message={message}
                             replyMsg={replyMsg}
                             messageDateDivider={messageDateDivider}

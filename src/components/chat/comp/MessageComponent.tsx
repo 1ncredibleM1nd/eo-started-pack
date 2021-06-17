@@ -57,7 +57,10 @@ const MessageComponent = observer((props: IProps) => {
               {message.attachments.map((attachment: any, index: any) => {
                 if (attachment.type === "file") {
                   return (
-                    <div key={Math.random()} className="msg-content-file">
+                    <div
+                      key={`message_attach_${index + 1}`}
+                      className="msg-content-file"
+                    >
                       <div className="document-preview">
                         {attachment.data ? (
                           <img src={attachment.data.preview} alt="" />
@@ -148,7 +151,6 @@ const MessageComponent = observer((props: IProps) => {
         <>
           {messageDateDivider && renderDataTimeBlock(messageDateDivider)}
           <div
-            key={Math.random()}
             className={`message ${
               message.combineWithPrevious ? "not-main" : ""
             } `}
@@ -161,7 +163,6 @@ const MessageComponent = observer((props: IProps) => {
         <>
           {messageDateDivider && renderDataTimeBlock(messageDateDivider)}
           <div
-            key={Math.random()}
             className={`message self ${
               message.combineWithPrevious ? "not-main" : ""
             } `}

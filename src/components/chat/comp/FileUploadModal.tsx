@@ -209,7 +209,7 @@ const FileUploadModal = observer((props: IProps) => {
           {fileOnHold.map((fileItem: any, index: number) => {
             return (
               <UploadMediaPreview
-                key={Math.random()}
+                key={`file_item_${index}`}
                 fileItem={fileItem}
                 index={index}
               />
