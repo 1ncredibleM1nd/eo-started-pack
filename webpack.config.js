@@ -7,9 +7,8 @@ const { TsconfigPathsPlugin } = require("tsconfig-paths-webpack-plugin");
 const SpriteLoaderPlugin = require("svg-sprite-loader/plugin");
 const DotenvFlow = require("dotenv-flow-webpack");
 
-module.exports = (env, { mode }) => {
-  process.env.NODE_ENV = mode; // setup for dotenv-flow-webpack
-
+module.exports = (env) => {
+  console.log(env);
   return {
     entry: "./src/index.tsx",
     output: {
@@ -179,7 +178,13 @@ module.exports = (env, { mode }) => {
       },
     },
     plugins: [
-      new DotenvFlow(),
+      new DotenvFlow({
+        node_env: env.production
+          ? "production"
+          : env.demo
+          ? "demo"
+          : "development",
+      }),
       new SpriteLoaderPlugin(),
       new HtmlWebpackPlugin({
         template: "./src/index.html",
