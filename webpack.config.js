@@ -8,7 +8,6 @@ const SpriteLoaderPlugin = require("svg-sprite-loader/plugin");
 const DotenvFlow = require("dotenv-flow-webpack");
 
 module.exports = (env) => {
-  console.log(env);
   return {
     entry: "./src/index.tsx",
     output: {
