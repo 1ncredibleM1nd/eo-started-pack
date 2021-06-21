@@ -61,22 +61,26 @@ const MessageComponent = observer((props: IProps) => {
               {message.attachments.map((attachment: any, index: any) => {
                 if (attachment.type === "file") {
                   return (
-                    <div
-                      key={`message_attach_${index + 1}`}
-                      className="msg-content-file"
-                    >
-                      <div className="document-preview">
-                        {attachment.data ? (
-                          <img src={attachment.data.preview} alt="" />
-                        ) : (
-                          <LoadingOutlined />
-                        )}
+                    <a href={attachment.url} download>
+                      <div
+                        key={`message_attach_${index + 1}`}
+                        className="msg-content-file"
+                      >
+                        <div className="document-preview">
+                          {attachment.data ? (
+                            <img src={attachment.data.preview} alt="" />
+                          ) : (
+                            <LoadingOutlined />
+                          )}
+                        </div>
+                        <div className="file-title-container">
+                          <span className={"file-title"}>
+                            {attachment.title}
+                          </span>
+                          <VerticalAlignBottomOutlined />
+                        </div>
                       </div>
-                      <div className="file-title-container">
-                        <span className={"file-title"}>{attachment.title}</span>
-                        <VerticalAlignBottomOutlined />
-                      </div>
-                    </div>
+                    </a>
                   );
                 }
                 //

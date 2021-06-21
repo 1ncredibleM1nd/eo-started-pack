@@ -209,14 +209,7 @@ export class ChatStore {
       if (!content) content = "Files";
 
       if (files.length) {
-        files.map((file) => {
-          attachments.push({
-            type: "file",
-            url: null,
-            data: null,
-            title: file.name,
-          });
-        });
+        attachments.push(...files);
       }
 
       let message: Message = new Message(
