@@ -153,6 +153,15 @@
     }
 }
 
+.header_school {
+  display: none;
+  align-items: center;
+
+  @include _768 {
+    display: flex;
+  }
+}
+
 
 .header_title {
     font-size: 19px;

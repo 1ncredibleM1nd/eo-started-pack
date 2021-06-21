@@ -43,6 +43,8 @@ const Header = inject((stores: IStores) => ({
       }
     };
 
+    const school = appStore.schoolList[contactStore?.activeContact?.schoolId];
+
     return (
       <div className="chat_header">
         {activeMsg ? (
@@ -66,6 +68,9 @@ const Header = inject((stores: IStores) => ({
                         name={`solid_arrow-left`}
                       />
                     </Button>
+                  </div>
+                  <div className={"header_school"}>
+                    <img src={school.logo} className="school-logo" />
                   </div>
                   <div className={`header_title`}>
                     <div className="title">
