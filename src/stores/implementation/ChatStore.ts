@@ -63,6 +63,7 @@ export class ChatStore {
     if (activeMessage) replyTo = activeMessage.id;
     if (!message) message = "Files";
 
+    this.setActiveMessage(null);
     await sendMessage(
       this.activeChat.id,
       message,
@@ -71,8 +72,6 @@ export class ChatStore {
       files,
       replyTo
     );
-
-    this.setActiveMessage(null);
   }
 
   async loadMessages(contactId: string, pageNum?: number) {
