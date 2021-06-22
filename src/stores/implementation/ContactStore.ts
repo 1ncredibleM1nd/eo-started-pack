@@ -12,7 +12,7 @@ export class ContactStore {
 
   sources: any = {
     whatsapp: false,
-    instagram: false,
+    instagram: true,
     vkontakte: true,
     odnoklassniki: true,
     viber: false,
@@ -26,6 +26,7 @@ export class ContactStore {
     "odnoklassniki",
     "facebook",
     "telegram",
+    "instagram",
   ];
 
   contactLoading: boolean = false;
