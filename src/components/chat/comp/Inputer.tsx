@@ -60,7 +60,7 @@ const Inputer = inject((stores: IStores) => ({
           );
         });
       }
-    }, [currentChat.messanges]);
+    }, [currentChat.messages]);
 
     const [keys, setKeys] = useState({
       shift: false,

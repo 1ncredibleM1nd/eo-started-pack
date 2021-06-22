@@ -349,7 +349,7 @@ export class ChatStore {
       contact.id,
       contact.last_message.social_media,
       user,
-      contact.schoolId
+      contact.school_id
     );
 
     const message: Message = this.collectMessage({
