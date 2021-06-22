@@ -349,7 +349,8 @@ export class ChatStore {
       contact.id,
       contact.last_message.social_media,
       user,
-      contact.school_id
+      contact.school_id,
+      contact.send_file
     );
 
     const message: Message = this.collectMessage({

@@ -268,7 +268,7 @@ const Inputer = inject((stores: IStores) => ({
           {/* Button Attachment */}
           <div className="inputer_btn">
             <Button
-              disabled={!!chatError}
+              disabled={!!chatError || !activeContact.send_file}
               onClick={openFileInput}
               className="transparent"
             >

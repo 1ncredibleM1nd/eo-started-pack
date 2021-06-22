@@ -61,7 +61,11 @@ const MessageComponent = observer((props: IProps) => {
               {message.attachments.map((attachment: any, index: any) => {
                 if (attachment.type === "file") {
                   return (
-                    <a href={attachment.url} download>
+                    <a
+                      key={`file_attachment_${attachment.url}`}
+                      href={attachment.url}
+                      download
+                    >
                       <div
                         key={`message_attach_${index + 1}`}
                         className="msg-content-file"
