@@ -10,6 +10,7 @@ import {
 } from "@ant-design/icons";
 import { Message } from "@entities";
 import { UserAvatar } from "@components/user_info/UserAvatar";
+import { MessageAttachment } from "./MessageAttachment";
 import * as fileApi from "../../../ApiResolvers/file";
 
 type IProps = {
@@ -59,33 +60,13 @@ const MessageComponent = observer((props: IProps) => {
         <div className="msg_text_container">
           {message.attachments.length > 0 && (
             <div className="msg_file_container">
-              {message.attachments.map((attachment: any, index: any) => {
-                if (attachment.type === "file") {
-                  return (
-                    <div
-                      key={`file_attachment_${attachment.url}`}
-                      onClick={() =>
-                        fileApi.download(attachment.url, attachment.title)
-                      }
-                    >
-                      <div className="msg-content-file">
-                        <div className="document-preview">
-                          {attachment.data ? (
-                            <img src={attachment.data.preview} alt="" />
-                          ) : (
-                            <LoadingOutlined />
-                          )}
-                        </div>
-                        <div className="file-title-container">
-                          <span className={"file-title"}>
-                            {attachment.title}
-                          </span>
-                          <VerticalAlignBottomOutlined />
-                        </div>
-                      </div>
-                    </div>
-                  );
-                }
+              {message.attachments.map(
+                (attachment: any) => (
+                  <MessageAttachment
+                    key={`file_attachment_${attachment.url}`}
+                    attachment={attachment}
+                  />
+                )
                 //
                 // if (attachment.type === "photo") {
                 //   return (
@@ -100,8 +81,7 @@ const MessageComponent = observer((props: IProps) => {
                 // } else if (attachment.type === "video") {
                 //   return <div className="msg_content-video">Video</div>;
                 // }
-                return null;
-              })}
+              )}
             </div>
           )}
           <>
