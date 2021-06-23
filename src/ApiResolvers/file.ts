@@ -1,9 +1,7 @@
 import { notification } from "antd";
 
 export async function download(url: string, filename: string) {
-  const response = await fetch(
-    `${process.env.APP_DOWNLOAD_HOST}/v1/rest${url}`
-  );
+  const response = await fetch(`${process.env.APP_DOWNLOAD_HOST}/v1${url}`);
   if (response.ok) {
     const result = await response.blob();
     const url = URL.createObjectURL(
