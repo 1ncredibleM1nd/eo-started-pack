@@ -11,7 +11,12 @@ const API = axios.create({
   withCredentials: true,
 });
 
-API.interceptors.request.use((request) => {
+const DOWNLOAD = axios.create({
+  baseURL: process.env.APP_DOWNLOAD_HOST,
+  withCredentials: true,
+});
+
+function CredentionalsInterceptor(request) {
   let interlayer: string;
 
   if (authStore.isFrame) {
@@ -33,6 +38,9 @@ API.interceptors.request.use((request) => {
   request.url = interlayer + request.url;
 
   return request;
-});
+}
 
-export { API, AUTH };
+API.interceptors.request.use(CredentionalsInterceptor);
+DOWNLOAD.interceptors.request.use(CredentionalsInterceptor);
+
+export { API, AUTH, DOWNLOAD };

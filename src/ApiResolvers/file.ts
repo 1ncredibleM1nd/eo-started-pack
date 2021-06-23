@@ -1,11 +1,15 @@
+import { DOWNLOAD } from "actions/axios";
 import { notification } from "antd";
 
 export async function download(url: string, filename: string) {
-  const response = await fetch(`${process.env.APP_DOWNLOAD_HOST}/v1${url}`);
-  if (response.ok) {
-    const result = await response.blob();
+  const response = await DOWNLOAD.post(url);
+  if (response.data?.error) {
+    notification.error({
+      message: response.data?.data?.error_message,
+    });
+  } else {
     const url = URL.createObjectURL(
-      new Blob([result], {
+      new Blob([response.data], {
         type: "application/octet-stream",
       })
     );
@@ -14,11 +18,5 @@ export async function download(url: string, filename: string) {
     link.download = filename;
     link.click();
     URL.revokeObjectURL(url);
-  } else {
-    const result = await response.json();
-    notification.error({
-      placement: "topRight",
-      message: result.data?.error_message ?? "",
-    });
   }
 }
