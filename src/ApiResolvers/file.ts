@@ -5,6 +5,7 @@ export async function download(url: string, filename: string) {
   const response = await DOWNLOAD.post(url);
   if (response.data?.error) {
     notification.error({
+      placement: "topRight",
       message: response.data?.data?.error_message,
     });
   } else {
