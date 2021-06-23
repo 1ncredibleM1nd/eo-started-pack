@@ -64,7 +64,9 @@ const MessageComponent = observer((props: IProps) => {
                   return (
                     <div
                       key={`file_attachment_${attachment.url}`}
-                      onClick={() => fileApi.download(attachment.url)}
+                      onClick={() =>
+                        fileApi.download(attachment.url, attachment.title)
+                      }
                     >
                       <div className="msg-content-file">
                         <div className="document-preview">

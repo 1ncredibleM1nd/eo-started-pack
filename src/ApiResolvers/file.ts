@@ -1,17 +1,19 @@
 import { notification } from "antd";
 
-export async function download(url: string) {
+export async function download(url: string, filename: string) {
   const response = await fetch(`${process.env.APP_DOWNLOAD_HOST}${url}`);
   if (response.ok) {
-    const blob = await response.blob();
-    window.open(
-      URL.createObjectURL(
-        new Blob([blob], {
-          type: "application/octet-stream",
-        })
-      ),
-      "_self"
+    const result = await response.blob();
+    const url = URL.createObjectURL(
+      new Blob([result], {
+        type: "application/octet-stream",
+      })
     );
+    const link = document.body.appendChild(document.createElement("a"));
+    link.href = url;
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(url);
   } else {
     const result = await response.json();
     notification.error({
