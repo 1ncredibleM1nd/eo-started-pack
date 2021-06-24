@@ -30,7 +30,7 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
         <Row>
           {/* <div className={`contact_layout_container ${switcher ? 'active' : ''}`}> */}
           <Col
-            xs={layout === "contact" || isLandscape ? 24 : 0}
+            xs={layout === "contact" ? 24 : 0}
             sm={layout === "contact" ? 24 : 0}
             md={10}
             lg={7}
@@ -42,7 +42,7 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
           {/* <div onClick={() => setSwitcher(!switcher)} className='contact_trigger'>Trigger</div>
                     </div> */}
           <Col
-            xs={layout === "chat" || isLandscape ? 24 : 0}
+            xs={layout === "chat" ? 24 : 0}
             sm={layout === "chat" ? 24 : 0}
             md={14}
             lg={17}
