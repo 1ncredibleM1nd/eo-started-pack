@@ -19,6 +19,8 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
     const isLandscape = orientation === "landscape";
     const layout = appStore.layout;
 
+    console.log(layout);
+
     // const collapsed_info = appStore.info_tab
     // const [switcher, setSwitcher] = useState(false)
     // const { Sider } = Layout;
@@ -28,8 +30,8 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
         <Row>
           {/* <div className={`contact_layout_container ${switcher ? 'active' : ''}`}> */}
           <Col
-            xs={layout === "contact" || isLandscape ? 24 : 0}
-            sm={layout === "contact" || isLandscape ? 24 : 0}
+            xs={layout === "contact" ? 24 : 0}
+            sm={layout === "contact" ? 24 : 0}
             md={10}
             lg={7}
             xl={6}
@@ -40,8 +42,8 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
           {/* <div onClick={() => setSwitcher(!switcher)} className='contact_trigger'>Trigger</div>
                     </div> */}
           <Col
-            xs={layout === "chat" || isLandscape ? 24 : 0}
-            sm={layout === "chat" || isLandscape ? 24 : 0}
+            xs={layout === "chat" ? 24 : 0}
+            sm={layout === "chat" ? 24 : 0}
             md={14}
             lg={17}
             xl={18}

@@ -99,7 +99,7 @@ const ContactList = inject((stores: IStores) => ({
                         }
                         index={index}
                         lastMessage={lastMessage}
-                        key={`contacts_item_${contact.id}`}
+                        key={`contacts_item_${index}`}
                         contact={contact}
                         online={online}
                         active={

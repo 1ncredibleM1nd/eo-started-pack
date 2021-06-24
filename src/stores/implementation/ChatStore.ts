@@ -63,6 +63,7 @@ export class ChatStore {
     if (activeMessage) replyTo = activeMessage.id;
     if (!message) message = "Files";
 
+    this.setActiveMessage(null);
     await sendMessage(
       this.activeChat.id,
       message,
@@ -71,8 +72,6 @@ export class ChatStore {
       files,
       replyTo
     );
-
-    this.setActiveMessage(null);
   }
 
   async loadMessages(contactId: string, pageNum?: number) {
@@ -209,14 +208,7 @@ export class ChatStore {
       if (!content) content = "Files";
 
       if (files.length) {
-        files.map((file) => {
-          attachments.push({
-            type: "file",
-            url: null,
-            data: null,
-            title: file.name,
-          });
-        });
+        attachments.push(...files);
       }
 
       let message: Message = new Message(
@@ -357,7 +349,8 @@ export class ChatStore {
       contact.id,
       contact.last_message.social_media,
       user,
-      contact.schoolId
+      contact.school_id,
+      contact.send_file
     );
 
     const message: Message = this.collectMessage({

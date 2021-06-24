@@ -60,7 +60,7 @@ const Inputer = inject((stores: IStores) => ({
           );
         });
       }
-    }, [currentChat.messanges]);
+    }, [currentChat.messages]);
 
     const [keys, setKeys] = useState({
       shift: false,
@@ -244,6 +244,11 @@ const Inputer = inject((stores: IStores) => ({
     };
 
     let chatError = false;
+    let acceptAttachments =
+      !!chatError ||
+      !activeContact.send_file ||
+      (chatStore.activeChat.activeMessage &&
+        chatStore.activeChat.activeMessage.entity.type !== "message");
 
     return (
       <div className={`inputer ${!!chatError ? "has-error" : ""}`}>
@@ -268,7 +273,7 @@ const Inputer = inject((stores: IStores) => ({
           {/* Button Attachment */}
           <div className="inputer_btn">
             <Button
-              disabled={!!chatError}
+              disabled={acceptAttachments}
               onClick={openFileInput}
               className="transparent"
             >
