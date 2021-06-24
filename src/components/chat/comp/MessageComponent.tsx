@@ -12,6 +12,7 @@ import { Message } from "@entities";
 import { UserAvatar } from "@components/user_info/UserAvatar";
 import { MessageAttachment } from "./MessageAttachment";
 import * as fileApi from "../../../ApiResolvers/file";
+import { TMessageAttachment } from "types/message";
 
 type IProps = {
   message?: Message;
@@ -36,78 +37,75 @@ const MessageComponent = observer((props: IProps) => {
     </Menu>
   );
 
-  const renderMessagesWrapper = (message: any) => (
-    <div className="message-wrapper">
-      <div
-        className={`message-content ${
-          message.combineWithPrevious ? "not-main" : ""
-        } `}
-      >
-        {message.reply ? (
-          <div className="reply">
-            <span>{message.reply.content}</span>
-            <div className="msg_type">
-              {TypesMessage.getTypeDescription(message.entity.type)}
+  const renderMessagesWrapper = (message: any) => {
+    const renderAttachments =
+      message?.reply?.attachments.map((attachment: TMessageAttachment) => (
+        <MessageAttachment
+          key={`reply_file__attachment_${attachment.url}`}
+          attachment={attachment}
+        />
+      )) ?? [];
+
+    return (
+      <div className="message-wrapper">
+        <div
+          className={`message-content ${
+            message.combineWithPrevious ? "not-main" : ""
+          } `}
+        >
+          {message.reply ? (
+            <div className="reply">
+              <div className="msg_text_container">
+                <div className="msg_file_container">{renderAttachments}</div>
+                <div style={{ whiteSpace: "pre-line" }}>
+                  {message.reply.content}
+                </div>
+              </div>
+              <div className="msg_type">
+                {TypesMessage.getTypeDescription(message.entity.type)}
+              </div>
             </div>
+          ) : (
+            ""
+          )}
+          <div className="inset_border_container">
+            <div className="dummy" />
+            <div className="border_hero" />
           </div>
-        ) : (
-          ""
-        )}
-        <div className="inset_border_container">
-          <div className="dummy" />
-          <div className="border_hero" />
-        </div>
-        <div className="msg_text_container">
-          {message.attachments.length > 0 && (
-            <div className="msg_file_container">
-              {message.attachments.map(
-                (attachment: any) => (
+          <div className="msg_text_container">
+            {message.attachments.length > 0 && (
+              <div className="msg_file_container">
+                {message.attachments.map((attachment: any) => (
                   <MessageAttachment
                     key={`file_attachment_${attachment.url}`}
                     attachment={attachment}
                   />
-                )
-                //
-                // if (attachment.type === "photo") {
-                //   return (
-                //     <div
-                //       className={`msg_content-image ${"image_count_" + index}`}
-                //     >
-                //       <img src={attachment.url} alt="" />
-                //     </div>
-                //   );
-                // }  else if (attachment.type === "audio") {
-                //   return <div className="msg_content-audio">Audio</div>;
-                // } else if (attachment.type === "video") {
-                //   return <div className="msg_content-video">Video</div>;
-                // }
-              )}
-            </div>
-          )}
-          <>
+                ))}
+              </div>
+            )}
             <div style={{ whiteSpace: "pre-line" }}>{message.content}</div>
-          </>
-        </div>
-        <div className="msg_time">{message.time}</div>
-        <div className="msg_menu-container">
-          <div className="msg_menu">
-            <Dropdown
-              overlay={DropDownMenu(message)}
-              placement="bottomLeft"
-              trigger={["click"]}
-            >
-              <MoreOutlined className="dropdown-trigger" />
-            </Dropdown>
           </div>
-          {message.editted && (
-            <div className="editted_icon">
-              <Icon className="active-grey" name={`solid_pencil-alt`} />
+          <div className="msg_time">{message.time}</div>
+          <div className="msg_menu-container">
+            <div className="msg_menu">
+              <Dropdown
+                overlay={DropDownMenu(message)}
+                placement="bottomLeft"
+                trigger={["click"]}
+              >
+                <MoreOutlined className="dropdown-trigger" />
+              </Dropdown>
             </div>
-          )}
+            {message.editted && (
+              <div className="editted_icon">
+                <Icon className="active-grey" name={`solid_pencil-alt`} />
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const renderUserAvatar = (user: any) =>
     user ? (
