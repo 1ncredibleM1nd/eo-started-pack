@@ -98,17 +98,16 @@
 
     &.active {
         @include _1000 {
-            transform: rotate(180deg)
+          transform: rotate(180deg)
         }
 
         @include _768 {
-            transform: none;
+          display: flex;
+          transform: none;
         }
     }
 
-  @media (max-width: 1025px) and (orientation: portrait) {
-    display: flex;
-  }
+
 }
 
 
