@@ -3,15 +3,10 @@ import { observer } from "mobx-react";
 import { Icon } from "@ui";
 import { Menu, Dropdown, Divider } from "antd";
 import { TypesMessage } from "@stores/classes";
-import {
-  MoreOutlined,
-  LoadingOutlined,
-  VerticalAlignBottomOutlined,
-} from "@ant-design/icons";
+import { MoreOutlined } from "@ant-design/icons";
 import { Message } from "@entities";
 import { UserAvatar } from "@components/user_info/UserAvatar";
 import { MessageAttachment } from "./MessageAttachment";
-import * as fileApi from "../../../ApiResolvers/file";
 import { TMessageAttachment } from "types/message";
 
 type IProps = {
