@@ -43,6 +43,9 @@ const MessageComponent = observer((props: IProps) => {
 
     return (
       <div className="message-wrapper">
+        <div className="avatar avatar-sm">
+          {renderUserAvatar(message.user)}
+        </div>
         <div
           className={`message-content ${
             message.combineWithPrevious ? "not-main" : ""
@@ -63,10 +66,6 @@ const MessageComponent = observer((props: IProps) => {
           ) : (
             ""
           )}
-          <div className="inset_border_container">
-            <div className="dummy" />
-            <div className="border_hero" />
-          </div>
           <div className="msg_text_container">
             {message.attachments.length > 0 && (
               <div className="msg_file_container">
@@ -80,7 +79,7 @@ const MessageComponent = observer((props: IProps) => {
             )}
             <div style={{ whiteSpace: "pre-line" }}>{message.content}</div>
           </div>
-          <div className="msg_time">{message.time}</div>
+          {renderMessagesOptions(message)}
           <div className="msg_menu-container">
             <div className="msg_menu">
               <Dropdown
@@ -115,14 +114,11 @@ const MessageComponent = observer((props: IProps) => {
   const renderMessagesOptions = (message: any) =>
     !message.combineWithPrevious && (
       <div className="message-options">
-        <div className="avatar avatar-sm">
-          <div className={`social_media_icon ${message.social_media}`}>
-            <Icon
-              className="icon_s"
-              name={`social_media_${message.social_media}`}
-            />
-          </div>
-          {renderUserAvatar(message.user)}
+        <div className={`social_media_icon ${message.social_media}`}>
+          <Icon
+            className="icon_s"
+            name={`social_media_${message.social_media}`}
+          />
         </div>
         <span className="message-status">
           <div className="msg_username">{message.username}</div>
@@ -130,6 +126,7 @@ const MessageComponent = observer((props: IProps) => {
             {TypesMessage.getTypeDescription(message.entity.type)}
           </div>
         </span>
+        <div className="msg_time">{message.time}</div>
       </div>
     );
 
@@ -144,7 +141,6 @@ const MessageComponent = observer((props: IProps) => {
             } `}
           >
             {renderMessagesWrapper(message)}
-            {renderMessagesOptions(message)}
           </div>
         </>
       ) : (
@@ -156,7 +152,6 @@ const MessageComponent = observer((props: IProps) => {
             } `}
           >
             {renderMessagesWrapper(message)}
-            {renderMessagesOptions(message)}
           </div>
         </>
       )}

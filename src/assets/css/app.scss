@@ -12352,12 +12352,12 @@ Chanelog:
   padding: 0.5rem 1rem;
   background-color: #f5f6fa;
   color: #8094ae;
-  margin-left: 1.25rem;
-  border-radius: 0.5rem;
+  border-radius: 10px;
   text-align: left;
   display: inline-block;
   max-width: 25rem;
-  min-width: 4.4em;
+  min-width: 7.5em;
+  padding-left: 15px!important;
 }
 
 .message .message-content .message-attachment {
@@ -12371,8 +12371,7 @@ Chanelog:
 
 .message .avatar {
   display: inline-block;
-  vertical-align: bottom;
-  margin-top: -1.25rem;
+  margin-top: auto;
 }
 
 .message .avatar img {
