@@ -21,8 +21,6 @@ const Header = inject((stores: IStores) => ({
   chatStore: stores.chatStore,
 }))(
   observer((props: IProps) => {
-    const orientation = useOrientation();
-
     const { contactStore, appStore, chatStore } = props;
     const activeContact = contactStore.activeContact;
     let chatTitle: any;
@@ -69,24 +67,30 @@ const Header = inject((stores: IStores) => ({
                       />
                     </Button>
                   </div>
-                  <div className={"header_school"}>
-                    <img src={school.logo} className="school-logo" />
-                  </div>
-                  <div className={`header_title`}>
-                    <div className="title">
+                  <div className={"header_info"}>
+                    <div className={`header_title`}>
                       <p>{chatTitle}</p>
                     </div>
-
-                    <div className="header_settings">
-                      <div className="trigger">
-                        {chatStore.isPageLoading ? (
-                          <Fragment>
-                            <MoonLoader color="#3498db" size={18} />
-                          </Fragment>
-                        ) : (
-                          <Fragment />
-                        )}
+                    <div className={"header_school"}>
+                      <div className={"header_school_logo"}>
+                        <img
+                          src={school.logo}
+                          className="school-logo"
+                          alt={""}
+                        />
                       </div>
+                      <p>{school.name}</p>
+                    </div>
+                  </div>
+                  <div className={"header_settings"}>
+                    <div className="trigger">
+                      {chatStore.isPageLoading ? (
+                        <Fragment>
+                          <MoonLoader color="#3498db" size={18} />
+                        </Fragment>
+                      ) : (
+                        <Fragment />
+                      )}
                     </div>
                   </div>
                 </div>
