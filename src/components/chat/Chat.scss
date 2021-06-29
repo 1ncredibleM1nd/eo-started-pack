@@ -628,6 +628,10 @@
     padding-left: 30px !important;
   }
 
+  .avatar {
+    order: 1;
+  }
+
   &.not-main {
     margin-bottom: 3px !important;
   }
@@ -790,7 +794,7 @@
     justify-content: flex-start !important;
     align-items: flex-start;
     padding: 0 15px;
-    
+
     &:hover .msg_menu {
       opacity: 1;
       visibility: visible;
@@ -1067,10 +1071,6 @@
     max-width: 20rem;
     min-height: 40px;
     padding-left: 1.2rem !important;
-  }
-
-  .avatar {
-    order: 1;
   }
 
   .message-content.not-main > .inset_border_container {
