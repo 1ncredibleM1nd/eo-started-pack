@@ -20,9 +20,7 @@ const MessageComponent = observer((props: IProps) => {
 
   const renderDataTimeBlock = (time: string) => (
     <div className="date_container">
-      <Divider orientation="center" className="date_divider">
-        <div className="date">{time}</div>
-      </Divider>
+      <div className="date">{time}</div>
     </div>
   );
 
