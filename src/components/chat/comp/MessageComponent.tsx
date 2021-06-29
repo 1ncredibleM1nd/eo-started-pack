@@ -121,7 +121,6 @@ const MessageComponent = observer((props: IProps) => {
           />
         </div>
         <span className="message-status">
-          <div className="msg_username">{message.username}</div>
           <div className="msg_type">
             {TypesMessage.getTypeDescription(message.entity.type)}
           </div>

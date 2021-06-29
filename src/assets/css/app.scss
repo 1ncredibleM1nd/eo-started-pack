@@ -12354,10 +12354,12 @@ Chanelog:
   color: #8094ae;
   border-radius: 10px;
   text-align: left;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
   max-width: 25rem;
   min-width: 7.5em;
   padding-left: 15px!important;
+  border-bottom-left-radius: 0;
 }
 
 .message .message-content .message-attachment {
@@ -12382,13 +12384,9 @@ Chanelog:
   display: inline-flex;
   align-items: center;
   font-size: 0.75rem;
-  color: $grey_blue_active;
+  color: $dark_blue_soft;
   margin-top: 0.3125rem;
-}
-
-.message .message-options>* {
-  margin-left: 0.3125rem;
-  margin-right: 0.3125rem;
+  margin-bottom: 5px;
 }
 
 .message .message-options>*:not(.avatar) {
@@ -12407,10 +12405,9 @@ Chanelog:
   color: #fff;
   margin-right: 1.25rem;
   margin-left: 0px;
-}
-
-.message.self .message-options {
-  flex-direction: row-reverse;
+  border-radius: 10px;
+  border-bottom-right-radius: 0;
+  left: 0;
 }
 
 .message-divider {
