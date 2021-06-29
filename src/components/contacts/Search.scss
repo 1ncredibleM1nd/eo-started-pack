@@ -264,8 +264,12 @@
     justify-content: center;
     align-items: center;
 
-    .transparent {
+    button.transparent {
       width: 60px;
+
+      &[ant-click-animating-without-extra-node]:after {
+        animation: 0s !important;
+      }
     }
 
     &:hover {
