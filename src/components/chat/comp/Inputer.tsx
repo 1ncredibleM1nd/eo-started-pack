@@ -317,26 +317,27 @@ const Inputer = inject((stores: IStores) => ({
             )}
           </div>
 
-          {/* Button Social */}
+          {/* Button Social.  */}
           <div className="inputer_btn">
-            <Popover
-              visible={switcher === "1social"}
-              content={<SocialMenu selectSocial={selectSocial} />}
-              trigger="click"
-            >
-              <Button
-                disabled={!!chatError}
-                onClick={() => setSwitcher("social")}
-                className="transparent not-allowed"
-              >
-                <Icon
-                  className="icon_l"
-                  name={`social_media_${
-                    currentChat.activeSocial ? currentChat.activeSocial : ""
-                  }`}
-                />
-              </Button>
-            </Popover>
+            {/* TODO: temporarily disable, enable after meeting task */}
+            {/*<Popover*/}
+            {/*  visible={switcher === "social"}*/}
+            {/*  content={<SocialMenu selectSocial={selectSocial} />}*/}
+            {/*  trigger="click"*/}
+            {/*>*/}
+            {/*  <Button*/}
+            {/*    disabled={!!chatError}*/}
+            {/*    onClick={() => setSwitcher("social")}*/}
+            {/*    className="transparent not-allowed"*/}
+            {/*  >*/}
+            <Icon
+              className="icon_l"
+              name={`social_media_${
+                currentChat.activeSocial ? currentChat.activeSocial : ""
+              }`}
+            />
+            {/*</Button>*/}
+            {/*</Popover>*/}
           </div>
         </div>
 
