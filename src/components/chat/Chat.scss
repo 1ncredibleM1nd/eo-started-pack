@@ -615,7 +615,6 @@
 
   .message-wrapper .msg_time {
     text-align: left;
-    padding-left: 15px;
   }
 
   @include _990 {
@@ -799,6 +798,10 @@
       opacity: 1;
       visibility: visible;
       transition: 1s;
+    }
+
+    .msg_time {
+      padding-left: 15px;
     }
   }
 
