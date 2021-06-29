@@ -8,7 +8,7 @@ import PuffLoader from "react-spinners/PuffLoader";
 import ChatPlaceholder from "./comp/ChatPlaceholder";
 import { Message } from "../../entities";
 import $ from "jquery";
-import dayjs from "@/services/dayjs";
+import dayjs, { toCalendar } from "@/services/dayjs";
 import MessageComponent from "@/components/chat/comp/MessageComponent";
 
 type IProps = {
@@ -99,7 +99,7 @@ const Chat = inject((stores: IStores) => ({
                           currentDate.diff(lastDate, "days") > 0
                         ) {
                           lastDate = currentDate;
-                          messageDateDivider = currentDate.format("DD.MM");
+                          messageDateDivider = toCalendar(currentDate);
                         }
 
                         lastDate = currentDate;
