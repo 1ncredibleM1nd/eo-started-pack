@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { inject, observer } from "mobx-react";
 import { Layout } from "antd";
-import IStores, { IAppStore, IAuthStore } from "@stores/interface";
-import Chats from "@pages/Chat";
-import "@styles/index.scss";
+import IStores, { IAppStore, IAuthStore } from "@/stores/interface";
+import Chats from "@/pages/Chat";
+import "@/styles/index.scss";
 
 type IProps = {
   appStore?: IAppStore;

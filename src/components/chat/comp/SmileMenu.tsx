@@ -1,6 +1,6 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
-import IStores, { IChatStore } from "@stores/interface";
+import IStores, { IChatStore } from "@/stores/interface";
 
 type IProps = {
   chatStore?: IChatStore;

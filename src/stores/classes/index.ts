@@ -1,3 +1,3 @@
-import TypesMessage from "@stores/classes/TypesMessage";
+import TypesMessage from "@/stores/classes/TypesMessage";
 
 export { TypesMessage };

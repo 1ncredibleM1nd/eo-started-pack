@@ -1,10 +1,10 @@
 import React from "react";
 import { observer } from "mobx-react";
-import moment from "moment";
+import dayjs from "@/services/dayjs";
 import { Badge } from "antd";
-import { Icon } from "@ui";
-import { UserAvatar } from "@components/user_info/UserAvatar";
-import { Message } from "@entities";
+import { Icon } from "@/ui";
+import { UserAvatar } from "@/components/user_info/UserAvatar";
+import { Message } from "@/entities";
 
 type IProps = {
   index: number;
@@ -40,16 +40,16 @@ const ContactItem = observer((props: IProps) => {
   }
 
   const contactTime = (message: Message) => {
-    let now = moment(new Date());
-    let contactDate = moment(message.date, "DD.MM.YY");
+    let now = dayjs(new Date());
+    let contactDate = dayjs(message.timestamp * 1000);
     let diff = now.diff(contactDate, "days");
 
     if (diff === 0) {
-      return <span>{message.time}</span>;
+      return <span>{contactDate.format("HH:mm")}</span>;
     } else if (diff <= 7) {
       return <span>{contactDate.format("dd")}</span>;
     } else {
-      return <span>{message.date}</span>;
+      return <span>{contactDate.format("DD.MM")}</span>;
     }
   };
 
