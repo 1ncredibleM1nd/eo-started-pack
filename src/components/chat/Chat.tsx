@@ -8,7 +8,7 @@ import PuffLoader from "react-spinners/PuffLoader";
 import ChatPlaceholder from "./comp/ChatPlaceholder";
 import { Message } from "../../entities";
 import $ from "jquery";
-import moment from "moment";
+import dayjs from "@/services/dayjs";
 import MessageComponent from "@/components/chat/comp/MessageComponent";
 
 type IProps = {
@@ -92,7 +92,7 @@ const Chat = inject((stores: IStores) => ({
                     >
                       {page.map((message: Message) => {
                         let messageDateDivider = null;
-                        let currentDate = moment(message.date, "DD.MM");
+                        let currentDate = dayjs(message.timestamp * 1000);
 
                         if (
                           lastDate &&

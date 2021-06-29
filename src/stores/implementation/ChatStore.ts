@@ -1,8 +1,6 @@
 import { action, computed, observable, makeObservable } from "mobx";
 import { appStore, userStore } from "@/stores/implementation";
 import { getMessages, sendMessage } from "@/actions";
-import moment from "moment";
-import "moment/locale/ru";
 import $ from "jquery";
 import { TypesMessage } from "@/stores/classes";
 import {
@@ -13,8 +11,7 @@ import {
   User,
 } from "../../entities";
 import { contactStore } from "./ContactStore";
-
-moment.locale("ru");
+import dayjs from "@/services/dayjs";
 
 export class ChatStore {
   chat: Array<Conversation> = [];
@@ -194,8 +191,6 @@ export class ChatStore {
   ): Promise<void> {
     if (this.activeChat) {
       const id: string = "msg_" + Math.random();
-      const time: string = moment().format("HH:mm");
-      const date: string = moment().format("DD.MM");
       const combineWithPrevious: boolean = false;
       const entity: Entity = new Entity(TypesMessage.MESSAGE);
       const user: User = userStore.hero;
@@ -213,13 +208,11 @@ export class ChatStore {
 
       let message: Message = new Message(
         id,
-        time,
-        date,
         combineWithPrevious,
         socialMedia,
         content,
         false,
-        moment().unix(),
+        dayjs().unix(),
         entity,
         user,
         false,
@@ -279,12 +272,12 @@ export class ChatStore {
 
     let combineWithPrevious: boolean = false;
 
-    current.time = moment(current.timestamp, "X").format("HH:mm");
-    current.date = moment(current.timestamp, "X").format("DD.MM");
+    // current.time = dayjs(current.timestamp * 1000).format("HH:mm");
+    // current.date = dayjs(current.timestamp * 1000).format("DD.MM");
 
     if (previous) {
       let defaultCheck =
-        previous.date === current.date &&
+        previous.timestamp === current.timestamp &&
         previous.entity.type === current.entity.type;
 
       if (!current.user && previous.income && defaultCheck) {
@@ -314,8 +307,6 @@ export class ChatStore {
 
     const message: Message = new Message(
       current.id,
-      current.time,
-      current.date,
       combineWithPrevious,
       current.social_media,
       current.content,
