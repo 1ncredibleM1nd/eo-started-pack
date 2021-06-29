@@ -1,13 +1,13 @@
 import React, { Fragment } from "react";
 import { inject, observer } from "mobx-react";
-import IStores, { IAppStore, IContactStore } from "@stores/interface";
+import IStores, { IAppStore, IContactStore } from "@/stores/interface";
 import { Button } from "antd";
 import "./Header.scss";
-import { Icon } from "@ui";
-import { ChatStore } from "@stores/implementation/ChatStore";
+import { Icon } from "@/ui";
+import { ChatStore } from "@/stores/implementation/ChatStore";
 
 import MoonLoader from "react-spinners/MoonLoader";
-import { useOrientation } from "../../hooks/useOrientation";
+import { useOrientation } from "@/hooks/useOrientation";
 
 type IProps = {
   contactStore?: IContactStore;

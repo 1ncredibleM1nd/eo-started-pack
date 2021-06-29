@@ -1,10 +1,10 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
 import { Row, Col, Layout } from "antd";
-import { ChatLayout, ContactsLayout } from "@layouts";
-import IStores, { IAppStore, IContactStore } from "@stores/interface";
-import "@styles/index.scss";
-import { useOrientation } from "../hooks/useOrientation";
+import { ChatLayout, ContactsLayout } from "@/layouts";
+import IStores, { IAppStore, IContactStore } from "@/stores/interface";
+import "@/styles/index.scss";
+import { useOrientation } from "@/hooks/useOrientation";
 
 type IProps = {
   appStore?: IAppStore;

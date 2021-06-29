@@ -1,10 +1,10 @@
 import { action, computed, observable, makeObservable } from "mobx";
-import { appStore, userStore } from "@stores/implementation";
-import { getMessages, sendMessage } from "@actions";
+import { appStore, userStore } from "@/stores/implementation";
+import { getMessages, sendMessage } from "@/actions";
 import moment from "moment";
 import "moment/locale/ru";
 import $ from "jquery";
-import { TypesMessage } from "@stores/classes";
+import { TypesMessage } from "@/stores/classes";
 import {
   Attachment,
   Conversation,

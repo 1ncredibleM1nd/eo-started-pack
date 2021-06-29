@@ -1,8 +1,8 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
-import IStores from "@stores/interface";
-import Search from "@components/contacts/Search";
-import ContactList from "@components/contacts/ContactList";
+import IStores from "@/stores/interface";
+import Search from "@/components/contacts/Search";
+import ContactList from "@/components/contacts/ContactList";
 
 type IProps = {};
 

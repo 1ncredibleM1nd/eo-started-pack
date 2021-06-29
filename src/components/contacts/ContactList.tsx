@@ -5,11 +5,11 @@ import IStores, {
   IChatStore,
   IContactStore,
   IUserStore,
-} from "@stores/interface";
+} from "@/stores/interface";
 import HashLoader from "react-spinners/HashLoader";
 import "./ContactList.scss";
 import "./Contact.scss";
-import { Conversation, Message } from "@entities";
+import { Conversation, Message } from "@/entities";
 import ContactItem from "./comp/ContactItem";
 
 type IProps = {

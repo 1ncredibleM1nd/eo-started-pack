@@ -1,5 +1,5 @@
 import axios from "axios";
-import { authStore } from "@stores/implementation";
+import { authStore } from "@/stores/implementation";
 
 const AUTH = axios.create({
   baseURL: process.env.APP_API_URL + "/v1",

@@ -1,13 +1,13 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { Icon } from "@ui";
+import { Icon } from "@/ui";
 import { Menu, Dropdown, Divider } from "antd";
-import { TypesMessage } from "@stores/classes";
+import { TypesMessage } from "@/stores/classes";
 import { MoreOutlined } from "@ant-design/icons";
-import { Message } from "@entities";
-import { UserAvatar } from "@components/user_info/UserAvatar";
+import { Message } from "@/entities";
+import { UserAvatar } from "@/components/user_info/UserAvatar";
 import { MessageAttachment } from "./MessageAttachment";
-import { TMessageAttachment } from "types/message";
+import { TMessageAttachment } from "@/types/message";
 
 type IProps = {
   message?: Message;

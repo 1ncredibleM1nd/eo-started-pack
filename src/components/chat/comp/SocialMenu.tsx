@@ -1,7 +1,7 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
-import IStores from "@stores/interface";
-import { Icon } from "@ui";
+import IStores from "@/stores/interface";
+import { Icon } from "@/ui";
 
 type IProps = {
   selectSocial?: (social: string) => void;

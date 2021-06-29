@@ -5,12 +5,12 @@ import IStores, {
   IContactStore,
   IUserStore,
   IAppStore,
-} from "@stores/interface";
-import { Icon } from "@ui";
+} from "@/stores/interface";
+import { Icon } from "@/ui";
 import $ from "jquery";
 import { Input, Button, Popover } from "antd";
 import SocialMenu from "./SocialMenu";
-import { TypesMessage } from "@stores/classes";
+import { TypesMessage } from "@/stores/classes";
 import { CloseOutlined } from "@ant-design/icons";
 import { User } from "../../../entities";
 import FileUploadModal from "./FileUploadModal";

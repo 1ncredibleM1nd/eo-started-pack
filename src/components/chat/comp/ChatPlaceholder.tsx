@@ -1,8 +1,8 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
-import IStores, { IUserStore } from "@stores/interface";
+import IStores, { IUserStore } from "@/stores/interface";
 import { Skeleton } from "antd";
-import { UserAvatar } from "@components/user_info/UserAvatar";
+import { UserAvatar } from "@/components/user_info/UserAvatar";
 
 type IProps = {
   userStore?: IUserStore;

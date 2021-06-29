@@ -3,7 +3,6 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const { TsconfigPathsPlugin } = require("tsconfig-paths-webpack-plugin");
 const SpriteLoaderPlugin = require("svg-sprite-loader/plugin");
 const DotenvFlow = require("dotenv-flow-webpack");
 
@@ -20,7 +19,9 @@ module.exports = (env) => {
       watchOptions: { aggregateTimeout: 300, poll: 1000 },
     },
     resolve: {
-      plugins: [new TsconfigPathsPlugin()],
+      alias: {
+        "@": path.resolve(__dirname, "src"),
+      },
       extensions: [
         ".ts",
         ".tsx",

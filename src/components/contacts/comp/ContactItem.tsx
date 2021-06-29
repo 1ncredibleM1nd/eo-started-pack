@@ -2,9 +2,9 @@ import React from "react";
 import { observer } from "mobx-react";
 import moment from "moment";
 import { Badge } from "antd";
-import { Icon } from "@ui";
-import { UserAvatar } from "@components/user_info/UserAvatar";
-import { Message } from "@entities";
+import { Icon } from "@/ui";
+import { UserAvatar } from "@/components/user_info/UserAvatar";
+import { Message } from "@/entities";
 
 type IProps = {
   index: number;

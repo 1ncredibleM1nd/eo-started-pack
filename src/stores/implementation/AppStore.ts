@@ -1,9 +1,9 @@
 import { action, observable, makeObservable } from "mobx";
-import { IAppStore } from "@stores/interface";
-import { contactStore, userStore } from "@stores/implementation";
-import { getConversations, getSchools } from "@actions";
+import { IAppStore } from "@/stores/interface";
+import { contactStore, userStore } from "@/stores/implementation";
+import { getConversations, getSchools } from "@/actions";
 import { notification } from "antd";
-import ISchool from "@stores/interface/app/ISchool";
+import ISchool from "@/stores/interface/app/ISchool";
 
 export class AppStore implements IAppStore {
   isLoaded: boolean = false;
