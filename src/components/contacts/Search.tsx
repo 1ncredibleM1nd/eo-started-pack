@@ -1,10 +1,10 @@
 import React, { useState, Fragment } from "react";
 import { inject, observer } from "mobx-react";
-import IStores from "@stores/interface";
-import { ContactStore, AppStore, ChatStore } from "@stores/implementation";
+import IStores from "@/stores/interface";
+import { ContactStore, AppStore, ChatStore } from "@/stores/implementation";
 import { Input, Switch, Collapse, Button } from "antd";
 import "./Search.scss";
-import { Icon } from "@ui";
+import { Icon } from "@/ui";
 
 import ChannelFilterItem from "./comp/ChannelFilterItem";
 

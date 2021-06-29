@@ -1,4 +1,4 @@
-// import ISchool from "@stores/interface/app/ISchool";
+// import ISchool from "@/stores/interface/app/ISchool";
 
 export default interface IUser {
   unic?: string;

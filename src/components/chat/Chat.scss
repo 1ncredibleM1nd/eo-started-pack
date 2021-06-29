@@ -1,5 +1,5 @@
-@import "@styles/variables.scss";
-@import "@styles/media.scss";
+@import "~@/styles/variables.scss";
+@import "~@/styles/media.scss";
 
 .input-error {
   height: 100%;
@@ -1268,8 +1268,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    // box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.08);
-    cursor: pointer;
 
     @include _375 {
       height: 42px;

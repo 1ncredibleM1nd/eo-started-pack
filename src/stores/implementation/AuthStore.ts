@@ -1,7 +1,7 @@
 import { action, observable, makeObservable } from "mobx";
-import { isLogged, setSession } from "@actions";
-import IAuthStore from "@stores/interface/app/IAuthStore";
-import { userStore } from "@stores/implementation/UserStore";
+import { isLogged, setSession } from "@/actions";
+import IAuthStore from "@/stores/interface/app/IAuthStore";
+import { userStore } from "@/stores/implementation/UserStore";
 
 export class AuthStore implements IAuthStore {
   checkLogin: () => void;

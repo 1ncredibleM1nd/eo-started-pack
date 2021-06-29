@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { inject, observer } from "mobx-react";
-import IStores, { IContactStore, IUserStore } from "@stores/interface";
+import IStores, { IContactStore, IUserStore } from "@/stores/interface";
 
 type IProps = {
   contactStore?: IContactStore;

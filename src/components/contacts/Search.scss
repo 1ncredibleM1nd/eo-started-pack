@@ -1,5 +1,5 @@
-@import "@styles/variables.scss";
-@import "@styles/media.scss";
+@import "~@/styles/variables.scss";
+@import "~@/styles/media.scss";
 
 .announcement {
   text-align: center;
@@ -264,8 +264,12 @@
     justify-content: center;
     align-items: center;
 
-    .transparent {
+    button.transparent {
       width: 60px;
+
+      &[ant-click-animating-without-extra-node]:after {
+        animation: 0s !important;
+      }
     }
 
     &:hover {

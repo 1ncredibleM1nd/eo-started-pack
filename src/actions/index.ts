@@ -1,4 +1,4 @@
-import { contactStore } from "@stores/implementation";
+import { contactStore } from "@/stores/implementation";
 import * as resolver from "../ApiResolvers/index";
 import * as Sentry from "@sentry/react";
 import { AxiosResponse } from "axios";

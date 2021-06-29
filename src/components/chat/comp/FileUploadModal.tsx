@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react";
-import { Icon } from "@ui";
+import { Icon } from "@/ui";
 import { Button, Popover, Modal, Switch, Input } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 

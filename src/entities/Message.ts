@@ -5,8 +5,6 @@ import Attachment from "./Attachment";
 
 class Message {
   id: string;
-  time: string;
-  date: string;
   combineWithPrevious: boolean;
   social_media: string;
   content: string;
@@ -23,8 +21,6 @@ class Message {
 
   constructor(
     id: string,
-    time: string,
-    date: string,
     combineWithPrevious: boolean,
     social_media: string,
     content: string,
@@ -41,8 +37,6 @@ class Message {
     });
 
     this.id = id;
-    this.time = time;
-    this.date = date;
     this.combineWithPrevious = combineWithPrevious;
     this.social_media = social_media;
     this.content = content;
