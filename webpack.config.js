@@ -53,14 +53,6 @@ module.exports = (env) => {
                 ],
                 plugins: [
                   [
-                    require.resolve("babel-plugin-import"),
-                    {
-                      libraryName: "antd",
-                      libraryDirectory: "es",
-                      style: true,
-                    },
-                  ],
-                  [
                     require.resolve("@babel/plugin-proposal-decorators"),
                     { legacy: true },
                   ],
