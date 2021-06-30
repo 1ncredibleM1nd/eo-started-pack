@@ -8,8 +8,7 @@ import IStores, {
 } from "@/stores/interface";
 import { Icon } from "@/ui";
 import $ from "jquery";
-import { Input, Button, Popover } from "antd";
-import SocialMenu from "./SocialMenu";
+import { Input, Button } from "antd";
 import { TypesMessage } from "@/stores/classes";
 import { CloseOutlined } from "@ant-design/icons";
 import { User } from "../../../entities";
@@ -243,6 +242,9 @@ const Inputer = inject((stores: IStores) => ({
       switcher === "attachments" ? setSwitcher("") : setSwitcher("attachments");
     };
 
+    let sendEnabled =
+      draft[activeContact.id + status] &&
+      draft[activeContact.id + status].length > 0;
     let chatError = false;
     let acceptAttachments =
       !!chatError ||
@@ -342,7 +344,7 @@ const Inputer = inject((stores: IStores) => ({
         </div>
 
         <Button
-          disabled={!!chatError}
+          disabled={!!chatError || !sendEnabled}
           onClick={sendMessage}
           className="send_btn"
         >
