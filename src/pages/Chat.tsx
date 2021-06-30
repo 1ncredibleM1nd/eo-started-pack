@@ -4,7 +4,6 @@ import { Row, Col, Layout } from "antd";
 import { ChatLayout, ContactsLayout } from "@/layouts";
 import IStores, { IAppStore, IContactStore } from "@/stores/interface";
 import "@/styles/index.scss";
-import { useOrientation } from "@/hooks/useOrientation";
 
 type IProps = {
   appStore?: IAppStore;
@@ -14,21 +13,11 @@ type IProps = {
 const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
   observer((props: IProps) => {
     const { appStore } = props;
-
-    const orientation = useOrientation();
-    const isLandscape = orientation === "landscape";
     const layout = appStore.layout;
-
-    console.log(layout);
-
-    // const collapsed_info = appStore.info_tab
-    // const [switcher, setSwitcher] = useState(false)
-    // const { Sider } = Layout;
 
     return (
       <Layout hasSider={true} className="chat_page">
         <Row>
-          {/* <div className={`contact_layout_container ${switcher ? 'active' : ''}`}> */}
           <Col
             xs={layout === "contact" ? 24 : 0}
             sm={layout === "contact" ? 24 : 0}
@@ -39,8 +28,6 @@ const App = inject((stores: IStores) => ({ appStore: stores.appStore }))(
           >
             <ContactsLayout />
           </Col>
-          {/* <div onClick={() => setSwitcher(!switcher)} className='contact_trigger'>Trigger</div>
-                    </div> */}
           <Col
             xs={layout === "chat" ? 24 : 0}
             sm={layout === "chat" ? 24 : 0}
