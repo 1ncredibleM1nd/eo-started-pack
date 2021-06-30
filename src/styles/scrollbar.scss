@@ -2,7 +2,6 @@ html.mac:not(.resize)::-webkit-scrollbar-thumb,
 html.linux :not(.resize)::-webkit-scrollbar-thumb,
 html.freebsd :not(.resize)::-webkit-scrollbar-thumb,
 html.windows :not(.resize)::-webkit-scrollbar-thumb {
-
   background-position: center;
   background-repeat: no-repeat;
 }
