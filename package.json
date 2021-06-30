@@ -15,7 +15,7 @@
     "@sentry/react": "^6.4.1",
     "@sentry/tracing": "^6.4.1",
     "@types/youtube-player": "^5.5.3",
-    "antd": "4.2.2",
+    "antd": "^4.16.6",
     "axios": "^0.21.1",
     "dayjs": "^1.10.5",
     "jquery": "^3.4.1",
