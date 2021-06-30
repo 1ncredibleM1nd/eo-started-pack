@@ -1,48 +1,16 @@
-import React, { useState } from "react";
-import { TMessageAttachment } from "types/message";
-import { Spin } from "antd";
-import {
-  LoadingOutlined,
-  VerticalAlignBottomOutlined,
-} from "@ant-design/icons";
-import * as fileApi from "../../../ApiResolvers/file";
+import React from "react";
+import { MessageAttachmentImage } from "@/components/chat/comp/MessageAttachmentImage";
+import { MessageAttachmentFile } from "./MessageAttachmentFile";
+import type { TMessageAttachment } from "@/types/message";
 
 type TProps = { attachment: TMessageAttachment };
 
 export function MessageAttachment({ attachment }: TProps) {
-  const [downloading, setDownload] = useState(false);
-
-  if (attachment.type !== "file") {
-    return null;
+  if (attachment.type === "file") {
+    return <MessageAttachmentFile attachment={attachment} />;
+  } else if (attachment.type === "image") {
+    return <MessageAttachmentImage attachment={attachment} />;
   }
 
-  return (
-    <Spin
-      spinning={downloading}
-      delay={300}
-      indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
-    >
-      <div
-        onClick={async () => {
-          setDownload(true);
-          await fileApi.download(attachment.url, attachment.title);
-          setDownload(false);
-        }}
-      >
-        <div className="msg-content-file">
-          <div className="document-preview">
-            {attachment.data ? (
-              <img src={attachment.data.preview} alt="" />
-            ) : (
-              <LoadingOutlined />
-            )}
-          </div>
-          <div className="file-title-container">
-            <span className={"file-title"}>{attachment.title}</span>
-            <VerticalAlignBottomOutlined />
-          </div>
-        </div>
-      </div>
-    </Spin>
-  );
+  return <div>Current attachment type not supported</div>;
 }
