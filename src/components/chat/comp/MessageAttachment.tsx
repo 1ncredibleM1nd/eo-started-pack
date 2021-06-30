@@ -12,5 +12,5 @@ export function MessageAttachment({ attachment }: TProps) {
     return <MessageAttachmentImage attachment={attachment} />;
   }
 
-  return <div>Current attachment type not supported</div>;
+  return null;
 }
