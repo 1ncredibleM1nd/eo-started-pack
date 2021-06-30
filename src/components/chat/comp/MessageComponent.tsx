@@ -1,13 +1,14 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { Icon } from "@/ui";
-import { Menu, Dropdown, Divider } from "antd";
+import { Menu, Dropdown } from "antd";
 import { TypesMessage } from "@/stores/classes";
 import { MoreOutlined } from "@ant-design/icons";
 import { Message } from "@/entities";
 import { UserAvatar } from "@/components/user_info/UserAvatar";
 import { MessageAttachment } from "./MessageAttachment";
 import { TMessageAttachment } from "@/types/message";
+import dayjs from "@/services/dayjs";
 
 type IProps = {
   message?: Message;
@@ -41,19 +42,17 @@ const MessageComponent = observer((props: IProps) => {
 
     return (
       <div className="message-wrapper">
-        <div className="avatar avatar-sm">
-          {renderUserAvatar(message.user)}
-        </div>
+        <div className="avatar avatar-sm">{renderUserAvatar(message.user)}</div>
         <Dropdown
-            overlay={DropDownMenu(message)}
-            placement="bottomLeft"
-            trigger={["contextMenu"]}
-          >
+          overlay={DropDownMenu(message)}
+          placement="bottomLeft"
+          trigger={["contextMenu"]}
+        >
           <div
             className={`message-content ${
               message.combineWithPrevious ? "not-main" : ""
             } `}
-          > 
+          >
             {message.reply ? (
               <div className="reply">
                 <div className="msg_text_container">
@@ -129,7 +128,9 @@ const MessageComponent = observer((props: IProps) => {
             {TypesMessage.getTypeDescription(message.entity.type)}
           </div>
         </span>
-        <div className="msg_time">{message.time}</div>
+        <div className="msg_time">
+          {dayjs(message.timestamp * 1000).format("HH:mm")}
+        </div>
       </div>
     );
 
