@@ -279,7 +279,7 @@ const Inputer = inject((stores: IStores) => ({
               onClick={openFileInput}
               className="transparent"
             >
-              <Icon className="icon_m blue-lite" name="solid_paperclip" />
+              <Icon className="icon_m lite-grey" name="icon_clip" />
             </Button>
           </div>
 
@@ -348,7 +348,7 @@ const Inputer = inject((stores: IStores) => ({
           onClick={sendMessage}
           className="send_btn"
         >
-          <Icon className="icon_x white" name="solid_another-arrow" />
+          <Icon className="icon_x lite-grey" name="icon_button_send" />
         </Button>
         <input
           type="file"

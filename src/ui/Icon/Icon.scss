@@ -50,6 +50,10 @@
 
   &.lite-grey {
     fill: $grey_lite;
+
+    &:hover {
+      fill: $blue_accent;
+    }
   }
 
   &--is-spin {

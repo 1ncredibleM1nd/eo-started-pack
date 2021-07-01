@@ -54,11 +54,10 @@ const Search = inject((stores: IStores) => ({
                 onClick={() => contactStore.toggleFilterSwitch()}
                 className="transparent"
               >
-                {filterSwitch ? (
-                  <Icon name="solid_times" className={`icon_s blue-lite`} />
-                ) : (
-                  <Icon name="solid_cog" className={`icon_s blue-lite`} />
-                )}
+                <Icon
+                  name={filterSwitch ? "icon_filter_close" : "icon_filter"}
+                  className={"icon_s lite-grey"}
+                />
               </Button>
             </div>
 
