@@ -28,13 +28,10 @@ const FileUploadModal = observer((props: IProps) => {
     clearFiles,
     deleteFileOnHold,
     changeFileOnHold,
-    openFileInput,
     handleKeyDown,
     handleKeyUp,
     handleEnter,
     onChange,
-    setSwitcher,
-    switcher,
     messageContent,
     inputRef,
     fileOnHold,
@@ -232,11 +229,11 @@ const FileUploadModal = observer((props: IProps) => {
           </div> */}
           <div className="main_input in_modal">
             <TextArea
+              placeholder="Ваше сообщение"
+              rows={3}
               onKeyDown={handleKeyDown}
               onKeyUp={handleKeyUp}
               onPressEnter={handleEnter}
-              autoSize
-              placeholder="Ваше сообщение"
               ref={inputRef}
               onChange={(e) => onChange(activeContactId, e.target.value, e)}
               value={messageContent}
