@@ -6,12 +6,13 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const SpriteLoaderPlugin = require("svg-sprite-loader/plugin");
 const DotenvFlow = require("dotenv-flow-webpack");
 
-module.exports = (env) => {
+module.exports = (env, { mode }) => {
+  const isProdMode = mode === "production";
   return {
     entry: "./src/index.tsx",
     output: {
       path: path.resolve(__dirname, "dist"),
-      filename: "[name].js",
+      filename: isProdMode ? "[name].[contenthash].js" : "[name].js",
     },
     devServer: {
       stats: "minimal",
@@ -182,7 +183,8 @@ module.exports = (env) => {
         template: "./src/index.html",
       }),
       new MiniCssExtractPlugin({
-        filename: "[name].css",
+        filename: isProdMode ? "[name].[contenthash].css" : "[name].css",
+        chunkFilename: isProdMode ? "[id].[contenthash].css" : "[id].css",
       }),
       new webpack.ProgressPlugin(),
       new CleanWebpackPlugin(),
