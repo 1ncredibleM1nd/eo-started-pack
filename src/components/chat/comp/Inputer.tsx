@@ -135,13 +135,7 @@ const Inputer = inject((stores: IStores) => ({
 
     const handleFileInput = (e: any) => {
       e.preventDefault();
-      if (activeSocial === "instagram") {
-        if (e.target.files[0].size > 8e6) {
-          setFileOnHold([...fileOnHold, ...e.target.files]);
-        }
-      } else {
-        setFileOnHold([...fileOnHold, ...e.target.files]);
-      }
+      setFileOnHold([...fileOnHold, ...e.target.files]);
     };
 
     const deleteFileOnHold = (index: number) => {
