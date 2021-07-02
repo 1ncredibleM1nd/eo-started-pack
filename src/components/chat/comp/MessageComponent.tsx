@@ -45,7 +45,7 @@ const MessageComponent = observer((props: IProps) => {
         <div className="avatar avatar-sm">{renderUserAvatar(message.user)}</div>
         <Dropdown
           overlay={DropDownMenu(message)}
-          overlayStyle={{ animationDuration: "0.75s" }}
+          overlayStyle={{ animationDuration: "0.075s" }}
           placement="bottomLeft"
           trigger={["contextMenu"]}
         >
@@ -87,7 +87,7 @@ const MessageComponent = observer((props: IProps) => {
               <div className="msg_menu">
                 <Dropdown
                   overlay={DropDownMenu(message)}
-                  overlayStyle={{ animationDuration: "0.75s" }}
+                  overlayStyle={{ animationDuration: "0.075" }}
                   placement="bottomLeft"
                   trigger={["click"]}
                 >
