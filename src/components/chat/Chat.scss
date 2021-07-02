@@ -341,7 +341,7 @@
 }
 
 .ant-modal-footer {
-  padding: 10px 0px;
+  padding: 10px 0 0 0;
 }
 
 .font_size-normal {
@@ -352,23 +352,23 @@
   }
 }
 
-.ant-btn-primary {
-  color: $blue_default !important;
-  font-size: 21px;
-  line-height: 1;
-  background: transparent !important;
-  border: none;
-  box-shadow: none !important;
-
-  &:hover {
-    color: $blue_accent !important;
-    font-size: 21px;
-    line-height: 1;
-    background: transparent !important;
-    border: none;
-    box-shadow: none !important;
-  }
-}
+//.ant-btn-primary {
+//  color: $blue_default !important;
+//  font-size: 21px;
+//  line-height: 1;
+//  background: transparent !important;
+//  border: none;
+//  box-shadow: none !important;
+//
+//  &:hover {
+//    color: $blue_accent !important;
+//    font-size: 21px;
+//    line-height: 1;
+//    background: transparent !important;
+//    border: none;
+//    box-shadow: none !important;
+//  }
+//}
 
 .date_container {
   display: flex;

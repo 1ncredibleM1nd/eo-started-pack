@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react";
 import { Icon } from "@/ui";
-import { Button, Popover, Modal, Switch, Input } from "antd";
+import { Button, Modal, Switch, Input } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
 type IProps = {
@@ -185,7 +185,8 @@ const FileUploadModal = observer((props: IProps) => {
       footer={[
         <Button
           className="font_size-normal"
-          type="primary"
+          type="text"
+          size={"large"}
           onClick={clearFiles}
         >
           Отмена
@@ -193,6 +194,7 @@ const FileUploadModal = observer((props: IProps) => {
         <Button
           className="font_size-normal"
           type="primary"
+          size={"large"}
           onClick={handleEnter}
         >
           Отправить
