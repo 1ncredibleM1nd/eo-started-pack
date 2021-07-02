@@ -135,14 +135,15 @@ const Inputer = inject((stores: IStores) => ({
     };
 
     const deleteFileOnHold = (index: number) => {
+      fileInputRef.current.value = "";
       let fileOnHoldCopy = fileOnHold.slice();
       fileOnHoldCopy.splice(index, 1);
       setFileOnHold(fileOnHoldCopy);
     };
 
     const changeFileOnHold = async (index: number) => {
-      await fileInputRef.current.click();
       await deleteFileOnHold(index);
+      await fileInputRef.current.click();
     };
 
     if (!currentChat) {
