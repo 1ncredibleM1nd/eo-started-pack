@@ -43,65 +43,70 @@ const MessageComponent = observer((props: IProps) => {
     return (
       <div className="message-wrapper">
         <div className="avatar avatar-sm">{renderUserAvatar(message.user)}</div>
-        <Dropdown
-          overlay={DropDownMenu(message)}
-          overlayStyle={{ animationDuration: "0.075s" }}
-          placement="bottomLeft"
-          trigger={["contextMenu"]}
+        <div
+          className={`message-content ${
+            message.combineWithPrevious ? "not-main" : ""
+          } `}
         >
-          <div
-            className={`message-content ${
-              message.combineWithPrevious ? "not-main" : ""
-            } `}
+          <Dropdown
+            overlay={DropDownMenu(message)}
+            overlayStyle={{ animationDuration: "0.075s" }}
+            placement="bottomLeft"
+            trigger={["contextMenu"]}
           >
-            {message.reply ? (
-              <div className="reply">
-                <div className="msg_text_container">
-                  <div className="msg_file_container">{renderAttachments}</div>
-                  <div style={{ whiteSpace: "pre-line" }}>
-                    {message.reply.content}
+            <div>
+              {message.reply ? (
+                <div className="reply">
+                  <div className="msg_text_container">
+                    <div className="msg_file_container">
+                      {renderAttachments}
+                    </div>
+                    <div style={{ whiteSpace: "pre-line" }}>
+                      {message.reply.content}
+                    </div>
+                  </div>
+                  <div className="msg_type">
+                    {TypesMessage.getTypeDescription(message.entity.type)}
                   </div>
                 </div>
-                <div className="msg_type">
-                  {TypesMessage.getTypeDescription(message.entity.type)}
-                </div>
+              ) : (
+                ""
+              )}
+              <div className="msg_text_container">
+                {message.attachments.length > 0 && (
+                  <div className="msg_file_container">
+                    {message.attachments.map((attachment: any) => (
+                      <MessageAttachment
+                        key={`file_attachment_${attachment.url}`}
+                        attachment={attachment}
+                      />
+                    ))}
+                  </div>
+                )}
+                <div style={{ whiteSpace: "pre-line" }}>{message.content}</div>
               </div>
-            ) : (
-              ""
+              {renderMessagesOptions(message)}
+            </div>
+          </Dropdown>
+
+          <div className="msg_menu-container">
+            <div className="msg_menu">
+              <Dropdown
+                overlay={DropDownMenu(message)}
+                overlayStyle={{ animationDuration: "0.075" }}
+                placement="bottomLeft"
+                trigger={["click"]}
+              >
+                <MoreOutlined className="dropdown-trigger" />
+              </Dropdown>
+            </div>
+            {message.editted && (
+              <div className="editted_icon">
+                <Icon className="active-grey" name={`solid_pencil-alt`} />
+              </div>
             )}
-            <div className="msg_text_container">
-              {message.attachments.length > 0 && (
-                <div className="msg_file_container">
-                  {message.attachments.map((attachment: any) => (
-                    <MessageAttachment
-                      key={`file_attachment_${attachment.url}`}
-                      attachment={attachment}
-                    />
-                  ))}
-                </div>
-              )}
-              <div style={{ whiteSpace: "pre-line" }}>{message.content}</div>
-            </div>
-            {renderMessagesOptions(message)}
-            <div className="msg_menu-container">
-              <div className="msg_menu">
-                <Dropdown
-                  overlay={DropDownMenu(message)}
-                  overlayStyle={{ animationDuration: "0.075" }}
-                  placement="bottomLeft"
-                  trigger={["click"]}
-                >
-                  <MoreOutlined className="dropdown-trigger" />
-                </Dropdown>
-              </div>
-              {message.editted && (
-                <div className="editted_icon">
-                  <Icon className="active-grey" name={`solid_pencil-alt`} />
-                </div>
-              )}
-            </div>
           </div>
-        </Dropdown>
+        </div>
       </div>
     );
   };
