@@ -45,6 +45,7 @@ const MessageComponent = observer((props: IProps) => {
         <div className="avatar avatar-sm">{renderUserAvatar(message.user)}</div>
         <Dropdown
           overlay={DropDownMenu(message)}
+          overlayStyle={{ animationDuration: "0.75s" }}
           placement="bottomLeft"
           trigger={["contextMenu"]}
         >
@@ -86,6 +87,7 @@ const MessageComponent = observer((props: IProps) => {
               <div className="msg_menu">
                 <Dropdown
                   overlay={DropDownMenu(message)}
+                  overlayStyle={{ animationDuration: "0.75s" }}
                   placement="bottomLeft"
                   trigger={["click"]}
                 >
@@ -127,10 +129,10 @@ const MessageComponent = observer((props: IProps) => {
           <div className="msg_type">
             {TypesMessage.getTypeDescription(message.entity.type)}
           </div>
+          <div className="msg_time">
+            {dayjs(message.timestamp * 1000).format("HH:mm")}
+          </div>
         </span>
-        <div className="msg_time">
-          {dayjs(message.timestamp * 1000).format("HH:mm")}
-        </div>
       </div>
     );
 

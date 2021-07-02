@@ -576,9 +576,7 @@
   height: 18px;
   position: relative;
   z-index: 100;
-  box-shadow: 0 0 0 2px $white_chat;
   border-radius: 15px;
-  background: $grey_soft;
   overflow: hidden;
 
   &.white {
@@ -789,12 +787,6 @@
     align-items: flex-start;
     padding: 0 15px;
 
-    &:hover .msg_menu {
-      opacity: 1;
-      visibility: visible;
-      transition: 0.25s;
-    }
-
     .msg_time {
       padding-left: 15px;
     }
@@ -821,6 +813,12 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+
+    &:hover .msg_menu {
+      opacity: 1;
+      visibility: visible;
+      transition: 0.25s;
+    }
 
     .msg_file_container {
       display: flex;
