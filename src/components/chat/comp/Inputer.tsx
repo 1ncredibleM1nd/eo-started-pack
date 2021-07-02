@@ -21,6 +21,9 @@ type IProps = {
   appStore?: IAppStore;
 };
 
+const ALL_ACCEPT_TYPE = "file_extension|audio/*|video/*|image/*|media_type";
+const INSTAGRAM_ACCEPT_TYPE = "video/*, image/*";
+
 const Inputer = inject((stores: IStores) => ({
   chatStore: stores.chatStore,
   contactStore: stores.contactStore,
@@ -35,15 +38,21 @@ const Inputer = inject((stores: IStores) => ({
     const activeContact = contactStore.activeContact;
     const hero: User = userStore.hero;
 
+    console.log(chatStore.activeChat.activeSocial);
+
     const [draft, setDraft] = useState({});
     const [switcher, setSwitcher] = useState("");
     const [status, setStatus] = useState("default");
     const [acceptType, setAcceptType] = useState(
-      "file_extension|audio/*|video/*|image/*|media_type"
+      chatStore.activeChat.activeSocial === "instagram"
+        ? INSTAGRAM_ACCEPT_TYPE
+        : ALL_ACCEPT_TYPE
     );
     const [fileOnHold, setFileOnHold] = useState([]);
     const inputRef = useRef(null);
     const fileInputRef = useRef(null);
+
+    console.log(acceptType);
 
     let currentChat: any;
     if (chatStore.isLoaded && activeContact) {
