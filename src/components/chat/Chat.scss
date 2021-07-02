@@ -534,6 +534,7 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+  width: calc(100% - 18px);
 
   svg {
     cursor: pointer;
