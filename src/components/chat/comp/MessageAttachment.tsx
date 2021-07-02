@@ -1,4 +1,6 @@
 import React from "react";
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 import { MessageAttachmentImage } from "@/components/chat/comp/MessageAttachmentImage";
 import { MessageAttachmentFile } from "./MessageAttachmentFile";
 import type { TMessageAttachment } from "@/types/message";
@@ -12,5 +14,9 @@ export function MessageAttachment({ attachment }: TProps) {
     return <MessageAttachmentImage attachment={attachment} />;
   }
 
-  return null;
+  return (
+    <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+      <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
+    </div>
+  );
 }
