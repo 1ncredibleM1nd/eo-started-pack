@@ -22,7 +22,7 @@ type IProps = {
 };
 
 const ALL_ACCEPT_TYPE = "file_extension|audio/*|video/*|image/*|media_type";
-const INSTAGRAM_ACCEPT_TYPE = "video/*, image/*";
+const INSTAGRAM_ACCEPT_TYPE = "image/*";
 
 const Inputer = inject((stores: IStores) => ({
   chatStore: stores.chatStore,
@@ -37,14 +37,13 @@ const Inputer = inject((stores: IStores) => ({
 
     const activeContact = contactStore.activeContact;
     const hero: User = userStore.hero;
+    const activeSocial = chatStore.activeChat.activeSocial;
 
     const [draft, setDraft] = useState({});
     const [switcher, setSwitcher] = useState("");
     const [status, setStatus] = useState("default");
     const [acceptType, setAcceptType] = useState(
-      chatStore.activeChat.activeSocial === "instagram"
-        ? INSTAGRAM_ACCEPT_TYPE
-        : ALL_ACCEPT_TYPE
+      activeSocial === "instagram" ? INSTAGRAM_ACCEPT_TYPE : ALL_ACCEPT_TYPE
     );
     const [fileOnHold, setFileOnHold] = useState([]);
     const inputRef = useRef(null);
@@ -136,7 +135,13 @@ const Inputer = inject((stores: IStores) => ({
 
     const handleFileInput = (e: any) => {
       e.preventDefault();
-      setFileOnHold([...fileOnHold, ...e.target.files]);
+      if (activeSocial === "instagram") {
+        if (e.target.files[0].size > 8e6) {
+          setFileOnHold([...fileOnHold, ...e.target.files]);
+        }
+      } else {
+        setFileOnHold([...fileOnHold, ...e.target.files]);
+      }
     };
 
     const deleteFileOnHold = (index: number) => {
