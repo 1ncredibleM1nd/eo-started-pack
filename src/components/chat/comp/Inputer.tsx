@@ -38,8 +38,6 @@ const Inputer = inject((stores: IStores) => ({
     const activeContact = contactStore.activeContact;
     const hero: User = userStore.hero;
 
-    console.log(chatStore.activeChat.activeSocial);
-
     const [draft, setDraft] = useState({});
     const [switcher, setSwitcher] = useState("");
     const [status, setStatus] = useState("default");
@@ -51,8 +49,6 @@ const Inputer = inject((stores: IStores) => ({
     const [fileOnHold, setFileOnHold] = useState([]);
     const inputRef = useRef(null);
     const fileInputRef = useRef(null);
-
-    console.log(acceptType);
 
     let currentChat: any;
     if (chatStore.isLoaded && activeContact) {
