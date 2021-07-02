@@ -46,7 +46,6 @@ const FileUploadModal = observer((props: IProps) => {
       footer={[
         <Button
           key={"file_modal_button_cancel"}
-          className="font_size-normal"
           type="text"
           size={"large"}
           onClick={clearFiles}
@@ -55,7 +54,6 @@ const FileUploadModal = observer((props: IProps) => {
         </Button>,
         <Button
           key={"file_modal_button_enter"}
-          className="font_size-normal"
           type="primary"
           size={"large"}
           onClick={handleEnter}
