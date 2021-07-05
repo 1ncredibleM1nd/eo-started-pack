@@ -6,5 +6,5 @@ import { TMessageAttachment } from "@/types/message";
 type TProps = { attachment: TMessageAttachment };
 
 export const MessageAttachmentImage = observer(({ attachment }: TProps) => {
-  return <Image src={attachment.data.preview} width={200} />;
+  return <Image src={attachment.data.preview} width={200} preview={{ src: attachment.url }} />;
 });
