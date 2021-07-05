@@ -1,4 +1,4 @@
-import { Conversation, Message } from "@entities";
+import { Conversation, Message } from "@/entities";
 
 export default interface IChatStore {
   chat: Array<Conversation>;

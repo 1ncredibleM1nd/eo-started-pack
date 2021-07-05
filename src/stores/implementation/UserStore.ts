@@ -1,6 +1,6 @@
 import { action, observable, reaction, makeObservable } from "mobx";
-import { IUserStore, IUser } from "@stores/interface";
-import { getUserData } from "@actions";
+import { IUserStore, IUser } from "@/stores/interface";
+import { getUserData } from "@/actions";
 import { User } from "../../entities";
 
 export class UserStore implements IUserStore {

@@ -3,16 +3,16 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const { TsconfigPathsPlugin } = require("tsconfig-paths-webpack-plugin");
 const SpriteLoaderPlugin = require("svg-sprite-loader/plugin");
 const DotenvFlow = require("dotenv-flow-webpack");
 
-module.exports = (env) => {
+module.exports = (env, { mode }) => {
+  const isProdMode = mode === "production";
   return {
     entry: "./src/index.tsx",
     output: {
       path: path.resolve(__dirname, "dist"),
-      filename: "[name].js",
+      filename: isProdMode ? "[name].[contenthash].js" : "[name].js",
     },
     devServer: {
       stats: "minimal",
@@ -20,7 +20,9 @@ module.exports = (env) => {
       watchOptions: { aggregateTimeout: 300, poll: 1000 },
     },
     resolve: {
-      plugins: [new TsconfigPathsPlugin()],
+      alias: {
+        "@": path.resolve(__dirname, "src"),
+      },
       extensions: [
         ".ts",
         ".tsx",
@@ -51,14 +53,6 @@ module.exports = (env) => {
                   require.resolve("@babel/preset-typescript"),
                 ],
                 plugins: [
-                  [
-                    require.resolve("babel-plugin-import"),
-                    {
-                      libraryName: "antd",
-                      libraryDirectory: "es",
-                      style: true,
-                    },
-                  ],
                   [
                     require.resolve("@babel/plugin-proposal-decorators"),
                     { legacy: true },
@@ -189,7 +183,8 @@ module.exports = (env) => {
         template: "./src/index.html",
       }),
       new MiniCssExtractPlugin({
-        filename: "[name].css",
+        filename: isProdMode ? "[name].[contenthash].css" : "[name].css",
+        chunkFilename: isProdMode ? "[id].[contenthash].css" : "[id].css",
       }),
       new webpack.ProgressPlugin(),
       new CleanWebpackPlugin(),

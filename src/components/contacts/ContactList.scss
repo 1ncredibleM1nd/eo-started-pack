@@ -1,3 +1,5 @@
+@import "~@/styles/variables.scss";
+
 .contacts-list {
   padding: 0 !important;
 
@@ -9,7 +11,7 @@
     margin: 0 !important;
 
     &:hover {
-      background: #1111110a;
+      background: $blue_soft;
     }
 
     &--icon {

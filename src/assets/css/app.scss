@@ -1,4 +1,4 @@
-@import "@styles/variables.scss";
+@import "~@/styles/variables.scss";
 
 :root {
   --blue: #665dfe;
@@ -12352,12 +12352,14 @@ Chanelog:
   padding: 0.5rem 1rem;
   background-color: #f5f6fa;
   color: #8094ae;
-  margin-left: 1.25rem;
-  border-radius: 0.5rem;
+  border-radius: 10px;
   text-align: left;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
   max-width: 25rem;
-  min-width: 4.4em;
+  min-width: 7.5em;
+  padding-left: 15px!important;
+  border-bottom-left-radius: 0;
 }
 
 .message .message-content .message-attachment {
@@ -12371,8 +12373,7 @@ Chanelog:
 
 .message .avatar {
   display: inline-block;
-  vertical-align: bottom;
-  margin-top: -1.25rem;
+  margin-top: auto;
 }
 
 .message .avatar img {
@@ -12383,13 +12384,10 @@ Chanelog:
   display: inline-flex;
   align-items: center;
   font-size: 0.75rem;
-  color: $grey_blue_active;
+  color: $dark_blue_soft;
   margin-top: 0.3125rem;
-}
-
-.message .message-options>* {
-  margin-left: 0.3125rem;
-  margin-right: 0.3125rem;
+  margin-bottom: 5px;
+  width: 100%;
 }
 
 .message .message-options>*:not(.avatar) {
@@ -12408,10 +12406,9 @@ Chanelog:
   color: #fff;
   margin-right: 1.25rem;
   margin-left: 0px;
-}
-
-.message.self .message-options {
-  flex-direction: row-reverse;
+  border-radius: 10px;
+  border-bottom-right-radius: 0;
+  left: 0;
 }
 
 .message-divider {
@@ -12577,7 +12574,7 @@ Chanelog:
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: $dark_blue_litter;
+  color: $dark_blue_soft;
 }
 
 .contacts-list .contacts-content .contacts-texts p {

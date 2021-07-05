@@ -1,5 +1,5 @@
-@import "@styles/variables.scss";
-@import "@styles/media.scss";
+@import "~@/styles/variables.scss";
+@import "~@/styles/media.scss";
 
 .input-error {
   height: 100%;
@@ -31,8 +31,7 @@
   flex-direction: row;
   justify-content: flex-start;
   width: 100%;
-  height: 50px;
-  margin-top: 30px;
+  height: auto;
   align-items: center;
 
   .main_input {
@@ -72,7 +71,8 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
-  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .file_modal-options {
@@ -267,8 +267,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  padding-top: 30%;
+  justify-content: center;
   align-items: center;
   background: #fff;
 }
@@ -343,7 +342,7 @@
 }
 
 .ant-modal-footer {
-  padding: 10px 0px;
+  padding: 10px 0 0 0;
 }
 
 .font_size-normal {
@@ -354,23 +353,23 @@
   }
 }
 
-.ant-btn-primary {
-  color: $blue_default !important;
-  font-size: 21px;
-  line-height: 1;
-  background: transparent !important;
-  border: none;
-  box-shadow: none !important;
-
-  &:hover {
-    color: $blue_accent !important;
-    font-size: 21px;
-    line-height: 1;
-    background: transparent !important;
-    border: none;
-    box-shadow: none !important;
-  }
-}
+//.ant-btn-primary {
+//  color: $blue_default !important;
+//  font-size: 21px;
+//  line-height: 1;
+//  background: transparent !important;
+//  border: none;
+//  box-shadow: none !important;
+//
+//  &:hover {
+//    color: $blue_accent !important;
+//    font-size: 21px;
+//    line-height: 1;
+//    background: transparent !important;
+//    border: none;
+//    box-shadow: none !important;
+//  }
+//}
 
 .date_container {
   display: flex;
@@ -535,6 +534,7 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+  width: calc(100% - 18px);
 
   svg {
     cursor: pointer;
@@ -575,13 +575,9 @@
 .social_media_icon {
   width: 18px;
   height: 18px;
-  position: absolute;
+  position: relative;
   z-index: 100;
-  bottom: -8px;
-  right: 0;
-  box-shadow: 0 0 0 2px $white_chat;
   border-radius: 15px;
-  background: $grey_soft;
   overflow: hidden;
 
   &.white {
@@ -608,9 +604,8 @@
 }
 
 .message.self {
-  margin-bottom: 20px;
-  padding-right: 20px !important;
-  padding-left: 0rem !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
 
   .msg_menu-container {
     left: -30px;
@@ -621,17 +616,17 @@
   }
 
   @include _990 {
-    padding-right: 10px !important;
+    /*padding-right: 10px !important;*/
   }
 
   @include _768 {
     margin-top: 20px;
-    padding-right: 20px !important;
+    /*padding-right: 20px !important;*/
     padding-left: 30px !important;
   }
 
-  &.not-main {
-    margin-bottom: 3px !important;
+  .avatar {
+    order: 1;
   }
 
   .msg_header {
@@ -652,15 +647,14 @@
   }
 
   .message-content {
-    min-width: 70px;
+    min-width: 7.5em;
     max-width: 20rem;
     min-height: 40px;
     margin-left: 3rem !important;
     margin-right: 0.25rem !important;
-    background: $blue-lite !important;
+    background: $blue_soft !important;
     padding-left: 1rem !important;
-    padding-right: 0;
-    left: -51px !important;
+    padding-right: 1rem;
 
     .msg_text_container {
       max-width: 300rem;
@@ -670,7 +664,6 @@
     }
 
     &.not-main {
-      left: -16px !important;
       padding-left: 1.2rem !important;
       padding-right: 2rem !important;
     }
@@ -682,6 +675,7 @@
     .reply {
       border-left: 2px solid $blue_active;
       padding-left: 6px;
+      color: $dark_blue_soft;
     }
 
     .editted_icon {
@@ -744,16 +738,16 @@
 }
 
 .message {
-  padding-left: 20px !important;
+  padding-left: 0 !important;
   padding-right: 0rem !important;
   margin-bottom: 5px;
 
   @include _990 {
-    padding-left: 10px !important;
+    /*padding-left: 10px !important;*/
   }
 
   @include _768 {
-    padding-left: 20px !important;
+    /*padding-left: 20px !important;*/
   }
 
   .msg_menu-container {
@@ -772,7 +766,10 @@
       height: 32px;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
+      margin-bottom: auto;
+      visibility: hidden;
+      opacity: 0;
     }
     .editted_icon {
       width: 100%;
@@ -789,6 +786,11 @@
     flex-direction: row;
     justify-content: flex-start !important;
     align-items: flex-start;
+    padding: 0 15px;
+
+    .msg_time {
+      padding-left: 15px;
+    }
   }
 
   .msg_header {
@@ -802,17 +804,22 @@
     min-width: 70px;
     max-width: 20rem;
     min-height: 40px;
-    margin-right: 4rem !important;
     font-size: 16px;
-    left: 35px;
+    left: 5px;
     position: relative;
     padding-left: 5px;
-    color: $white !important;
-    background: $grey_default !important;
+    color: $black !important;
+    background: $white !important;
     padding-left: 0rem !important;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+
+    &:hover .msg_menu {
+      opacity: 1;
+      visibility: visible;
+      transition: 0.25s;
+    }
 
     .msg_file_container {
       display: flex;
@@ -954,6 +961,7 @@
       position: relative;
       z-index: 1;
       text-align: right;
+      margin-left: auto;
     }
 
     .msg_text_container {
@@ -1059,7 +1067,6 @@
     min-width: 100px;
     max-width: 20rem;
     min-height: 40px;
-    left: 0px;
     padding-left: 1.2rem !important;
   }
 
@@ -1087,9 +1094,11 @@
   max-height: calc(100vh - 60px);
   height: calc(100vh - 60px);
   width: 100%;
+  background-repeat: no-repeat;
+  background-image: url("../../styles/chat-background.png");
+  background-color: #e3e3e34f;
   background-size: cover;
   background-position: top center;
-  background: url("../../styles/chat-background.png");
 
   .info_center {
     text-align: center;
@@ -1215,18 +1224,34 @@
   }
 
   .send_btn {
-    background: $blue_default;
     color: #fff;
     width: 53px;
     height: 53px;
-    border-radius: 50%;
     font-size: 24px;
     text-align: center;
-    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    border: none;
+
+    svg {
+      fill: #3498db;
+    }
+
+    &:hover {
+      background: transparent;
+    }
+
+    &[disabled] {
+      filter: none;
+      cursor: default;
+
+      svg {
+        fill: #c0cecf;
+      }
+    }
 
     @include _375 {
       height: 42px;
@@ -1239,12 +1264,6 @@
         height: 15px !important;
       }
     }
-
-    cursor: pointer;
-
-    &:hover {
-      background: $blue_accent;
-    }
   }
 
   .inputer_btn {
@@ -1255,8 +1274,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    // box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.08);
-    cursor: pointer;
 
     @include _375 {
       height: 42px;

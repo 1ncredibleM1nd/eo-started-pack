@@ -1,5 +1,5 @@
 import { observable, makeObservable } from "mobx";
-import IRole from "@stores/interface/IRole";
+import IRole from "@/stores/interface/IRole";
 import Message from "./Message";
 import User from "./User";
 

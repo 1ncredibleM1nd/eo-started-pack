@@ -1,6 +1,6 @@
 import { action, observable, reaction, makeObservable } from "mobx";
-import { chatStore, appStore } from "@stores/implementation";
-import { getConversations } from "@actions";
+import { chatStore, appStore } from "@/stores/implementation";
+import { getConversations } from "@/actions";
 import $ from "jquery";
 import { Conversation } from "../../entities";
 

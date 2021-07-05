@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { Switch } from "antd";
-import { Icon } from "@ui";
+import { Icon } from "@/ui";
 
 type IProps = {
   channelName?: string;

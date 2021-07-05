@@ -1,7 +1,7 @@
-import { API } from "../actions/axios";
+import { API } from "@/actions/axios";
 import { AxiosResponse } from "axios";
 import qs from "qs";
-import { chatStore } from "@stores/implementation";
+import { chatStore } from "@/stores/implementation";
 
 export default class Conversation {
   /**

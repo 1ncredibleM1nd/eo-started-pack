@@ -1,5 +1,5 @@
-@import "@styles/variables.scss";
-@import "@styles/media.scss";
+@import "~@/styles/variables.scss";
+@import "~@/styles/media.scss";
 
 .announcement {
   text-align: center;
@@ -53,10 +53,8 @@
 }
 
 .contact_header {
-  border-bottom: 1px solid $grey_blue_lite;
-  position: relative;
-  background: #fff;
   z-index: 1000;
+  position: relative;
   width: 100%;
 }
 
@@ -127,6 +125,7 @@
 }
 
 .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+  height: 0;
   padding: 0;
   overflow: hidden;
   border: none !important;
@@ -174,15 +173,14 @@
 }
 
 .school-logo {
-  max-width: 18px;
-  max-height: 18px;
+  width: 18px;
+  height: 18px;
 
-  width: 100%;
-  height: auto;
   margin-left: 10px;
   border-radius: 50%;
 
   border: 1px solid #dfdfdf;
+  background-color: white;
 }
 
 .ant-radio-group {
@@ -217,18 +215,16 @@
 }
 
 .search {
+  position: relative;
+  z-index: 100000;
   width: 100%;
   height: 60px !important;
   padding: 0px 5px;
-  position: relative;
   background-repeat: no-repeat;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  position: relative;
-  z-index: 100000;
-  background: $grey_blue_litter;
 
   @include _990 {
     padding: 0px;
@@ -264,7 +260,7 @@
     justify-content: center;
     align-items: center;
 
-    .transparent {
+    button.transparent {
       width: 60px;
     }
 

@@ -1,8 +1,8 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
 import { Layout } from "antd";
-import IStores, { IAppStore } from "@stores/interface";
-import "@styles/index.scss";
+import IStores, { IAppStore } from "@/stores/interface";
+import "@/styles/index.scss";
 
 type IProps = {
   appStore?: IAppStore;

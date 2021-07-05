@@ -1,8 +1,8 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
-import IStores, { IAppStore } from "@stores/interface";
+import IStores, { IAppStore } from "@/stores/interface";
 import { Button } from "antd";
-import { Icon } from "@ui";
+import { Icon } from "@/ui";
 
 type IProps = {
   appStore?: IAppStore;

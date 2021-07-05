@@ -1,6 +1,6 @@
 import React from "react";
-import { useClassName } from "@hooks";
-import Icon from "@ui/Icon/Icon";
+import { useClassName } from "@/hooks";
+import Icon from "@/ui/Icon/Icon";
 
 import "./Brand.scss";
 

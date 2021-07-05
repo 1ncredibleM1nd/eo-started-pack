@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { inject, observer } from "mobx-react";
-import IStores, { IContactStore, IUserStore } from "@stores/interface";
-import { ChatStore } from "@stores/implementation/ChatStore";
+import IStores, { IContactStore, IUserStore } from "@/stores/interface";
+import { ChatStore } from "@/stores/implementation/ChatStore";
 import "./Chat.scss";
 import Inputer from "./comp/Inputer";
 import PuffLoader from "react-spinners/PuffLoader";
 import ChatPlaceholder from "./comp/ChatPlaceholder";
 import { Message } from "../../entities";
 import $ from "jquery";
-import moment from "moment";
-import MessageComponent from "@components/chat/comp/MessageComponent";
+import dayjs, { toCalendar } from "@/services/dayjs";
+import MessageComponent from "@/components/chat/comp/MessageComponent";
 
 type IProps = {
   chatStore?: ChatStore;
@@ -92,14 +92,14 @@ const Chat = inject((stores: IStores) => ({
                     >
                       {page.map((message: Message) => {
                         let messageDateDivider = null;
-                        let currentDate = moment(message.date, "DD.MM");
+                        let currentDate = dayjs(message.timestamp * 1000);
 
                         if (
                           lastDate &&
                           currentDate.diff(lastDate, "days") > 0
                         ) {
                           lastDate = currentDate;
-                          messageDateDivider = currentDate.format("DD.MM");
+                          messageDateDivider = toCalendar(currentDate);
                         }
 
                         lastDate = currentDate;

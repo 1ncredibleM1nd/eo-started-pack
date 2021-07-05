@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react";
-import { Icon } from "@ui";
-import { Button, Popover, Modal, Switch, Input } from "antd";
+import { Icon } from "@/ui";
+import { Button, Modal, Switch, Input } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
+import { bytesToSize } from "@/utils/bytesToSize";
 
 type IProps = {
   clearFiles?: () => void;
@@ -20,7 +21,7 @@ type IProps = {
   fileOnHold?: any[];
   activeContactId?: string;
 };
-//
+
 const { TextArea } = Input;
 
 const FileUploadModal = observer((props: IProps) => {
@@ -28,58 +29,120 @@ const FileUploadModal = observer((props: IProps) => {
     clearFiles,
     deleteFileOnHold,
     changeFileOnHold,
-    openFileInput,
     handleKeyDown,
     handleKeyUp,
     handleEnter,
     onChange,
-    setSwitcher,
-    switcher,
     messageContent,
     inputRef,
     fileOnHold,
     activeContactId,
   } = props;
 
-  const bytesToSize = (bytes: any) => {
-    let sizes = ["Bytes", "KB", "MB", "GB", "TB"];
-    if (bytes === 0) return "0 Byte";
-    let i = parseInt(String(Math.floor(Math.log(bytes) / Math.log(1024))));
-    // @ts-ignore
-    return Math.round(bytes / Math.pow(1024, i), 2) + " " + sizes[i];
-  };
+  return (
+    <Modal
+      visible={fileOnHold.length > 0}
+      onCancel={clearFiles}
+      footer={[
+        <Button
+          key={"file_modal_button_cancel"}
+          type="text"
+          size={"large"}
+          onClick={clearFiles}
+        >
+          Отмена
+        </Button>,
+        <Button
+          key={"file_modal_button_enter"}
+          type="primary"
+          size={"large"}
+          onClick={handleEnter}
+        >
+          Отправить
+        </Button>,
+      ]}
+    >
+      <div className="file_modal">
+        <div className="file-holder-container">
+          {fileOnHold.map((fileItem: any, index: number) => (
+            <UploadMediaPreview
+              key={`file_item_${index}`}
+              fileItem={fileItem}
+              onClickEdit={() => changeFileOnHold(index)}
+              onClickDelete={() => deleteFileOnHold(index)}
+            />
+          ))}
 
-  const modalFileContoller = (index: number) => {
+          <div className="file_modal-options">
+            {fileOnHold.find((file: any) => file.type === "image") && (
+              <div className="compression-switch">
+                <Switch size="small" defaultChecked />
+                Оптимизировать изображения
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="file_modal-input">
+          {/* <div className="inputer_btn">
+            <Button onClick={openFileInput} className="transparent">
+              <Icon className="icon_m blue-lite" name="solid_plus" />
+            </Button>
+          </div> */}
+          <div className="main_input in_modal">
+            <TextArea
+              placeholder="Ваше сообщение"
+              autoSize={{ minRows: 3, maxRows: 5 }}
+              onKeyDown={handleKeyDown}
+              onKeyUp={handleKeyUp}
+              onPressEnter={handleEnter}
+              ref={inputRef}
+              onChange={(e) => onChange(activeContactId, e.target.value, e)}
+              value={messageContent}
+            />
+          </div>
+        </div>
+      </div>
+    </Modal>
+  );
+});
+
+const ModalFileController = observer(
+  ({
+    onClickEdit,
+    onClickDelete,
+  }: {
+    onClickEdit: any;
+    onClickDelete: any;
+  }) => {
     return (
       <div className="file_modal-file-controller">
-        <div
-          onClick={() => deleteFileOnHold(index)}
-          className="file_controller-item delete"
-        >
+        <div onClick={onClickDelete} className="file_controller-item delete">
           <Icon className="icon_m lite-grey" name="solid_times" />
         </div>
-        <div
-          onClick={() => changeFileOnHold(index)}
-          className="file_controller-item change"
-        >
+        <div onClick={onClickEdit} className="file_controller-item change">
           <Icon className="icon_s lite-grey" name="solid_pen" />
         </div>
       </div>
     );
-  };
+  }
+);
 
-  const UploadMediaPreview = ({
+const UploadMediaPreview = observer(
+  ({
     fileItem,
-    index,
+    onClickEdit,
+    onClickDelete,
   }: {
     fileItem: any;
-    index: number;
+    onClickEdit: any;
+    onClickDelete: any;
   }) => {
     const [file, setFile] = useState(null);
 
     const type = fileItem.type.split("/")[0];
 
-    let reader = new FileReader();
+    const reader = new FileReader();
     reader.readAsDataURL(fileItem);
     reader.onload = (e) => {
       const { result } = e.target;
@@ -89,7 +152,10 @@ const FileUploadModal = observer((props: IProps) => {
     if (type === "image") {
       return (
         <div className="file-holder">
-          {modalFileContoller(index)}
+          <ModalFileController
+            onClickEdit={onClickEdit}
+            onClickDelete={onClickDelete}
+          />
 
           <div className="file-holder-preview">
             <div className="content">
@@ -163,7 +229,11 @@ const FileUploadModal = observer((props: IProps) => {
 
     return (
       <div className="file-holder video-holder">
-        {modalFileContoller(index)}
+        <ModalFileController
+          onClickEdit={onClickEdit}
+          onClickDelete={onClickDelete}
+        />
+
         <div className="file-holder-preview file">
           <div className="content">
             <div className="play-icon">
@@ -177,75 +247,7 @@ const FileUploadModal = observer((props: IProps) => {
         </div>
       </div>
     );
-
-    return null;
-  };
-
-  return (
-    <Modal
-      visible={fileOnHold.length > 0}
-      onCancel={clearFiles}
-      footer={[
-        <Button
-          className="font_size-normal"
-          type="primary"
-          onClick={clearFiles}
-        >
-          Отмена
-        </Button>,
-        <Button
-          className="font_size-normal"
-          type="primary"
-          onClick={handleEnter}
-        >
-          Отправить
-        </Button>,
-      ]}
-    >
-      <div className="file_modal">
-        <div className="file-holder-container">
-          {fileOnHold.map((fileItem: any, index: number) => {
-            return (
-              <UploadMediaPreview
-                key={`file_item_${index}`}
-                fileItem={fileItem}
-                index={index}
-              />
-            );
-          })}
-
-          <div className="file_modal-options">
-            {fileOnHold.find((file: any) => file.type === "image") && (
-              <div className="compression-switch">
-                <Switch size="small" defaultChecked />
-                Оптимизировать изображения
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="file_modal-input">
-          {/* <div className="inputer_btn">
-            <Button onClick={openFileInput} className="transparent">
-              <Icon className="icon_m blue-lite" name="solid_plus" />
-            </Button>
-          </div> */}
-          <div className="main_input in_modal">
-            <TextArea
-              onKeyDown={handleKeyDown}
-              onKeyUp={handleKeyUp}
-              onPressEnter={handleEnter}
-              autoSize
-              placeholder="Ваше сообщение"
-              ref={inputRef}
-              onChange={(e) => onChange(activeContactId, e.target.value, e)}
-              value={messageContent}
-            />
-          </div>
-        </div>
-      </div>
-    </Modal>
-  );
-});
+  }
+);
 
 export default FileUploadModal;

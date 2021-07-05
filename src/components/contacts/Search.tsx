@@ -1,10 +1,10 @@
 import React, { useState, Fragment } from "react";
 import { inject, observer } from "mobx-react";
-import IStores from "@stores/interface";
-import { ContactStore, AppStore, ChatStore } from "@stores/implementation";
+import IStores from "@/stores/interface";
+import { ContactStore, AppStore, ChatStore } from "@/stores/implementation";
 import { Input, Switch, Collapse, Button } from "antd";
 import "./Search.scss";
-import { Icon } from "@ui";
+import { Icon } from "@/ui";
 
 import ChannelFilterItem from "./comp/ChannelFilterItem";
 
@@ -54,11 +54,10 @@ const Search = inject((stores: IStores) => ({
                 onClick={() => contactStore.toggleFilterSwitch()}
                 className="transparent"
               >
-                {filterSwitch ? (
-                  <Icon name="solid_times" className={`icon_s blue-lite`} />
-                ) : (
-                  <Icon name="solid_cog" className={`icon_s blue-lite`} />
-                )}
+                <Icon
+                  name={filterSwitch ? "icon_filter_close" : "icon_filter"}
+                  className={"icon_s lite-grey"}
+                />
               </Button>
             </div>
 

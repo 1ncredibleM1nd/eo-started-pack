@@ -5,12 +5,11 @@ import IStores, {
   IContactStore,
   IUserStore,
   IAppStore,
-} from "@stores/interface";
-import { Icon } from "@ui";
+} from "@/stores/interface";
+import { Icon } from "@/ui";
 import $ from "jquery";
-import { Input, Button, Popover } from "antd";
-import SocialMenu from "./SocialMenu";
-import { TypesMessage } from "@stores/classes";
+import { Input, Button } from "antd";
+import { TypesMessage } from "@/stores/classes";
 import { CloseOutlined } from "@ant-design/icons";
 import { User } from "../../../entities";
 import FileUploadModal from "./FileUploadModal";
@@ -21,6 +20,9 @@ type IProps = {
   userStore?: IUserStore;
   appStore?: IAppStore;
 };
+
+const ALL_ACCEPT_TYPE = "file_extension|audio/*|video/*|image/*|media_type";
+const INSTAGRAM_ACCEPT_TYPE = "image/*";
 
 const Inputer = inject((stores: IStores) => ({
   chatStore: stores.chatStore,
@@ -35,12 +37,13 @@ const Inputer = inject((stores: IStores) => ({
 
     const activeContact = contactStore.activeContact;
     const hero: User = userStore.hero;
+    const activeSocial = chatStore.activeChat.activeSocial;
 
     const [draft, setDraft] = useState({});
     const [switcher, setSwitcher] = useState("");
     const [status, setStatus] = useState("default");
     const [acceptType, setAcceptType] = useState(
-      "file_extension|audio/*|video/*|image/*|media_type"
+      activeSocial === "instagram" ? INSTAGRAM_ACCEPT_TYPE : ALL_ACCEPT_TYPE
     );
     const [fileOnHold, setFileOnHold] = useState([]);
     const inputRef = useRef(null);
@@ -136,14 +139,15 @@ const Inputer = inject((stores: IStores) => ({
     };
 
     const deleteFileOnHold = (index: number) => {
+      fileInputRef.current.value = "";
       let fileOnHoldCopy = fileOnHold.slice();
       fileOnHoldCopy.splice(index, 1);
       setFileOnHold(fileOnHoldCopy);
     };
 
     const changeFileOnHold = async (index: number) => {
-      await fileInputRef.current.click();
       await deleteFileOnHold(index);
+      await fileInputRef.current.click();
     };
 
     if (!currentChat) {
@@ -243,6 +247,9 @@ const Inputer = inject((stores: IStores) => ({
       switcher === "attachments" ? setSwitcher("") : setSwitcher("attachments");
     };
 
+    let sendEnabled =
+      draft[activeContact.id + status] &&
+      draft[activeContact.id + status].length > 0;
     let chatError = false;
     let acceptAttachments =
       !!chatError ||
@@ -277,7 +284,7 @@ const Inputer = inject((stores: IStores) => ({
               onClick={openFileInput}
               className="transparent"
             >
-              <Icon className="icon_m blue-lite" name="solid_paperclip" />
+              <Icon className="icon_m lite-grey" name="icon_clip" />
             </Button>
           </div>
 
@@ -317,35 +324,36 @@ const Inputer = inject((stores: IStores) => ({
             )}
           </div>
 
-          {/* Button Social */}
+          {/* Button Social.  */}
           <div className="inputer_btn">
-            <Popover
-              visible={switcher === "1social"}
-              content={<SocialMenu selectSocial={selectSocial} />}
-              trigger="click"
-            >
-              <Button
-                disabled={!!chatError}
-                onClick={() => setSwitcher("social")}
-                className="transparent not-allowed"
-              >
-                <Icon
-                  className="icon_l"
-                  name={`social_media_${
-                    currentChat.activeSocial ? currentChat.activeSocial : ""
-                  }`}
-                />
-              </Button>
-            </Popover>
+            {/* TODO: temporarily disable, enable after meeting task */}
+            {/*<Popover*/}
+            {/*  visible={switcher === "social"}*/}
+            {/*  content={<SocialMenu selectSocial={selectSocial} />}*/}
+            {/*  trigger="click"*/}
+            {/*>*/}
+            {/*  <Button*/}
+            {/*    disabled={!!chatError}*/}
+            {/*    onClick={() => setSwitcher("social")}*/}
+            {/*    className="transparent not-allowed"*/}
+            {/*  >*/}
+            <Icon
+              className="icon_l"
+              name={`social_media_${
+                currentChat.activeSocial ? currentChat.activeSocial : ""
+              }`}
+            />
+            {/*</Button>*/}
+            {/*</Popover>*/}
           </div>
         </div>
 
         <Button
-          disabled={!!chatError}
+          disabled={!!chatError || !sendEnabled}
           onClick={sendMessage}
           className="send_btn"
         >
-          <Icon className="icon_x white" name="solid_another-arrow" />
+          <Icon className="icon_x lite-grey" name="icon_button_send" />
         </Button>
         <input
           type="file"

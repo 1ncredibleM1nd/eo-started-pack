@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 
 import { Scrollbars as ReactCustomScrollbars } from "react-custom-scrollbars";
-import { useClassName } from "@hooks";
+import { useClassName } from "@/hooks";
 
 import "./Scrollbars.scss";
 

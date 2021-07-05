@@ -1,5 +1,5 @@
 import React from "react";
-import { useClassName } from "@hooks";
+import { useClassName } from "@/hooks";
 import "./Preloader.scss";
 
 const Preloader = () => {
