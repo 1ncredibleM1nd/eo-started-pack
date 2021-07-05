@@ -1,10 +1,35 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { Image } from "antd";
+import { Image, Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 import { TMessageAttachment } from "@/types/message";
 
 type TProps = { attachment: TMessageAttachment };
 
 export const MessageAttachmentImage = observer(({ attachment }: TProps) => {
-  return <Image src={attachment.data.preview} width={200} preview={{ src: attachment.url }} />;
+  return (
+    <Image
+      width={200}
+      height={150}
+      src={attachment.data.preview}
+      preview={{ src: attachment.url }}
+      placeholder={
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <Spin
+            spinning={true}
+            indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
+          />
+        </div>
+      }
+      style={{ objectFit: "cover" }}
+    />
+  );
 });
