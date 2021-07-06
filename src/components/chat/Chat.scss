@@ -615,13 +615,7 @@
     text-align: left;
   }
 
-  @include _990 {
-    /*padding-right: 10px !important;*/
-  }
-
   @include _768 {
-    margin-top: 20px;
-    /*padding-right: 20px !important;*/
     padding-left: 30px !important;
   }
 
