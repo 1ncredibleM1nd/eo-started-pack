@@ -1122,7 +1122,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-end;
-  padding: 10px 25px;
+  padding: 10px 15px;
   background: #fff;
 
   &.has-error {
@@ -1131,14 +1131,6 @@
     .input-container {
       background: transparent;
     }
-  }
-
-  @include _990 {
-    padding: 10px;
-  }
-
-  @include _768 {
-    padding: 10px 25px;
   }
 
   @include _375 {
@@ -1163,7 +1155,6 @@
   }
 
   .main_input {
-    min-width: 200px;
     width: 100%;
     min-height: 40px;
     height: 100%;
@@ -1171,10 +1162,6 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-
-    @include _375 {
-      min-width: 200px;
-    }
 
     .selected-container {
       width: 100%;
@@ -1254,8 +1241,8 @@
       top: -5px;
 
       .icon_x {
-        width: 25px !important;
-        height: 15px !important;
+        width: 30px !important;
+        height: 30px !important;
       }
     }
   }
