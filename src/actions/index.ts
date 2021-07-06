@@ -1,6 +1,5 @@
 import { contactStore } from "@/stores/implementation";
 import * as resolver from "../ApiResolvers/index";
-import * as Sentry from "@sentry/react";
 import { AxiosResponse } from "axios";
 
 /**
@@ -16,14 +15,7 @@ function messageError(
   section: string = "other",
   description?: string
 ): void {
-  Sentry.captureException(new Error(message), {
-    tags: {
-      section,
-    },
-    extra: {
-      description,
-    },
-  });
+  console.error(message);
 }
 
 function isError(
