@@ -161,7 +161,7 @@
       margin: 0;
     }
 
-    @include _375 {
+    @include _480 {
       margin-left: 0;
       padding-left: 0;
       border-left: none;
@@ -176,6 +176,10 @@
     max-width: 100%;
     margin: 0 5px;
     color: $dark_blue_soft;
+
+    @include _480 {
+      font-size: 14px;
+    }
   }
 }
 
@@ -185,9 +189,10 @@
   flex: 1;
   justify-content: flex-start;
 
-  @include _375 {
+  @include _480 {
     flex-flow: column;
     align-items: flex-start;
+    justify-content: center;
   }
 }
 
@@ -203,6 +208,10 @@
       white-space: nowrap;
       max-width: 100%;
       margin: 0;
+
+      @include _480 {
+        font-size: 16px;
+      }
     }
 
     @include _768 {
