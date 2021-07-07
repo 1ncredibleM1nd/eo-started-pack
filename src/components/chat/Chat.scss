@@ -608,7 +608,7 @@
   padding-left: 0 !important;
 
   .msg_menu-container {
-    left: -30px;
+    left: -30px; 
   }
 
   .message-wrapper .msg_time {
@@ -644,7 +644,6 @@
     min-width: 7.5em;
     max-width: 20rem;
     min-height: 40px;
-    margin-left: 3rem !important;
     margin-right: 0.25rem !important;
     background: $blue_soft !important;
     padding-left: 1rem !important;
@@ -746,7 +745,7 @@
 
   .msg_menu-container {
     position: absolute;
-    right: -30px;
+    right: -35px;
     top: 0;
     height: 100%;
     width: 30px;
@@ -794,6 +793,16 @@
     font-size: 13px;
   }
 
+  .message-container { 
+    position: relative;
+
+    &:hover .msg_menu {
+      opacity: 1;
+      visibility: visible;
+      transition: 0.25s;
+    }
+  }
+
   .message-content {
     min-width: 70px;
     max-width: 20rem;
@@ -808,12 +817,6 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-
-    &:hover .msg_menu {
-      opacity: 1;
-      visibility: visible;
-      transition: 0.25s;
-    }
 
     .msg_file_container {
       display: flex;
@@ -881,7 +884,7 @@
         align-items: center;
 
         img {
-          width: 80%;
+          width: auto;
           height: 80%;
         }
       }

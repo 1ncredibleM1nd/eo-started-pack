@@ -46,22 +46,21 @@ const MessageComponent = observer((props: IProps) => {
     return (
       <div className="message-wrapper">
         <div className="avatar avatar-sm">{renderUserAvatar(message.user)}</div>
-        <Dropdown
-          overlay={DropDownMenu(message)}
-          onVisibleChange={(visible) => {
-            if (visible) {
-              setDropdownMenuOpen(false);
-            }
-          }}
-          placement="bottomLeft"
-          trigger={["contextMenu"]}
-        >
-          <div
-            className={`message-content ${
-              message.combineWithPrevious ? "not-main" : ""
-            } `}
+        <div className={`message-container`}>
+          <Dropdown
+            overlay={DropDownMenu(message)}
+            overlayStyle={{ animationDuration: "0.075s" }}
+            onVisibleChange={(visible) => {
+              if (visible) {
+                setDropdownMenuOpen(false);
+              }
+            }}
+            placement="bottomLeft"
+            trigger={["contextMenu"]}
           >
-            <div>
+            <div className={`message-content ${
+              message.combineWithPrevious ? "not-main" : ""
+            } `}>
               {message.reply ? (
                 <div className="reply">
                   <div className="msg_text_container">
@@ -94,27 +93,27 @@ const MessageComponent = observer((props: IProps) => {
               </div>
               {renderMessagesOptions(message)}
             </div>
-
-            <div className="msg_menu-container">
-              <div className="msg_menu">
-                <Dropdown
-                  visible={dropdownMenuOpened}
-                  onVisibleChange={(visible) => setDropdownMenuOpen(visible)}
-                  overlay={DropDownMenu(message)}
-                  placement="bottomLeft"
-                  trigger={["click"]}
-                >
-                  <MoreOutlined className="dropdown-trigger" />
-                </Dropdown>
-              </div>
-              {message.editted && (
-                <div className="editted_icon">
-                  <Icon className="active-grey" name={`solid_pencil-alt`} />
-                </div>
-              )}
+          </Dropdown>
+          <div className="msg_menu-container">
+            <div className="msg_menu">
+              <Dropdown
+                visible={dropdownMenuOpened}
+                onVisibleChange={(visible) => setDropdownMenuOpen(visible)}
+                overlay={DropDownMenu(message)}
+                overlayStyle={{ animationDuration: "0.075s" }}
+                placement="bottomLeft"
+                trigger={["click"]}
+              >
+                <MoreOutlined className="dropdown-trigger" />
+              </Dropdown>
             </div>
+            {message.editted && (
+              <div className="editted_icon">
+                <Icon className="active-grey" name={`solid_pencil-alt`} />
+              </div>
+            )}
           </div>
-        </Dropdown>
+        </div>
       </div>
     );
   };
