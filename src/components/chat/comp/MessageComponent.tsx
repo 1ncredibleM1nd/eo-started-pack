@@ -30,9 +30,11 @@ const MessageComponent = observer((props: IProps) => {
   );
 
   const DropDownMenu = (message: Message) => {
-    const canShowDownload = message.attachments.every(
-      ({ type }) => type === "image" || type === "file"
-    );
+    const canShowDownload =
+      message.attachments.length > 0 &&
+      message.attachments.every(
+        ({ type }) => type === "image" || type === "file"
+      );
     return (
       <Menu>
         <Menu.Item key={"message_menu_reply"} onClick={() => replyMsg(message)}>
@@ -42,6 +44,7 @@ const MessageComponent = observer((props: IProps) => {
           <Menu.Item
             key={"message_menu_download"}
             onClick={async () => {
+              console.log(message.attachments);
               await Promise.all(
                 message.attachments.map((attachment) =>
                   download(attachment.url, attachment.title)
