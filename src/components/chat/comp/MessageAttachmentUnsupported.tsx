@@ -5,23 +5,24 @@ import type { TMessageAttachment } from "@/types/message";
 
 type TProps = { attachment: TMessageAttachment };
 
-export const MessageAttachmentUnsupported = observer(({ attachment }: TProps) => {
-
-  return (
-    <div>
-      <div className="msg-content-file">
-        <div className="document-preview">
-          {attachment.data ? (
-            <img src={attachment.data.preview} alt="" />
-          ) : (
-            <LoadingOutlined />
-          )}
-        </div>
-        <div className="file-title-container">
-          <span className={"file-title"}>{attachment.title}</span>
-          <span />
+export const MessageAttachmentUnsupported = observer(
+  ({ attachment }: TProps) => {
+    return (
+      <div>
+        <div className="msg-content-file">
+          <div className="document-preview">
+            {attachment.data ? (
+              <img src={attachment.data.preview} alt="" />
+            ) : (
+              <LoadingOutlined />
+            )}
+          </div>
+          <div className="file-title-container">
+            <span className={"file-title"}>{attachment.title}</span>
+            <span />
+          </div>
         </div>
       </div>
-    </div>
-  );
-});
+    );
+  }
+);
