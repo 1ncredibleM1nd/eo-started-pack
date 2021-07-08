@@ -29,27 +29,32 @@ const MessageComponent = observer((props: IProps) => {
     </div>
   );
 
-  const DropDownMenu = (message: Message) => (
-    <Menu>
-      <Menu.Item key={"message_menu_reply"} onClick={() => replyMsg(message)}>
-        Ответить
-      </Menu.Item>
-      {message.attachments?.length > 0 && (
-        <Menu.Item
-          key={"message_menu_download"}
-          onClick={async () => {
-            await Promise.all(
-              message.attachments.map((attachment) =>
-                download(attachment.url, attachment.title)
-              )
-            );
-          }}
-        >
-          Скачать
+  const DropDownMenu = (message: Message) => {
+    const canShowDownload = message.attachments.every(
+      ({ type }) => type === "image" || type === "file"
+    );
+    return (
+      <Menu>
+        <Menu.Item key={"message_menu_reply"} onClick={() => replyMsg(message)}>
+          Ответить
         </Menu.Item>
-      )}
-    </Menu>
-  );
+        {canShowDownload && (
+          <Menu.Item
+            key={"message_menu_download"}
+            onClick={async () => {
+              await Promise.all(
+                message.attachments.map((attachment) =>
+                  download(attachment.url, attachment.title)
+                )
+              );
+            }}
+          >
+            Скачать
+          </Menu.Item>
+        )}
+      </Menu>
+    );
+  };
 
   const renderMessagesWrapper = (message: any) => {
     const renderAttachments =
