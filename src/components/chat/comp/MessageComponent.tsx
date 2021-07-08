@@ -9,6 +9,7 @@ import { UserAvatar } from "@/components/user_info/UserAvatar";
 import { MessageAttachment } from "./MessageAttachment";
 import { TMessageAttachment } from "@/types/message";
 import dayjs from "@/services/dayjs";
+import { useState } from "react";
 
 type IProps = {
   message?: Message;
@@ -18,6 +19,8 @@ type IProps = {
 
 const MessageComponent = observer((props: IProps) => {
   const { message, replyMsg, messageDateDivider } = props;
+
+  const [dropdownMenuOpened, setDropdownMenuOpen] = useState(false);
 
   const renderDataTimeBlock = (time: string) => (
     <div className="date_container">
@@ -43,18 +46,23 @@ const MessageComponent = observer((props: IProps) => {
     return (
       <div className="message-wrapper">
         <div className="avatar avatar-sm">{renderUserAvatar(message.user)}</div>
-        <div
-          className={`message-content ${
-            message.combineWithPrevious ? "not-main" : ""
-          } `}
-        >
+        <div className={`message-container`}>
           <Dropdown
             overlay={DropDownMenu(message)}
             overlayStyle={{ animationDuration: "0.075s" }}
+            onVisibleChange={(visible) => {
+              if (visible) {
+                setDropdownMenuOpen(false);
+              }
+            }}
             placement="bottomLeft"
             trigger={["contextMenu"]}
           >
-            <div>
+            <div
+              className={`message-content ${
+                message.combineWithPrevious ? "not-main" : ""
+              } `}
+            >
               {message.reply ? (
                 <div className="reply">
                   <div className="msg_text_container">
@@ -88,12 +96,13 @@ const MessageComponent = observer((props: IProps) => {
               {renderMessagesOptions(message)}
             </div>
           </Dropdown>
-
           <div className="msg_menu-container">
             <div className="msg_menu">
               <Dropdown
+                visible={dropdownMenuOpened}
+                onVisibleChange={(visible) => setDropdownMenuOpen(visible)}
                 overlay={DropDownMenu(message)}
-                overlayStyle={{ animationDuration: "0.075" }}
+                overlayStyle={{ animationDuration: "0.075s" }}
                 placement="bottomLeft"
                 trigger={["click"]}
               >

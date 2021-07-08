@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { observer } from "mobx-react";
+import { observer, inject } from "mobx-react";
 import { Icon } from "@/ui";
 import { Button, Modal, Switch, Input } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { bytesToSize } from "@/utils/bytesToSize";
+import IStores from "@/stores/interface";
 
-type IProps = {
+type IProps = IStores & {
   clearFiles?: () => void;
   deleteFileOnHold?: (index: number) => void;
   changeFileOnHold?: (index: number) => void;
@@ -24,88 +25,92 @@ type IProps = {
 
 const { TextArea } = Input;
 
-const FileUploadModal = observer((props: IProps) => {
-  const {
-    clearFiles,
-    deleteFileOnHold,
-    changeFileOnHold,
-    handleKeyDown,
-    handleKeyUp,
-    handleEnter,
-    onChange,
-    messageContent,
-    inputRef,
-    fileOnHold,
-    activeContactId,
-  } = props;
+const FileUploadModal = inject((stores: IStores) => ({
+  contactStore: stores.contactStore,
+}))(
+  observer((props: IProps) => {
+    const {
+      clearFiles,
+      deleteFileOnHold,
+      changeFileOnHold,
+      handleKeyDown,
+      handleKeyUp,
+      handleEnter,
+      onChange,
+      messageContent,
+      inputRef,
+      fileOnHold,
+      activeContactId,
+      contactStore,
+    } = props;
 
-  return (
-    <Modal
-      visible={fileOnHold.length > 0}
-      onCancel={clearFiles}
-      footer={[
-        <Button
-          key={"file_modal_button_cancel"}
-          type="text"
-          size={"large"}
-          onClick={clearFiles}
-        >
-          Отмена
-        </Button>,
-        <Button
-          key={"file_modal_button_enter"}
-          type="primary"
-          size={"large"}
-          onClick={handleEnter}
-        >
-          Отправить
-        </Button>,
-      ]}
-    >
-      <div className="file_modal">
-        <div className="file-holder-container">
-          {fileOnHold.map((fileItem: any, index: number) => (
-            <UploadMediaPreview
-              key={`file_item_${index}`}
-              fileItem={fileItem}
-              onClickEdit={() => changeFileOnHold(index)}
-              onClickDelete={() => deleteFileOnHold(index)}
-            />
-          ))}
+    const { activeSocial } = contactStore.activeContact;
 
-          <div className="file_modal-options">
-            {fileOnHold.find((file: any) => file.type === "image") && (
-              <div className="compression-switch">
-                <Switch size="small" defaultChecked />
-                Оптимизировать изображения
+    return (
+      <Modal
+        visible={fileOnHold.length > 0}
+        onCancel={clearFiles}
+        footer={[
+          <Button
+            key={"file_modal_button_cancel"}
+            type="text"
+            size={"large"}
+            onClick={clearFiles}
+          >
+            Отмена
+          </Button>,
+          <Button
+            key={"file_modal_button_enter"}
+            type="primary"
+            size={"large"}
+            onClick={handleEnter}
+          >
+            Отправить
+          </Button>,
+        ]}
+      >
+        <div className="file_modal">
+          <div className="file-holder-container">
+            {fileOnHold.map((fileItem: any, index: number) => (
+              <UploadMediaPreview
+                key={`file_item_${index}`}
+                fileItem={fileItem}
+                onClickEdit={() => changeFileOnHold(index)}
+                onClickDelete={() => deleteFileOnHold(index)}
+              />
+            ))}
+
+            <div className="file_modal-options">
+              {fileOnHold.find((file: any) => file.type === "image") && (
+                <div className="compression-switch">
+                  <Switch size="small" defaultChecked />
+                  Оптимизировать изображения
+                </div>
+              )}
+            </div>
+          </div>
+
+          {activeSocial !== "facebook" && activeSocial !== "instagram" && (
+            <div className="file_modal-input">
+              <div className="main_input in_modal">
+                <TextArea
+                  placeholder="Ваше сообщение"
+                  autoSize={{ minRows: 3, maxRows: 5 }}
+                  onKeyDown={handleKeyDown}
+                  onKeyUp={handleKeyUp}
+                  onPressEnter={handleEnter}
+                  ref={inputRef}
+                  onChange={(e) => onChange(activeContactId, e.target.value, e)}
+                  value={messageContent}
+                />
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
-
-        <div className="file_modal-input">
-          {/* <div className="inputer_btn">
-            <Button onClick={openFileInput} className="transparent">
-              <Icon className="icon_m blue-lite" name="solid_plus" />
-            </Button>
-          </div> */}
-          <div className="main_input in_modal">
-            <TextArea
-              placeholder="Ваше сообщение"
-              autoSize={{ minRows: 3, maxRows: 5 }}
-              onKeyDown={handleKeyDown}
-              onKeyUp={handleKeyUp}
-              onPressEnter={handleEnter}
-              ref={inputRef}
-              onChange={(e) => onChange(activeContactId, e.target.value, e)}
-              value={messageContent}
-            />
-          </div>
-        </div>
-      </div>
-    </Modal>
-  );
-});
+      </Modal>
+    );
+  })
+);
 
 const ModalFileController = observer(
   ({

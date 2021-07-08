@@ -12,7 +12,7 @@ export const MessageAttachmentImage = observer(({ attachment }: TProps) => {
       width={200}
       height={150}
       src={attachment.data.preview}
-      preview={{ src: attachment.url }}
+      preview={{ src: attachment.url, mask: false }}
       placeholder={
         <div
           style={{
@@ -29,7 +29,7 @@ export const MessageAttachmentImage = observer(({ attachment }: TProps) => {
           />
         </div>
       }
-      style={{ objectFit: "cover" }}
+      style={{ objectFit: "cover", cursor: "pointer" }}
     />
   );
 });

@@ -2,7 +2,8 @@ import React from "react";
 import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { MessageAttachmentImage } from "@/components/chat/comp/MessageAttachmentImage";
-import { MessageAttachmentFile } from "./MessageAttachmentFile";
+import { MessageAttachmentFile } from "@/components/chat/comp/MessageAttachmentFile";
+import { MessageAttachmentUnsupported } from "@/components/chat/comp/MessageAttachmentUnsupported";
 import type { TMessageAttachment } from "@/types/message";
 
 type TProps = { attachment: TMessageAttachment };
@@ -12,6 +13,8 @@ export function MessageAttachment({ attachment }: TProps) {
     return <MessageAttachmentFile attachment={attachment} />;
   } else if (attachment.type === "image") {
     return <MessageAttachmentImage attachment={attachment} />;
+  } else if (attachment.type === "unsupported") {
+    return <MessageAttachmentUnsupported attachment={attachment} />;
   }
 
   return (
