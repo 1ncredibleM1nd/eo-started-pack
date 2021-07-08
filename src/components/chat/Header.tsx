@@ -7,7 +7,6 @@ import { Icon } from "@/ui";
 import { ChatStore } from "@/stores/implementation/ChatStore";
 
 import MoonLoader from "react-spinners/MoonLoader";
-import { useOrientation } from "@/hooks/useOrientation";
 
 type IProps = {
   contactStore?: IContactStore;
