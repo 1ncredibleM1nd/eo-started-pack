@@ -10,6 +10,7 @@ import { MessageAttachment } from "./MessageAttachment";
 import { TMessageAttachment } from "@/types/message";
 import dayjs from "@/services/dayjs";
 import { useState } from "react";
+import { download } from "@/ApiResolvers/file";
 
 type IProps = {
   message?: Message;
@@ -28,9 +29,25 @@ const MessageComponent = observer((props: IProps) => {
     </div>
   );
 
-  const DropDownMenu = (message: any) => (
+  const DropDownMenu = (message: Message) => (
     <Menu>
-      <Menu.Item onClick={() => replyMsg(message)}>Ответить</Menu.Item>
+      <Menu.Item key={"message_menu_reply"} onClick={() => replyMsg(message)}>
+        Ответить
+      </Menu.Item>
+      {message.attachments?.length > 0 && (
+        <Menu.Item
+          key={"message_menu_download"}
+          onClick={async () => {
+            await Promise.all(
+              message.attachments.map((attachment) =>
+                download(attachment.url, attachment.title)
+              )
+            );
+          }}
+        >
+          Скачать
+        </Menu.Item>
+      )}
     </Menu>
   );
 
@@ -58,9 +75,11 @@ const MessageComponent = observer((props: IProps) => {
             placement="bottomLeft"
             trigger={["contextMenu"]}
           >
-            <div className={`message-content ${
-              message.combineWithPrevious ? "not-main" : ""
-            } `}>
+            <div
+              className={`message-content ${
+                message.combineWithPrevious ? "not-main" : ""
+              } `}
+            >
               {message.reply ? (
                 <div className="reply">
                   <div className="msg_text_container">
