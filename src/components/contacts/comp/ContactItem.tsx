@@ -81,7 +81,7 @@ const ContactItem = observer((props: IProps) => {
           </div>
 
           <div className={"contacts-info-icon"}>
-            <div className={`social_media_icon white ${social_media}`}>
+            <div className={`social_media_icon ${social_media}`}>
               <Icon className="icon_s" name={`social_media_${social_media}`} />
             </div>
           </div>
