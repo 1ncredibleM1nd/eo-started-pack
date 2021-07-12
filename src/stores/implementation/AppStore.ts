@@ -4,6 +4,7 @@ import { contactStore, userStore } from "@/stores/implementation";
 import { getConversations, getSchools } from "@/actions";
 import { notification } from "antd";
 import ISchool from "@/stores/interface/app/ISchool";
+import * as store from "store";
 
 export class AppStore implements IAppStore {
   isLoaded: boolean = false;
@@ -62,9 +63,10 @@ export class AppStore implements IAppStore {
       const schoolLogo: any = schoolList[schoolId]["logo"];
 
       schoolList[schoolId] = {
+        id: schoolId,
         name: schoolName,
         logo: schoolLogo,
-        active: true,
+        active: store.get("schools", {})[schoolId] ?? true,
       };
     });
 
@@ -76,6 +78,13 @@ export class AppStore implements IAppStore {
     this.setLoading(false);
 
     this.schoolList[schoolId].active = !this.schoolList[schoolId].active;
+    store.set(
+      "schools",
+      Object.values(this.schoolList).reduce((result, { id, active }) => {
+        result[id] = active;
+        return result;
+      }, {})
+    );
   }
 
   getActiveSchools(): Array<number> {

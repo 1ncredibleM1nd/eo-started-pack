@@ -45,7 +45,6 @@ const MessageComponent = observer((props: IProps) => {
           <Menu.Item
             key={"message_menu_download"}
             onClick={async () => {
-              console.log(message.attachments);
               await Promise.all(
                 message.attachments.map((attachment) =>
                   download(attachment.url, attachment.title)
