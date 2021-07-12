@@ -49,7 +49,7 @@ const ContactList = inject((stores: IStores) => ({
         .querySelector("#chatContactsList")
         .getBoundingClientRect();
       let childPos = document
-        .querySelector(`.contact-item-${ContactsData.length - 1}`)
+        .querySelector(`.contacts-item-${ContactsData.length - 1}`)
         .getBoundingClientRect();
       let topOfLastContact = childPos.bottom - parentPos.bottom;
 
@@ -72,7 +72,7 @@ const ContactList = inject((stores: IStores) => ({
           <div className="tab-pane active" id="chats-content">
             <div className="scroller d-flex flex-column h-100">
               <div
-                onScroll={handleScroll}
+                onScrollCapture={handleScroll}
                 className="hide-scrollbar h-100"
                 id="chatContactsList"
                 ref={contactRef}

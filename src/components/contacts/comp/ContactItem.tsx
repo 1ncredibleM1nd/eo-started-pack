@@ -56,7 +56,9 @@ const ContactItem = observer((props: IProps) => {
   return (
     <li
       onClick={() => selectContact(contact.id)}
-      className={`contacts-item friends ${active && "active"}`}
+      className={`contacts-item contacts-item-${index} friends ${
+        active && "active"
+      }`}
     >
       <div className="avatar">
         <Badge className={`online_dot ${active && "active"}`} dot={online}>
