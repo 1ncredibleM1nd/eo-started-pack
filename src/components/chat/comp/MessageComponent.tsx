@@ -1,5 +1,7 @@
 import React from "react";
+import { useState } from "react";
 import { observer } from "mobx-react";
+import ReactMarkdown from "react-markdown";
 import { Icon } from "@/ui";
 import { Menu, Dropdown } from "antd";
 import { TypesMessage } from "@/stores/classes";
@@ -9,7 +11,6 @@ import { UserAvatar } from "@/components/user_info/UserAvatar";
 import { MessageAttachment } from "./MessageAttachment";
 import { TMessageAttachment } from "@/types/message";
 import dayjs from "@/services/dayjs";
-import { useState } from "react";
 import { download } from "@/ApiResolvers/file";
 
 type IProps = {
@@ -119,7 +120,12 @@ const MessageComponent = observer((props: IProps) => {
                 {renderAttachments.length > 0 && (
                   <div className="msg_file_container">{renderAttachments}</div>
                 )}
-                <div style={{ whiteSpace: "pre-line" }}>{message.content}</div>
+                <div style={{ whiteSpace: "pre-line" }}>
+                  <ReactMarkdown
+                    children={message.content}
+                    components={{ p: ({ children }) => children }}
+                  />
+                </div>
               </div>
               {renderMessagesOptions(message)}
             </div>
