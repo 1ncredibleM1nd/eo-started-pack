@@ -60,10 +60,18 @@ const MessageComponent = observer((props: IProps) => {
   };
 
   const renderMessagesWrapper = (message: any) => {
-    const renderAttachments =
+    const renderReplyAttachments =
       message?.reply?.attachments.map((attachment: TMessageAttachment) => (
         <MessageAttachment
-          key={`reply_file__attachment_${attachment.url}`}
+          key={`reply_file_attachment_${attachment.url}`}
+          attachment={attachment}
+        />
+      )) ?? [];
+
+    const renderAttachments =
+      message?.attachments.map((attachment: TMessageAttachment) => (
+        <MessageAttachment
+          key={`file_attachment_${attachment.url}`}
           attachment={attachment}
         />
       )) ?? [];
@@ -91,9 +99,11 @@ const MessageComponent = observer((props: IProps) => {
               {message.reply ? (
                 <div className="reply">
                   <div className="msg_text_container">
-                    <div className="msg_file_container">
-                      {renderAttachments}
-                    </div>
+                    {renderReplyAttachments.length > 0 && (
+                      <div className="msg_file_container">
+                        {renderReplyAttachments}
+                      </div>
+                    )}
                     <div style={{ whiteSpace: "pre-line" }}>
                       {message.reply.content}
                     </div>
@@ -106,15 +116,8 @@ const MessageComponent = observer((props: IProps) => {
                 ""
               )}
               <div className="msg_text_container">
-                {message.attachments.length > 0 && (
-                  <div className="msg_file_container">
-                    {message.attachments.map((attachment: any) => (
-                      <MessageAttachment
-                        key={`file_attachment_${attachment.url}`}
-                        attachment={attachment}
-                      />
-                    ))}
-                  </div>
+                {renderAttachments.length > 0 && (
+                  <div className="msg_file_container">{renderAttachments}</div>
                 )}
                 <div style={{ whiteSpace: "pre-line" }}>{message.content}</div>
               </div>
