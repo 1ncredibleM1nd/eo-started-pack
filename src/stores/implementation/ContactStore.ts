@@ -1,8 +1,9 @@
-import { action, observable, reaction, makeObservable } from "mobx";
+import { action, observable, reaction, makeObservable, when } from "mobx";
 import { chatStore, appStore } from "@/stores/implementation";
 import { getConversations } from "@/actions";
 import $ from "jquery";
 import { Conversation } from "../../entities";
+import * as store from "store";
 
 export class ContactStore {
   contact: Array<Conversation> = [];
@@ -10,7 +11,7 @@ export class ContactStore {
   search: string = "";
   filterSwitch: boolean = false;
 
-  sources: any = {
+  sources: any = store.get("sources", {
     whatsapp: false,
     instagram: true,
     vkontakte: true,
@@ -19,7 +20,7 @@ export class ContactStore {
     facebook: true,
     telegram: true,
     email: false,
-  };
+  });
 
   avaliableChannels: string[] = [
     "vkontakte",
@@ -46,14 +47,8 @@ export class ContactStore {
       setActiveContact: action.bound,
       init: action,
     });
-
-    reaction(
-      () => {
-        return this.contact;
-      },
-      () => {}
-    );
   }
+
   filter: any;
   name: string;
 
@@ -64,6 +59,7 @@ export class ContactStore {
   filterSocial(key: string) {
     this.sources[key] = !this.sources[key];
     this.contact = [];
+    store.set("sources", this.sources);
     appStore.setLoading(false);
     appStore.updateContact();
   }

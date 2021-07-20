@@ -5,6 +5,7 @@ import { MessageAttachmentImage } from "@/components/chat/comp/MessageAttachment
 import { MessageAttachmentFile } from "@/components/chat/comp/MessageAttachmentFile";
 import { MessageAttachmentUnsupported } from "@/components/chat/comp/MessageAttachmentUnsupported";
 import type { TMessageAttachment } from "@/types/message";
+import { MessageAttachmentLink } from "@/components/chat/comp/MessageAttachmentLink";
 
 type TProps = { attachment: TMessageAttachment };
 
@@ -15,6 +16,8 @@ export function MessageAttachment({ attachment }: TProps) {
     return <MessageAttachmentImage attachment={attachment} />;
   } else if (attachment.type === "unsupported") {
     return <MessageAttachmentUnsupported attachment={attachment} />;
+  } else if (attachment.type === "link") {
+    return <MessageAttachmentLink attachment={attachment} />;
   }
 
   return (

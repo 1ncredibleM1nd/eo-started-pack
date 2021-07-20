@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "react-avatar";
 import "./UserAvatar.scss";
+import { Image } from "antd";
 
 type TProps = {
   name?: string;
@@ -16,6 +17,7 @@ export function getInitials(name: string) {
   if (!initials.length) {
     initials = "NAN";
   }
+
   return initials.toLowerCase();
 }
 
@@ -23,19 +25,29 @@ export const UserAvatar = (props: TProps) => {
   const { size, user, round, textSizeRatio } = props;
   const randomColors = ["#6FBB85", "#70ACDD", "#EF8079", "#EF79B2", "#D185FF"];
 
-  let initials = getInitials(user.username ?? "");
+  const [fallback, setFallback] = useState(false);
 
-  if (user.avatar) {
+  let initials = getInitials(user.username ?? "");
+  let maxInitials = 2;
+
+  if (user.avatar && !fallback) {
     return (
-      <img className="image-avatar" src={user.avatar} height={size} alt="" />
+      <Image
+        className="image-avatar"
+        src={user.avatar}
+        height={size}
+        alt=""
+        preview={false}
+        onError={() => setFallback(true)}
+      />
     );
   }
 
   return (
     <Avatar
       size={size}
-      name={user.avatar ? null : initials}
-      src={user.avatar ? user.avatar : ""}
+      name={initials}
+      maxInitials={maxInitials}
       round={round}
       textSizeRatio={textSizeRatio}
       // @ts-ignore

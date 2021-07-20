@@ -24,9 +24,11 @@ const Header = inject((stores: IStores) => ({
     const activeContact = contactStore.activeContact;
     let chatTitle: any;
     let activeMsg: any;
+    let linkSocialPage: any;
 
     if (activeContact) {
       chatTitle = activeContact.user.username;
+      linkSocialPage = activeContact.linkSocialPage;
     }
 
     const closeConctact = () => {
@@ -68,7 +70,14 @@ const Header = inject((stores: IStores) => ({
                   </div>
                   <div className={"header_info"}>
                     <div className={`header_title`}>
-                      <p>{chatTitle}</p>
+                      <p>
+                        {linkSocialPage ? (
+                          <Fragment>
+                            <a href={linkSocialPage} target="_blank">{chatTitle}</a>
+                          </Fragment>
+                        ) : (<Fragment>{chatTitle}</Fragment>)
+                        }
+                      </p>
                     </div>
                     <div className={"header_school"}>
                       <div className={"header_school_logo"}>

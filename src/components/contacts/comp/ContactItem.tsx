@@ -5,6 +5,7 @@ import { Badge } from "antd";
 import { Icon } from "@/ui";
 import { UserAvatar } from "@/components/user_info/UserAvatar";
 import { Message } from "@/entities";
+import ReactMarkdown from "react-markdown";
 
 type IProps = {
   index: number;
@@ -14,6 +15,7 @@ type IProps = {
   active: any;
   selectContact: any;
   isIAm: boolean;
+  isManager: boolean;
   school: any;
 };
 
@@ -26,6 +28,7 @@ const ContactItem = observer((props: IProps) => {
     active,
     selectContact,
     isIAm,
+    isManager,
     school,
   } = props;
 
@@ -81,7 +84,7 @@ const ContactItem = observer((props: IProps) => {
           </div>
 
           <div className={"contacts-info-icon"}>
-            <div className={`social_media_icon white ${social_media}`}>
+            <div className={`social_media_icon ${social_media}`}>
               <Icon className="icon_s" name={`social_media_${social_media}`} />
             </div>
           </div>
@@ -94,8 +97,14 @@ const ContactItem = observer((props: IProps) => {
         <div className="contacts-texts">
           {lastMessage ? (
             <div className={`last_msg ${status}`}>
-              {isIAm ? <div className="from">Ты:</div> : ""}
-              {lastMessage.content}
+              {isManager ? (
+                <div className="from">{isIAm ? "Вы" : lastMessage.user.username.trim().replace(/(.)[^\s]+?\s+([^\s]+)/g, '$2 $1')}:</div>
+              ) : ""}
+              <ReactMarkdown
+                children={lastMessage.content}
+                components={{ p: ({ children }) => children }}
+                linkTarget="_blank"
+              />
               {status === "unread" && (
                 <>
                   <>&nbsp;</>
