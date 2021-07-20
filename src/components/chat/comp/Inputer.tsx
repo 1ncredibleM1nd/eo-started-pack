@@ -294,7 +294,7 @@ const Inputer = inject((stores: IStores) => ({
                   <div className="selected-container">
                     <span>
                       <ReactMarkdown
-                        components={chatStore.activeChat.activeMessage.content}
+                        children={chatStore.activeChat.activeMessage.content}
                         linkTarget="_blank"
                       />
                     </span>
