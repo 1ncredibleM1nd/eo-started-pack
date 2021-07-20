@@ -100,7 +100,7 @@ const ContactItem = observer((props: IProps) => {
               {isManager ? (
                 <div className="from">{isIAm ? "Вы:" : (
                   <>
-                  <div className="manager-name">lastMessage.user.username.trim()</div>
+                  <div className="manager-name">{lastMessage.user.username.trim()}</div>
                   :
                   </>
                 )}</div>
