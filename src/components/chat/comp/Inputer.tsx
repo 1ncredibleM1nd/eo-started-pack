@@ -294,10 +294,10 @@ const Inputer = inject((stores: IStores) => ({
                   <div className="selected-container">
                     <span>
                       <ReactMarkdown
-                        children={chatStore.activeChat.activeMessage.content}
-                        components={{ p: ({ children }) => children }}
+                        components={chatStore.activeChat.activeMessage.content}
                         linkTarget="_blank"
-                      /></span>
+                      />
+                    </span>
                     <div className="msg_type">
                       {TypesMessage.getTypeDescription(
                         chatStore.activeChat.activeMessage.entity.type
