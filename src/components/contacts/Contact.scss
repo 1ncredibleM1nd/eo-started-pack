@@ -104,13 +104,19 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: -webkit-inline-box;
 
   .from {
     margin-right: 5px;
-    color: $blue_accent;
+    display: flex;
+    color: #2A99FF;
     max-width: 40%;
-    overflow: hidden;
-    display: inline-flex;
+    position: relative;
+
+    .manager-name {
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
   }
 
   .unreaded_count {
