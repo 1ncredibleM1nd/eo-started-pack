@@ -28,6 +28,7 @@ export const UserAvatar = (props: TProps) => {
   const [fallback, setFallback] = useState(false);
 
   let initials = getInitials(user.username ?? "");
+  let maxInitials = 2;
 
   if (user.avatar && !fallback) {
     return (
@@ -46,6 +47,7 @@ export const UserAvatar = (props: TProps) => {
     <Avatar
       size={size}
       name={initials}
+      maxInitials={maxInitials}
       round={round}
       textSizeRatio={textSizeRatio}
       // @ts-ignore

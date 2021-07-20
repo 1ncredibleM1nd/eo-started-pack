@@ -5,6 +5,7 @@ import { Badge } from "antd";
 import { Icon } from "@/ui";
 import { UserAvatar } from "@/components/user_info/UserAvatar";
 import { Message } from "@/entities";
+import ReactMarkdown from "react-markdown";
 
 type IProps = {
   index: number;
@@ -95,7 +96,11 @@ const ContactItem = observer((props: IProps) => {
           {lastMessage ? (
             <div className={`last_msg ${status}`}>
               {isIAm ? <div className="from">Ты:</div> : ""}
-              {lastMessage.content}
+              <ReactMarkdown
+                children={lastMessage.content}
+                components={{ p: ({ children }) => children }}
+                linkTarget="_blank"
+              />
               {status === "unread" && (
                 <>
                   <>&nbsp;</>

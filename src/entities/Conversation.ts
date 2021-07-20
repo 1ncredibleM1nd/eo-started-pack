@@ -12,7 +12,8 @@ class Conversation {
   user: User;
   activeMessage: Message = null;
   schoolId: string;
-  send_file: boolean;
+  sendFile: boolean;
+  linkSocialPage: string = null;
 
   constructor(
     id: string,
@@ -20,7 +21,8 @@ class Conversation {
     activeSocial: string,
     user: User,
     schoolId?: string,
-    send_file?: boolean
+    sendFile?: boolean,
+    linkSocialPage?: string
   ) {
     makeObservable(this, {
       activeSocial: observable,
@@ -33,7 +35,8 @@ class Conversation {
     this.activeSocial = activeSocial;
     this.user = user;
     this.schoolId = schoolId;
-    this.send_file = send_file;
+    this.sendFile = sendFile;
+    this.linkSocialPage = linkSocialPage;
   }
 
   addMessage(message: Message): void {

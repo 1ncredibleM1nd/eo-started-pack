@@ -12145,10 +12145,20 @@ Chanelog:
   justify-content: center;
 }
 
+.ant-badge .ant-image {
+  width: 48px;
+  height: 48px;
+}
+
 .avatar.avatar-sm {
   height: 2.25rem;
   width: 2.25rem;
   min-width: 2.25rem;
+  
+  .ant-image {
+    width: 36px;
+    height: 36px;
+  }
 }
 
 .avatar.avatar-md {

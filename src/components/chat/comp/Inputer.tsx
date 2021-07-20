@@ -251,7 +251,7 @@ const Inputer = inject((stores: IStores) => ({
       draft[activeContact.id + status] &&
       draft[activeContact.id + status].length > 0;
     let chatError = false;
-    let acceptAttachments = !!chatError || !activeContact.send_file;
+    let acceptAttachments = !!chatError || !activeContact.sendFile;
 
     return (
       <div className={`inputer ${!!chatError ? "has-error" : ""}`}>

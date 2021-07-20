@@ -105,7 +105,11 @@ const MessageComponent = observer((props: IProps) => {
                       </div>
                     )}
                     <div style={{ whiteSpace: "pre-line" }}>
-                      {message.reply.content}
+                      <ReactMarkdown
+                        children={message.reply.content}
+                        components={{ p: ({ children }) => children }}
+                        linkTarget="_blank"
+                      />
                     </div>
                   </div>
                   <div className="msg_type">
@@ -123,6 +127,7 @@ const MessageComponent = observer((props: IProps) => {
                   <ReactMarkdown
                     children={message.content}
                     components={{ p: ({ children }) => children }}
+                    linkTarget="_blank"
                   />
                 </div>
               </div>
