@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { inject, observer } from "mobx-react";
+import ReactMarkdown from "react-markdown";
 import IStores, {
   IChatStore,
   IContactStore,
@@ -291,7 +292,12 @@ const Inputer = inject((stores: IStores) => ({
               <>
                 {chatStore.activeChat.activeMessage && (
                   <div className="selected-container">
-                    <span>{chatStore.activeChat.activeMessage.content}</span>
+                    <span>
+                      <ReactMarkdown
+                        children={chatStore.activeChat.activeMessage.content}
+                        components={{ p: ({ children }) => children }}
+                        linkTarget="_blank"
+                      /></span>
                     <div className="msg_type">
                       {TypesMessage.getTypeDescription(
                         chatStore.activeChat.activeMessage.entity.type
