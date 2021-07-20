@@ -99,8 +99,10 @@ const ContactItem = observer((props: IProps) => {
             <div className={`last_msg ${status}`}>
               {isManager ? (
                 <div className="from">{isIAm ? "Вы:" : (
+                  <>
                   <div className="manager-name">lastMessage.user.username.trim()</div>
-                  <>:</>
+                  :
+                  </>
                 )}</div>
               ) : ""}
               <ReactMarkdown
