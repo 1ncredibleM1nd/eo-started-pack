@@ -98,7 +98,7 @@ const ContactItem = observer((props: IProps) => {
           {lastMessage ? (
             <div className={`last_msg ${status}`}>
               {isManager ? (
-                <div className="from">{isIAm ? "Вы" : lastMessage.user.username.trim()}</div>:
+                <div className="from">{isIAm ? "Вы" : lastMessage.user.username.trim()}</div> <>:</>
               ) : ""}
               <ReactMarkdown
                 children={lastMessage.content}
