@@ -97,6 +97,11 @@ const ContactList = inject((stores: IStores) => ({
                           lastMessage.user &&
                           lastMessage.user.id === userStore.hero.id
                         }
+                        isManager={
+                          lastMessage &&
+                          !lastMessage.income &&
+                          lastMessage.user
+                        }
                         index={index}
                         lastMessage={lastMessage}
                         key={`contacts_item_${index}`}

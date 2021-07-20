@@ -15,6 +15,7 @@ type IProps = {
   active: any;
   selectContact: any;
   isIAm: boolean;
+  isManager: boolean;
   school: any;
 };
 
@@ -27,6 +28,7 @@ const ContactItem = observer((props: IProps) => {
     active,
     selectContact,
     isIAm,
+    isManager,
     school,
   } = props;
 
@@ -95,7 +97,9 @@ const ContactItem = observer((props: IProps) => {
         <div className="contacts-texts">
           {lastMessage ? (
             <div className={`last_msg ${status}`}>
-              {isIAm ? <div className="from">Ты:</div> : ""}
+              {isManager ? (
+                <div className="from">{isIAm ? "Вы" : lastMessage.user.username.trim().replace(/(.)[^\s]+?\s+([^\s]+)/g, '$2 $1')}:</div>
+              ) : ""}
               <ReactMarkdown
                 children={lastMessage.content}
                 components={{ p: ({ children }) => children }}
