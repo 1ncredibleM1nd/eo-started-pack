@@ -109,6 +109,9 @@
     margin-right: 5px;
     display: inline-block;
     color: $blue_accent;
+    max-width: 40%;
+    overflow: hidden;
+    max-height: 16px;
   }
 
   .unreaded_count {
