@@ -107,8 +107,10 @@
 
   .from {
     margin-right: 5px;
-    display: inline-block;
     color: $blue_accent;
+    max-width: 40%;
+    overflow: hidden;
+    display: inline-flex;
   }
 
   .unreaded_count {
