@@ -31,7 +31,7 @@ const Chat = inject((stores: IStores) => ({
     const [switcher, setSwitcher] = useState("");
     const [reRender, setReRender] = useState(false);
 
-    let lastDate: any;
+    let prevDateDivider = "";
 
     if (!activeChat) {
       return (
@@ -91,25 +91,21 @@ const Chat = inject((stores: IStores) => ({
                       className={`page page-${index + 1}`}
                     >
                       {page.map((message: Message) => {
-                        let messageDateDivider = null;
-                        let currentDate = dayjs(message.timestamp * 1000);
+                        const messageDateDivider = toCalendar(
+                          dayjs(message.timestamp * 1000)
+                        );
+                        const currentDateDivider =
+                          prevDateDivider !== messageDateDivider
+                            ? messageDateDivider
+                            : null;
 
-                        if (
-                          lastDate &&
-                          currentDate.diff(lastDate, "days") > 0
-                        ) {
-                          lastDate = currentDate;
-                          messageDateDivider = toCalendar(currentDate);
-                        }
-
-                        lastDate = currentDate;
-
+                        prevDateDivider = messageDateDivider;
                         return (
                           <MessageComponent
                             key={`message_${message.id}`}
                             message={message}
                             replyMsg={replyMsg}
-                            messageDateDivider={messageDateDivider}
+                            messageDateDivider={currentDateDivider}
                           />
                         );
                       })}

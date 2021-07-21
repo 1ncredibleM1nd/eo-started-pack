@@ -7,7 +7,7 @@ dayjs.extend(relativeTime);
 
 export default dayjs;
 
-export function toCalendar(date: dayjs.Dayjs) {
+export function toCalendar(date: dayjs.Dayjs, formats = {}) {
   return date.calendar(null, {
     sameDay: "Сегодня",
     lastDay: "Вчера",
@@ -15,5 +15,6 @@ export function toCalendar(date: dayjs.Dayjs) {
     nextWeek: "DD MMM",
     lastWeek: "DD MMM",
     sameElse: "DD MMM",
+    ...formats,
   });
 }

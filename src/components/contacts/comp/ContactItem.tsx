@@ -1,6 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react";
-import dayjs from "@/services/dayjs";
+import dayjs, { toCalendar } from "@/services/dayjs";
 import { Badge } from "antd";
 import { Icon } from "@/ui";
 import { UserAvatar } from "@/components/user_info/UserAvatar";
@@ -43,17 +43,16 @@ const ContactItem = observer((props: IProps) => {
   }
 
   const contactTime = (message: Message) => {
-    let now = dayjs(new Date());
     let contactDate = dayjs(message.timestamp * 1000);
-    let diff = now.diff(contactDate, "days");
 
-    if (diff === 0) {
-      return <span>{contactDate.format("HH:mm")}</span>;
-    } else if (diff <= 7) {
-      return <span>{contactDate.format("dd")}</span>;
-    } else {
-      return <span>{contactDate.format("DD.MM")}</span>;
-    }
+    return (
+      <span>
+        {toCalendar(contactDate, {
+          sameDay: "HH:mm",
+          lastDay: "dd",
+        })}
+      </span>
+    );
   };
 
   return (
@@ -98,13 +97,21 @@ const ContactItem = observer((props: IProps) => {
           {lastMessage ? (
             <div className={`last_msg ${status}`}>
               {isManager ? (
-                <div className="from">{isIAm ? "Вы:" : (
-                  <>
-                  <div className="manager-name">{lastMessage.user.username.trim()}</div>
-                  :
-                  </>
-                )}</div>
-              ) : ""}
+                <div className="from">
+                  {isIAm ? (
+                    "Вы:"
+                  ) : (
+                    <>
+                      <div className="manager-name">
+                        {lastMessage.user.username.trim()}
+                      </div>
+                      :
+                    </>
+                  )}
+                </div>
+              ) : (
+                ""
+              )}
               <ReactMarkdown
                 children={lastMessage.content}
                 components={{ p: ({ children }) => children }}
