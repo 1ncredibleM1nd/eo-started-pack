@@ -50,6 +50,7 @@ const ContactItem = observer((props: IProps) => {
         {toCalendar(contactDate, {
           sameDay: "HH:mm",
           lastDay: "dd",
+          lastWeek: "dd",
         })}
       </span>
     );
