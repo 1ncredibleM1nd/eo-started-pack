@@ -125,6 +125,7 @@ export class ContactStore {
       chatStore.activeChat = new Conversation(
         this.activeContact.id,
         this.activeContact.contactId,
+        this.activeContact.sourceAccountId,
         this.activeContact.activeSocial,
         this.activeContact.user
       );

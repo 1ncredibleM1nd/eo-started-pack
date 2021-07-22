@@ -338,6 +338,7 @@ export class ChatStore {
     const conversation: Conversation = new Conversation(
       contact.id,
       contact.id,
+      contact.conversation_source_account_id,
       contact.last_message.social_media,
       user,
       contact.school_id,

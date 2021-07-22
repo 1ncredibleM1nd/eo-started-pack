@@ -1,6 +1,7 @@
 import { contactStore } from "@/stores/implementation";
 import * as resolver from "../ApiResolvers/index";
 import { AxiosResponse } from "axios";
+import { notification } from "antd";
 
 /**
  *
@@ -16,30 +17,29 @@ function messageError(
   description?: string
 ): void {
   console.error(message);
+  notification.error({ message, placement: "topRight" });
 }
 
 function isError(
   response: AxiosResponse<any>,
   section: string,
   action: string,
-  sendMesage: boolean = false
+  sendMessage: boolean = false
 ): boolean {
   if (response.data.error === 0) {
     return false;
   }
 
-  if (!sendMesage) {
-    const error: { message: string; description: any } = {
-      message: response.data.data.error_message ?? action,
-      description: undefined,
-    };
+  const error: { message: string; description: any } = {
+    message: response.data.data.error_message ?? action,
+    description: undefined,
+  };
 
-    if (response.data.data.error_data) {
-      error.description = Object.values(response.data.data.error_data);
-    }
-
-    messageError(error.message, section, error.description);
+  if (response.data.data.error_data) {
+    error.description = Object.values(response.data.data.error_data);
   }
+
+  messageError(error.message, section, error.description);
 
   return true;
 }
