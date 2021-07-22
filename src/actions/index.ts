@@ -108,6 +108,8 @@ async function sendMessage(
   const action = "Ошибка отправки сообщения";
   const section = "messages";
 
+  console.log(conversationId, conversationSourceAccountId);
+
   try {
     const response = await resolver.conversation.sendMessage(
       conversationId,

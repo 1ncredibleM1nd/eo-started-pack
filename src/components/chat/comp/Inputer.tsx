@@ -194,7 +194,7 @@ const Inputer = inject((stores: IStores) => ({
             );
             chatStore.sendMessage(
               draft[activeContact.id + status],
-              activeContact.id,
+              activeContact.sourceAccountId,
               appStore.getActiveSchools(),
               fileOnHold,
               currentChat.activeMessage

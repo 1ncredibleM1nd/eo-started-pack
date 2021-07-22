@@ -6,6 +6,7 @@ import User from "./User";
 class Conversation {
   id: string;
   contactId: string;
+  sourceAccountId: string;
   role: Array<IRole> = [];
   activeSocial: string;
   messages: Array<Array<Message>> = [];
@@ -18,6 +19,7 @@ class Conversation {
   constructor(
     id: string,
     contactId: string,
+    sourceAccountId: string,
     activeSocial: string,
     user: User,
     schoolId?: string,
@@ -32,6 +34,7 @@ class Conversation {
     });
     this.id = id;
     this.contactId = contactId;
+    this.sourceAccountId = sourceAccountId;
     this.activeSocial = activeSocial;
     this.user = user;
     this.schoolId = schoolId;
