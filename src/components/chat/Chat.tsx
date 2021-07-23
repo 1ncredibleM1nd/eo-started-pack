@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { inject, observer } from "mobx-react";
 import IStores, { IContactStore, IUserStore } from "@/stores/interface";
 import { ChatStore } from "@/stores/implementation/ChatStore";
@@ -7,15 +7,110 @@ import Inputer from "./comp/Inputer";
 import PuffLoader from "react-spinners/PuffLoader";
 import ChatPlaceholder from "./comp/ChatPlaceholder";
 import { Message } from "../../entities";
-import $ from "jquery";
 import dayjs, { toCalendar } from "@/services/dayjs";
 import MessageComponent from "@/components/chat/comp/MessageComponent";
+import useInfiniteScroll from "react-infinite-scroll-hook";
 
 type IProps = {
   chatStore?: ChatStore;
   contactStore?: IContactStore;
   userStore?: IUserStore;
 };
+
+const ChatListLoading = observer(() => {
+  return (
+    <div style={{ display: "flex", justifyContent: "center" }}>
+      <PuffLoader color="#3498db" size={50} />
+    </div>
+  );
+});
+
+const ChatList = observer(
+  ({ messages, loading, hasNextPage, onLoadMore, onReplyMessage }) => {
+    let prevDateDivider = "";
+
+    const [infiniteRef, { rootRef }] = useInfiniteScroll({
+      loading,
+      hasNextPage,
+      onLoadMore,
+      disabled: false,
+    });
+
+    const scrollableRootRef = React.useRef<HTMLDivElement | null>(null);
+    const lastScrollDistanceToBottomRef = React.useRef<number>();
+
+    React.useEffect(() => {
+      const scrollableRoot = scrollableRootRef.current;
+      const lastScrollDistanceToBottom =
+        lastScrollDistanceToBottomRef.current ?? 0;
+      if (scrollableRoot) {
+        scrollableRoot.scrollTop =
+          scrollableRoot.scrollHeight - lastScrollDistanceToBottom;
+      }
+    }, [messages, rootRef]);
+
+    const rootRefSetter = React.useCallback(
+      (node: HTMLDivElement) => {
+        rootRef(node);
+        scrollableRootRef.current = node;
+        console.log("call");
+      },
+      [rootRef]
+    );
+
+    const handleRootScroll = React.useCallback(() => {
+      const rootNode = scrollableRootRef.current;
+      if (rootNode) {
+        lastScrollDistanceToBottomRef.current =
+          rootNode.scrollHeight - rootNode.scrollTop;
+      }
+    }, []);
+
+    return (
+      <div
+        id={"chat-scroller"}
+        className={"msg_space"}
+        ref={rootRefSetter}
+        onScroll={handleRootScroll}
+      >
+        {hasNextPage && (
+          <div ref={infiniteRef}>
+            <ChatListLoading />
+          </div>
+        )}
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-end",
+            minHeight: "100%",
+          }}
+        >
+          {messages.map((message: Message) => {
+            const messageDateDivider = toCalendar(
+              dayjs(message.timestamp * 1000)
+            );
+            const currentDateDivider =
+              prevDateDivider !== messageDateDivider
+                ? messageDateDivider
+                : null;
+
+            prevDateDivider = messageDateDivider;
+            return (
+              <MessageComponent
+                key={`message_${message.id}`}
+                message={message}
+                replyMsg={onReplyMessage}
+                messageDateDivider={currentDateDivider}
+              />
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+);
 
 const Chat = inject((stores: IStores) => ({
   chatStore: stores.chatStore,
@@ -27,11 +122,6 @@ const Chat = inject((stores: IStores) => ({
 
     const activeChat = chatStore.activeChat;
     const activeContact = contactStore.activeContact;
-
-    const [switcher, setSwitcher] = useState("");
-    const [reRender, setReRender] = useState(false);
-
-    let prevDateDivider = "";
 
     if (!activeChat) {
       return (
@@ -53,67 +143,24 @@ const Chat = inject((stores: IStores) => ({
 
     const replyMsg = (message: Message) => {
       chatStore.setActiveMessage(message);
-      setReRender(!reRender);
-    };
-
-    const handleScroll = () => {
-      let parentPos = $(".msg_space")[0].getBoundingClientRect();
-      let childPos = $(`.page-1`)[0].getBoundingClientRect();
-      let topOfLastPage = childPos.top - parentPos.top;
-
-      if (
-        topOfLastPage >= -300 &&
-        topOfLastPage <= -50 &&
-        activeChat.messages[0].length > 29
-      ) {
-        chatStore.loadMessages(activeContact.id, chatStore.getNextPageNumber);
-      }
-
-      if (switcher !== "social") {
-        setSwitcher("");
-      }
     };
 
     return (
       <div className="chat position-relative">
         {activeChat && activeContact ? (
           <>
-            <div
-              onScroll={() => handleScroll()}
-              className="msg_space"
-              id={activeContact.id}
-            >
-              {activeChat.messages.map(
-                (page: Array<Message>, index: number) => {
-                  return (
-                    <div
-                      key={`page_${index + 1}`}
-                      className={`page page-${index + 1}`}
-                    >
-                      {page.map((message: Message) => {
-                        const messageDateDivider = toCalendar(
-                          dayjs(message.timestamp * 1000)
-                        );
-                        const currentDateDivider =
-                          prevDateDivider !== messageDateDivider
-                            ? messageDateDivider
-                            : null;
-
-                        prevDateDivider = messageDateDivider;
-                        return (
-                          <MessageComponent
-                            key={`message_${message.id}`}
-                            message={message}
-                            replyMsg={replyMsg}
-                            messageDateDivider={currentDateDivider}
-                          />
-                        );
-                      })}
-                    </div>
-                  );
-                }
-              )}
-            </div>
+            <ChatList
+              messages={activeChat?.messages}
+              loading={chatStore.isLoadingPage}
+              hasNextPage={chatStore.hasNextPage}
+              onLoadMore={() => {
+                chatStore.loadMessages(
+                  activeContact.id,
+                  chatStore.getNextPageNumber
+                );
+              }}
+              onReplyMessage={replyMsg}
+            />
             <Inputer />
           </>
         ) : (

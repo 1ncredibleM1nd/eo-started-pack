@@ -1,4 +1,5 @@
 import React from "react";
+import { observer } from "mobx-react";
 import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { MessageAttachmentImage } from "@/components/chat/comp/MessageAttachmentImage";
@@ -9,7 +10,7 @@ import { MessageAttachmentLink } from "@/components/chat/comp/MessageAttachmentL
 
 type TProps = { attachment: TMessageAttachment };
 
-export function MessageAttachment({ attachment }: TProps) {
+export const MessageAttachment = observer(({ attachment }: TProps) => {
   if (attachment.type === "file") {
     return <MessageAttachmentFile attachment={attachment} />;
   } else if (attachment.type === "image") {
@@ -25,4 +26,4 @@ export function MessageAttachment({ attachment }: TProps) {
       <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
     </div>
   );
-}
+});

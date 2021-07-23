@@ -190,29 +190,14 @@ const MessageComponent = observer((props: IProps) => {
 
   return (
     <>
-      {message.income ? (
-        <>
-          {messageDateDivider && renderDataTimeBlock(messageDateDivider)}
-          <div
-            className={`message ${
-              message.combineWithPrevious ? "not-main" : ""
-            } `}
-          >
-            {renderMessagesWrapper(message)}
-          </div>
-        </>
-      ) : (
-        <>
-          {messageDateDivider && renderDataTimeBlock(messageDateDivider)}
-          <div
-            className={`message self ${
-              message.combineWithPrevious ? "not-main" : ""
-            } `}
-          >
-            {renderMessagesWrapper(message)}
-          </div>
-        </>
-      )}
+      {messageDateDivider && renderDataTimeBlock(messageDateDivider)}
+      <div
+        className={`message message-${message.id} ${
+          message.income ? "" : "self"
+        } ${message.combineWithPrevious ? "not-main" : ""}`}
+      >
+        {renderMessagesWrapper(message)}
+      </div>
     </>
   );
 });

@@ -9,7 +9,7 @@ class Conversation {
   sourceAccountId: string;
   role: Array<IRole> = [];
   activeSocial: string;
-  messages: Array<Array<Message>> = [];
+  messages: Message[] = [];
   user: User;
   activeMessage: Message = null;
   schoolId: string;
@@ -43,19 +43,11 @@ class Conversation {
   }
 
   addMessage(message: Message): void {
-    if (!this.messages.length) {
-      this.messages.push([message]);
-    }
-
-    this.messages[0].push(message);
+    this.messages.push(message);
   }
 
   getLastMessage(): Message | null {
-    if (!this.messages.length || !this.messages[0].length) {
-      return null;
-    }
-
-    return this.messages[0][this.messages[0].length - 1];
+    return this.messages[this.messages.length - 1];
   }
 }
 

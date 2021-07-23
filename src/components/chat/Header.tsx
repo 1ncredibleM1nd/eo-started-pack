@@ -73,10 +73,17 @@ const Header = inject((stores: IStores) => ({
                       <p>
                         {linkSocialPage ? (
                           <Fragment>
-                            <a href={linkSocialPage} target="_blank">{chatTitle}</a>
+                            <a
+                              href={linkSocialPage}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              {chatTitle}
+                            </a>
                           </Fragment>
-                        ) : (<Fragment>{chatTitle}</Fragment>)
-                        }
+                        ) : (
+                          <Fragment>{chatTitle}</Fragment>
+                        )}
                       </p>
                     </div>
                     <div className={"header_school"}>
@@ -91,15 +98,7 @@ const Header = inject((stores: IStores) => ({
                     </div>
                   </div>
                   <div className={"header_settings"}>
-                    <div className="trigger">
-                      {chatStore.isPageLoading ? (
-                        <Fragment>
-                          <MoonLoader color="#3498db" size={18} />
-                        </Fragment>
-                      ) : (
-                        <Fragment />
-                      )}
-                    </div>
+                    <div className="trigger"></div>
                   </div>
                 </div>
               </Fragment>
