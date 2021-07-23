@@ -131,7 +131,10 @@ export class ContactStore {
       );
 
       await chatStore.loadMessages(chatStore.activeChat.contactId, 1);
-      $(".msg_space").animate({ scrollTop: $(`.page-1`).height() }, 0);
+      $(".msg_space").animate(
+        { scrollTop: $(".msg_space").prop("scrollHeight") },
+        0
+      );
     } else {
       this.activeContact = null;
       chatStore.activeChat = null;

@@ -1,7 +1,6 @@
 import { action, computed, observable, makeObservable } from "mobx";
 import { appStore, userStore } from "@/stores/implementation";
 import { getMessages, sendMessage } from "@/actions";
-import $ from "jquery";
 import { TypesMessage } from "@/stores/classes";
 import {
   Attachment,
@@ -13,17 +12,22 @@ import {
 import { contactStore } from "./ContactStore";
 import dayjs from "@/services/dayjs";
 
+const MAX_MESSAGE_COUNT_ON_PAGE = 29;
+
 export class ChatStore {
   chat: Array<Conversation> = [];
   isLoaded: boolean = false;
   activeChat: Conversation = null;
-  isPageLoading: boolean = false;
+  hasNextPage: boolean = true;
+  isLoadingPage: boolean = false;
+  prevDateDivider: string = "";
 
   constructor() {
     makeObservable(this, {
+      hasNextPage: observable,
+      isLoadingPage: observable,
       isLoaded: observable,
       activeChat: observable,
-      isPageLoading: observable,
       getPageNumber: computed,
       getNextPageNumber: computed,
       sendMessage: action,
@@ -40,12 +44,18 @@ export class ChatStore {
     });
   }
 
+  get messagesCount() {
+    return this.activeChat?.messages.length - 1 ?? 0;
+  }
+
   get getPageNumber() {
-    return this.activeChat ? this.activeChat.messages.length : 0;
+    return this.activeChat
+      ? Math.floor(this.messagesCount / MAX_MESSAGE_COUNT_ON_PAGE)
+      : 0;
   }
 
   get getNextPageNumber() {
-    return (this.activeChat ? this.activeChat.messages.length : 0) + 1;
+    return this.getPageNumber + 1;
   }
 
   async sendMessage(
@@ -72,45 +82,36 @@ export class ChatStore {
   }
 
   async loadMessages(contactId: string, pageNum?: number) {
-    this.isPageLoading = pageNum > 1;
-    // загружаем пачки сообщений постранично
+    this.isLoadingPage = true;
 
     this.activeChat.messages = await this.collectMessagesList(
       contactId,
       pageNum
     );
 
-    if (this.activeChat.messages[0].length > 29) {
-      $(".msg_space").animate({ scrollTop: $(`.page-1`).height() }, 0);
-    }
+    this.hasNextPage =
+      this.messagesCount > MAX_MESSAGE_COUNT_ON_PAGE * pageNum - 1;
 
-    this.isPageLoading = false;
+    this.isLoadingPage = false;
   }
 
   activateLastMessage(): void {
-    const messagesList: Array<Array<Message>> = this.activeChat.messages;
-    if (messagesList.length) {
-      const lastPageMessage: Array<Message> = messagesList[0];
+    const lastMessage: Message =
+      this.activeChat.messages[this.activeChat.messages.length - 1];
 
-      if (lastPageMessage.length) {
-        const lastMessage: Message =
-          lastPageMessage[lastPageMessage.length - 1];
-
-        if (
-          lastMessage.income &&
-          lastMessage.entity.type !== TypesMessage.MESSAGE
-        ) {
-          this.setActiveMessage(lastMessage);
-        }
-      }
+    if (
+      lastMessage.income &&
+      lastMessage.entity.type !== TypesMessage.MESSAGE
+    ) {
+      this.setActiveMessage(lastMessage);
     }
   }
 
   async collectMessagesList(
     contactId: string,
     page?: number
-  ): Promise<Array<Array<Message>>> {
-    const messagesOfPages: Array<Array<Message>> = [];
+  ): Promise<Message[]> {
+    const messagesOfPage: Message[] = [];
 
     for (let pageNumber: number = 1; pageNumber <= page; pageNumber++) {
       const messagesArray: Array<any> = await getMessages(
@@ -118,7 +119,6 @@ export class ChatStore {
         pageNumber,
         appStore.getActiveSchools()
       );
-      const messagesOfPage: Array<Message> = [];
 
       messagesArray.forEach((message) => {
         messagesOfPage.unshift(
@@ -128,24 +128,17 @@ export class ChatStore {
           })
         );
       });
-
-      messagesOfPages.unshift(messagesOfPage);
     }
 
-    return messagesOfPages;
+    return messagesOfPage;
   }
 
   getMsg(id: string, chat_id: string): Message {
-    let chat = this.chat.find(
+    const chat = this.chat.find(
       (chat_item: Conversation) => chat_item.id === chat_id
     );
-    for (let i = chat.messages.length; i >= 0; i--) {
-      let page = chat.messages[i];
 
-      return page.find((message: Message) => message.id === id);
-    }
-
-    return null;
+    return chat.messages.find((message: Message) => message.id === id);
   }
 
   getChatByContactId(contactId: string): Conversation {
@@ -165,17 +158,14 @@ export class ChatStore {
     let chat = this.getChatByContactId(id);
     let counting = true;
     for (let i = chat.messages.length; i >= 0; i--) {
-      let page = chat.messages[i];
+      let message = chat.messages[i];
 
       if (!counting) break;
 
-      for (let index = page.length; index >= 0; index--) {
-        const msg = page[index];
-        if (!msg.readed) {
-          unreadedCount += 1;
-        } else {
-          counting = false;
-        }
+      if (!message.readed) {
+        unreadedCount += 1;
+      } else {
+        counting = false;
       }
     }
 
@@ -191,6 +181,7 @@ export class ChatStore {
   ): Promise<void> {
     if (this.activeChat) {
       const id: string = "msg_" + Math.random();
+      console.log(id);
       const combineWithPrevious: boolean = false;
       const entity: Entity = new Entity(TypesMessage.MESSAGE);
       const user: User = userStore.hero;
@@ -225,20 +216,13 @@ export class ChatStore {
       message = this.collectMessage(
         {
           previous:
-            this.activeChat.messages[0][this.activeChat.messages[0].length - 1],
+            this.activeChat.messages[this.activeChat.messages.length - 1],
           current: message,
         },
         true
       );
 
-      this.activeChat.messages[0].push(message);
-
-      setTimeout(() => {
-        $(".msg_space").animate(
-          { scrollTop: $(".msg_space").prop("scrollHeight") },
-          0
-        );
-      });
+      this.activeChat.messages.push(message);
     }
   }
 

@@ -55,17 +55,6 @@ const Inputer = inject((stores: IStores) => ({
       currentChat = chatStore.activeChat;
     }
 
-    useEffect(() => {
-      if (currentChat && currentChat.messages.length) {
-        setTimeout(() => {
-          $(".msg_space").animate(
-            { scrollTop: $(".msg_space").prop("scrollHeight") },
-            0
-          );
-        });
-      }
-    }, [currentChat.messages]);
-
     const [keys, setKeys] = useState({
       shift: false,
       alt: false,
