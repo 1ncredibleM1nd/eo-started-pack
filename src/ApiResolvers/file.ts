@@ -4,7 +4,9 @@ import axios from "axios";
 export async function download(path: string, filename: string) {
   try {
     const response = await axios.get(path, { responseType: "blob" });
-    const url = URL.createObjectURL(new Blob([response.data]));
+    const url = URL.createObjectURL(
+      new Blob([response.data], { type: response.data.type })
+    );
     const link = document.body.appendChild(document.createElement("a"));
     link.href = url;
     link.download = filename;
