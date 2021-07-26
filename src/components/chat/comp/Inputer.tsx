@@ -150,14 +150,7 @@ const Inputer = inject((stores: IStores) => ({
     };
 
     const handleEnter = async (e: any) => {
-      e.preventDefault();
-      if (keys.alt || keys.shift || keys.ctrl) {
-        let text = "";
-        if (draft[activeContact.id + status]) {
-          text = draft[activeContact.id + status] + "\n";
-        }
-        setDraft({ ...draft, [activeContact.id + status]: text });
-      } else {
+      if (!keys.alt || !keys.shift || !keys.ctrl) {
         clearFiles();
         sendMessage();
       }
