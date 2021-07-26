@@ -115,7 +115,8 @@ const ContactItem = observer((props: IProps) => {
               )}
               <ReactMarkdown
                 children={lastMessage.content}
-                components={{ p: ({ children }) => children }}
+                allowedElements={[]}
+                unwrapDisallowed={true}
                 linkTarget="_blank"
               />
               {status === "unread" && (

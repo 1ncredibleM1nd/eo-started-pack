@@ -104,13 +104,13 @@ const MessageComponent = observer((props: IProps) => {
                         {renderReplyAttachments}
                       </div>
                     )}
-                    <div style={{ whiteSpace: "pre-line" }}>
-                      <ReactMarkdown
-                        children={message.reply.content}
-                        components={{ p: ({ children }) => children }}
-                        linkTarget="_blank"
-                      />
-                    </div>
+                    <ReactMarkdown
+                      className="message-markdown-container"
+                      children={message.reply.content}
+                      allowedElements={["a"]}
+                      unwrapDisallowed={true}
+                      linkTarget="_blank"
+                    />
                   </div>
                   <div className="msg_type">
                     {TypesMessage.getTypeDescription(message.entity.type)}
@@ -123,13 +123,13 @@ const MessageComponent = observer((props: IProps) => {
                 {renderAttachments.length > 0 && (
                   <div className="msg_file_container">{renderAttachments}</div>
                 )}
-                <div style={{ whiteSpace: "pre-line" }}>
-                  <ReactMarkdown
-                    children={message.content}
-                    components={{ p: ({ children }) => children }}
-                    linkTarget="_blank"
-                  />
-                </div>
+                <ReactMarkdown
+                  className="message-markdown-container"
+                  children={message.content}
+                  allowedElements={["a", "p"]}
+                  unwrapDisallowed={true}
+                  linkTarget="_blank"
+                />
               </div>
               {renderMessagesOptions(message)}
             </div>

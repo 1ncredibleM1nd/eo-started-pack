@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { inject, observer } from "mobx-react";
 import ReactMarkdown from "react-markdown";
 import IStores, {
@@ -284,7 +284,8 @@ const Inputer = inject((stores: IStores) => ({
                     <span>
                       <ReactMarkdown
                         children={chatStore.activeChat.activeMessage.content}
-                        components={{ p: ({ children }) => children }}
+                        allowedElements={["a"]}
+                        unwrapDisallowed={true}
                         linkTarget="_blank"
                       />
                     </span>
