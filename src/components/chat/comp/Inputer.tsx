@@ -150,7 +150,8 @@ const Inputer = inject((stores: IStores) => ({
     };
 
     const handleEnter = async (e: any) => {
-      if (!keys.alt || !keys.shift || !keys.ctrl) {
+      if (keys.alt || keys.shift || keys.ctrl) {
+      } else {
         clearFiles();
         sendMessage();
       }
