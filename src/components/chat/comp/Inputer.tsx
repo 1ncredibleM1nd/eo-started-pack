@@ -42,10 +42,6 @@ const Inputer = inject((stores: IStores) => ({
     const hero: User = userStore.hero;
     const activeSocial = chatStore.activeChat.activeSocial;
 
-    const [editorState, setEditorState] = useState(() =>
-      EditorState.createEmpty()
-    );
-
     const [draft, setDraft] = useState({});
     const [switcher, setSwitcher] = useState("");
     const [status, setStatus] = useState("default");
@@ -268,12 +264,6 @@ const Inputer = inject((stores: IStores) => ({
                     />
                   </div>
                 )}
-
-                {/* <Editor
-                  editorState={editorState}
-                  onChange={setEditorState}
-                  placeholder="Ваше сообщение"
-                /> */}
 
                 <TextArea
                   ref={inputRef}
