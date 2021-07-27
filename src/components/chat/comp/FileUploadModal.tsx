@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import { observer, inject } from "mobx-react";
 import { Icon } from "@/ui";
-import { Button, Modal, Switch, Input } from "antd";
+import { Button, Modal, Switch } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { bytesToSize } from "@/utils/bytesToSize";
 import IStores from "@/stores/interface";
+import { InputerTextArea } from "./InputerTextArea";
 
 type IProps = IStores & {
   clearFiles?: () => void;
   deleteFileOnHold?: (index: number) => void;
   changeFileOnHold?: (index: number) => void;
   openFileInput?: () => void;
-  handleKeyDown?: (e: any) => void;
-  handleKeyUp?: (e: any) => void;
   handleEnter?: (e: any) => void;
   onChange?: (name: string, value: string, event: any) => void;
   setSwitcher?: (key: string) => void;
@@ -23,8 +22,6 @@ type IProps = IStores & {
   activeContactId?: string;
 };
 
-const { TextArea } = Input;
-
 const FileUploadModal = inject((stores: IStores) => ({
   contactStore: stores.contactStore,
 }))(
@@ -33,12 +30,9 @@ const FileUploadModal = inject((stores: IStores) => ({
       clearFiles,
       deleteFileOnHold,
       changeFileOnHold,
-      handleKeyDown,
-      handleKeyUp,
       handleEnter,
       onChange,
       messageContent,
-      inputRef,
       fileOnHold,
       activeContactId,
       contactStore,
@@ -93,15 +87,13 @@ const FileUploadModal = inject((stores: IStores) => ({
           {activeSocial !== "facebook" && activeSocial !== "instagram" && (
             <div className="file_modal-input">
               <div className="main_input in_modal">
-                <TextArea
-                  placeholder="Ваше сообщение"
+                <InputerTextArea
                   autoSize={{ minRows: 3, maxRows: 5 }}
-                  onKeyDown={handleKeyDown}
-                  onKeyUp={handleKeyUp}
-                  onPressEnter={handleEnter}
-                  ref={inputRef}
-                  onChange={(e) => onChange(activeContactId, e.target.value, e)}
                   value={messageContent}
+                  onChange={(e) => {
+                    onChange(activeContactId, e.target.value, e);
+                  }}
+                  onPressEnter={handleEnter}
                 />
               </div>
             </div>

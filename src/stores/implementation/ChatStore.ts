@@ -181,7 +181,6 @@ export class ChatStore {
   ): Promise<void> {
     if (this.activeChat) {
       const id: string = "msg_" + Math.random();
-      console.log(id);
       const combineWithPrevious: boolean = false;
       const entity: Entity = new Entity(TypesMessage.MESSAGE);
       const user: User = userStore.hero;

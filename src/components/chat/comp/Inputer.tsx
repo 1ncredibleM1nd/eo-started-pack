@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { inject, observer } from "mobx-react";
 import ReactMarkdown from "react-markdown";
 import IStores, {
@@ -9,13 +9,12 @@ import IStores, {
 } from "@/stores/interface";
 import { Icon } from "@/ui";
 import $ from "jquery";
-import { Input, Button } from "antd";
+import { Button } from "antd";
 import { TypesMessage } from "@/stores/classes";
 import { CloseOutlined } from "@ant-design/icons";
 import { User } from "../../../entities";
 import FileUploadModal from "./FileUploadModal";
-import { useEffect } from "react";
-import { TextAreaRef } from "antd/lib/input/TextArea";
+import { InputerTextArea } from "./InputerTextArea";
 
 type IProps = {
   chatStore?: IChatStore;
@@ -36,8 +35,6 @@ const Inputer = inject((stores: IStores) => ({
   observer((props: IProps) => {
     const { chatStore, contactStore, userStore, appStore } = props;
 
-    const { TextArea } = Input;
-
     const activeContact = contactStore.activeContact;
     const hero: User = userStore.hero;
     const activeSocial = chatStore.activeChat.activeSocial;
@@ -49,8 +46,7 @@ const Inputer = inject((stores: IStores) => ({
       activeSocial === "instagram" ? INSTAGRAM_ACCEPT_TYPE : ALL_ACCEPT_TYPE
     );
     const [fileOnHold, setFileOnHold] = useState([]);
-    const inputRef = useRef<TextAreaRef | null>(null);
-    const fileInputRef = useRef(null);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     let currentChat: any;
     if (chatStore.isLoaded && activeContact) {
@@ -69,10 +65,12 @@ const Inputer = inject((stores: IStores) => ({
       }
     };
 
-    const onChange = (name: string, value: string, event: any) => {
-      console.log(value);
-      setDraft({ ...draft, [name + status]: value });
-    };
+    const onChange = useCallback(
+      (name: string, value: string) => {
+        setDraft({ ...draft, [name + status]: value });
+      },
+      [draft, status]
+    );
 
     const selectSocial = (social: string) => {
       currentChat.activeSocial = social;
@@ -179,8 +177,6 @@ const Inputer = inject((stores: IStores) => ({
         }
       }
 
-      $(".main_input input").val("");
-
       if (
         draft[activeContact.id + status] &&
         draft[activeContact.id + status] !== ""
@@ -205,10 +201,6 @@ const Inputer = inject((stores: IStores) => ({
     let chatError = false;
     let acceptAttachments = !!chatError || !activeContact.sendFile;
 
-    useEffect(() => {
-      inputRef.current!.focus();
-    }, [inputRef]);
-
     return (
       <div className={`inputer ${!!chatError ? "has-error" : ""}`}>
         <FileUploadModal
@@ -221,7 +213,6 @@ const Inputer = inject((stores: IStores) => ({
           setSwitcher={setSwitcher}
           switcher={switcher}
           messageContent={draft[activeContact.id + status]}
-          inputRef={inputRef}
           fileOnHold={fileOnHold}
           activeContactId={activeContact.id}
         />
@@ -265,15 +256,13 @@ const Inputer = inject((stores: IStores) => ({
                   </div>
                 )}
 
-                <TextArea
-                  ref={inputRef}
+                <InputerTextArea
                   autoSize
-                  onPressEnter={handleEnter}
-                  placeholder="Ваше сообщение"
                   value={draft[activeContact.id + status]}
-                  onChange={(e) =>
-                    onChange(activeContact.id, e.target.value, e)
-                  }
+                  onChange={(e) => {
+                    onChange(activeContact.id, e.target.value, e);
+                  }}
+                  onPressEnter={handleEnter}
                 />
               </>
             )}
