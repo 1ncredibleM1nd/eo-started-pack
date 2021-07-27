@@ -1,6 +1,9 @@
 import React, { useState, useRef } from "react";
 import { inject, observer } from "mobx-react";
 import ReactMarkdown from "react-markdown";
+import { Editor, EditorState } from "draft-js";
+import "draft-js/dist/Draft.css";
+
 import IStores, {
   IChatStore,
   IContactStore,
@@ -14,6 +17,8 @@ import { TypesMessage } from "@/stores/classes";
 import { CloseOutlined } from "@ant-design/icons";
 import { User } from "../../../entities";
 import FileUploadModal from "./FileUploadModal";
+import { useEffect } from "react";
+import { TextAreaRef } from "antd/lib/input/TextArea";
 
 type IProps = {
   chatStore?: IChatStore;
@@ -40,6 +45,10 @@ const Inputer = inject((stores: IStores) => ({
     const hero: User = userStore.hero;
     const activeSocial = chatStore.activeChat.activeSocial;
 
+    const [editorState, setEditorState] = useState(() =>
+      EditorState.createEmpty()
+    );
+
     const [draft, setDraft] = useState({});
     const [switcher, setSwitcher] = useState("");
     const [status, setStatus] = useState("default");
@@ -47,7 +56,7 @@ const Inputer = inject((stores: IStores) => ({
       activeSocial === "instagram" ? INSTAGRAM_ACCEPT_TYPE : ALL_ACCEPT_TYPE
     );
     const [fileOnHold, setFileOnHold] = useState([]);
-    const inputRef = useRef(null);
+    const inputRef = useRef<TextAreaRef | null>(null);
     const fileInputRef = useRef(null);
 
     let currentChat: any;
@@ -55,46 +64,7 @@ const Inputer = inject((stores: IStores) => ({
       currentChat = chatStore.activeChat;
     }
 
-    const [keys, setKeys] = useState({
-      shift: false,
-      alt: false,
-      ctrl: false,
-    });
-
-    const handleKeyDown = (e: any) => {
-      switch (e.key) {
-        case "Control":
-          setKeys({ ...keys, ctrl: true });
-          break;
-        case "Shift":
-          setKeys({ ...keys, shift: true });
-          break;
-        case "Alt":
-          setKeys({ ...keys, alt: true });
-          break;
-        default:
-          break;
-      }
-    };
-
-    const handleKeyUp = (e: any) => {
-      switch (e.key) {
-        case "Control":
-          setKeys({ ...keys, ctrl: false });
-          break;
-        case "Shift":
-          setKeys({ ...keys, shift: false });
-          break;
-        case "Alt":
-          setKeys({ ...keys, alt: false });
-          break;
-        default:
-          break;
-      }
-    };
-
     const resetInputAndKeys = () => {
-      setKeys({ alt: false, ctrl: false, shift: false });
       if (status !== "default") {
         setDraft({
           ...draft,
@@ -107,6 +77,7 @@ const Inputer = inject((stores: IStores) => ({
     };
 
     const onChange = (name: string, value: string, event: any) => {
+      console.log(value);
       setDraft({ ...draft, [name + status]: value });
     };
 
@@ -118,10 +89,6 @@ const Inputer = inject((stores: IStores) => ({
     const switcherOff = () => {
       setSwitcher("");
     };
-
-    if (inputRef && inputRef.current) {
-      setTimeout(() => inputRef.current.focus(), 100);
-    }
 
     const handleFileInput = (e: any) => {
       e.preventDefault();
@@ -150,7 +117,15 @@ const Inputer = inject((stores: IStores) => ({
     };
 
     const handleEnter = async (e: any) => {
-      if (keys.alt || keys.shift || keys.ctrl) {
+      e.preventDefault();
+
+      if (e.altKey || e.shiftKey || e.ctrlKey || e.metaKey) {
+        const position = e.target.selectionEnd;
+        e.target.setRangeText("\n", position, position, "end");
+        setDraft({
+          ...draft,
+          [activeContact.id + status]: e.target.value,
+        });
       } else {
         clearFiles();
         sendMessage();
@@ -237,6 +212,10 @@ const Inputer = inject((stores: IStores) => ({
     let chatError = false;
     let acceptAttachments = !!chatError || !activeContact.sendFile;
 
+    useEffect(() => {
+      inputRef.current!.focus();
+    }, [inputRef]);
+
     return (
       <div className={`inputer ${!!chatError ? "has-error" : ""}`}>
         <FileUploadModal
@@ -244,8 +223,6 @@ const Inputer = inject((stores: IStores) => ({
           deleteFileOnHold={deleteFileOnHold}
           changeFileOnHold={changeFileOnHold}
           openFileInput={openFileInput}
-          handleKeyDown={handleKeyDown}
-          handleKeyUp={handleKeyUp}
           handleEnter={handleEnter}
           onChange={onChange}
           setSwitcher={setSwitcher}
@@ -295,17 +272,21 @@ const Inputer = inject((stores: IStores) => ({
                   </div>
                 )}
 
-                <TextArea
-                  onKeyDown={handleKeyDown}
-                  onKeyUp={handleKeyUp}
-                  onPressEnter={handleEnter}
-                  autoSize
+                {/* <Editor
+                  editorState={editorState}
+                  onChange={setEditorState}
                   placeholder="Ваше сообщение"
+                /> */}
+
+                <TextArea
                   ref={inputRef}
+                  autoSize
+                  onPressEnter={handleEnter}
+                  placeholder="Ваше сообщение"
+                  value={draft[activeContact.id + status]}
                   onChange={(e) =>
                     onChange(activeContact.id, e.target.value, e)
                   }
-                  value={draft[activeContact.id + status]}
                 />
               </>
             )}

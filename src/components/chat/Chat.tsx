@@ -53,7 +53,6 @@ const ChatList = observer(
       (node: HTMLDivElement) => {
         rootRef(node);
         scrollableRootRef.current = node;
-        console.log("call");
       },
       [rootRef]
     );
