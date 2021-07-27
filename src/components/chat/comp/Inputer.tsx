@@ -1,9 +1,6 @@
 import React, { useState, useRef } from "react";
 import { inject, observer } from "mobx-react";
 import ReactMarkdown from "react-markdown";
-import { Editor, EditorState } from "draft-js";
-import "draft-js/dist/Draft.css";
-
 import IStores, {
   IChatStore,
   IContactStore,
