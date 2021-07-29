@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { observer } from "mobx-react";
+import { observer } from "mobx-react-lite";
 import { Input } from "antd";
 import { TextAreaRef, TextAreaProps } from "antd/lib/input/TextArea";
 import { useEffect } from "react";

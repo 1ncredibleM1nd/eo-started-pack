@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { observer } from "mobx-react";
+import { observer } from "mobx-react-lite";
 import ReactMarkdown from "react-markdown";
 import { Icon } from "@/ui";
 import { Menu, Dropdown } from "antd";

@@ -1,115 +1,96 @@
 import React, { Fragment } from "react";
-import { inject, observer } from "mobx-react";
-import IStores, { IAppStore, IContactStore } from "@/stores/interface";
+import { observer } from "mobx-react-lite";
 import { Button } from "antd";
 import "./Header.scss";
 import { Icon } from "@/ui";
-import { ChatStore } from "@/stores/implementation/ChatStore";
+import { useStore } from "@/stores";
 
-import MoonLoader from "react-spinners/MoonLoader";
+const Header = observer(() => {
+  const { contactStore, appStore } = useStore();
+  const activeContact = contactStore.activeContact;
+  let chatTitle: any;
+  let activeMsg: any;
+  let linkSocialPage: any;
 
-type IProps = {
-  contactStore?: IContactStore;
-  appStore?: IAppStore;
-  chatStore?: ChatStore;
-};
+  if (activeContact) {
+    chatTitle = activeContact.user.username;
+    linkSocialPage = activeContact.linkSocialPage;
+  }
 
-const Header = inject((stores: IStores) => ({
-  appStore: stores.appStore,
-  contactStore: stores.contactStore,
-  chatStore: stores.chatStore,
-}))(
-  observer((props: IProps) => {
-    const { contactStore, appStore, chatStore } = props;
-    const activeContact = contactStore.activeContact;
-    let chatTitle: any;
-    let activeMsg: any;
-    let linkSocialPage: any;
-
-    if (activeContact) {
-      chatTitle = activeContact.user.username;
-      linkSocialPage = activeContact.linkSocialPage;
+  const closeConctact = () => {
+    if (appStore.layout === "contact") {
+      appStore.setLayout("info");
+    } else if (appStore.layout === "info") {
+      appStore.setLayout("contact");
+    } else if (appStore.layout === "chat") {
+      appStore.setLayout("contact");
+      contactStore.setActiveContact(null);
     }
+  };
 
-    const closeConctact = () => {
-      if (appStore.layout === "contact") {
-        appStore.setLayout("info");
-      } else if (appStore.layout === "info") {
-        appStore.setLayout("contact");
-      } else if (appStore.layout === "chat") {
-        appStore.setLayout("contact");
-        contactStore.setActiveContact(null);
-      }
-    };
+  const school = appStore.schoolList[contactStore?.activeContact?.schoolId];
 
-    const school = appStore.schoolList[contactStore?.activeContact?.schoolId];
-
-    return (
-      <div className="chat_header">
-        {activeMsg ? (
-          <Fragment></Fragment>
-        ) : (
-          <Fragment>
-            {chatTitle ? (
-              <Fragment>
-                <div className="header_content">
-                  <div
-                    className={`back_trigger ${
-                      appStore.layout !== "contact" ? "active" : ""
-                    }`}
+  return (
+    <div className="chat_header">
+      {activeMsg ? (
+        <Fragment></Fragment>
+      ) : (
+        <Fragment>
+          {chatTitle ? (
+            <Fragment>
+              <div className="header_content">
+                <div
+                  className={`back_trigger ${
+                    appStore.layout !== "contact" ? "active" : ""
+                  }`}
+                >
+                  <Button
+                    onClick={() => closeConctact()}
+                    className="transparent"
                   >
-                    <Button
-                      onClick={() => closeConctact()}
-                      className="transparent"
-                    >
-                      <Icon
-                        className="icon_s blue-lite"
-                        name={`solid_arrow-left`}
-                      />
-                    </Button>
+                    <Icon
+                      className="icon_s blue-lite"
+                      name={`solid_arrow-left`}
+                    />
+                  </Button>
+                </div>
+                <div className={"header_info"}>
+                  <div className={`header_title`}>
+                    <p>
+                      {linkSocialPage ? (
+                        <Fragment>
+                          <a
+                            href={linkSocialPage}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {chatTitle}
+                          </a>
+                        </Fragment>
+                      ) : (
+                        <Fragment>{chatTitle}</Fragment>
+                      )}
+                    </p>
                   </div>
-                  <div className={"header_info"}>
-                    <div className={`header_title`}>
-                      <p>
-                        {linkSocialPage ? (
-                          <Fragment>
-                            <a
-                              href={linkSocialPage}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              {chatTitle}
-                            </a>
-                          </Fragment>
-                        ) : (
-                          <Fragment>{chatTitle}</Fragment>
-                        )}
-                      </p>
+                  <div className={"header_school"}>
+                    <div className={"header_school_logo"}>
+                      <img src={school.logo} className="school-logo" alt={""} />
                     </div>
-                    <div className={"header_school"}>
-                      <div className={"header_school_logo"}>
-                        <img
-                          src={school.logo}
-                          className="school-logo"
-                          alt={""}
-                        />
-                      </div>
-                      <p>{school.name}</p>
-                    </div>
-                  </div>
-                  <div className={"header_settings"}>
-                    <div className="trigger"></div>
+                    <p>{school.name}</p>
                   </div>
                 </div>
-              </Fragment>
-            ) : (
-              <Fragment></Fragment>
-            )}
-          </Fragment>
-        )}
-      </div>
-    );
-  })
-);
+                <div className={"header_settings"}>
+                  <div className="trigger"></div>
+                </div>
+              </div>
+            </Fragment>
+          ) : (
+            <Fragment></Fragment>
+          )}
+        </Fragment>
+      )}
+    </div>
+  );
+});
 
 export default Header;

@@ -1,5 +1,5 @@
 import React from "react";
-import { observer } from "mobx-react";
+import { observer } from "mobx-react-lite";
 import dayjs, { toCalendar } from "@/services/dayjs";
 import { Badge } from "antd";
 import { Icon } from "@/ui";

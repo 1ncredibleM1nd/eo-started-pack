@@ -1,7 +1,5 @@
 import React from "react";
-import { inject, observer } from "mobx-react";
-import IStores, { IContactStore, IUserStore } from "@/stores/interface";
-import { ChatStore } from "@/stores/implementation/ChatStore";
+import { observer } from "mobx-react-lite";
 import "./Chat.scss";
 import Inputer from "./comp/Inputer";
 import PuffLoader from "react-spinners/PuffLoader";
@@ -10,12 +8,7 @@ import { Message } from "../../entities";
 import dayjs, { toCalendar } from "@/services/dayjs";
 import MessageComponent from "@/components/chat/comp/MessageComponent";
 import useInfiniteScroll from "react-infinite-scroll-hook";
-
-type IProps = {
-  chatStore?: ChatStore;
-  contactStore?: IContactStore;
-  userStore?: IUserStore;
-};
+import { useStore } from "@/stores";
 
 const ChatListLoading = observer(() => {
   return (
@@ -111,63 +104,57 @@ const ChatList = observer(
   }
 );
 
-const Chat = inject((stores: IStores) => ({
-  chatStore: stores.chatStore,
-  contactStore: stores.contactStore,
-  userStore: stores.userStore,
-}))(
-  observer((props: IProps) => {
-    const { chatStore, contactStore } = props;
+const Chat = observer(() => {
+  const { chatStore, contactStore } = useStore();
 
-    const activeChat = chatStore.activeChat;
-    const activeContact = contactStore.activeContact;
+  const activeChat = chatStore.activeChat;
+  const activeContact = contactStore.activeContact;
 
-    if (!activeChat) {
-      return (
-        <div className="chat">
-          <ChatPlaceholder />
-        </div>
-      );
-    }
-
-    if (!chatStore.isLoaded) {
-      return (
-        <div className="chat">
-          <div className="loading chat_loading">
-            <PuffLoader color="#3498db" size={50} />
-          </div>
-        </div>
-      );
-    }
-
-    const replyMsg = (message: Message) => {
-      chatStore.setActiveMessage(message);
-    };
-
+  if (!activeChat) {
     return (
-      <div className="chat position-relative">
-        {activeChat && activeContact ? (
-          <>
-            <ChatList
-              messages={activeChat?.messages}
-              loading={chatStore.isLoadingPage}
-              hasNextPage={chatStore.hasNextPage}
-              onLoadMore={() => {
-                chatStore.loadMessages(
-                  activeContact.id,
-                  chatStore.getNextPageNumber
-                );
-              }}
-              onReplyMessage={replyMsg}
-            />
-            <Inputer />
-          </>
-        ) : (
-          <ChatPlaceholder />
-        )}
+      <div className="chat">
+        <ChatPlaceholder />
       </div>
     );
-  })
-);
+  }
+
+  if (!chatStore.isLoaded) {
+    return (
+      <div className="chat">
+        <div className="loading chat_loading">
+          <PuffLoader color="#3498db" size={50} />
+        </div>
+      </div>
+    );
+  }
+
+  const replyMsg = (message: Message) => {
+    chatStore.setActiveMessage(message);
+  };
+
+  return (
+    <div className="chat position-relative">
+      {activeChat && activeContact ? (
+        <>
+          <ChatList
+            messages={activeChat?.messages}
+            loading={chatStore.isLoadingPage}
+            hasNextPage={chatStore.hasNextPage}
+            onLoadMore={() => {
+              chatStore.loadMessages(
+                activeContact.id,
+                chatStore.getNextPageNumber
+              );
+            }}
+            onReplyMessage={replyMsg}
+          />
+          <Inputer />
+        </>
+      ) : (
+        <ChatPlaceholder />
+      )}
+    </div>
+  );
+});
 
 export default Chat;

@@ -1,59 +1,49 @@
 import React, { useEffect } from "react";
-import { inject, observer } from "mobx-react";
+import { observer } from "mobx-react-lite";
 import { Layout } from "antd";
-import IStores, { IAppStore, IAuthStore } from "@/stores/interface";
 import Chats from "@/pages/Chat";
 import "@/styles/index.scss";
+import { useStore } from "./stores";
 
-type IProps = {
-  appStore?: IAppStore;
-  authStore?: IAuthStore;
-};
+const App = observer(() => {
+  const { appStore, authStore } = useStore();
 
-const App = inject((stores: IStores) => ({
-  appStore: stores.appStore,
-  authStore: stores.authStore,
-}))(
-  observer((props: IProps) => {
-    const { appStore, authStore } = props;
+  useEffect(() => {
+    async function init() {
+      //for safari browser
+      setTimeout(function () {
+        // Hide the address bar!
+        window.scrollTo(0, 1);
+      }, 0);
 
-    useEffect(() => {
-      async function init() {
-        //for safari browser
-        setTimeout(function () {
-          // Hide the address bar!
-          window.scrollTo(0, 1);
-        }, 0);
-
-        let response = await authStore.initialize();
-        if (response) {
-          appStore.initialization();
-        }
+      let response = await authStore.initialize();
+      if (response) {
+        appStore.initialization();
       }
+    }
 
-      init();
-    }, []);
+    init();
+  }, []);
 
-    // Check auth when changing browser tabs
-    document.addEventListener("visibilitychange", async () => {
-      if (document.visibilityState === "visible") {
-        await authStore.login();
-      }
-    });
+  // Check auth when changing browser tabs
+  document.addEventListener("visibilitychange", async () => {
+    if (document.visibilityState === "visible") {
+      await authStore.login();
+    }
+  });
 
-    return (
-      <Layout>
-        <Layout className="site-layout">
-          <div className="chats-tab-open h-100">
-            <div className={"main-layout h-100"}>
-              <Chats />
-              {/*<NavBarLayout /> */}
-            </div>
+  return (
+    <Layout>
+      <Layout className="site-layout">
+        <div className="chats-tab-open h-100">
+          <div className={"main-layout h-100"}>
+            <Chats />
+            {/*<NavBarLayout /> */}
           </div>
-        </Layout>
+        </div>
       </Layout>
-    );
-  })
-);
+    </Layout>
+  );
+});
 
 export default App;
