@@ -1,4 +1,4 @@
-import { action, observable, makeObservable } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { contactStore, userStore } from "@/stores/implementation";
 import { getConversations, getSchools } from "@/actions";
 import { notification } from "antd";
@@ -13,21 +13,7 @@ export class AppStore {
   activeContactPageNumber: number = 1;
 
   constructor() {
-    makeObservable(this, {
-      isLoaded: observable,
-      info_tab: observable,
-      layout: observable,
-      schoolList: observable,
-      setInfoTab: action,
-      setLoading: action,
-      setLayout: action,
-      setContactPageNumber: action,
-      setSchoolList: action,
-      initSchools: action,
-      activeSchool: action,
-      updateContact: action,
-      initialization: action,
-    });
+    makeAutoObservable(this);
   }
 
   setInfoTab(tab: string) {

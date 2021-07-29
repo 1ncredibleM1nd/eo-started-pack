@@ -1,4 +1,4 @@
-import { observable, action, makeObservable } from "mobx";
+import { makeAutoObservable } from "mobx";
 import Entity from "./Entity";
 import User from "./User";
 import Attachment from "./Attachment";
@@ -31,10 +31,7 @@ class Message {
     readed?: boolean,
     attachments?: Attachment[]
   ) {
-    makeObservable(this, {
-      combineWithPrevious: observable,
-      setCombineWithPrevious: action,
-    });
+    makeAutoObservable(this);
 
     this.id = id;
     this.combineWithPrevious = combineWithPrevious;

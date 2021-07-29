@@ -1,9 +1,8 @@
-import { action, observable, makeObservable } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { isLogged, setSession } from "@/actions";
-import IAuthStore from "@/stores/interface/app/IAuthStore";
 import { userStore } from "@/stores/implementation/UserStore";
 
-export class AuthStore implements IAuthStore {
+export class AuthStore {
   checkLogin: () => void;
   loading: boolean = false;
   isFrame: boolean = false;
@@ -12,23 +11,7 @@ export class AuthStore implements IAuthStore {
   timestamp: string;
 
   constructor() {
-    makeObservable(this, {
-      loading: observable,
-      isFrame: observable,
-      token: observable,
-      userId: observable,
-      timestamp: observable,
-      setLoader: action,
-      setToken: action,
-      getToken: action,
-      setTimestamp: action,
-      getTimestamp: action,
-      setUserId: action,
-      getUserId: action,
-      checkIsFrame: action,
-      login: action,
-      initialize: action,
-    });
+    makeAutoObservable(this);
   }
 
   setLoader(loading: boolean) {

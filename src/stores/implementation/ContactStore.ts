@@ -1,4 +1,4 @@
-import { action, observable, reaction, makeObservable, when } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { chatStore, appStore } from "@/stores/implementation";
 import { getConversations } from "@/actions";
 import $ from "jquery";
@@ -33,20 +33,7 @@ export class ContactStore {
   contactLoading: boolean = false;
 
   constructor() {
-    makeObservable(this, {
-      contact: observable,
-      activeContact: observable,
-      search: observable,
-      filterSwitch: observable,
-      sources: observable,
-      toggleFilterSwitch: action,
-      filterSocial: action,
-      setSearch: action,
-      loadContact: action,
-      getContact: action,
-      setActiveContact: action.bound,
-      init: action,
-    });
+    makeAutoObservable(this);
   }
 
   filter: any;

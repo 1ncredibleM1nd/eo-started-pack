@@ -1,4 +1,4 @@
-import { observable, makeObservable } from "mobx";
+import { makeAutoObservable } from "mobx";
 import IRole from "@/stores/interface/IRole";
 import Message from "./Message";
 import User from "./User";
@@ -26,12 +26,8 @@ class Conversation {
     sendFile?: boolean,
     linkSocialPage?: string
   ) {
-    makeObservable(this, {
-      activeSocial: observable,
-      messages: observable,
-      user: observable,
-      activeMessage: observable,
-    });
+    makeAutoObservable(this);
+
     this.id = id;
     this.contactId = contactId;
     this.sourceAccountId = sourceAccountId;

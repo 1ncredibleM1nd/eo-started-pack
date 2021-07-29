@@ -1,5 +1,5 @@
-import { action, computed, observable, makeObservable } from "mobx";
-import { appStore, userStore } from "@/stores/implementation";
+import { makeAutoObservable } from "mobx";
+import { appStore, userStore, contactStore } from "@/stores/implementation";
 import { getMessages, sendMessage } from "@/actions";
 import { TypesMessage } from "@/stores/classes";
 import {
@@ -9,7 +9,6 @@ import {
   Message,
   User,
 } from "../../entities";
-import { contactStore } from "./ContactStore";
 import dayjs from "@/services/dayjs";
 
 const MAX_MESSAGE_COUNT_ON_PAGE = 29;
@@ -23,25 +22,7 @@ export class ChatStore {
   prevDateDivider: string = "";
 
   constructor() {
-    makeObservable(this, {
-      hasNextPage: observable,
-      isLoadingPage: observable,
-      isLoaded: observable,
-      activeChat: observable,
-      getPageNumber: computed,
-      getNextPageNumber: computed,
-      sendMessage: action,
-      loadMessages: action,
-      activateLastMessage: action,
-      collectMessagesList: action,
-      getMsg: action,
-      getChatByContactId: action,
-      getLastMsg: action,
-      getUnreadCount: action,
-      addMsg: action,
-      deleteMsg: action,
-      setActiveMessage: action,
-    });
+    makeAutoObservable(this);
   }
 
   get messagesCount() {

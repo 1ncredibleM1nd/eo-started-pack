@@ -1,18 +1,12 @@
-import { action, observable, reaction, makeObservable } from "mobx";
-import { IUser } from "@/stores/interface";
+import { makeAutoObservable } from "mobx";
 import { getUserData } from "@/actions";
 import { User } from "../../entities";
 
 export class UserStore {
   hero: User;
-  availableUsers: IUser[] = [];
 
   constructor() {
-    makeObservable(this, {
-      hero: observable,
-      availableUsers: observable,
-      initHero: action,
-    });
+    makeAutoObservable(this);
   }
 
   async initHero() {
