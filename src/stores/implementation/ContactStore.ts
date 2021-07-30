@@ -3,7 +3,6 @@ import { chatStore, appStore } from "@/stores/implementation";
 import { getConversations } from "@/actions";
 import $ from "jquery";
 import { Conversation } from "../../entities";
-import * as store from "store";
 import { globalStore } from "..";
 
 export class ContactStore {
@@ -76,7 +75,7 @@ export class ContactStore {
 
   getContact(id: string) {
     return this.contact.find(
-      (contactItem: Conversation) => contactItem.id === id
+      (contactItem: Conversation) => contactItem.id == id
     );
   }
 

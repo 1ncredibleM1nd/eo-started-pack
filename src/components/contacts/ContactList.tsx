@@ -4,6 +4,7 @@ import HashLoader from "react-spinners/HashLoader";
 import "./ContactList.scss";
 import "./Contact.scss";
 import { Conversation, Message } from "@/entities";
+import { Link } from "react-router-dom";
 import ContactItem from "./comp/ContactItem";
 import { useStore } from "@/stores";
 
@@ -22,9 +23,6 @@ const ContactList = observer(({ onSelect }: IProps) => {
     if (onSelect) {
       onSelect();
     }
-
-    contactStore.setActiveContact(id);
-    appStore.setLayout("chat");
   };
 
   const handleScroll = () => {
@@ -74,28 +72,32 @@ const ContactList = observer(({ onSelect }: IProps) => {
                   const school: any = schoolsStore.getById(contact.schoolId);
 
                   return (
-                    <ContactItem
-                      isIAm={
-                        lastMessage &&
-                        !lastMessage.income &&
-                        lastMessage.user &&
-                        lastMessage.user.id === usersStore.user?.id
-                      }
-                      isManager={
-                        lastMessage && !lastMessage.income && lastMessage.user
-                      }
-                      index={index}
-                      lastMessage={lastMessage}
+                    <Link
+                      to={`/chat?im=${contact.id}`}
                       key={`contacts_item_${index}`}
-                      contact={contact}
-                      online={online}
-                      active={
-                        contactStore.activeContact &&
-                        contactStore.activeContact.id === contact.id
-                      }
-                      selectContact={selectContact}
-                      school={school}
-                    />
+                    >
+                      <ContactItem
+                        isIAm={
+                          lastMessage &&
+                          !lastMessage.income &&
+                          lastMessage.user &&
+                          lastMessage.user.id === usersStore.user?.id
+                        }
+                        isManager={
+                          lastMessage && !lastMessage.income && lastMessage.user
+                        }
+                        index={index}
+                        lastMessage={lastMessage}
+                        contact={contact}
+                        online={online}
+                        active={
+                          contactStore.activeContact &&
+                          contactStore.activeContact.id === contact.id
+                        }
+                        selectContact={selectContact}
+                        school={school}
+                      />
+                    </Link>
                   );
                 })}
 

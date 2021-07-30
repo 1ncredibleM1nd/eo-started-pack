@@ -4,6 +4,7 @@ import { Layout } from "antd";
 import Chats from "@/pages/Chat";
 import "@/styles/index.scss";
 import { useStore } from "./stores";
+import { BrowserRouter as Router } from "react-router-dom";
 
 const App = observer(() => {
   const { appStore, authStore } = useStore();
@@ -37,7 +38,9 @@ const App = observer(() => {
       <Layout className="site-layout">
         <div className="chats-tab-open h-100">
           <div className={"main-layout h-100"}>
-            <Chats />
+            <Router>
+              <Chats />
+            </Router>
 
             {/*<NavBarLayout /> */}
           </div>

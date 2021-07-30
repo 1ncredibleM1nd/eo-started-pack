@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { Row, Col, Layout } from "antd";
 import { ChatLayout, ContactsLayout } from "@/layouts";
 import "@/styles/index.scss";
 import { useStore } from "@/stores";
+import { useLocationQuery } from "@/hooks/useLocationQuery";
 
 const App = observer(() => {
-  const { appStore } = useStore();
+  const { appStore, contactStore } = useStore();
   const layout = appStore.layout;
+  const query = useLocationQuery();
+
+  useEffect(() => {
+    const id = query.get("im");
+    if (id && appStore.isLoaded) {
+      contactStore.setActiveContact(id);
+      appStore.setLayout("chat");
+    }
+  }, [query, appStore.isLoaded]);
 
   return (
     <Layout hasSider={true} className="chat_page">
