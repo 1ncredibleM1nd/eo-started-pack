@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
 import { observer } from "mobx-react-lite";
-import { Button } from "antd";
 import "./Header.scss";
 import { Icon } from "@/ui";
 import { useStore } from "@/stores";
+import { Link } from "react-router-dom";
 
 const Header = observer(() => {
   const { contactStore, appStore, schoolsStore } = useStore();
@@ -17,7 +17,7 @@ const Header = observer(() => {
     linkSocialPage = activeContact.linkSocialPage;
   }
 
-  const closeConctact = () => {
+  const closeContact = () => {
     if (appStore.layout === "contact") {
       appStore.setLayout("info");
     } else if (appStore.layout === "info") {
@@ -44,15 +44,16 @@ const Header = observer(() => {
                     appStore.layout !== "contact" ? "active" : ""
                   }`}
                 >
-                  <Button
-                    onClick={() => closeConctact()}
+                  <Link
+                    to={"/"}
+                    onClick={() => closeContact()}
                     className="transparent"
                   >
                     <Icon
                       className="icon_s blue-lite"
                       name={`solid_arrow-left`}
                     />
-                  </Button>
+                  </Link>
                 </div>
                 <div className={"header_info"}>
                   <div className={`header_title`}>

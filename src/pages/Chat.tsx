@@ -43,15 +43,15 @@ const App = observer(() => {
           <ChatLayout />
         </Col>
         {/*
-                    // TODO: вернуть, когда будем готовы получать данные. См. коммит, чтобы увидеть исходные значения
-                    <Col
-                        xs={layout === 'info' ? 24 : 0}
-                        sm={layout === 'info' ? 24 : 0}
-                        md={layout === 'info' || layout === 'chat' ? 10 : 0}
-                        lg={7} xl={6} xxl={6}>
-                        <InfoLayout />
-                    </Col>
-                    */}
+        // TODO: вернуть, когда будем готовы получать данные. См. коммит, чтобы увидеть исходные значения
+        <Col
+          xs={layout === 'info' ? 24 : 0}
+          sm={layout === 'info' ? 24 : 0}
+          md={layout === 'info' || layout === 'chat' ? 10 : 0}
+          lg={7} xl={6} xxl={6}>
+          <InfoLayout />
+        </Col>
+        */}
       </Row>
     </Layout>
   );
