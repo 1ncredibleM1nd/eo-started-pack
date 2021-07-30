@@ -2,6 +2,7 @@ import { contactStore } from "@/stores/implementation";
 import * as resolver from "../ApiResolvers/index";
 import { AxiosResponse } from "axios";
 import { notification } from "antd";
+import { globalStore } from "@/stores";
 
 /**
  *
@@ -44,15 +45,15 @@ function isError(
   return true;
 }
 
-async function getConversations(schoolIds: Array<number>, page?: number) {
-  let sources = Object.keys(contactStore.sources).filter(
-    (key: string) => contactStore.sources[key]
-  );
-
+async function getConversations(schoolIds: Array<string>, page?: number) {
   const action = "Ошибка получения контактов";
   const section = "contacts";
 
   try {
+    const sources = globalStore.channelsStore.activeChannels.map(
+      (channel) => channel.id
+    );
+
     const response = await resolver.conversation.conversations(
       contactStore.search,
       sources,
@@ -74,7 +75,7 @@ async function getConversations(schoolIds: Array<number>, page?: number) {
 async function getMessages(
   conversationId: string,
   page: number,
-  schoolIds: Array<number>
+  schoolIds: Array<string>
 ) {
   const action = "Ошибка получения сообщений";
   const section = "messages";

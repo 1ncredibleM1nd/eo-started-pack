@@ -1,17 +1,16 @@
 import React, { useState, Fragment } from "react";
 import { observer } from "mobx-react-lite";
-import { Input, Switch, Collapse, Button } from "antd";
+import { Input, Collapse, Button } from "antd";
 import "./Search.scss";
 import { Icon } from "@/ui";
 
-import ChannelFilterItem from "./comp/ChannelFilterItem";
+import { Schools } from "../Filter/Schools";
+import { Channels } from "../Filter/Channels";
 import { useStore } from "@/stores";
 
 const Search = observer(() => {
   const { contactStore, appStore } = useStore();
   const [searchText, setSearchText] = useState("");
-  const sources = contactStore.sources;
-  const avaliableChannels = contactStore.avaliableChannels;
   const filterSwitch = contactStore.filterSwitch;
 
   const onChange = (value: string) => {
@@ -19,14 +18,13 @@ const Search = observer(() => {
     contactStore.setSearch(value);
   };
 
-  const onChangeSocial = (social: string) => {
-    contactStore.filterSocial(social);
+  const onChangeSocial = () => {
+    contactStore.filterSocial();
   };
 
   async function onChangeSchool(schoolId: number) {
     await contactStore.setActiveContact(null);
-
-    appStore.activeSchool(schoolId);
+    appStore.activeSchool();
   }
 
   const { Panel } = Collapse;
@@ -68,44 +66,12 @@ const Search = observer(() => {
         >
           <Panel header="" key="1">
             <div className="filter-item">
-              <h5>Школы</h5>
-              {Object.keys(appStore.schoolList).map((schoolId) => {
-                const school = appStore.schoolList[schoolId];
-
-                return (
-                  <div
-                    key={`filter_school_${schoolId}`}
-                    className={"school-item"}
-                  >
-                    <Switch
-                      size="small"
-                      defaultChecked={school.active}
-                      onChange={() => onChangeSchool(Number(schoolId))}
-                    />
-                    <img src={school.logo} className="school-logo" />
-                    <p>{school.name}</p>
-                  </div>
-                );
-              })}
+              <Schools onChangeSchool={onChangeSchool} />
             </div>
 
             <div className="filter-item">
-              <h5>Каналы</h5>
-              {Object.keys(sources).map((key: string) => {
-                if (avaliableChannels.find((channel) => channel === key)) {
-                  return (
-                    <ChannelFilterItem
-                      key={`filter_channel_${key}`}
-                      channelName={key}
-                      onChangeSocial={onChangeSocial}
-                      defaultChecked={sources[key]}
-                    />
-                  );
-                }
-                return null;
-              })}
+              <Channels onChangeSocial={onChangeSocial} />
             </div>
-
             {/* <div className="type_container">
 								<Radio.Group onChange={onChangeType} defaultValue="all">
 									<Radio.Button className='radio_btn all ' value="all">

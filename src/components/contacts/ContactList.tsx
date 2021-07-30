@@ -12,7 +12,7 @@ type IProps = {
 };
 
 const ContactList = observer(({ onSelect }: IProps) => {
-  const { contactStore, appStore, userStore } = useStore();
+  const { contactStore, appStore, schoolsStore, usersStore } = useStore();
   let ContactsData = contactStore.contact;
   const filterSwitch = contactStore.filterSwitch;
 
@@ -71,7 +71,7 @@ const ContactList = observer(({ onSelect }: IProps) => {
 
                   const lastMessage: Message = contact.getLastMessage();
                   const online: boolean = false;
-                  const school: any = appStore.schoolList[contact.schoolId];
+                  const school: any = schoolsStore.getById(contact.schoolId);
 
                   return (
                     <ContactItem
@@ -79,7 +79,7 @@ const ContactList = observer(({ onSelect }: IProps) => {
                         lastMessage &&
                         !lastMessage.income &&
                         lastMessage.user &&
-                        lastMessage.user.id === userStore.hero.id
+                        lastMessage.user.id === usersStore.user?.id
                       }
                       isManager={
                         lastMessage && !lastMessage.income && lastMessage.user

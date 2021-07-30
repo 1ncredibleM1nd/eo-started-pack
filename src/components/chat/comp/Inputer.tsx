@@ -6,7 +6,6 @@ import $ from "jquery";
 import { Button } from "antd";
 import { TypesMessage } from "@/stores/classes";
 import { CloseOutlined } from "@ant-design/icons";
-import { User } from "../../../entities";
 import FileUploadModal from "./FileUploadModal";
 import { InputerTextArea } from "./InputerTextArea";
 import { useStore } from "@/stores";
@@ -15,10 +14,10 @@ const ALL_ACCEPT_TYPE = "file_extension|audio/*|video/*|image/*|media_type";
 const INSTAGRAM_ACCEPT_TYPE = "image/*";
 
 const Inputer = observer(() => {
-  const { chatStore, contactStore, userStore, appStore } = useStore();
+  const { chatStore, contactStore, schoolsStore, usersStore } = useStore();
 
   const activeContact = contactStore.activeContact;
-  const hero: User = userStore.hero;
+  const user = usersStore.user;
   const activeSocial = chatStore.activeChat.activeSocial;
 
   const [draft, setDraft] = useState({});
@@ -118,7 +117,7 @@ const Inputer = observer(() => {
           resetInputAndKeys();
           chatStore.addMsg(
             draft[activeContact.id + status],
-            hero.id,
+            user.id,
             currentChat.activeSocial,
             null,
             fileOnHold
@@ -126,7 +125,7 @@ const Inputer = observer(() => {
           chatStore.sendMessage(
             draft[activeContact.id + status],
             activeContact.sourceAccountId,
-            appStore.getActiveSchools(),
+            schoolsStore.activeSchoolsIds,
             fileOnHold,
             currentChat.activeMessage
           );
@@ -147,7 +146,7 @@ const Inputer = observer(() => {
 
           chatStore.addMsg(
             message,
-            hero.id,
+            user.id,
             currentChat.activeSocial,
             chatStore.activeChat.activeMessage.content,
             fileOnHold

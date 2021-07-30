@@ -21,6 +21,7 @@
     "jquery": "^3.4.1",
     "mobx": "^6.3.2",
     "mobx-react-lite": "^3.2.0",
+    "mobx-state-tree": "^5.0.2",
     "qs": "^6.9.6",
     "react": "^17.0.2",
     "react-avatar": "^3.10.0",
@@ -30,6 +31,7 @@
     "react-infinite-scroll-hook": "^4.0.1",
     "react-markdown": "^6.0.2",
     "react-onscroll": "^1.0.4",
+    "react-query": "^3.19.1",
     "react-spinners": "^0.10.4",
     "store": "^2.0.12",
     "swiper": "^6.4.8"

@@ -4,31 +4,13 @@ import { getConversations } from "@/actions";
 import $ from "jquery";
 import { Conversation } from "../../entities";
 import * as store from "store";
+import { globalStore } from "..";
 
 export class ContactStore {
   contact: Array<Conversation> = [];
   activeContact: Conversation;
   search: string = "";
   filterSwitch: boolean = false;
-
-  sources: any = store.get("sources", {
-    whatsapp: false,
-    instagram: true,
-    vkontakte: true,
-    odnoklassniki: true,
-    viber: false,
-    facebook: true,
-    telegram: true,
-    email: false,
-  });
-
-  avaliableChannels: string[] = [
-    "vkontakte",
-    "odnoklassniki",
-    "facebook",
-    "telegram",
-    "instagram",
-  ];
 
   contactLoading: boolean = false;
 
@@ -43,10 +25,8 @@ export class ContactStore {
     this.filterSwitch = !this.filterSwitch;
   }
 
-  filterSocial(key: string) {
-    this.sources[key] = !this.sources[key];
+  filterSocial() {
     this.contact = [];
-    store.set("sources", this.sources);
     appStore.setLoading(false);
     appStore.updateContact();
   }
@@ -66,7 +46,7 @@ export class ContactStore {
     this.contactLoading = true;
 
     let conversations = await getConversations(
-      appStore.getActiveSchools(),
+      globalStore.schoolsStore.activeSchoolsIds,
       appStore.activeContactPageNumber + 1
     );
 

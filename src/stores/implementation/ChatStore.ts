@@ -1,15 +1,11 @@
 import { makeAutoObservable } from "mobx";
-import { appStore, userStore, contactStore } from "@/stores/implementation";
+import { contactStore } from "@/stores/implementation";
 import { getMessages, sendMessage } from "@/actions";
 import { TypesMessage } from "@/stores/classes";
-import {
-  Attachment,
-  Conversation,
-  Entity,
-  Message,
-  User,
-} from "../../entities";
+import { Attachment, Conversation, Entity, Message } from "../../entities";
 import dayjs from "@/services/dayjs";
+import { globalStore } from "..";
+import { User, UserInstance } from "../model/User";
 
 const MAX_MESSAGE_COUNT_ON_PAGE = 29;
 
@@ -98,7 +94,7 @@ export class ChatStore {
       const messagesArray: Array<any> = await getMessages(
         contactId,
         pageNumber,
-        appStore.getActiveSchools()
+        globalStore.schoolsStore.activeSchoolsIds
       );
 
       messagesArray.forEach((message) => {
@@ -164,7 +160,7 @@ export class ChatStore {
       const id: string = "msg_" + Math.random();
       const combineWithPrevious: boolean = false;
       const entity: Entity = new Entity(TypesMessage.MESSAGE);
-      const user: User = userStore.hero;
+      const user = globalStore.usersStore.user;
 
       //? Текст сообщения  = названию файлов через запятую
       // TODO Переделать когда появться изменения от Бэка
@@ -226,7 +222,7 @@ export class ChatStore {
     { previous, current }: { previous?: any; current: any },
     isLastMessage?: boolean
   ): Message {
-    let user: User = current.user ? current.user : null;
+    let user: UserInstance = current.user ? current.user : null;
 
     if (!user) {
       user = contactStore.activeContact
@@ -297,7 +293,11 @@ export class ChatStore {
 
   collectChat(contact: any): Conversation {
     // TODO: КОСТЫЛЬ ПРАВИТЬ СРОЧНО
-    const user: User = new User(contact.user[0], contact.name, contact.avatar);
+    const user = User.create({
+      id: Number(contact.user[0]),
+      username: contact.name,
+      avatar: contact.avatar,
+    });
 
     const conversation: Conversation = new Conversation(
       contact.id,

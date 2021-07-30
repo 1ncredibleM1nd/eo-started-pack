@@ -15,7 +15,7 @@ export default class Conversation {
   conversations(
     query: string,
     sources: Object,
-    schoolIds: Array<number>,
+    schoolIds: Array<string>,
     page?: number
   ): Promise<AxiosResponse<any>> {
     let params: any = {
@@ -44,7 +44,7 @@ export default class Conversation {
    * @return Promise<AxiosResponse<any>>
    */
   messages(
-    schoolIds: Array<number>,
+    schoolIds: Array<string>,
     conversationId: string,
     page: number
   ): Promise<AxiosResponse<any>> {
@@ -53,9 +53,10 @@ export default class Conversation {
     params.set("page", page.toString());
     params.set("conversationId", conversationId);
 
-    schoolIds.forEach((schoolId: number, index: number) => {
-      params.set(`schoolIds[${index}]`, schoolId.toString());
+    schoolIds.forEach((schoolId: string, index: number) => {
+      params.set(`schoolIds[${index}]`, schoolId);
     });
+
     return API.get(`/conversation/get-messages?${params}`);
   }
 

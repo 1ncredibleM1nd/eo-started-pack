@@ -1,12 +1,24 @@
 import { API, AUTH } from "../actions/axios";
 import { AxiosResponse } from "axios";
 
+export type TApiUser = {
+  data: {
+    id: number;
+    username: string;
+    avatar: string | null;
+  };
+};
+
+export type TApiSchools = {
+  data: { [id: string]: { logo: string; schoolName: string } };
+};
+
 export default class Account {
   /**
    * @return Promise<AxiosResponse<any>>
    */
-  info(): Promise<AxiosResponse<any>> {
-    return API.get("/account/get-account");
+  async info() {
+    return await API.get<TApiUser>("/account/get-account");
   }
 
   /**
@@ -27,7 +39,8 @@ export default class Account {
 
     return AUTH.post(`/account/set-session`, formData);
   }
-  getSchools(): Promise<AxiosResponse<any>> {
-    return API.get("/account/get-schools");
+
+  async getSchools() {
+    return await API.get<TApiSchools>("/account/get-schools");
   }
 }

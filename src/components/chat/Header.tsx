@@ -6,7 +6,7 @@ import { Icon } from "@/ui";
 import { useStore } from "@/stores";
 
 const Header = observer(() => {
-  const { contactStore, appStore } = useStore();
+  const { contactStore, appStore, schoolsStore } = useStore();
   const activeContact = contactStore.activeContact;
   let chatTitle: any;
   let activeMsg: any;
@@ -28,7 +28,7 @@ const Header = observer(() => {
     }
   };
 
-  const school = appStore.schoolList[contactStore?.activeContact?.schoolId];
+  const school = schoolsStore.getById(contactStore?.activeContact?.schoolId);
 
   return (
     <div className="chat_header">

@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import Entity from "./Entity";
-import User from "./User";
 import Attachment from "./Attachment";
+import { UserInstance } from "@/stores/model/User";
 
 class Message {
   id: string;
@@ -15,7 +15,7 @@ class Message {
   income: boolean;
   attachments: Attachment[] | [];
   entity: Entity;
-  user: User;
+  user: UserInstance;
   timestamp: number;
   isLastMessage: boolean;
 
@@ -27,7 +27,7 @@ class Message {
     income: boolean,
     timestamp: number,
     entity: Entity,
-    user: User,
+    user: UserInstance,
     readed?: boolean,
     attachments?: Attachment[]
   ) {

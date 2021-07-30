@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import IRole from "@/stores/interface/IRole";
 import Message from "./Message";
-import User from "./User";
+import { UserInstance } from "@/stores/model/User";
 
 class Conversation {
   id: string;
@@ -10,7 +10,7 @@ class Conversation {
   role: Array<IRole> = [];
   activeSocial: string;
   messages: Message[] = [];
-  user: User;
+  user: UserInstance;
   activeMessage: Message = null;
   schoolId: string;
   sendFile: boolean;
@@ -21,7 +21,7 @@ class Conversation {
     contactId: string,
     sourceAccountId: string,
     activeSocial: string,
-    user: User,
+    user: UserInstance,
     schoolId?: string,
     sendFile?: boolean,
     linkSocialPage?: string

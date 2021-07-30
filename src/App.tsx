@@ -38,6 +38,7 @@ const App = observer(() => {
         <div className="chats-tab-open h-100">
           <div className={"main-layout h-100"}>
             <Chats />
+
             {/*<NavBarLayout /> */}
           </div>
         </div>
@@ -45,5 +46,4 @@ const App = observer(() => {
     </Layout>
   );
 });
-
 export default App;

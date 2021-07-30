@@ -1,15 +1,13 @@
 import { makeAutoObservable } from "mobx";
-import { contactStore, userStore } from "@/stores/implementation";
-import { getConversations, getSchools } from "@/actions";
+import { contactStore } from "@/stores/implementation";
+import { getConversations } from "@/actions";
 import { notification } from "antd";
-import ISchool from "@/stores/interface/app/ISchool";
-import * as store from "store";
+import { globalStore } from "..";
 
 export class AppStore {
   isLoaded: boolean = false;
   info_tab: string = "none";
   layout: string = "contact";
-  schoolList: Array<ISchool> = [];
   activeContactPageNumber: number = 1;
 
   constructor() {
@@ -36,59 +34,14 @@ export class AppStore {
     this.activeContactPageNumber = value;
   }
 
-  setSchoolList(schoolList: Array<ISchool>) {
-    this.schoolList = schoolList;
-  }
-
-  async initSchools() {
-    let schoolList: any = await getSchools();
-
-    Object.keys(schoolList).forEach((schoolId) => {
-      const schoolName: any = schoolList[schoolId]["schoolName"];
-      const schoolLogo: any = schoolList[schoolId]["logo"];
-
-      schoolList[schoolId] = {
-        id: schoolId,
-        name: schoolName,
-        logo: schoolLogo,
-        active: store.get("schools", {})[schoolId] ?? true,
-      };
-    });
-
-    this.setSchoolList(schoolList);
-  }
-
-  activeSchool(schoolId: number): void {
+  activeSchool(): void {
     contactStore.contact = [];
     this.setLoading(false);
-
-    this.schoolList[schoolId].active = !this.schoolList[schoolId].active;
-    store.set(
-      "schools",
-      Object.values(this.schoolList).reduce((result, { id, active }) => {
-        result[id] = active;
-        return result;
-      }, {})
-    );
-  }
-
-  getActiveSchools(): Array<number> {
-    let schoolIds: Array<number> = [];
-
-    Object.keys(this.schoolList).forEach((schoolId) => {
-      const school: any = this.schoolList[schoolId];
-
-      if (school.active) {
-        schoolIds.push(Number(schoolId));
-      }
-    });
-
-    return schoolIds;
   }
 
   async updateContact() {
     const conversationList: Array<any> = await getConversations(
-      this.getActiveSchools(),
+      globalStore.schoolsStore.activeSchoolsIds,
       1
     );
 
@@ -96,9 +49,7 @@ export class AppStore {
   }
 
   async initialization() {
-    await userStore.initHero();
-
-    await this.initSchools();
+    await globalStore.init();
 
     // сконфигурируем уведомления
     notification.config({ placement: "bottomRight", bottom: 50, duration: 3 });

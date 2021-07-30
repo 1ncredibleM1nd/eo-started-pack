@@ -5,10 +5,10 @@ import { UserAvatar } from "@/components/user_info/UserAvatar";
 import { useStore } from "@/stores";
 
 const Chat = observer(() => {
-  const { userStore } = useStore();
-  const hero = userStore.hero;
+  const { usersStore } = useStore();
+  const user = usersStore.user;
 
-  if (!hero) {
+  if (!user) {
     return (
       <div className="start_chat_page">
         <Skeleton.Avatar
@@ -33,8 +33,8 @@ const Chat = observer(() => {
 
   return (
     <div className="start_chat_page">
-      <UserAvatar size="64" user={hero} round={true} textSizeRatio={1.75} />
-      <h5 className="mt-3">Привет, {hero ? hero.username : "Пользователь"}</h5>
+      <UserAvatar size="64" user={user} round={true} textSizeRatio={1.75} />
+      <h5 className="mt-3">Привет, {user ? user.username : "Пользователь"}</h5>
       <p className="text-muted">Выбирай контакт слева, чтобы начать общаться</p>
     </div>
   );

@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { isLogged, setSession } from "@/actions";
-import { userStore } from "@/stores/implementation/UserStore";
+import { globalStore } from "..";
 
 export class AuthStore {
   checkLogin: () => void;
@@ -84,7 +84,7 @@ export class AuthStore {
           }
 
           this.setToken(token);
-          await userStore.initHero();
+          await globalStore.usersStore.init();
         } else {
           window.location.href = `${process.env.APP_ACCOUNT_URL}/?redirect_url=${window.location.href}`;
         }
