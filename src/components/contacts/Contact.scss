@@ -101,22 +101,23 @@
 .last_msg {
   width: 85%;
   font-size: 15px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-inline-box;
+  display: inline-flex;
+  flex-wrap: wrap;
 
   .from {
     margin-right: 5px;
     display: flex;
     color: #2A99FF;
-    max-width: 40%;
     position: relative;
+    white-space: nowrap;
+  }
 
-    .manager-name {
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
+  .last-message-content {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
   }
 
   .unreaded_count {
