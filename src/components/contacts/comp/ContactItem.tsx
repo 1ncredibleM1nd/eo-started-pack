@@ -9,7 +9,7 @@ import ReactMarkdown from "react-markdown";
 
 type IProps = {
   index: number;
-  lastMessage: any;
+  lastMessage: Message;
   contact: any;
   online: any;
   active: any;
@@ -97,6 +97,9 @@ const ContactItem = observer((props: IProps) => {
         <div className="contacts-texts">
           {lastMessage ? (
             <div className={`last_msg ${status}`}>
+              {lastMessage?.entity?.type.includes("comment") && (
+                <Icon className="icon_s icon_comment" name={"icon_comment"} />
+              )}
               {isManager ? (
                 <div className="from">
                   {`${isIAm ? "Вы" : lastMessage.user.username.trim()}:`}

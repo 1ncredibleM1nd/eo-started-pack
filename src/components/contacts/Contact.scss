@@ -104,6 +104,11 @@
   display: inline-flex;
   flex-wrap: wrap;
 
+  .icon_comment {
+    margin-right: 4px;
+    align-self: center;
+  }
+
   .from {
     margin-right: 5px;
     display: flex;

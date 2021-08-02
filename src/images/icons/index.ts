@@ -9,3 +9,4 @@ import "./icon_filter_close.svg";
 import "./icon_button_send.svg";
 import "./icon_button_send_filled.svg";
 import "./icon_clip.svg";
+import "./icon_comment.svg";
