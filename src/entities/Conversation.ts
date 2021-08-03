@@ -15,6 +15,7 @@ class Conversation {
   schoolId: string;
   sendFile: boolean;
   linkSocialPage: string = null;
+  readed: boolean;
 
   constructor(
     id: string,
@@ -24,7 +25,8 @@ class Conversation {
     user: UserInstance,
     schoolId?: string,
     sendFile?: boolean,
-    linkSocialPage?: string
+    linkSocialPage?: string,
+    readed?: boolean
   ) {
     makeAutoObservable(this);
 
@@ -36,6 +38,7 @@ class Conversation {
     this.schoolId = schoolId;
     this.sendFile = sendFile;
     this.linkSocialPage = linkSocialPage;
+    this.readed = readed;
   }
 
   addMessage(message: Message): void {

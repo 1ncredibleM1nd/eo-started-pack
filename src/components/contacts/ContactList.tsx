@@ -13,7 +13,8 @@ type IProps = {
 };
 
 const ContactList = observer(({ onSelect }: IProps) => {
-  const { contactStore, appStore, schoolsStore, usersStore } = useStore();
+  const { contactStore, appStore, schoolsStore, usersStore, chatStore } =
+    useStore();
   let ContactsData = contactStore.contact;
   const filterSwitch = contactStore.filterSwitch;
 
@@ -23,6 +24,10 @@ const ContactList = observer(({ onSelect }: IProps) => {
     if (onSelect) {
       onSelect();
     }
+  };
+
+  const setUnreadChat = async (id: any) => {
+    chatStore.setUnreadChat(id);
   };
 
   const handleScroll = () => {
@@ -96,6 +101,7 @@ const ContactList = observer(({ onSelect }: IProps) => {
                         }
                         selectContact={selectContact}
                         school={school}
+                        setUnreadChat={setUnreadChat}
                       />
                     </Link>
                   );

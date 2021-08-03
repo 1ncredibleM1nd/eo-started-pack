@@ -86,4 +86,17 @@ export default class Conversation {
 
     return API.post(`/conversation/send-message`, formData);
   }
+
+  /**
+   * @param contactId
+   *
+   * @return Promise<AxiosResponse<any>>
+   */
+  unread(contactId: string): Promise<AxiosResponse<any>> {
+    const params = new URLSearchParams();
+
+    params.set("conversationId", contactId);
+
+    return API.get(`/conversation/set-unread-conversation?${params}`);
+  }
 }

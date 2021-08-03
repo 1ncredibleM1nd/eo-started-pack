@@ -202,6 +202,24 @@ async function getSchools() {
   }
 }
 
+async function setUnreadChat(contactId: string) {
+  const action = "Ошибка: не удалось отметить чат, как непрочитанный";
+  const section = "messages";
+
+  try {
+    const response = await resolver.conversation.unread(contactId);
+
+    if (!isError(response, section, action, true)) {
+      return response.data.data;
+    }
+
+    return [];
+  } catch (error) {
+    messageError(error.toString() ?? action, section);
+    return [];
+  }
+}
+
 export {
   sendMessage,
   getConversations,
@@ -210,4 +228,5 @@ export {
   setSession,
   getUserData,
   getSchools,
+  setUnreadChat,
 };

@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { contactStore } from "@/stores/implementation";
-import { getMessages, sendMessage } from "@/actions";
+import { getMessages, sendMessage, setUnreadChat } from "@/actions";
 import { TypesMessage } from "@/stores/classes";
 import { Attachment, Conversation, Entity, Message } from "../../entities";
 import dayjs from "@/services/dayjs";
@@ -307,7 +307,8 @@ export class ChatStore {
       user,
       contact.school_id,
       contact.send_file,
-      contact.link_social_page
+      contact.link_social_page,
+      contact.readed
     );
 
     const message: Message = this.collectMessage({
@@ -316,6 +317,12 @@ export class ChatStore {
     conversation.addMessage(message);
 
     return conversation;
+  }
+
+  async setUnreadChat(contactId: string) {
+    if (contactId) {
+      await setUnreadChat(contactId);
+    }
   }
 }
 
