@@ -1,6 +1,5 @@
 import { API } from "@/actions/axios";
 import { AxiosResponse } from "axios";
-import qs from "qs";
 import { chatStore } from "@/stores/implementation";
 
 export default class Conversation {
@@ -18,20 +17,13 @@ export default class Conversation {
     schoolIds: Array<number>,
     page?: number
   ): Promise<AxiosResponse<any>> {
-    let params: any = {
+    return API.post(`/conversation/get-conversations`, {
       search: {
         query,
         sources,
       },
       page,
       schoolIds,
-    };
-
-    return API.get(`/conversation/get-conversations`, {
-      params,
-      paramsSerializer: (paramsObject) => {
-        return qs.stringify(paramsObject);
-      },
     });
   }
 
@@ -48,15 +40,11 @@ export default class Conversation {
     conversationId: string,
     page: number
   ): Promise<AxiosResponse<any>> {
-    const params = new URLSearchParams();
-
-    params.set("page", page.toString());
-    params.set("conversationId", conversationId);
-
-    schoolIds.forEach((schoolId: number, index: number) => {
-      params.set(`schoolIds[${index}]`, schoolId.toString());
+    return API.post(`/conversation/get-messages`, {
+      page,
+      conversationId,
+      schoolIds,
     });
-    return API.get(`/conversation/get-messages?${params}`);
   }
 
   /**
