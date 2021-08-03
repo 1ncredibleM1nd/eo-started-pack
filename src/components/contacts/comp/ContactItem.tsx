@@ -143,12 +143,7 @@ const ContactItem = observer((props: IProps) => {
                   unwrapDisallowed={true}
                   linkTarget="_blank"
                 />
-                {status === "unread" && (
-                  <>
-                    <>&nbsp;</>
-                    <div className="unreaded_count"></div>
-                  </>
-                )}
+                {status === "unread" && <div className="unreaded_count"></div>}
               </div>
             ) : (
               <div className={`last_msg ${status}`}>*Добавлен в контакты*</div>
