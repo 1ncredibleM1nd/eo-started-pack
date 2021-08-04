@@ -17,7 +17,7 @@ const App = observer(() => {
       contactStore.setActiveContact(id);
       appStore.setLayout("chat");
     }
-  }, [query, appStore.isLoaded]);
+  }, [query, appStore.isLoaded, appStore, contactStore]);
 
   return (
     <Layout hasSider={true} className="chat_page">

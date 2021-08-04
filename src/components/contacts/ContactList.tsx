@@ -1,4 +1,9 @@
-import React, { useRef } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 import { observer } from "mobx-react-lite";
 import HashLoader from "react-spinners/HashLoader";
 import "./ContactList.scss";
@@ -7,6 +12,8 @@ import { Conversation, Message } from "@/entities";
 import { Link } from "react-router-dom";
 import ContactItem from "./comp/ContactItem";
 import { useStore } from "@/stores";
+import { useInView } from "react-intersection-observer";
+import { useLocationQuery } from "@/hooks/useLocationQuery";
 
 type IProps = {
   onSelect?: () => void | null;
@@ -15,10 +22,38 @@ type IProps = {
 const ContactList = observer(({ onSelect }: IProps) => {
   const { contactStore, appStore, schoolsStore, usersStore, chatStore } =
     useStore();
-  let ContactsData = contactStore.contact;
+  const query = useLocationQuery();
+  const ContactsData = contactStore.contact;
   const filterSwitch = contactStore.filterSwitch;
 
-  const contactRef = useRef(null);
+  const { ref: sentryPrevRef, inView: isVisiblePrev } = useInView({
+    initialInView: true,
+  });
+  const { ref: sentryNextRef, inView: isVisibleNext } = useInView();
+
+  const trackScrollPosition = useCallback((node) => {
+    const id = query.get("im");
+    if (node && id) {
+      setTimeout(() => {
+        document.getElementById(`contacts_item_${id}`).scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }, 1000);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isVisiblePrev) {
+      contactStore.loadPrev();
+    }
+  }, [contactStore, isVisiblePrev]);
+
+  useEffect(() => {
+    if (isVisibleNext) {
+      contactStore.loadNext();
+    }
+  }, [contactStore, isVisibleNext]);
 
   const selectContact = async (id: any) => {
     if (onSelect) {
@@ -28,21 +63,6 @@ const ContactList = observer(({ onSelect }: IProps) => {
 
   const setUnreadChat = async (id: any) => {
     chatStore.setUnreadChat(id);
-  };
-
-  const handleScroll = () => {
-    if (!contactRef.current) return;
-    let parentPos = document
-      .querySelector("#chatContactsList")
-      .getBoundingClientRect();
-    let childPos = document
-      .querySelector(`.contacts-item-${ContactsData.length - 1}`)
-      .getBoundingClientRect();
-    let topOfLastContact = childPos.bottom - parentPos.bottom;
-
-    if (topOfLastContact <= 10) {
-      contactStore.loadContact();
-    }
   };
 
   if (!appStore.isLoaded) {
@@ -58,17 +78,14 @@ const ContactList = observer(({ onSelect }: IProps) => {
       <div className="tab-content">
         <div className="tab-pane active" id="chats-content">
           <div className="scroller d-flex flex-column h-100">
-            <div
-              onScrollCapture={handleScroll}
-              className="hide-scrollbar h-100"
-              id="chatContactsList"
-              ref={contactRef}
-            >
+            <div className="hide-scrollbar h-100" id="chatContactsList">
               <ul
                 className="contacts-list"
                 id="chatContactTab"
-                data-chat-list=""
+                ref={trackScrollPosition}
               >
+                <div ref={sentryPrevRef}></div>
+
                 {ContactsData.map((contact: Conversation, index: number) => {
                   if (!contact) return null;
 
@@ -78,6 +95,7 @@ const ContactList = observer(({ onSelect }: IProps) => {
 
                   return (
                     <Link
+                      id={`contacts_item_${contact.id}`}
                       to={`/chat?im=${contact.id}`}
                       key={`contacts_item_${index}`}
                     >
@@ -106,6 +124,8 @@ const ContactList = observer(({ onSelect }: IProps) => {
                     </Link>
                   );
                 })}
+
+                <div ref={sentryNextRef}></div>
 
                 {ContactsData && !ContactsData.length && (
                   <li className={`contacts-item friends`}>

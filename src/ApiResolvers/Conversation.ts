@@ -15,12 +15,14 @@ export default class Conversation {
     query: string,
     sources: Object,
     schoolIds: Array<string>,
-    page?: number
+    page?: number,
+    conversationId?: string
   ): Promise<AxiosResponse<any>> {
     return API.post(`/conversation/get-conversations`, {
       search: {
         query,
         sources,
+        conversationId,
       },
       page,
       schoolIds,

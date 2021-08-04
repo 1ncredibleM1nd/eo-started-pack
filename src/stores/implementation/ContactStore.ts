@@ -11,14 +11,37 @@ export class ContactStore {
   search: string = "";
   filterSwitch: boolean = false;
 
-  contactLoading: boolean = false;
+  filter: any;
+  name: string;
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  filter: any;
-  name: string;
+  pageLoading = false;
+  setPageLoading(value: boolean) {
+    this.pageLoading = value;
+  }
+
+  hasNext = true;
+  setHasNext(value: boolean) {
+    this.hasNext = value;
+  }
+
+  hasPrev = true;
+  setHasPrev(value: boolean) {
+    this.hasPrev = value;
+  }
+
+  prevPage: number = 1;
+  setPrevPage(page: number) {
+    this.prevPage = page;
+  }
+
+  nextPage: number = 1;
+  setNextPage(page: number) {
+    this.nextPage = page;
+  }
 
   toggleFilterSwitch() {
     this.filterSwitch = !this.filterSwitch;
@@ -27,50 +50,70 @@ export class ContactStore {
   filterSocial() {
     this.contact = [];
     appStore.setLoading(false);
-    appStore.updateContact();
+    contactStore.load();
   }
 
   setSearch(search: string) {
     this.search = search;
     this.contact = [];
     appStore.setLoading(false);
-    appStore.updateContact();
+    contactStore.load();
   }
 
-  async loadContact(): Promise<any> {
-    if (this.contactLoading) {
-      return null;
-    }
-
-    this.contactLoading = true;
-
-    let conversations = await getConversations(
-      globalStore.schoolsStore.activeSchoolsIds,
-      appStore.activeContactPageNumber + 1
-    );
-
-    let dataContact: any = [];
-    if (!conversations.length) {
-      this.contactLoading = false;
+  async loadPrev() {
+    if (this.pageLoading || !this.hasPrev || this.prevPage === 1) {
       return;
     }
 
-    for (let i = 0; i < conversations.length; i++) {
-      const conversation: Conversation = chatStore.collectChat(
-        conversations[i]
-      );
-      dataContact.push(conversation);
+    console.log("load prev");
+    this.setPageLoading(true);
+
+    const { conversations, page } = await getConversations({
+      schoolIds: globalStore.schoolsStore.activeSchoolsIds,
+      page: this.prevPage - 1,
+    });
+
+    if (conversations.length > 0) {
+      this.contact = [
+        ...conversations.map((conversation: Conversation) =>
+          chatStore.collectChat(conversation)
+        ),
+        ...this.contact,
+      ];
+
+      this.setPrevPage(page);
     }
 
-    this.contact = [...this.contact, ...dataContact];
+    this.setHasPrev(page !== 1);
+    this.setPageLoading(false);
+  }
 
-    if (conversations.length === 20) {
-      setTimeout(() => {
-        appStore.setContactPageNumber(appStore.activeContactPageNumber + 1);
-
-        this.contactLoading = false;
-      }, 500);
+  async loadNext() {
+    if (this.pageLoading || !this.hasNext) {
+      return;
     }
+
+    console.log("load next");
+    this.setPageLoading(true);
+
+    const { conversations, page } = await getConversations({
+      schoolIds: globalStore.schoolsStore.activeSchoolsIds,
+      page: this.nextPage + 1,
+    });
+
+    if (conversations.length > 0) {
+      this.contact = [
+        ...this.contact,
+        ...conversations.map((conversation: Conversation) =>
+          chatStore.collectChat(conversation)
+        ),
+      ];
+
+      this.setNextPage(page);
+    }
+
+    this.setHasNext(conversations.length >= 20);
+    this.setPageLoading(false);
   }
 
   getContact(id: string) {
@@ -109,17 +152,25 @@ export class ContactStore {
     chatStore.isLoaded = true;
   }
 
-  async init(data: any) {
-    const dataContact: Array<Conversation> = [];
+  async load(id?: string) {
+    const dataContact: Conversation[] = [];
 
-    if (!data.length) {
+    const { conversations, page } = await getConversations({
+      schoolIds: globalStore.schoolsStore.activeSchoolsIds,
+      page: this.prevPage,
+      conversationId: id,
+    });
+
+    if (!conversations.length) {
       this.contact = [];
       appStore.setLoading(true);
       return;
     }
 
-    for (let i = 0; i < data.length; i++) {
-      const contact = data[i];
+    this.setPrevPage(page);
+
+    for (let i = 0; i < conversations.length; i++) {
+      const contact = conversations[i];
       const conversation: Conversation = chatStore.collectChat(contact);
       dataContact.push(conversation);
     }
@@ -165,6 +216,13 @@ export class ContactStore {
     }
 
     appStore.setLoading(true);
+
+    setTimeout(() => {
+      if (!this.pageLoading) {
+        console.log("load");
+        this.load();
+      }
+    }, 1000);
   }
 }
 

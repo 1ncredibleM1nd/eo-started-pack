@@ -45,7 +45,15 @@ function isError(
   return true;
 }
 
-async function getConversations(schoolIds: Array<string>, page?: number) {
+async function getConversations({
+  schoolIds,
+  page,
+  conversationId,
+}: {
+  schoolIds: string[];
+  page?: number;
+  conversationId?: string;
+}) {
   const action = "Ошибка получения контактов";
   const section = "contacts";
 
@@ -58,7 +66,8 @@ async function getConversations(schoolIds: Array<string>, page?: number) {
       contactStore.search,
       sources,
       schoolIds,
-      page
+      page,
+      conversationId
     );
 
     if (!isError(response, section, action, true)) {
