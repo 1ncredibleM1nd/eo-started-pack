@@ -106,6 +106,7 @@ const ContactItem = observer((props: IProps) => {
                 src={school.logo}
                 className="school-logo"
                 title={school.name}
+                alt={school.name}
               />
             </div>
 
@@ -131,7 +132,11 @@ const ContactItem = observer((props: IProps) => {
                 )}
                 {isManager ? (
                   <div className="from">
-                    {`${isIAm ? "Вы" : lastMessage.user.username.trim()}:`}
+                    {`${
+                      isIAm
+                        ? "Вы"
+                        : lastMessage.user?.username.trim() ?? "От лица группы"
+                    }:`}
                   </div>
                 ) : (
                   ""

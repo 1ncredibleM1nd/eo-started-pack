@@ -106,9 +106,7 @@ const ContactList = observer(({ onSelect }: IProps) => {
                           lastMessage.user &&
                           lastMessage.user.id === usersStore.user?.id
                         }
-                        isManager={
-                          lastMessage && !lastMessage.income && lastMessage.user
-                        }
+                        isManager={lastMessage && !lastMessage.income}
                         index={index}
                         lastMessage={lastMessage}
                         contact={contact}
