@@ -7,6 +7,7 @@ import { MessageAttachmentFile } from "@/components/chat/comp/MessageAttachmentF
 import { MessageAttachmentUnsupported } from "@/components/chat/comp/MessageAttachmentUnsupported";
 import type { TMessageAttachment } from "@/types/message";
 import { MessageAttachmentLink } from "@/components/chat/comp/MessageAttachmentLink";
+import { css } from "goober";
 
 type TProps = { attachment: TMessageAttachment };
 
@@ -22,8 +23,23 @@ export const MessageAttachment = observer(({ attachment }: TProps) => {
   }
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
-      <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
+    <div
+      className={css`
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      `}
+    >
+      <Spin
+        indicator={
+          <LoadingOutlined
+            className={css`
+              font-size: 24px;
+            `}
+            spin
+          />
+        }
+      />
     </div>
   );
 });
