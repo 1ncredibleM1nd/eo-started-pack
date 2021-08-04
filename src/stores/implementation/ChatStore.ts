@@ -222,18 +222,16 @@ export class ChatStore {
     { previous, current }: { previous?: any; current: any },
     isLastMessage?: boolean
   ): Message {
-    let user: UserInstance = current.user ? current.user : null;
+    let user: UserInstance = current.user;
 
     if (!user) {
-      user = contactStore.activeContact
-        ? contactStore.activeContact.user
-        : null;
+      user =
+        contactStore.activeContact && current.income
+          ? contactStore.activeContact.user
+          : null;
     }
 
     let combineWithPrevious: boolean = false;
-
-    // current.time = dayjs(current.timestamp * 1000).format("HH:mm");
-    // current.date = dayjs(current.timestamp * 1000).format("DD.MM");
 
     if (previous) {
       let defaultCheck =
