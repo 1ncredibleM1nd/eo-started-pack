@@ -53,18 +53,8 @@ module.exports = (env, { mode }) => {
                   require.resolve("@babel/preset-typescript"),
                 ],
                 plugins: [
-                  [
-                    require.resolve("@babel/plugin-proposal-decorators"),
-                    { legacy: true },
-                  ],
-                  [
-                    require.resolve("@babel/plugin-proposal-private-methods"),
-                    { loose: true },
-                  ],
-                  [
-                    require.resolve("@babel/plugin-proposal-class-properties"),
-                    { loose: true },
-                  ],
+                  require.resolve("@babel/plugin-proposal-private-methods"),
+                  require.resolve("@babel/plugin-proposal-class-properties"),
                   require.resolve("@babel/plugin-proposal-optional-chaining"),
                   require.resolve(
                     "@babel/plugin-proposal-nullish-coalescing-operator"
