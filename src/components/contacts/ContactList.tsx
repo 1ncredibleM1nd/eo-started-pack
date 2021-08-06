@@ -1,9 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from "react";
+import React, { useCallback, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import HashLoader from "react-spinners/HashLoader";
 import "./ContactList.scss";
@@ -14,6 +9,8 @@ import ContactItem from "./comp/ContactItem";
 import { useStore } from "@/stores";
 import { useInView } from "react-intersection-observer";
 import { useLocationQuery } from "@/hooks/useLocationQuery";
+import PuffLoader from "react-spinners/PuffLoader";
+import { css } from "goober";
 
 type IProps = {
   onSelect?: () => void | null;
@@ -33,6 +30,7 @@ const ContactList = observer(({ onSelect }: IProps) => {
 
   const trackScrollPosition = useCallback((node) => {
     const id = query.get("im");
+    console.log("call");
     if (node && id) {
       setTimeout(() => {
         document.getElementById(`contacts_item_${id}`).scrollIntoView({
@@ -85,6 +83,16 @@ const ContactList = observer(({ onSelect }: IProps) => {
                 ref={trackScrollPosition}
               >
                 <div ref={sentryPrevRef}></div>
+                {contactStore.hasPrev && (
+                  <div
+                    className={css`
+                      display: flex;
+                      justify-content: center;
+                    `}
+                  >
+                    <PuffLoader color="#3498db" size={50} />
+                  </div>
+                )}
 
                 {ContactsData.map((contact: Conversation, index: number) => {
                   if (!contact) return null;
@@ -97,7 +105,7 @@ const ContactList = observer(({ onSelect }: IProps) => {
                     <Link
                       id={`contacts_item_${contact.id}`}
                       to={`/chat?im=${contact.id}`}
-                      key={`contacts_item_${index}`}
+                      key={`contacts_item_${contact.id}`}
                     >
                       <ContactItem
                         isIAm={
@@ -123,6 +131,16 @@ const ContactList = observer(({ onSelect }: IProps) => {
                   );
                 })}
 
+                {contactStore.hasNext && (
+                  <div
+                    className={css`
+                      display: flex;
+                      justify-content: center;
+                    `}
+                  >
+                    <PuffLoader color="#3498db" size={50} />
+                  </div>
+                )}
                 <div ref={sentryNextRef}></div>
 
                 {ContactsData && !ContactsData.length && (

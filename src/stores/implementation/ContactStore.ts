@@ -65,6 +65,8 @@ export class ContactStore {
       return;
     }
 
+    const firstContact = this.contact[0];
+
     console.log("load prev");
     this.setPageLoading(true);
 
@@ -74,14 +76,17 @@ export class ContactStore {
     });
 
     if (conversations.length > 0) {
-      this.contact = [
+      this.contact.unshift(
         ...conversations.map((conversation: Conversation) =>
           chatStore.collectChat(conversation)
-        ),
-        ...this.contact,
-      ];
+        )
+      );
 
       this.setPrevPage(page);
+
+      document
+        .getElementById(`contacts_item_${firstContact.id}`)
+        .scrollIntoView(); // restore scroll position
     }
 
     this.setHasPrev(page !== 1);
@@ -102,12 +107,11 @@ export class ContactStore {
     });
 
     if (conversations.length > 0) {
-      this.contact = [
-        ...this.contact,
+      this.contact.push(
         ...conversations.map((conversation: Conversation) =>
           chatStore.collectChat(conversation)
-        ),
-      ];
+        )
+      );
 
       this.setNextPage(page);
     }
@@ -168,6 +172,11 @@ export class ContactStore {
     }
 
     this.setPrevPage(page);
+    this.setHasPrev(page !== 1);
+    if (this.nextPage === 1 && this.nextPage !== page) {
+      this.setNextPage(page);
+      this.setHasNext(conversations.length >= 20);
+    }
 
     for (let i = 0; i < conversations.length; i++) {
       const contact = conversations[i];
