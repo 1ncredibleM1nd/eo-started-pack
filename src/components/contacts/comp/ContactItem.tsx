@@ -135,7 +135,7 @@ const ContactItem = observer((props: IProps) => {
                     {`${
                       isIAm
                         ? "Вы"
-                        : lastMessage.user?.username.trim() ?? "От лица группы"
+                        : lastMessage.user?.username.trim() ?? "Группа"
                     }:`}
                   </div>
                 ) : (
