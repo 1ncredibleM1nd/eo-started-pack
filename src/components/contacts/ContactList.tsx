@@ -26,7 +26,9 @@ const ContactList = observer(({ onSelect }: IProps) => {
   const { ref: sentryPrevRef, inView: isVisiblePrev } = useInView({
     initialInView: true,
   });
-  const { ref: sentryNextRef, inView: isVisibleNext } = useInView();
+  const { ref: sentryNextRef, inView: isVisibleNext } = useInView({
+    threshold: 0.85,
+  });
 
   const trackScrollPosition = useCallback((node) => {
     const id = query.get("im");
@@ -82,17 +84,18 @@ const ContactList = observer(({ onSelect }: IProps) => {
                 id="chatContactTab"
                 ref={trackScrollPosition}
               >
-                <div ref={sentryPrevRef}></div>
-                {contactStore.hasPrev && (
-                  <div
-                    className={css`
-                      display: flex;
-                      justify-content: center;
-                    `}
-                  >
-                    <PuffLoader color="#3498db" size={50} />
-                  </div>
-                )}
+                <div ref={sentryPrevRef}>
+                  {contactStore.hasPrev && (
+                    <div
+                      className={css`
+                        display: flex;
+                        justify-content: center;
+                      `}
+                    >
+                      <PuffLoader color="#3498db" size={50} />
+                    </div>
+                  )}
+                </div>
 
                 {ContactsData.map((contact: Conversation, index: number) => {
                   if (!contact) return null;
@@ -131,17 +134,18 @@ const ContactList = observer(({ onSelect }: IProps) => {
                   );
                 })}
 
-                {contactStore.hasNext && (
-                  <div
-                    className={css`
-                      display: flex;
-                      justify-content: center;
-                    `}
-                  >
-                    <PuffLoader color="#3498db" size={50} />
-                  </div>
-                )}
-                <div ref={sentryNextRef}></div>
+                <div ref={sentryNextRef}>
+                  {contactStore.hasNext && (
+                    <div
+                      className={css`
+                        display: flex;
+                        justify-content: center;
+                      `}
+                    >
+                      <PuffLoader color="#3498db" size={50} />
+                    </div>
+                  )}
+                </div>
 
                 {ContactsData && !ContactsData.length && (
                   <li className={`contacts-item friends`}>
