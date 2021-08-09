@@ -62,6 +62,7 @@ const MessageComponent = observer((props: IProps) => {
   };
 
   const renderMessagesWrapper = (message: any) => {
+    const messageReplyTo = message?.entity?.data?.replyTo;
     const renderReplyAttachments =
       message?.reply?.attachments.map((attachment: TMessageAttachment) => (
         <MessageAttachment
@@ -115,7 +116,15 @@ const MessageComponent = observer((props: IProps) => {
                     />
                   </div>
                   <div className="msg_type">
-                    {TypesMessage.getTypeDescription(message.entity.type)}
+                    <a
+                      href={messageReplyTo.entity.data.url}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {TypesMessage.getTypeDescription(
+                        messageReplyTo.entity.type
+                      )}
+                    </a>
                   </div>
                 </div>
               ) : (
@@ -181,7 +190,9 @@ const MessageComponent = observer((props: IProps) => {
         </div>
         <span className="message-status">
           <div className="msg_type">
-            {TypesMessage.getTypeDescription(message.entity.type)}
+            <a href={message.entity.data.url} target="_blank" rel="noreferrer">
+              {TypesMessage.getTypeDescription(message.entity.type)}
+            </a>
           </div>
           <div className="msg_time">
             {dayjs(message.timestamp * 1000).format("HH:mm")}
