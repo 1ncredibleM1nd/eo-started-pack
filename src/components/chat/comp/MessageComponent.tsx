@@ -40,7 +40,7 @@ const MessageComponent = observer((props: IProps) => {
       <Menu>
         <Menu.Item key={"message_menu_reply"} onClick={() => replyMsg(message)}>
           {message.entity.type.indexOf("comment") > -1
-            ? "Ответить на комменатрий"
+            ? "Ответить на комментарий"
             : "Ответить"}
         </Menu.Item>
         {canShowDownload && (
