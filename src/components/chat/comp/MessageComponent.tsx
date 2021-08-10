@@ -85,7 +85,7 @@ const MessageComponent = observer((props: IProps) => {
         <div className={`message-container`}>
           <Dropdown
             overlay={DropDownMenu(message)}
-            overlayStyle={{ animationDuration: "0.075s" }}
+            overlayStyle={{ animationDelay: "0s", animationDuration: "0s" }}
             onVisibleChange={(visible) => {
               if (visible) {
                 setDropdownMenuOpen(false);
@@ -151,7 +151,7 @@ const MessageComponent = observer((props: IProps) => {
                 visible={dropdownMenuOpened}
                 onVisibleChange={(visible) => setDropdownMenuOpen(visible)}
                 overlay={DropDownMenu(message)}
-                overlayStyle={{ animationDuration: "0.075s" }}
+                overlayStyle={{ animationDelay: "0s", animationDuration: "0s" }}
                 placement="bottomLeft"
                 trigger={["click"]}
               >

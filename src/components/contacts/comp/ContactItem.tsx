@@ -92,7 +92,7 @@ const ContactItem = observer((props: IProps) => {
   return (
     <Dropdown
       overlay={DropDownMenu(contact.id)}
-      overlayStyle={{ animationDuration: "0.075s" }}
+      overlayStyle={{ animationDelay: "0s", animationDuration: "0s" }}
       placement="bottomLeft"
       trigger={["contextMenu"]}
     >
