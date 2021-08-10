@@ -50,6 +50,12 @@ const ContactItem = observer((props: IProps) => {
     return (
       <Menu onClick={({ domEvent }) => domEvent.stopPropagation()}>
         <Menu.Item
+          key={"chat_unread_menu"}
+          onClick={() => setUnreadChat(contactId)}
+        >
+          Пометить как непрочитанное
+        </Menu.Item>
+        <Menu.Item
           key={"chat_open_new_tab"}
           onClick={() => {
             window.open(`/chat?im=${contactId}`, "_blank");
@@ -64,12 +70,6 @@ const ContactItem = observer((props: IProps) => {
           }}
         >
           Открыть в новом окне
-        </Menu.Item>
-        <Menu.Item
-          key={"chat_unread_menu"}
-          onClick={() => setUnreadChat(contactId)}
-        >
-          Пометить как непрочитанное
         </Menu.Item>
       </Menu>
     );
