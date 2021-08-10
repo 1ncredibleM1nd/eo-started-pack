@@ -55,7 +55,7 @@ const ContactItem = observer((props: IProps) => {
             window.open(`/chat?im=${contactId}`, "_blank");
           }}
         >
-          Отркыть в новой вкладке
+          Открыть в новой вкладке
         </Menu.Item>
         <Menu.Item
           key={"chat_open_new_window"}
@@ -63,7 +63,7 @@ const ContactItem = observer((props: IProps) => {
             window.open(`/chat?im=${contactId}`, "_blank", "location=yes");
           }}
         >
-          Отркыть в новом окне
+          Открыть в новом окне
         </Menu.Item>
         <Menu.Item
           key={"chat_unread_menu"}
