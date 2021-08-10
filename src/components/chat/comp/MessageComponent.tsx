@@ -117,12 +117,15 @@ const MessageComponent = observer((props: IProps) => {
                   </div>
                   <div className="msg_type">
                     <a
-                      href={messageReplyTo.entity.data.url}
+                      href={
+                        messageReplyTo?.entity?.data?.url ??
+                        message.entity.data.url
+                      }
                       target="_blank"
                       rel="noreferrer"
                     >
                       {TypesMessage.getTypeDescription(
-                        messageReplyTo.entity.type
+                        messageReplyTo?.entity?.type ?? message.entity.type
                       )}
                     </a>
                   </div>
