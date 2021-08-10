@@ -7,6 +7,7 @@ import { UserAvatar } from "@/components/user_info/UserAvatar";
 import { Message } from "@/entities";
 import ReactMarkdown from "react-markdown";
 import { Menu, Dropdown } from "antd";
+import { Link } from "react-router-dom";
 
 type IProps = {
   index: number;
@@ -47,13 +48,26 @@ const ContactItem = observer((props: IProps) => {
 
   const DropDownMenu = (contactId: string) => {
     return (
-      <Menu>
+      <Menu onClick={({ domEvent }) => domEvent.stopPropagation()}>
+        <Menu.Item
+          key={"chat_open_new_tab"}
+          onClick={() => {
+            window.open(`/chat?im=${contactId}`, "_blank");
+          }}
+        >
+          Отркыть в новой вкладке
+        </Menu.Item>
+        <Menu.Item
+          key={"chat_open_new_window"}
+          onClick={() => {
+            window.open(`/chat?im=${contactId}`, "_blank", "location=yes");
+          }}
+        >
+          Отркыть в новом окне
+        </Menu.Item>
         <Menu.Item
           key={"chat_unread_menu"}
-          onClick={(e) => {
-            e.domEvent.stopPropagation();
-            setUnreadChat(contactId);
-          }}
+          onClick={() => setUnreadChat(contactId)}
         >
           Пометить как непрочитанное
         </Menu.Item>
@@ -76,29 +90,29 @@ const ContactItem = observer((props: IProps) => {
   };
 
   return (
-    <li
-      onClick={() => selectContact(contact.id)}
-      className={`contacts-item contacts-item-${index} friends ${
-        active && "active"
-      }`}
+    <Dropdown
+      overlay={DropDownMenu(contact.id)}
+      overlayStyle={{ animationDuration: "0.075s" }}
+      placement="bottomLeft"
+      trigger={["contextMenu"]}
     >
-      <div className="avatar">
-        <Badge className={`online_dot ${active && "active"}`} dot={online}>
-          <UserAvatar
-            size="48"
-            user={contact.user}
-            round={true}
-            textSizeRatio={1.75}
-          />
-        </Badge>
-      </div>
-
-      <Dropdown
-        overlay={DropDownMenu(contact.id)}
-        overlayStyle={{ animationDuration: "0.075s" }}
-        placement="bottomLeft"
-        trigger={["contextMenu"]}
+      <li
+        onClick={() => selectContact(contact.id)}
+        className={`contacts-item contacts-item-${index} friends ${
+          active && "active"
+        }`}
       >
+        <div className="avatar">
+          <Badge className={`online_dot ${active && "active"}`} dot={online}>
+            <UserAvatar
+              size="48"
+              user={contact.user}
+              round={true}
+              textSizeRatio={1.75}
+            />
+          </Badge>
+        </div>
+
         <div className="contacts-content">
           <div className="contacts-info">
             <div className={"contacts-info-icon"}>
@@ -155,8 +169,8 @@ const ContactItem = observer((props: IProps) => {
             )}
           </div>
         </div>
-      </Dropdown>
-    </li>
+      </li>
+    </Dropdown>
   );
 });
 
