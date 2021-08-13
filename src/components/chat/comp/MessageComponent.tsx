@@ -1,10 +1,9 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { useState } from "react";
 import { observer } from "mobx-react-lite";
 import ReactMarkdown from "react-markdown";
 import { Icon } from "@/ui";
 import { Menu, Dropdown } from "antd";
-import { TypesMessage } from "@/stores/classes";
 import { MoreOutlined } from "@ant-design/icons";
 import { Message } from "@/entities";
 import { UserAvatar } from "@/components/user_info/UserAvatar";
@@ -12,6 +11,7 @@ import { MessageAttachment } from "./MessageAttachment";
 import { TMessageAttachment } from "@/types/message";
 import dayjs from "@/services/dayjs";
 import { download } from "@/ApiResolvers/file";
+import { MessageCommentLink } from "./MessageCommentLink";
 
 type IProps = {
   message?: Message;
@@ -116,18 +116,13 @@ const MessageComponent = observer((props: IProps) => {
                     />
                   </div>
                   <div className="msg_type">
-                    <a
-                      href={
+                    <MessageCommentLink
+                      link={
                         messageReplyTo?.entity?.data?.url ??
                         message.entity.data.url
                       }
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      {TypesMessage.getTypeDescription(
-                        messageReplyTo?.entity?.type ?? message.entity.type
-                      )}
-                    </a>
+                      type={messageReplyTo?.entity?.type ?? message.entity.type}
+                    />
                   </div>
                 </div>
               ) : (
@@ -193,9 +188,10 @@ const MessageComponent = observer((props: IProps) => {
         </div>
         <span className="message-status">
           <div className="msg_type">
-            <a href={message.entity.data.url} target="_blank" rel="noreferrer">
-              {TypesMessage.getTypeDescription(message.entity.type)}
-            </a>
+            <MessageCommentLink
+              link={message.entity.data.url}
+              type={message.entity.type}
+            />
           </div>
           <div className="msg_time">
             {dayjs(message.timestamp * 1000).format("HH:mm")}
