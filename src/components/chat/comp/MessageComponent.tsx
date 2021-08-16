@@ -34,7 +34,11 @@ const MessageComponent = observer((props: IProps) => {
     const canShowDownload =
       message.attachments.length > 0 &&
       message.attachments.every(
-        ({ type }) => type === "image" || type === "file"
+        ({ type }) =>
+          type === "image" ||
+          type === "file" ||
+          type === "audio" ||
+          type === "voice"
       );
     return (
       <Menu>

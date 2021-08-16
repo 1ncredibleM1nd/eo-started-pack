@@ -8,6 +8,8 @@ import { MessageAttachmentUnsupported } from "@/components/chat/comp/MessageAtta
 import type { TMessageAttachment } from "@/types/message";
 import { MessageAttachmentLink } from "@/components/chat/comp/MessageAttachmentLink";
 import { css } from "goober";
+import { MessageAttachmentVoice } from "./MessageAttachmentVoice";
+import { MessageAttachmentAudio } from "./MessageAttachmentAudio";
 
 type TProps = { attachment: TMessageAttachment };
 
@@ -16,6 +18,10 @@ export const MessageAttachment = observer(({ attachment }: TProps) => {
     return <MessageAttachmentFile attachment={attachment} />;
   } else if (attachment.type === "image") {
     return <MessageAttachmentImage attachment={attachment} />;
+  } else if (attachment.type === "voice") {
+    return <MessageAttachmentVoice attachment={attachment} />;
+  } else if (attachment.type === "audio") {
+    return <MessageAttachmentAudio attachment={attachment} />;
   } else if (attachment.type === "unsupported") {
     return <MessageAttachmentUnsupported attachment={attachment} />;
   } else if (attachment.type === "link") {
