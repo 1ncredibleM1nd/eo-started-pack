@@ -7,4 +7,5 @@ export type TMessageAttachment = {
   url: string;
   title: string;
   data: TMessageAttachmentData;
+  isIframe: boolean;
 };

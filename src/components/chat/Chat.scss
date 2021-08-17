@@ -1297,6 +1297,16 @@
   }
 }
 
+.video-message {
+  display: flex;
+  width: 100%;
+  min-width: 300px;
+}
+
+.video-message .video-react-control-text {
+  display: none;
+}
+
 a.message-link {
   color: inherit!important;
 }

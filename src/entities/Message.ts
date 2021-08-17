@@ -2,6 +2,7 @@ import { makeAutoObservable } from "mobx";
 import Entity from "./Entity";
 import Attachment from "./Attachment";
 import { UserInstance } from "@/stores/model/User";
+import { TMessageAttachment } from "@/types/message";
 
 class Message {
   id: string;
@@ -42,7 +43,10 @@ class Message {
     this.entity = entity;
     this.user = user;
     this.readed = readed ? readed : false;
-    this.attachments = attachments && attachments.length > 0 ? attachments : [];
+    this.attachments = attachments.map((attachment) => ({
+      ...attachment,
+      isIframe: social_media === "vkontakte",
+    }));
   }
 
   setCombineWithPrevious(key: boolean): void {

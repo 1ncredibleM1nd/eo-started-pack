@@ -4,6 +4,8 @@ import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { MessageAttachmentImage } from "@/components/chat/comp/MessageAttachmentImage";
 import { MessageAttachmentFile } from "@/components/chat/comp/MessageAttachmentFile";
+import { MessageAttachmentVideo } from "@/components/chat/comp/MessageAttachmentVideo";
+import { MessageAttachmentIframe } from "@/components/chat/comp/MessageAttachmentIframe";
 import { MessageAttachmentUnsupported } from "@/components/chat/comp/MessageAttachmentUnsupported";
 import type { TMessageAttachment } from "@/types/message";
 import { MessageAttachmentLink } from "@/components/chat/comp/MessageAttachmentLink";
@@ -26,6 +28,10 @@ export const MessageAttachment = observer(({ attachment }: TProps) => {
     return <MessageAttachmentUnsupported attachment={attachment} />;
   } else if (attachment.type === "link") {
     return <MessageAttachmentLink attachment={attachment} />;
+  } else if (attachment.type === "video" && attachment.isIframe === true) {
+    return <MessageAttachmentIframe attachment={attachment} />;
+  } else if (attachment.type === "video") {
+    return <MessageAttachmentVideo attachment={attachment} />;
   }
 
   return (

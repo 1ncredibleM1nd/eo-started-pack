@@ -32,7 +32,6 @@ const ContactList = observer(({ onSelect }: IProps) => {
 
   const trackScrollPosition = useCallback((node) => {
     const id = query.get("im");
-    console.log("call");
     if (node && id) {
       setTimeout(() => {
         document.getElementById(`contacts_item_${id}`).scrollIntoView({

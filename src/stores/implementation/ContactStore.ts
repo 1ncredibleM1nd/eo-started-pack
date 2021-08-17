@@ -67,7 +67,6 @@ export class ContactStore {
 
     const firstContact = this.contact[0];
 
-    console.log("load prev");
     this.setPageLoading(true);
 
     const { conversations, page } = await getConversations({
@@ -98,7 +97,6 @@ export class ContactStore {
       return;
     }
 
-    console.log("load next");
     this.setPageLoading(true);
 
     const { conversations, page } = await getConversations({
@@ -228,7 +226,6 @@ export class ContactStore {
 
     setTimeout(() => {
       if (!this.pageLoading) {
-        console.log("load");
         this.load();
       }
     }, 1000);
