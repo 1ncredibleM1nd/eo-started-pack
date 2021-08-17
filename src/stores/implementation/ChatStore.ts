@@ -6,6 +6,7 @@ import { Attachment, Conversation, Entity, Message } from "../../entities";
 import dayjs from "@/services/dayjs";
 import { globalStore } from "..";
 import { User, UserInstance } from "../model/User";
+import uniqBy from "lodash.uniqby";
 
 const MAX_MESSAGE_COUNT_ON_PAGE = 29;
 
@@ -16,6 +17,7 @@ export class ChatStore {
   hasNextPage: boolean = true;
   isLoadingPage: boolean = false;
   prevDateDivider: string = "";
+  newMessageIds: string[] = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -58,16 +60,28 @@ export class ChatStore {
     );
   }
 
-  async loadMessages(contactId: string, pageNum?: number) {
+  async loadMessages(contactId: string, page?: number) {
     this.isLoadingPage = true;
 
-    this.activeChat.messages = await this.collectMessagesList(
-      contactId,
-      pageNum
+    const messages = await this.collectMessagesList(contactId, page);
+    const filtredMessages = this.activeChat.messages.filter(
+      ({ id }) => !this.newMessageIds.includes(id)
     );
+    if (page === 1) {
+      this.activeChat.messages = uniqBy(
+        [...filtredMessages, ...messages],
+        "id"
+      );
+    } else {
+      this.activeChat.messages = uniqBy(
+        [...messages, ...filtredMessages],
+        "id"
+      );
+    }
 
+    this.newMessageIds.length = 0;
     this.hasNextPage =
-      this.messagesCount > MAX_MESSAGE_COUNT_ON_PAGE * pageNum - 1;
+      this.messagesCount > MAX_MESSAGE_COUNT_ON_PAGE * page - 1;
 
     this.isLoadingPage = false;
   }
@@ -90,22 +104,22 @@ export class ChatStore {
   ): Promise<Message[]> {
     const messagesOfPage: Message[] = [];
 
-    for (let pageNumber: number = 1; pageNumber <= page; pageNumber++) {
-      const messagesArray: Array<any> = await getMessages(
-        contactId,
-        pageNumber,
-        globalStore.schoolsStore.activeSchoolsIds
-      );
+    // for (let pageNumber: number = 1; pageNumber <= page; pageNumber++) {
+    const messagesArray: Array<any> = await getMessages(
+      contactId,
+      page,
+      globalStore.schoolsStore.activeSchoolsIds
+    );
 
-      messagesArray.forEach((message) => {
-        messagesOfPage.unshift(
-          this.collectMessage({
-            previous: messagesOfPage[0] ? messagesOfPage[0] : null,
-            current: message,
-          })
-        );
-      });
-    }
+    messagesArray.forEach((message) => {
+      messagesOfPage.unshift(
+        this.collectMessage({
+          previous: messagesOfPage[0] ? messagesOfPage[0] : null,
+          current: message,
+        })
+      );
+    });
+    // }
 
     return messagesOfPage;
   }
@@ -199,6 +213,7 @@ export class ChatStore {
       );
 
       this.activeChat.messages.push(message);
+      this.newMessageIds.push(message.id);
     }
   }
 

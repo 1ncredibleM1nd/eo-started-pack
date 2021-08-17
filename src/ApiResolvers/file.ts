@@ -9,7 +9,7 @@ export async function download(path: string, filename: string) {
     );
     const link = document.body.appendChild(document.createElement("a"));
     link.href = url;
-    link.download = filename;
+    link.download = response.data.filename ?? filename ?? "Untitled";
     link.click();
     URL.revokeObjectURL(url);
   } catch (error) {
