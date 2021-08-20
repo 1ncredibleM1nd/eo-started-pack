@@ -34,6 +34,7 @@ export const MessageAttachmentIframe = observer(({ attachment }: TProps) => {
             display: ${loading ? "none" : "block"};
             border: 0;
           `}
+          allowFullScreen={true}
           frameBorder={0}
           title="video"
           src={attachment.url}
