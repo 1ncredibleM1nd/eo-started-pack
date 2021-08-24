@@ -51,7 +51,8 @@
 
 .menu_list {
   width: 100%;
-  height: calc(100vh - 60px);
+  height: 100%;
+  overflow: scroll;
   margin-top: 0;
   transition: ease-in-out 0.1s;
   transition-delay: 0.1s;

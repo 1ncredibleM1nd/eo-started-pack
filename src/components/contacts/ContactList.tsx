@@ -76,84 +76,80 @@ const ContactList = observer(({ onSelect }: IProps) => {
     <div className={`menu_list ${filterSwitch ? "active" : ""}`}>
       <div className="tab-content">
         <div className="tab-pane active" id="chats-content">
-          <div className="scroller d-flex flex-column h-100">
-            <div className="hide-scrollbar h-100" id="chatContactsList">
-              <ul
-                className="contacts-list"
-                id="chatContactTab"
-                ref={trackScrollPosition}
-              >
-                <div ref={sentryPrevRef}>
-                  {contactStore.hasPrev && (
-                    <div
-                      className={css`
-                        display: flex;
-                        justify-content: center;
-                      `}
-                    >
-                      <PuffLoader color="#3498db" size={50} />
-                    </div>
-                  )}
+          <ul
+            className="contacts-list"
+            id="chatContactTab"
+            ref={trackScrollPosition}
+          >
+            <div ref={sentryPrevRef}>
+              {contactStore.hasPrev && (
+                <div
+                  className={css`
+                    display: flex;
+                    justify-content: center;
+                  `}
+                >
+                  <PuffLoader color="#3498db" size={50} />
                 </div>
-
-                {ContactsData.map((contact: Conversation, index: number) => {
-                  if (!contact) return null;
-
-                  const lastMessage: Message = contact.getLastMessage();
-                  const online: boolean = false;
-                  const school: any = schoolsStore.getById(contact.schoolId);
-
-                  return (
-                    <Link
-                      id={`contacts_item_${contact.id}`}
-                      to={`/chat?im=${contact.id}`}
-                      key={`contacts_item_${contact.id}`}
-                    >
-                      <ContactItem
-                        isIAm={
-                          lastMessage &&
-                          !lastMessage.income &&
-                          lastMessage.user &&
-                          lastMessage.user.id === usersStore.user?.id
-                        }
-                        isManager={lastMessage && !lastMessage.income}
-                        index={index}
-                        lastMessage={lastMessage}
-                        contact={contact}
-                        online={online}
-                        active={
-                          contactStore.activeContact &&
-                          contactStore.activeContact.id === contact.id
-                        }
-                        selectContact={selectContact}
-                        school={school}
-                        setUnreadChat={setUnreadChat}
-                      />
-                    </Link>
-                  );
-                })}
-
-                <div ref={sentryNextRef}>
-                  {contactStore.hasNext && (
-                    <div
-                      className={css`
-                        display: flex;
-                        justify-content: center;
-                      `}
-                    >
-                      <PuffLoader color="#3498db" size={50} />
-                    </div>
-                  )}
-                </div>
-
-                {ContactsData && !ContactsData.length && (
-                  <li className={`contacts-item friends`}>
-                    <div className="announcement">Контактов нет ¯\_(ツ)_/¯</div>
-                  </li>
-                )}
-              </ul>
+              )}
             </div>
-          </div>
+
+            {ContactsData.map((contact: Conversation, index: number) => {
+              if (!contact) return null;
+
+              const lastMessage: Message = contact.getLastMessage();
+              const online: boolean = false;
+              const school: any = schoolsStore.getById(contact.schoolId);
+
+              return (
+                <Link
+                  id={`contacts_item_${contact.id}`}
+                  to={`/chat?im=${contact.id}`}
+                  key={`contacts_item_${contact.id}`}
+                >
+                  <ContactItem
+                    isIAm={
+                      lastMessage &&
+                      !lastMessage.income &&
+                      lastMessage.user &&
+                      lastMessage.user.id === usersStore.user?.id
+                    }
+                    isManager={lastMessage && !lastMessage.income}
+                    index={index}
+                    lastMessage={lastMessage}
+                    contact={contact}
+                    online={online}
+                    active={
+                      contactStore.activeContact &&
+                      contactStore.activeContact.id === contact.id
+                    }
+                    selectContact={selectContact}
+                    school={school}
+                    setUnreadChat={setUnreadChat}
+                  />
+                </Link>
+              );
+            })}
+
+            <div ref={sentryNextRef}>
+              {contactStore.hasNext && (
+                <div
+                  className={css`
+                    display: flex;
+                    justify-content: center;
+                  `}
+                >
+                  <PuffLoader color="#3498db" size={50} />
+                </div>
+              )}
+            </div>
+
+            {ContactsData && !ContactsData.length && (
+              <li className={`contacts-item friends`}>
+                <div className="announcement">Контактов нет ¯\_(ツ)_/¯</div>
+              </li>
+            )}
+          </ul>
         </div>
       </div>
     </div>
