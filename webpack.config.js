@@ -18,6 +18,7 @@ module.exports = (env, { mode }) => {
       stats: "minimal",
       historyApiFallback: true,
       watchOptions: { aggregateTimeout: 300, poll: 1000 },
+      disableHostCheck: true,
     },
     resolve: {
       alias: {
