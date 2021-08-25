@@ -29,6 +29,7 @@ const App = observer(() => {
           lg={7}
           xl={6}
           xxl={6}
+          style={{ height: "100%" }}
         >
           <ContactsLayout />
         </Col>
