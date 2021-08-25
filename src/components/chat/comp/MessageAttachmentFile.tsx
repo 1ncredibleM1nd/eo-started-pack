@@ -5,7 +5,7 @@ import {
 } from "@ant-design/icons";
 import * as fileApi from "@/ApiResolvers/file";
 import { Spin } from "antd";
-import React, { useState } from "react";
+import { useState } from "react";
 import type { TMessageAttachment } from "@/types/message";
 
 type TProps = { attachment: TMessageAttachment };

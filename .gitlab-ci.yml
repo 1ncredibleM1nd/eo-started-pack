@@ -14,7 +14,7 @@ deploy_dev:
       git fetch --all &&
       git checkout -f $CI_COMMIT_REF_NAME &&
       git pull --ff-only origin $CI_COMMIT_REF_NAME &&
-      npm ci && npm run build -- --env development &&
+      npm ci && npm run build -- --mode development &&
       rm -rf build && mv dist build"
 
 deploy_demo:
@@ -24,7 +24,7 @@ deploy_demo:
     - sshpass ssh -t admin@84.201.139.43 "cd web/chat.demo.prodamus.pro/public_html &&
       git checkout -f &&
       git pull --ff-only origin master &&
-      npm ci && npm run build -- --env demo &&
+      npm ci && npm run build -- --mode demo &&
       rm -rf build && mv dist build"
 
 deploy_prod:
@@ -35,7 +35,5 @@ deploy_prod:
     - sshpass ssh -t prodamus@papabot.ru -p 1002 "cd /var/www/chat.prodamus.ru/frontend &&
       git fetch --tags &&
       git checkout -f tags/$CI_COMMIT_TAG &&
-      npm install &&
-      npm run build -- --env production &&
-      rm -rf build &&
-      mv dist build"
+      npm ci && npm run build -- --mode production &&
+      rm -rf build && mv dist build"

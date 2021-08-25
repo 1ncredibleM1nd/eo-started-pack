@@ -1,4 +1,4 @@
-import React from "react";
+import { useRef, useEffect, useCallback } from "react";
 import { observer } from "mobx-react-lite";
 import "./Chat.scss";
 import Inputer from "./comp/Inputer";
@@ -29,10 +29,10 @@ const ChatList = observer(
       disabled: false,
     });
 
-    const scrollableRootRef = React.useRef<HTMLDivElement | null>(null);
-    const lastScrollDistanceToBottomRef = React.useRef<number>();
+    const scrollableRootRef = useRef<HTMLDivElement | null>(null);
+    const lastScrollDistanceToBottomRef = useRef<number>();
 
-    React.useEffect(() => {
+    useEffect(() => {
       const scrollableRoot = scrollableRootRef.current;
       const lastScrollDistanceToBottom =
         lastScrollDistanceToBottomRef.current ?? 0;
@@ -42,7 +42,7 @@ const ChatList = observer(
       }
     }, [messages, rootRef]);
 
-    const rootRefSetter = React.useCallback(
+    const rootRefSetter = useCallback(
       (node: HTMLDivElement) => {
         rootRef(node);
         scrollableRootRef.current = node;
@@ -50,7 +50,7 @@ const ChatList = observer(
       [rootRef]
     );
 
-    const handleRootScroll = React.useCallback(() => {
+    const handleRootScroll = useCallback(() => {
       const rootNode = scrollableRootRef.current;
       if (rootNode) {
         lastScrollDistanceToBottomRef.current =

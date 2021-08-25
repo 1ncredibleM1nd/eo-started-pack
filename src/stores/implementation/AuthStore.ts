@@ -3,12 +3,11 @@ import { isLogged, setSession } from "@/actions";
 import { globalStore } from "..";
 
 export class AuthStore {
-  checkLogin: () => void;
-  loading: boolean = false;
-  isFrame: boolean = false;
-  token: string;
-  userId: string;
-  timestamp: string;
+  loading = false;
+  isFrame = false;
+  token = "";
+  userId = "";
+  timestamp = "";
 
   constructor() {
     makeAutoObservable(this);
@@ -80,13 +79,19 @@ export class AuthStore {
           if (oldToken) {
             this.setToken(token);
           } else {
-            window.location.href = `${process.env.APP_AUTH_URL}/v1/user/check-authentication-redirect?redirect_url=${window.location.href}`;
+            window.location.href = `${
+              import.meta.env.VITE_APP_AUTH_URL
+            }/v1/user/check-authentication-redirect?redirect_url=${
+              window.location.href
+            }`;
           }
 
           this.setToken(token);
           await globalStore.usersStore.init();
         } else {
-          window.location.href = `${process.env.APP_ACCOUNT_URL}/?redirect_url=${window.location.href}`;
+          window.location.href = `${
+            import.meta.env.VITE_APP_ACCOUNT_URL
+          }/?redirect_url=${window.location.href}`;
         }
       }
     }

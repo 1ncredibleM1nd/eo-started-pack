@@ -12,11 +12,11 @@ const MAX_MESSAGE_COUNT_ON_PAGE = 29;
 
 export class ChatStore {
   chat: Array<Conversation> = [];
-  isLoaded: boolean = false;
-  activeChat: Conversation = null;
-  hasNextPage: boolean = true;
-  isLoadingPage: boolean = false;
-  prevDateDivider: string = "";
+  activeChat: Conversation | null = null;
+  hasNextPage = true;
+  isLoaded = false;
+  isLoadingPage = false;
+  prevDateDivider = "";
   newMessageIds: string[] = [];
 
   constructor() {

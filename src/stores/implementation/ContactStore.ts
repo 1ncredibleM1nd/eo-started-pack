@@ -7,12 +7,11 @@ import { globalStore } from "..";
 
 export class ContactStore {
   contact: Array<Conversation> = [];
-  activeContact: Conversation;
-  search: string = "";
-  filterSwitch: boolean = false;
-
-  filter: any;
-  name: string;
+  activeContact: Conversation | null = null;
+  search = "";
+  name = "";
+  filter = {};
+  filterSwitch = false;
 
   constructor() {
     makeAutoObservable(this);

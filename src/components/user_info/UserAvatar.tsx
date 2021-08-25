@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Avatar from "react-avatar";
 import "./UserAvatar.scss";
 import { Image } from "antd";

@@ -1,4 +1,3 @@
-import React from "react";
 import { observer } from "mobx-react-lite";
 import { Skeleton } from "antd";
 import { UserAvatar } from "@/components/user_info/UserAvatar";

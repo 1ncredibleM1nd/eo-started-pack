@@ -1,12 +1,12 @@
-import React, { useState, Fragment } from "react";
+import { useState, Fragment } from "react";
 import { observer } from "mobx-react-lite";
 import { Input, Collapse, Button } from "antd";
 import "./Search.scss";
-import { Icon } from "@/ui";
 
 import { Schools } from "../Filter/Schools";
 import { Channels } from "../Filter/Channels";
 import { useStore } from "@/stores";
+import { IconFilter, IconFilterClose } from "@/images/icons";
 
 const Search = observer(() => {
   const { contactStore, appStore } = useStore();
@@ -40,10 +40,11 @@ const Search = observer(() => {
               onClick={() => contactStore.toggleFilterSwitch()}
               className="transparent"
             >
-              <Icon
-                name={filterSwitch ? "icon_filter_close" : "icon_filter"}
-                className={"icon_s lite-grey"}
-              />
+              {filterSwitch ? (
+                <IconFilterClose width={18} height={18} fill="#a3a3a3" />
+              ) : (
+                <IconFilter width={18} height={18} fill="#a3a3a3" />
+              )}
             </Button>
           </div>
 
@@ -72,16 +73,6 @@ const Search = observer(() => {
             <div className="filter-item">
               <Channels onChangeSocial={onChangeSocial} />
             </div>
-            {/* <div className="type_container">
-								<Radio.Group onChange={onChangeType} defaultValue="all">
-									<Radio.Button className='radio_btn all ' value="all">
-										<Icon name='solid_star-of-life' className='blue-lite ' />
-									</Radio.Button>
-									<Radio.Button className='radio_btn' value="comments">Комментарии</Radio.Button>
-									<Radio.Button className='radio_btn' value="msg">Сообщения</Radio.Button>
-									<Radio.Button className='radio_btn' value="request">Заявки</Radio.Button>
-								</Radio.Group>
-							</div> */}
           </Panel>
         </Collapse>
       </div>

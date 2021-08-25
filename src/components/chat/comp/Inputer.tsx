@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback } from "react";
 import { observer } from "mobx-react-lite";
 import ReactMarkdown from "react-markdown";
 import { Icon } from "@/ui";
@@ -9,6 +9,8 @@ import { CloseOutlined } from "@ant-design/icons";
 import FileUploadModal from "./FileUploadModal";
 import { InputerTextArea } from "./InputerTextArea";
 import { useStore } from "@/stores";
+import { SocialIcon } from "@/components/SocialIcon";
+import { IconButtonSend, IconClip } from "@/images/icons";
 
 const ALL_ACCEPT_TYPE = "file_extension|audio/*|video/*|image/*|media_type";
 const INSTAGRAM_ACCEPT_TYPE = "image/*";
@@ -206,7 +208,7 @@ const Inputer = observer(() => {
             onClick={openFileInput}
             className="transparent"
           >
-            <Icon className="icon_m lite-grey" name="icon_clip" />
+            <IconClip width={24} height={24} fill="#a3a3a3" />
           </Button>
         </div>
 
@@ -262,12 +264,7 @@ const Inputer = observer(() => {
           {/*    onClick={() => setSwitcher("social")}*/}
           {/*    className="transparent not-allowed"*/}
           {/*  >*/}
-          <Icon
-            className="icon_l"
-            name={`social_media_${
-              currentChat.activeSocial ? currentChat.activeSocial : ""
-            }`}
-          />
+          <SocialIcon social={currentChat.activeSocial} size={30} />
           {/*</Button>*/}
           {/*</Popover>*/}
         </div>
@@ -278,7 +275,7 @@ const Inputer = observer(() => {
         onClick={sendMessage}
         className="send_btn"
       >
-        <Icon className="icon_x lite-grey" name="icon_button_send" />
+        <IconButtonSend width={36} height={36} fill="#a3a3a3" />
       </Button>
       <input
         type="file"

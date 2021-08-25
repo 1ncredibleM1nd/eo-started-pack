@@ -1,8 +1,6 @@
-import React from "react";
 import { useState } from "react";
 import { observer } from "mobx-react-lite";
 import ReactMarkdown from "react-markdown";
-import { Icon } from "@/ui";
 import { Menu, Dropdown } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
 import { Message } from "@/entities";
@@ -11,6 +9,8 @@ import { MessageAttachment } from "./MessageAttachment";
 import { TMessageAttachment } from "@/types/message";
 import dayjs from "@/services/dayjs";
 import { download } from "@/ApiResolvers/file";
+import { SocialIcon } from "@/components/SocialIcon";
+import { IconPencilAlt } from "@/images/icons";
 import { MessageCommentLink } from "./MessageCommentLink";
 
 type IProps = {
@@ -27,10 +27,7 @@ const MessageOptions = observer(({ message }: { message: Message }) => {
   return (
     <div className="message-options">
       <div className={`social_media_icon ${message.social_media}`}>
-        <Icon
-          className="icon_s"
-          name={`social_media_${message.social_media}`}
-        />
+        <SocialIcon social={message.social_media} size={18} />
       </div>
       <span className="message-status">
         <div className="msg_type">
@@ -216,7 +213,7 @@ const MessageComponent = observer((props: IProps) => {
               </div>
               {message.edited && (
                 <div className="editted_icon">
-                  <Icon className="active-grey" name={`solid_pencil-alt`} />
+                  <IconPencilAlt fill="#262626" />
                 </div>
               )}
             </div>

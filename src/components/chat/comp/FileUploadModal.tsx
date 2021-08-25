@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { observer } from "mobx-react-lite";
 import { Icon } from "@/ui";
 import { Button, Modal, Switch } from "antd";
@@ -6,6 +6,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { bytesToSize } from "@/utils/bytesToSize";
 import { InputerTextArea } from "./InputerTextArea";
 import { useStore } from "@/stores";
+import { IconFile, IconPen, IconTimes } from "@/images/icons";
 
 type IProps = {
   clearFiles?: () => void;
@@ -111,10 +112,10 @@ const ModalFileController = observer(
     return (
       <div className="file_modal-file-controller">
         <div onClick={onClickDelete} className="file_controller-item delete">
-          <Icon className="icon_m lite-grey" name="solid_times" />
+          <IconTimes width={24} height={24} fill="#a3a3a3" />
         </div>
         <div onClick={onClickEdit} className="file_controller-item change">
-          <Icon className="icon_s lite-grey" name="solid_pen" />
+          <IconPen width={18} height={18} fill="#a3a3a3" />
         </div>
       </div>
     );
@@ -164,62 +165,6 @@ const UploadMediaPreview = observer(
       );
     }
 
-    // if (type === "audio") {
-    //   return (
-    //     <div className='file-holder video-holder'>
-    //       {modalFileContoller(index)}
-    //       <div className='file-holder-preview'>
-    //         <div className='content'>
-    //           <div className='play-icon'>
-    //             <Icon className='icon_m white' name='solid_file-audio' />
-    //           </div>
-    //           {fileItem.url ? (
-    //             <Fragment>
-    //               <video autoPlay muted>
-    //                 <source src={fileItem.url} type='video/mp4' />
-    //               </video>
-    //             </Fragment>
-    //           ) : (
-    //             <Fragment></Fragment>
-    //           )}
-    //         </div>
-    //       </div>
-    //       <div className='file-holder-info'>
-    //         <div className='name'>{fileItem.file.name}</div>
-    //         <div className='size'>{bytesToSize(fileItem.file.size)}</div>
-    //       </div>
-    //     </div>
-    //   );
-    // }
-
-    // if (type === "video") {
-    //   return (
-    //     <div className='file-holder video-holder'>
-    //       {modalFileContoller(index)}
-    //       <div className='file-holder-preview'>
-    //         <div className='content'>
-    //           <div className='play-icon'>
-    //             <Icon className='icon_m white' name='solid_play' />
-    //           </div>
-    //           {fileItem.url ? (
-    //             <Fragment>
-    //               <video autoPlay muted>
-    //                 <source src={fileItem.url} type='video/mp4' />
-    //               </video>
-    //             </Fragment>
-    //           ) : (
-    //             <Fragment></Fragment>
-    //           )}
-    //         </div>
-    //       </div>
-    //       <div className='file-holder-info'>
-    //         <div className='name'>{fileItem.file.name}</div>
-    //         <div className='size'>{bytesToSize(fileItem.file.size)}</div>
-    //       </div>
-    //     </div>
-    //   );
-    // }
-
     return (
       <div className="file-holder video-holder">
         <ModalFileController
@@ -230,7 +175,7 @@ const UploadMediaPreview = observer(
         <div className="file-holder-preview file">
           <div className="content">
             <div className="play-icon">
-              <Icon className="icon_m white" name="solid_file" />
+              <IconFile width={24} height={24} fill="white" />
             </div>
           </div>
         </div>

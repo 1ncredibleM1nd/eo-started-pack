@@ -4,9 +4,9 @@ import { notification } from "antd";
 import { globalStore } from "..";
 
 export class AppStore {
-  isLoaded: boolean = false;
-  info_tab: string = "none";
-  layout: string = "contact";
+  isLoaded = false;
+  info_tab = "none";
+  layout = "contact";
 
   constructor() {
     makeAutoObservable(this);

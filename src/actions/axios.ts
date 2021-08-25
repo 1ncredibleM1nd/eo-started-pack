@@ -2,12 +2,12 @@ import axios from "axios";
 import { authStore } from "@/stores/implementation";
 
 const AUTH = axios.create({
-  baseURL: process.env.APP_API_URL + "/v1",
+  baseURL: import.meta.env.VITE_APP_API_URL + "/v1",
   withCredentials: true,
 });
 
 const API = axios.create({
-  baseURL: process.env.APP_API_URL,
+  baseURL: import.meta.env.VITE_APP_API_URL,
   withCredentials: true,
 });
 

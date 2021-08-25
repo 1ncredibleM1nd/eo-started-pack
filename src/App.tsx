@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { Layout } from "antd";
 import Chats from "@/pages/Chat";

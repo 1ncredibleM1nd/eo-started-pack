@@ -1,4 +1,3 @@
-import React from "react";
 import { observer } from "mobx-react-lite";
 import Header from "@/components/chat/Header";
 import Chat from "@/components/chat/Chat";

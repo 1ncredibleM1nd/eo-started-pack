@@ -1,9 +1,10 @@
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 import { observer } from "mobx-react-lite";
 import "./Header.scss";
 import { Icon } from "@/ui";
 import { useStore } from "@/stores";
 import { Link } from "react-router-dom";
+import { IconArrowLeft } from "@/images/icons";
 
 const Header = observer(() => {
   const { contactStore, appStore, schoolsStore } = useStore();
@@ -49,10 +50,7 @@ const Header = observer(() => {
                     onClick={() => closeContact()}
                     className="transparent"
                   >
-                    <Icon
-                      className="icon_s blue-lite"
-                      name={`solid_arrow-left`}
-                    />
+                    <IconArrowLeft width={18} height={18} fill="#70acdd" />
                   </Link>
                 </div>
                 <div className={"header_info"}>

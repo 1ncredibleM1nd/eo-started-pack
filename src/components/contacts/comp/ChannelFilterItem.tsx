@@ -1,10 +1,9 @@
-import React from "react";
 import { observer } from "mobx-react-lite";
 import { Switch } from "antd";
-import { Icon } from "@/ui";
+import { SocialIcon } from "@/components/SocialIcon";
 
 type IProps = {
-  channelName?: string;
+  channelName: string;
   onChangeSocial?: (channelName: string) => void;
   defaultChecked?: boolean;
 };
@@ -19,7 +18,7 @@ const ChannelFilterItem = observer((props: IProps) => {
         defaultChecked={defaultChecked}
         onChange={() => onChangeSocial(channelName)}
       />
-      <Icon name={`social_media_${channelName}`} className="icon_s" />
+      <SocialIcon social={channelName} size={18} />
       <div className="channel-name">{channelName}</div>
     </div>
   );

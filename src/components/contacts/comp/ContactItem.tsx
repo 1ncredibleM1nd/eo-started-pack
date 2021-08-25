@@ -1,13 +1,12 @@
-import React from "react";
 import { observer } from "mobx-react-lite";
 import dayjs, { toCalendar } from "@/services/dayjs";
 import { Badge } from "antd";
-import { Icon } from "@/ui";
 import { UserAvatar } from "@/components/user_info/UserAvatar";
 import { Message } from "@/entities";
 import ReactMarkdown from "react-markdown";
 import { Menu, Dropdown } from "antd";
-import { Link } from "react-router-dom";
+import { SocialIcon } from "@/components/SocialIcon";
+import { IconComment } from "@/images/icons";
 
 type IProps = {
   index: number;
@@ -126,10 +125,7 @@ const ContactItem = observer((props: IProps) => {
 
             <div className={"contacts-info-icon"}>
               <div className={`social_media_icon ${social_media}`}>
-                <Icon
-                  className="icon_s"
-                  name={`social_media_${social_media}`}
-                />
+                <SocialIcon social={social_media} size={18} />
               </div>
             </div>
 
@@ -142,7 +138,11 @@ const ContactItem = observer((props: IProps) => {
             {lastMessage ? (
               <div className={`last_msg ${status}`}>
                 {lastMessage?.entity?.type.includes("comment") && (
-                  <Icon className="icon_s icon_comment" name={"icon_comment"} />
+                  <IconComment
+                    width={18}
+                    height={18}
+                    className="icon_comment"
+                  />
                 )}
                 {isManager ? (
                   <div className="from">

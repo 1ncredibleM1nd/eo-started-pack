@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import HashLoader from "react-spinners/HashLoader";
 import "./ContactList.scss";
