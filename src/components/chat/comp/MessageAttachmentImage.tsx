@@ -2,14 +2,27 @@ import { observer } from "mobx-react-lite";
 import { Image, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { TMessageAttachment } from "@/types/message";
+import { css } from "goober";
 
 type TProps = { attachment: TMessageAttachment };
 
 export const MessageAttachmentImage = observer(({ attachment }: TProps) => {
   return (
     <Image
-      width={200}
-      height={150}
+      className={css`
+        width: 500px;
+        height: 375px;
+        margin-top: -8px;
+        margin-right: -16px;
+        margin-left: -16px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+
+        @media (max-width: 768px) {
+          width: 200px;
+          height: 150px;
+        }
+      `}
       src={attachment.data.preview}
       preview={{ src: attachment.url, mask: false }}
       placeholder={
