@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { observer } from "mobx-react-lite";
-import { Icon } from "@/ui";
 import { Button, Modal, Switch } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { bytesToSize } from "@/utils/bytesToSize";

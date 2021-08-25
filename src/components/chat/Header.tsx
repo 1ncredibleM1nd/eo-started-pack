@@ -1,7 +1,6 @@
 import { Fragment } from "react";
 import { observer } from "mobx-react-lite";
 import "./Header.scss";
-import { Icon } from "@/ui";
 import { useStore } from "@/stores";
 import { Link } from "react-router-dom";
 import { IconArrowLeft } from "@/images/icons";

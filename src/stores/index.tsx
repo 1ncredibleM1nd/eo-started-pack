@@ -11,7 +11,7 @@ import {
   contactStore,
 } from "@/stores/implementation";
 import * as api from "../ApiResolvers";
-import * as storage from "store";
+import storage from "store";
 
 export const Store = types
   .model("Store", {

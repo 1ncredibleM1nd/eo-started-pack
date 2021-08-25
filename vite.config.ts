@@ -31,6 +31,10 @@ export default defineConfig({
   ],
   resolve: {
     alias: [
+      {
+        find: "assert",
+        replacement: require.resolve("assert"),
+      },
       { find: "@", replacement: "/src" },
       {
         find: /~(.+)/,

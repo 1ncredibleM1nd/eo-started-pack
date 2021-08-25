@@ -1,7 +1,6 @@
 import { useState, useRef, useCallback } from "react";
 import { observer } from "mobx-react-lite";
 import ReactMarkdown from "react-markdown";
-import { Icon } from "@/ui";
 import $ from "jquery";
 import { Button } from "antd";
 import { TypesMessage } from "@/stores/classes";
