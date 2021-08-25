@@ -612,9 +612,9 @@
     text-align: left;
   }
 
-  @include _768 {
-    padding-left: 30px !important;
-  }
+  // @include _768 {
+  //   padding-left: 30px !important;
+  // }
 
   .avatar {
     order: 1;
@@ -817,6 +817,7 @@
     appearance: none;
 
     .message-markdown-container {
+      word-break: break-word;
       white-space: pre-line;
 
       p {
