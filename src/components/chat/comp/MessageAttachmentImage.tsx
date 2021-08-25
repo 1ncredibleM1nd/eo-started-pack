@@ -12,9 +12,7 @@ export const MessageAttachmentImage = observer(({ attachment }: TProps) => {
       className={css`
         width: 500px;
         height: 375px;
-        margin-top: -8px;
-        margin-right: -16px;
-        margin-left: -16px;
+        margin: -8px -16px;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
 
