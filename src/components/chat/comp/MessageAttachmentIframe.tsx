@@ -33,6 +33,7 @@ export const MessageAttachmentIframe = observer(({ attachment }: TProps) => {
           className={css`
             display: ${loading ? "none" : "block"};
             border: 0;
+            width: 100%;
           `}
           allowFullScreen={true}
           frameBorder={0}
