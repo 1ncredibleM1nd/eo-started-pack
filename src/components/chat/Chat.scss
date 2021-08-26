@@ -1302,6 +1302,10 @@
   display: flex;
   width: 100%;
   min-width: 300px;
+
+  @media (max-width: 565px) {
+    min-width: auto;
+  }
 }
 
 .video-message .video-react-control-text {
