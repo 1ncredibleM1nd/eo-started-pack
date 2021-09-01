@@ -5,9 +5,10 @@ import { ChatLayout, ContactsLayout } from "@/layouts";
 import "@/styles/index.scss";
 import { useStore } from "@/stores";
 import { useLocationQuery } from "@/hooks/useLocationQuery";
+import { Sidebar } from "@/layouts/Sidebar";
 
 const App = observer(() => {
-  const { appStore, contactStore } = useStore();
+  const { appStore, contactStore, sidebarStore } = useStore();
   const layout = appStore.layout;
   const query = useLocationQuery();
 
@@ -17,7 +18,10 @@ const App = observer(() => {
       contactStore.setActiveContact(id);
       appStore.setLayout("chat");
     }
-  }, [query, appStore.isLoaded, appStore, contactStore]);
+  }, [appStore.isLoaded]);
+
+  const withSidebar =
+    sidebarStore.opened && appStore.isLoaded && query.get("im");
 
   return (
     <Layout hasSider={true} className="chat_page">
@@ -36,23 +40,25 @@ const App = observer(() => {
         <Col
           xs={layout === "chat" ? 24 : 0}
           sm={layout === "chat" ? 24 : 0}
-          md={14}
-          lg={17}
-          xl={18}
-          xxl={18}
+          md={withSidebar ? 14 : 10}
+          lg={withSidebar ? 10 : 17}
+          xl={withSidebar ? 11 : 18}
+          xxl={withSidebar ? 13 : 18}
         >
           <ChatLayout />
         </Col>
-        {/*
-        // TODO: вернуть, когда будем готовы получать данные. См. коммит, чтобы увидеть исходные значения
-        <Col
-          xs={layout === 'info' ? 24 : 0}
-          sm={layout === 'info' ? 24 : 0}
-          md={layout === 'info' || layout === 'chat' ? 10 : 0}
-          lg={7} xl={6} xxl={6}>
-          <InfoLayout />
-        </Col>
-        */}
+        {withSidebar && (
+          <Col
+            xs={layout === "info" ? 24 : 0}
+            sm={layout === "info" ? 24 : 0}
+            md={layout === "info" || layout === "chat" ? 10 : 0}
+            lg={7}
+            xl={7}
+            xxl={5}
+          >
+            <Sidebar />
+          </Col>
+        )}
       </Row>
     </Layout>
   );

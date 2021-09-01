@@ -1,22 +1,26 @@
-import { getEnv, Instance, types } from "mobx-state-tree";
+import store from "store";
+import { makeAutoObservable } from "mobx";
 
-export const Channel = types
-  .model("Channel", {
-    id: types.identifier,
-    name: types.string,
-    active: types.boolean,
-    enabled: types.boolean,
-  })
-  .actions((self) => ({
-    setActive(active: boolean) {
-      self.active = active;
+export class Channel {
+  id: string;
+  name: string;
+  active: boolean;
+  enabled: boolean;
 
-      const { storage } = getEnv(self);
-      storage.set("channels", {
-        ...storage.get("channels", {}),
-        [self.id]: active,
-      });
-    },
-  }));
+  constructor(id: string, name: string, active: boolean, enabled: boolean) {
+    makeAutoObservable(this);
+    this.id = id;
+    this.name = name;
+    this.active = active;
+    this.enabled = enabled;
+  }
 
-export type ChannelInstance = Instance<typeof Channel>;
+  setActive(active: boolean) {
+    this.active = active;
+
+    store.set("channels", {
+      ...store.get("channels", {}),
+      [this.id]: active,
+    });
+  }
+}

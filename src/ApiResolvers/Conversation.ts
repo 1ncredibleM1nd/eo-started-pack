@@ -3,18 +3,11 @@ import { AxiosResponse } from "axios";
 import { chatStore } from "@/stores/implementation";
 
 export default class Conversation {
-  /**
-   * @param query
-   * @param sources
-   * @param schoolIds
-   * @param page
-   *
-   * @return Promise<AxiosResponse<any>>
-   */
   conversations(
     query: string,
+    tags: number[],
     sources: Object,
-    schoolIds: Array<string>,
+    schoolIds: number[],
     page?: number,
     conversationId?: string
   ): Promise<AxiosResponse<any>> {
@@ -22,6 +15,7 @@ export default class Conversation {
       search: {
         query,
         sources,
+        tags,
         conversationId,
       },
       page,
@@ -29,16 +23,15 @@ export default class Conversation {
     });
   }
 
-  /**
-   * Получить сообщения
-   * @param schoolIds
-   * @param conversationId
-   * @param page
-   *
-   * @return Promise<AxiosResponse<any>>
-   */
+  setTags(conversationId: number, tags: number[]) {
+    return API.post("/conversation/set-tags", {
+      conversationId,
+      tags,
+    });
+  }
+
   messages(
-    schoolIds: Array<string>,
+    schoolIds: number[],
     conversationId: string,
     page: number
   ): Promise<AxiosResponse<any>> {
@@ -49,16 +42,6 @@ export default class Conversation {
     });
   }
 
-  /**
-   * @param conversationId
-   * @param message
-   * @param conversationSourceAccountId
-   * @param schoolIds
-   * @param files
-   * @param replyTo
-   *
-   * @return Promise<AxiosResponse<any>>
-   */
   sendMessage(
     conversationId: string,
     message: string,
@@ -89,11 +72,6 @@ export default class Conversation {
     return API.post(`/conversation/send-message`, formData);
   }
 
-  /**
-   * @param contactId
-   *
-   * @return Promise<AxiosResponse<any>>
-   */
   unread(contactId: string): Promise<AxiosResponse<any>> {
     const params = new URLSearchParams();
 

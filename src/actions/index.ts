@@ -50,7 +50,7 @@ async function getConversations({
   page,
   conversationId,
 }: {
-  schoolIds: string[];
+  schoolIds: number[];
   page?: number;
   conversationId?: string;
 }) {
@@ -62,8 +62,11 @@ async function getConversations({
       (channel) => channel.id
     );
 
+    const tags = globalStore.tagsStore.activeTags.map(({ id }) => id);
+
     const response = await resolver.conversation.conversations(
       contactStore.search,
+      tags,
       sources,
       schoolIds,
       page,
@@ -84,7 +87,7 @@ async function getConversations({
 async function getMessages(
   conversationId: string,
   page: number,
-  schoolIds: Array<string>
+  schoolIds: number[]
 ) {
   const action = "Ошибка получения сообщений";
   const section = "messages";

@@ -1,13 +1,15 @@
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores";
 import { Switch } from "antd";
+import { FilterItemTitle } from "@/components/Filter/FilterItemTitle";
+import { FilterItem } from "@/components/Filter/FilterItem";
 
-export const Schools = observer(({ onChangeSchool }) => {
+export const FilterSchools = observer(({ onChangeSchool }) => {
   const { schoolsStore } = useStore();
 
   return (
-    <>
-      <h5>Школы</h5>
+    <FilterItem>
+      <FilterItemTitle>Школы</FilterItemTitle>
       {schoolsStore.schools.map((school) => {
         return (
           <div key={`filter_school_${school.id}`} className={"school-item"}>
@@ -24,6 +26,6 @@ export const Schools = observer(({ onChangeSchool }) => {
           </div>
         );
       })}
-    </>
+    </FilterItem>
   );
 });

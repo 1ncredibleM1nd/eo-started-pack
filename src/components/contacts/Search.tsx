@@ -1,30 +1,39 @@
-import { useState, Fragment } from "react";
+import { Fragment } from "react";
 import { observer } from "mobx-react-lite";
+import { useStore } from "@/stores";
+
 import { Input, Collapse, Button } from "antd";
 import "./Search.scss";
 
-import { Schools } from "../Filter/Schools";
-import { Channels } from "../Filter/Channels";
-import { useStore } from "@/stores";
+import { FilterTags } from "@/components/Filter/FilterTags";
+import { FilterSchools } from "@/components/Filter/FilterSchools";
+import { FilterChannels } from "@/components/Filter/FilterChannels";
 import { IconFilter, IconFilterClose } from "@/images/icons";
+import { useHistory } from "react-router-dom";
 
 const Search = observer(() => {
-  const { contactStore, appStore } = useStore();
-  const [searchText, setSearchText] = useState("");
+  const { contactStore, appStore, schoolsStore, tagsStore, sidebarStore } =
+    useStore();
+  const history = useHistory();
   const filterSwitch = contactStore.filterSwitch;
 
-  const onChange = (value: string) => {
-    setSearchText(value);
-    contactStore.setSearch(value);
+  const onChangeTags = async () => {
+    history.replace("");
+    sidebarStore.hide();
+    await contactStore.setActiveContact(null);
+    contactStore.filterTags();
   };
 
   const onChangeSocial = () => {
     contactStore.filterSocial();
   };
 
-  async function onChangeSchool(schoolId: number) {
+  async function onChangeSchool() {
+    history.replace("");
+    sidebarStore.hide();
     await contactStore.setActiveContact(null);
-    appStore.activeSchool();
+    await tagsStore.load(schoolsStore.activeSchoolsIds);
+    contactStore.filterSchools();
   }
 
   const { Panel } = Collapse;
@@ -66,13 +75,9 @@ const Search = observer(() => {
           activeKey={filterSwitch ? "1" : ""}
         >
           <Panel header="" key="1">
-            <div className="filter-item">
-              <Schools onChangeSchool={onChangeSchool} />
-            </div>
-
-            <div className="filter-item">
-              <Channels onChangeSocial={onChangeSocial} />
-            </div>
+            <FilterTags onChangeTags={onChangeTags} />
+            <FilterSchools onChangeSchool={onChangeSchool} />
+            <FilterChannels onChangeSocial={onChangeSocial} />
           </Panel>
         </Collapse>
       </div>

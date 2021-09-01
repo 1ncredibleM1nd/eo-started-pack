@@ -2,11 +2,12 @@ import { Fragment } from "react";
 import { observer } from "mobx-react-lite";
 import "./Header.scss";
 import { useStore } from "@/stores";
-import { Link } from "react-router-dom";
-import { IconArrowLeft } from "@/images/icons";
+import { Link, useHistory } from "react-router-dom";
+import { IconArrowLeft, IconPaperClip } from "@/images/icons";
 
 const Header = observer(() => {
-  const { contactStore, appStore, schoolsStore } = useStore();
+  const { contactStore, appStore, schoolsStore, sidebarStore } = useStore();
+  const history = useHistory();
   const activeContact = contactStore.activeContact;
   let chatTitle: any;
   let activeMsg: any;
@@ -24,6 +25,7 @@ const Header = observer(() => {
       appStore.setLayout("contact");
     } else if (appStore.layout === "chat") {
       appStore.setLayout("contact");
+      history.replace("");
       contactStore.setActiveContact(null);
     }
   };
@@ -78,7 +80,16 @@ const Header = observer(() => {
                   </div>
                 </div>
                 <div className={"header_settings"}>
-                  <div className="trigger"></div>
+                  <div
+                    className="trigger"
+                    onClick={() => sidebarStore.toggle()}
+                  >
+                    <IconPaperClip
+                      width={18}
+                      height={18}
+                      fill={sidebarStore.opened ? "#2a99ff" : "#a3a3a3"}
+                    />
+                  </div>
                 </div>
               </div>
             </Fragment>

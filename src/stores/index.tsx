@@ -1,62 +1,48 @@
-import { createContext, useContext } from "react";
-import * as React from "react";
-import { flow, Instance, types } from "mobx-state-tree";
+import { createContext, useContext, ReactNode } from "react";
 import { UsersStore } from "./UsersStore";
 import { SchoolsStore } from "./SchoolsStore";
 import { ChannelsStore } from "./ChannelsStore";
+import { SidebarStore } from "@/stores/SidebarStore";
 import {
   appStore,
   authStore,
   chatStore,
   contactStore,
 } from "@/stores/implementation";
-import * as api from "../ApiResolvers";
-import storage from "store";
+import { makeAutoObservable } from "mobx";
+import { TagsStore } from "@/stores/TagsStore";
 
-export const Store = types
-  .model("Store", {
-    usersStore: UsersStore,
-    schoolsStore: SchoolsStore,
-    channelsStore: ChannelsStore,
-  })
-  .volatile((self) => ({
-    appStore,
-    authStore,
-    chatStore,
-    contactStore,
-  }))
-  .actions((self) => ({
-    init: flow(function* init() {
-      yield self.usersStore.init();
-      yield Promise.all([self.channelsStore.init(), self.schoolsStore.init()]);
-    }),
-  }));
+class RootStore {
+  appStore = appStore;
+  authStore = authStore;
+  chatStore = chatStore;
+  contactStore = contactStore;
+  sidebarStore = new SidebarStore();
+  tagsStore = new TagsStore();
+  usersStore = new UsersStore();
+  schoolsStore = new SchoolsStore();
+  channelsStore = new ChannelsStore();
 
-export type StoreInstance = Instance<typeof Store>;
-
-export const globalStore = Store.create(
-  {
-    usersStore: {},
-    schoolsStore: {},
-    channelsStore: {},
-  },
-  {
-    api,
-    storage,
+  constructor() {
+    makeAutoObservable(this);
   }
-);
+
+  async init() {
+    await this.usersStore.init();
+    await Promise.all([this.channelsStore.init(), this.schoolsStore.init()]);
+    await this.tagsStore.load(this.schoolsStore.activeSchoolsIds);
+  }
+}
+
+export const globalStore = new RootStore();
 
 export const GlobalStoreContext = createContext(globalStore);
 
-export function useStore(): StoreInstance {
+export function useStore(): RootStore {
   return useContext(GlobalStoreContext);
 }
 
-export function GlobalStoreProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function GlobalStoreProvider({ children }: { children: ReactNode }) {
   return (
     <GlobalStoreContext.Provider value={globalStore}>
       {children}

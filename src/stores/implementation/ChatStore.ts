@@ -5,7 +5,7 @@ import { TypesMessage } from "@/stores/classes";
 import { Attachment, Conversation, Entity, Message } from "../../entities";
 import dayjs from "@/services/dayjs";
 import { globalStore } from "..";
-import { User, UserInstance } from "../model/User";
+import { User } from "../model/User";
 import uniqBy from "lodash.uniqby";
 
 const MAX_MESSAGE_COUNT_ON_PAGE = 29;
@@ -100,11 +100,10 @@ export class ChatStore {
 
   async collectMessagesList(
     contactId: string,
-    page?: number
+    page: number
   ): Promise<Message[]> {
     const messagesOfPage: Message[] = [];
 
-    // for (let pageNumber: number = 1; pageNumber <= page; pageNumber++) {
     const messagesArray: Array<any> = await getMessages(
       contactId,
       page,
@@ -119,29 +118,14 @@ export class ChatStore {
         })
       );
     });
-    // }
 
     return messagesOfPage;
-  }
-
-  getMsg(id: string, chat_id: string): Message {
-    const chat = this.chat.find(
-      (chat_item: Conversation) => chat_item.id === chat_id
-    );
-
-    return chat.messages.find((message: Message) => message.id === id);
   }
 
   getChatByContactId(contactId: string): Conversation {
     return this.chat.find(
       (chatItem: Conversation) => chatItem.contactId === contactId
     );
-  }
-
-  getLastMsg(id: string): any {
-    let chat = this.getChatByContactId(id);
-
-    return chat.messages[chat.messages.length - 1];
   }
 
   getUnreadCount(id: string): number {
@@ -237,7 +221,7 @@ export class ChatStore {
     { previous, current }: { previous?: any; current: any },
     isLastMessage?: boolean
   ): Message {
-    let user: UserInstance = current.user;
+    let user: User | null = current.user;
 
     if (!user) {
       user =
@@ -306,11 +290,7 @@ export class ChatStore {
 
   collectChat(contact: any): Conversation {
     // TODO: КОСТЫЛЬ ПРАВИТЬ СРОЧНО
-    const user = User.create({
-      id: Number(contact.user[0]),
-      username: contact.name,
-      avatar: contact.avatar,
-    });
+    const user = new User(contact.user[0], contact.name, contact.avatar);
 
     const conversation: Conversation = new Conversation(
       contact.id,
@@ -318,6 +298,7 @@ export class ChatStore {
       contact.conversation_source_account_id,
       contact.last_message.social_media,
       user,
+      contact.tags,
       contact.school_id,
       contact.send_file,
       contact.link_social_page,

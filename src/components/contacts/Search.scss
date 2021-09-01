@@ -28,23 +28,6 @@
   }
 }
 
-// .ant-input[disabled] {
-//   cursor: wait;
-// }
-
-.filter-item {
-  width: 100%;
-  margin-bottom: 15px;
-  padding: 0 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-
-  select {
-    width: 100% !important;
-  }
-}
-
 .all_contacts_item {
   display: flex;
   flex-direction: row;

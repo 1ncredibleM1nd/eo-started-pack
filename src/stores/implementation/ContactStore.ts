@@ -52,6 +52,18 @@ export class ContactStore {
     contactStore.load();
   }
 
+  filterSchools() {
+    this.contact = [];
+    appStore.setLoading(false);
+    contactStore.load();
+  }
+
+  filterTags() {
+    this.contact = [];
+    appStore.setLoading(false);
+    contactStore.load();
+  }
+
   setSearch(search: string) {
     this.search = search;
     this.contact = [];
@@ -123,21 +135,22 @@ export class ContactStore {
     );
   }
 
-  async setActiveContact(id: string) {
+  async setActiveContact(id: string | null) {
     if (this.activeContact && this.activeContact.id === id) {
       return;
     }
 
-    chatStore.isLoaded = false;
-
     if (id) {
+      chatStore.isLoaded = false;
+
       this.activeContact = this.getContact(id);
       chatStore.activeChat = new Conversation(
         this.activeContact.id,
         this.activeContact.contactId,
         this.activeContact.sourceAccountId,
         this.activeContact.activeSocial,
-        this.activeContact.user
+        this.activeContact.user,
+        this.activeContact.tags
       );
 
       await chatStore.loadMessages(chatStore.activeChat.contactId, 1);
@@ -145,12 +158,12 @@ export class ContactStore {
         { scrollTop: $(".msg_space").prop("scrollHeight") },
         0
       );
+
+      chatStore.isLoaded = true;
     } else {
       this.activeContact = null;
       chatStore.activeChat = null;
     }
-
-    chatStore.isLoaded = true;
   }
 
   async load(id?: string) {
@@ -162,17 +175,17 @@ export class ContactStore {
       conversationId: id,
     });
 
-    if (!conversations.length) {
-      this.contact = [];
-      appStore.setLoading(true);
-      return;
-    }
-
     this.setPrevPage(page);
     this.setHasPrev(page !== 1);
     if (this.nextPage === 1 && this.nextPage !== page) {
       this.setNextPage(page);
       this.setHasNext(conversations.length >= 20);
+    }
+
+    if (!conversations.length) {
+      this.contact = [];
+      appStore.setLoading(true);
+      return;
     }
 
     for (let i = 0; i < conversations.length; i++) {

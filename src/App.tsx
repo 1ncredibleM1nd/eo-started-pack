@@ -7,7 +7,7 @@ import { useStore } from "./stores";
 import { BrowserRouter as Router } from "react-router-dom";
 
 const App = observer(() => {
-  const { appStore, authStore } = useStore();
+  const { appStore, authStore, tagsStore, schoolsStore } = useStore();
 
   useEffect(() => {
     async function init() {
@@ -30,6 +30,7 @@ const App = observer(() => {
   document.addEventListener("visibilitychange", async () => {
     if (document.visibilityState === "visible") {
       await authStore.login();
+      await tagsStore.load(schoolsStore.activeSchoolsIds);
     }
   });
 

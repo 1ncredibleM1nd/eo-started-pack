@@ -1,22 +1,26 @@
-import { getEnv, Instance, types } from "mobx-state-tree";
+import store from "store";
+import { makeAutoObservable } from "mobx";
 
-export const School = types
-  .model("School", {
-    id: types.identifier,
-    logo: types.string,
-    name: types.string,
-    active: types.boolean,
-  })
-  .actions((self) => ({
-    setActive(active: boolean) {
-      self.active = active;
+export class School {
+  id: number;
+  logo: string;
+  name: string;
+  active: boolean;
 
-      const { storage } = getEnv(self);
-      storage.set("schools", {
-        ...storage.get("schools", {}),
-        [self.id]: active,
-      });
-    },
-  }));
+  constructor(id: number, logo: string, name: string, active: boolean) {
+    makeAutoObservable(this);
+    this.id = id;
+    this.logo = logo;
+    this.name = name;
+    this.active = active;
+  }
 
-export type SchoolInstance = Instance<typeof School>;
+  setActive(active: boolean) {
+    this.active = active;
+
+    store.set("schools", {
+      ...store.get("schools", {}),
+      [this.id]: active,
+    });
+  }
+}

@@ -1,13 +1,15 @@
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores";
 import ChannelFilterItem from "../contacts/comp/ChannelFilterItem";
+import { FilterItemTitle } from "@/components/Filter/FilterItemTitle";
+import { FilterItem } from "@/components/Filter/FilterItem";
 
-export const Channels = observer(({ onChangeSocial }) => {
+export const FilterChannels = observer(({ onChangeSocial }) => {
   const { channelsStore } = useStore();
 
   return (
-    <>
-      <h5>Каналы</h5>
+    <FilterItem>
+      <FilterItemTitle>Каналы</FilterItemTitle>
       {channelsStore.enabledChannels.map((channel) => {
         return (
           <ChannelFilterItem
@@ -21,6 +23,6 @@ export const Channels = observer(({ onChangeSocial }) => {
           />
         );
       })}
-    </>
+    </FilterItem>
   );
 });

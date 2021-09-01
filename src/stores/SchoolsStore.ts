@@ -1,39 +1,34 @@
-import { flow, getEnv, Instance, types } from "mobx-state-tree";
+import store from "store";
 import { School } from "./model/School";
-import type { StoreEnvironment } from "./StoreEnvironment";
-import type { TApiSchools } from "../ApiResolvers/Account";
-import type { AxiosResponse } from "axios";
+import { account } from "@/ApiResolvers";
+import { makeAutoObservable } from "mobx";
 
-export const SchoolsStore = types
-  .model("SchoolsStore", {
-    schools: types.array(School),
-  })
-  .views((self) => ({
-    get activeSchoolsIds() {
-      return self.schools.filter(({ active }) => active).map(({ id }) => id);
-    },
+export class SchoolsStore {
+  schools: School[] = [];
 
-    getById(schoolId: string) {
-      return self.schools.find(({ id }) => schoolId == id);
-    },
-  }))
-  .actions((self) => ({
-    init: flow(function* init() {
-      const { api, storage } = getEnv<StoreEnvironment>(self);
-      const { data }: AxiosResponse<TApiSchools> =
-        yield api.account.getSchools();
+  constructor() {
+    makeAutoObservable(this);
+  }
 
-      Object.entries(data.data).forEach(([id, school]) => {
-        self.schools.push({
-          id,
-          logo: school.logo,
-          name: school.schoolName,
-          active: storage.get("schools", {})[id] ?? true,
-        });
-      });
+  get activeSchoolsIds() {
+    return this.schools.filter(({ active }) => active).map(({ id }) => id);
+  }
 
-      return self.schools;
-    }),
-  }));
+  getById(schoolId: number) {
+    return this.schools.find(({ id }) => schoolId === id);
+  }
 
-export type SchoolsStoreInstance = Instance<typeof SchoolsStore>;
+  async init() {
+    const { data } = await account.getSchools();
+    Object.entries(data.data).forEach(([id, school]) => {
+      this.schools.push(
+        new School(
+          Number(id),
+          school.logo,
+          school.schoolName,
+          store.get("schools", {})[id] ?? true
+        )
+      );
+    });
+  }
+}

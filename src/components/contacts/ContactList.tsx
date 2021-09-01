@@ -4,22 +4,25 @@ import HashLoader from "react-spinners/HashLoader";
 import "./ContactList.scss";
 import "./Contact.scss";
 import { Conversation, Message } from "@/entities";
-import { Link } from "react-router-dom";
 import ContactItem from "./comp/ContactItem";
 import { useStore } from "@/stores";
 import { useInView } from "react-intersection-observer";
 import { useLocationQuery } from "@/hooks/useLocationQuery";
 import PuffLoader from "react-spinners/PuffLoader";
 import { css } from "goober";
+import { useHistory } from "react-router-dom";
 
-type IProps = {
-  onSelect?: () => void | null;
-};
-
-const ContactList = observer(({ onSelect }: IProps) => {
-  const { contactStore, appStore, schoolsStore, usersStore, chatStore } =
-    useStore();
+const ContactList = observer(() => {
+  const {
+    contactStore,
+    appStore,
+    schoolsStore,
+    usersStore,
+    chatStore,
+    sidebarStore,
+  } = useStore();
   const query = useLocationQuery();
+  const history = useHistory();
   const ContactsData = contactStore.contact;
   const filterSwitch = contactStore.filterSwitch;
 
@@ -34,7 +37,7 @@ const ContactList = observer(({ onSelect }: IProps) => {
     const id = query.get("im");
     if (node && id) {
       setTimeout(() => {
-        document.getElementById(`contacts_item_${id}`).scrollIntoView({
+        document.getElementById(`contacts_item_${id}`)?.scrollIntoView({
           behavior: "smooth",
           block: "start",
         });
@@ -55,9 +58,10 @@ const ContactList = observer(({ onSelect }: IProps) => {
   }, [contactStore, isVisibleNext]);
 
   const selectContact = async (id: any) => {
-    if (onSelect) {
-      onSelect();
-    }
+    history.replace(`chat?im=${id}`);
+    contactStore.setActiveContact(id);
+    appStore.setLayout("chat");
+    sidebarStore.show();
   };
 
   const setUnreadChat = async (id: any) => {
@@ -102,9 +106,8 @@ const ContactList = observer(({ onSelect }: IProps) => {
               const school: any = schoolsStore.getById(contact.schoolId);
 
               return (
-                <Link
+                <div
                   id={`contacts_item_${contact.id}`}
-                  to={`/chat?im=${contact.id}`}
                   key={`contacts_item_${contact.id}`}
                 >
                   <ContactItem
@@ -127,7 +130,7 @@ const ContactList = observer(({ onSelect }: IProps) => {
                     school={school}
                     setUnreadChat={setUnreadChat}
                   />
-                </Link>
+                </div>
               );
             })}
 

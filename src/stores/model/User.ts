@@ -1,9 +1,14 @@
-import { Instance, types } from "mobx-state-tree";
+import { makeAutoObservable } from "mobx";
 
-export const User = types.model("User", {
-  id: types.number,
-  username: types.string,
-  avatar: types.maybeNull(types.string),
-});
+export class User {
+  id: number;
+  username: string;
+  avatar: string | null;
 
-export type UserInstance = Instance<typeof User>;
+  constructor(id: number, username: string, avatar: string | null) {
+    makeAutoObservable(this);
+    this.id = id;
+    this.username = username;
+    this.avatar = avatar;
+  }
+}

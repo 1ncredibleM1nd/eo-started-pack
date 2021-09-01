@@ -14,6 +14,10 @@ import { ReactComponent as IconTimes } from "./icon_times.svg";
 import { ReactComponent as IconPen } from "./icon_pen.svg";
 import { ReactComponent as IconFile } from "./icon_file.svg";
 import { ReactComponent as IconPencilAlt } from "./icon_pencil_alt.svg";
+import { ReactComponent as IconSettings } from "./icon_settings.svg";
+import { ReactComponent as IconPaperClip } from "./icon_paper_clip.svg";
+import { ReactComponent as IconDelete } from "./icon_delete.svg";
+import { ReactComponent as IconAdd } from "./icon_add.svg";
 
 // import { ReactComponent as SocialIconViber } from "./social_media_viber.svg";
 // import { ReactComponent as SocialIconWhatsapp } from "./social_media_whatsapp.svg";
@@ -35,8 +39,12 @@ export {
   IconFile,
   IconTimes,
   IconPen,
+  IconAdd,
   IconPencilAlt,
   IconArrowLeft,
+  IconSettings,
+  IconPaperClip,
+  IconDelete,
   SocialIconFacebook,
   SocialIconInstagram,
   SocialIconOk,
