@@ -41,6 +41,7 @@ export const SidebarTag = observer(({ id }: TProps) => {
   const { tagsStore, contactStore, sidebarStore } = useStore();
   const tag = tagsStore.getById([id])[0];
 
+  const [menuVisible, setMenuVisible] = useState(false);
   const [edited, setEdited] = useState(false);
   const [tagName, setTagName] = useState(tag?.name ?? "");
 
@@ -74,7 +75,13 @@ export const SidebarTag = observer(({ id }: TProps) => {
   };
 
   return (
-    <SidebarTagContainer>
+    <SidebarTagContainer
+      onContextMenu={(ev) => {
+        ev.preventDefault();
+        setEdited(false);
+        setMenuVisible(true);
+      }}
+    >
       <Input
         type={"text"}
         className={css`
@@ -111,8 +118,15 @@ export const SidebarTag = observer(({ id }: TProps) => {
 
       <SidebarTagMenu>
         <Dropdown
+          visible={menuVisible}
+          onVisibleChange={(visible) => setMenuVisible(visible)}
           overlay={
-            <Menu>
+            <Menu
+              className={css`
+                border-radius: 10px;
+              `}
+              onClick={() => setMenuVisible(false)}
+            >
               <Menu.Item
                 key={"sidebar-tag-edit-item"}
                 onClick={() => {
