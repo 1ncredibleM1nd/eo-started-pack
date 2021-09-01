@@ -11,7 +11,7 @@ const API = axios.create({
   withCredentials: true,
 });
 
-function CredentionalsInterceptor(request) {
+function CredentialsInterceptor(request) {
   let interlayer: string;
 
   if (authStore.isFrame) {
@@ -35,6 +35,6 @@ function CredentionalsInterceptor(request) {
   return request;
 }
 
-API.interceptors.request.use(CredentionalsInterceptor);
+API.interceptors.request.use(CredentialsInterceptor);
 
 export { API, AUTH };

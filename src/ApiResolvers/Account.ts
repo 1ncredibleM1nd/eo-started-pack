@@ -1,4 +1,4 @@
-import { API, AUTH } from "../actions/axios";
+import { API, AUTH } from "@/actions/axios";
 import { AxiosResponse } from "axios";
 
 export type TApiUser = {
@@ -13,13 +13,17 @@ export type TApiSchools = {
   data: { [id: string]: { logo: string; schoolName: string } };
 };
 
+function call<T>(path: string, params: T) {
+  return fetch(`${import.meta.env.VITE_APP_API_URL}/v1/${path}`);
+}
+
 export default class Account {
   info() {
     return API.get<TApiUser>("/account/get-account");
   }
 
-  isLogged(): Promise<AxiosResponse<any>> {
-    return AUTH.get(`/account/is-logged`);
+  isLogged() {
+    return AUTH.get("/account/is-logged");
   }
 
   setSession(sessionId: string): Promise<AxiosResponse<any>> {

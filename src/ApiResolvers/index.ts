@@ -7,9 +7,3 @@ const conversation = new Conversation();
 const tags = Tags;
 
 export { account, conversation, tags };
-
-export type TApi = {
-  account: Account;
-  conversation: Conversation;
-  tags: typeof Tags;
-};
