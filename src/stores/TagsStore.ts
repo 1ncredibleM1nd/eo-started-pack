@@ -12,42 +12,57 @@ export class TagsStore {
   }
 
   async load(schoolIds: number[]) {
-    const { data } = await tags.getAll(schoolIds);
-    data.data.forEach((tag) => {
-      this.tags.set(
-        tag.id,
-        new Tag(
+    const { data: r } = await tags.getAll(schoolIds);
+    if (!r.error) {
+      r.data.forEach((tag) => {
+        this.tags.set(
           tag.id,
-          tag.name,
-          tag.schoolId,
-          store.get("tags", {})[tag.id] ?? false
-        )
-      );
-    });
+          new Tag(
+            tag.id,
+            tag.name,
+            tag.schoolId,
+            store.get("tags", {})[tag.id] ?? false
+          )
+        );
+      });
+    }
   }
 
-  async add(schoolId: number, name: string): Promise<Tag> {
-    const { data } = await tags.add(schoolId, name);
-    const tag = data.data;
-    this.tags.set(tag.id, new Tag(tag.id, tag.name, tag.schoolId, false));
-    this.saveTags();
-    return data.data;
+  async add(schoolId: number, name: string): Promise<Tag | null> {
+    const { data: r } = await tags.add(schoolId, name);
+
+    if (!r.error) {
+      const tag = new Tag(r.data.id, r.data.name, r.data.schoolId, false);
+      this.tags.set(tag.id, tag);
+      this.saveTags();
+      return tag;
+    }
+
+    return null;
   }
 
   async delete(id: number) {
-    const { data } = await tags.delete(id);
-    if (data.data) {
-      this.tags.delete(id);
+    const { data: r } = await tags.delete(id);
+
+    if (!r.error) {
+      if (r.data) {
+        this.tags.delete(id);
+      }
+
+      this.saveTags();
+      return r.data;
     }
-    this.saveTags();
-    return data.data;
+
+    return null;
   }
 
   async edit(id: number, name: string) {
-    const { data } = await tags.edit(id, name);
-    if (data.data) {
-      const tag = this.tags.get(id);
-      tag?.setName(name);
+    const { data: r } = await tags.edit(id, name);
+    if (!r.error) {
+      if (r.data) {
+        const tag = this.tags.get(id);
+        tag?.setName(name);
+      }
     }
   }
 

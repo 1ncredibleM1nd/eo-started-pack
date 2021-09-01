@@ -77,10 +77,10 @@ async function getConversations({
       return response.data.data;
     }
 
-    return [];
+    return { conversations: [], page: 1 };
   } catch (error) {
     messageError(error.toString() ?? action, section);
-    return [];
+    return { conversations: [], page: 1 };
   }
 }
 
