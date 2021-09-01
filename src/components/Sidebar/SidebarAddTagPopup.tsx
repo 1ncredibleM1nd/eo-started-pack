@@ -49,11 +49,7 @@ const SidebarAddTagContainer = observer(() => {
   const addTag = async () => {
     const trimmedTagName = tagName.trim();
     if (trimmedTagName !== "") {
-      const newTag = await tagsStore.add(
-        activeContact?.schoolId,
-        trimmedTagName
-      );
-      contactStore.activeContact?.addTag([newTag.id]);
+      await tagsStore.add(activeContact?.schoolId, trimmedTagName);
     }
 
     setTagName("");
@@ -70,7 +66,8 @@ const SidebarAddTagContainer = observer(() => {
   return (
     <div
       className={css`
-        padding: 10px 15px;
+        padding: 10px;
+        min-width: 200px;
       `}
     >
       <div
@@ -92,7 +89,6 @@ const SidebarAddTagContainer = observer(() => {
       </div>
       <Input
         className={css`
-          max-width: 140px;
           padding: 0 0 5px 0;
           border: none;
           outline: none;
@@ -119,6 +115,7 @@ export const SidebarAddTagPopup = observer(({}: TProps) => {
       <IconSettings
         className={css`
           margin-left: 5px;
+          cursor: pointer;
         `}
         fill={"#607d8b"}
       />

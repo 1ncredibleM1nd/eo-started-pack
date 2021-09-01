@@ -77,7 +77,8 @@ const SidebarSelectTagContainer = observer(
     return (
       <div
         className={css`
-          padding: 10px 15px;
+          padding: 10px;
+          min-width: 200px;
         `}
       >
         <h2
@@ -112,6 +113,7 @@ const SidebarSelectTagContainer = observer(
           type={"link"}
           className={css`
             padding: 0;
+            height: auto;
           `}
           onClick={() => {
             addTags();

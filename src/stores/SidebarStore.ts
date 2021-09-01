@@ -16,6 +16,10 @@ export class SidebarStore {
   }
 
   toggle() {
-    this.opened = !this.opened;
+    if (this.opened) {
+      this.hide();
+    } else {
+      this.show();
+    }
   }
 }

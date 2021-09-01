@@ -40,7 +40,7 @@ const App = observer(() => {
         <Col
           xs={layout === "chat" ? 24 : 0}
           sm={layout === "chat" ? 24 : 0}
-          md={withSidebar ? 14 : 10}
+          md={layout === "chat" ? 14 : 0}
           lg={withSidebar ? 10 : 17}
           xl={withSidebar ? 11 : 18}
           xxl={withSidebar ? 13 : 18}
@@ -51,7 +51,7 @@ const App = observer(() => {
           <Col
             xs={layout === "info" ? 24 : 0}
             sm={layout === "info" ? 24 : 0}
-            md={layout === "info" || layout === "chat" ? 10 : 0}
+            md={layout === "info" ? 14 : 0}
             lg={7}
             xl={7}
             xxl={5}
