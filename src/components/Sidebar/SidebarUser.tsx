@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores";
 import { css } from "goober";
+import { UserAvatar } from "@/components/user_info/UserAvatar";
 
 export const SidebarUser = observer(() => {
   const { contactStore } = useStore();
@@ -13,15 +14,7 @@ export const SidebarUser = observer(() => {
         margin-bottom: 30px;
       `}
     >
-      <img
-        src={contactStore?.activeContact?.user.avatar ?? ""}
-        className={css`
-          width: 92px;
-          height: 92px;
-          border-radius: 90px;
-          object-fit: cover;
-        `}
-      />
+      <UserAvatar user={contactStore?.activeContact?.user} size={80} />
 
       <h2
         className={css`

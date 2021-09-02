@@ -6,7 +6,7 @@ import { Image } from "antd";
 type TProps = {
   name?: string;
   user?: any;
-  size?: string;
+  size?: string | number;
   round?: boolean;
   textSizeRatio?: number;
 };
@@ -30,10 +30,10 @@ export const UserAvatar = (props: TProps) => {
 
   const [fallback, setFallback] = useState(false);
 
-  let initials = getInitials(user.username ?? "");
+  let initials = getInitials(user?.username ?? "");
   let maxInitials = 2;
 
-  if (user.avatar && !fallback) {
+  if (user?.avatar && !fallback) {
     return (
       <Image
         className="image-avatar"
