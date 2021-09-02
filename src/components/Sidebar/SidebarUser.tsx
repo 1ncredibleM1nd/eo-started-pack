@@ -14,7 +14,11 @@ export const SidebarUser = observer(() => {
         margin-bottom: 30px;
       `}
     >
-      <UserAvatar user={contactStore?.activeContact?.user} size={80} />
+      <UserAvatar
+        user={contactStore?.activeContact?.user}
+        size={80}
+        round={true}
+      />
 
       <h2
         className={css`
