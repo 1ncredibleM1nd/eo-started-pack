@@ -67,6 +67,7 @@ async function getConversations({
     const response = await resolver.conversation.conversations(
       contactStore.search,
       tags,
+      globalStore.tagsStore.noTags,
       sources,
       schoolIds,
       page,

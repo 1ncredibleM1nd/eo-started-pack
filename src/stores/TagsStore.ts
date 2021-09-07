@@ -11,6 +11,11 @@ export class TagsStore {
     makeAutoObservable(this);
   }
 
+  noTags = false;
+  toggleNoTags() {
+    this.noTags = !this.noTags;
+  }
+
   async load(schoolIds: number[]) {
     const { data: r } = await tags.getAll(schoolIds);
     if (!r.error) {

@@ -6,6 +6,7 @@ export default class Conversation {
   conversations(
     query: string,
     tags: number[],
+    noTags: boolean,
     sources: Object,
     schoolIds: number[],
     page?: number,
@@ -16,6 +17,7 @@ export default class Conversation {
         query,
         sources,
         tags,
+        noTags,
         conversationId,
       },
       page,

@@ -4,9 +4,18 @@ import { FilterItem } from "@/components/Filter/FilterItem";
 import { FilterItemTitle } from "@/components/Filter/FilterItemTitle";
 import { Tag } from "@/stores/model/Tag";
 import { css } from "goober";
+import { FilterChannels } from "@/components/Filter/FilterChannels";
 
 const FilterTagItem = observer(
-  ({ tag, onSelect }: { tag: Tag; onSelect: any }) => {
+  ({
+    name,
+    selected,
+    onSelect,
+  }: {
+    name: string;
+    selected: boolean;
+    onSelect: any;
+  }) => {
     return (
       <div
         className={css`
@@ -19,26 +28,23 @@ const FilterTagItem = observer(
           min-width: 100px;
           min-height: 30px;
 
-          border: 1px solid ${tag.selected ? "#3498db" : "#607d8b"};
+          border: 1px solid ${selected ? "#3498db" : "#607d8b"};
           border-radius: 6px;
 
           cursor: pointer;
         `}
-        onClick={() => {
-          onSelect();
-          tag.setSelected(!tag.selected);
-        }}
+        onClick={() => onSelect()}
       >
         <span
           className={css`
-            color: ${tag.selected ? "#3498db" : "#607d8b"};
+            color: ${selected ? "#3498db" : "#607d8b"};
             text-align: center;
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
           `}
         >
-          {tag.name}
+          {name}
         </span>
       </div>
     );
@@ -67,8 +73,12 @@ export const FilterTags = observer(
                     {tags.map((tag) => (
                       <FilterTagItem
                         key={tag.id}
-                        tag={tag}
-                        onSelect={onChangeTags}
+                        name={tag.name}
+                        selected={tag.selected}
+                        onSelect={() => {
+                          tag.setSelected(!tag.selected);
+                          onChangeTags();
+                        }}
                       />
                     ))}
                   </div>
@@ -79,6 +89,24 @@ export const FilterTags = observer(
             return null;
           }
         )}
+
+        <FilterItem>
+          <div
+            className={css`
+              display: flex;
+              flex-wrap: wrap;
+            `}
+          >
+            <FilterTagItem
+              name={"Без тегов"}
+              selected={tagsStore.noTags}
+              onSelect={() => {
+                tagsStore.toggleNoTags();
+                onChangeTags();
+              }}
+            />
+          </div>
+        </FilterItem>
       </>
     );
   }
