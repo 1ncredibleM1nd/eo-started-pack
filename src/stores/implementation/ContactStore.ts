@@ -48,24 +48,30 @@ export class ContactStore {
 
   filterSocial() {
     this.contact = [];
-    this.nextPage = 1;
+    this.setNextPage(1);
     this.setHasNext(true);
+    this.setPrevPage(1);
+    this.setHasPrev(false);
     appStore.setLoading(false);
     contactStore.load();
   }
 
   filterSchools() {
     this.contact = [];
-    this.nextPage = 1;
+    this.setNextPage(1);
     this.setHasNext(true);
+    this.setPrevPage(1);
+    this.setHasPrev(false);
     appStore.setLoading(false);
     contactStore.load();
   }
 
   filterTags() {
     this.contact = [];
-    this.nextPage = 1;
+    this.setNextPage(1);
     this.setHasNext(true);
+    this.setPrevPage(1);
+    this.setHasPrev(false);
     appStore.setLoading(false);
     contactStore.load();
   }
