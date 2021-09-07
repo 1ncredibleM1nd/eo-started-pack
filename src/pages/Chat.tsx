@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { Row, Col, Layout } from "antd";
 import { ChatLayout, ContactsLayout } from "@/layouts";
@@ -11,17 +11,20 @@ const App = observer(() => {
   const { appStore, contactStore, sidebarStore } = useStore();
   const layout = appStore.layout;
   const query = useLocationQuery();
+  const id = useMemo(() => query.get("im"), [query]);
 
   useEffect(() => {
-    const id = query.get("im");
-    if (id && appStore.isLoaded) {
+    if (appStore.isLoaded && contactStore.hasContact(id)) {
       contactStore.setActiveContact(id);
       appStore.setLayout("chat");
     }
   }, [appStore.isLoaded]);
 
   const withSidebar =
-    sidebarStore.opened && appStore.isLoaded && query.get("im");
+    sidebarStore.opened &&
+    appStore.isLoaded &&
+    query.get("im") &&
+    contactStore.hasContact(id);
 
   return (
     <Layout hasSider={true} className="chat_page">

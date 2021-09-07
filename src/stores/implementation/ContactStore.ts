@@ -135,6 +135,10 @@ export class ContactStore {
     );
   }
 
+  hasContact(id: string) {
+    return this.contact.some((contact: Conversation) => contact.id == id);
+  }
+
   async setActiveContact(id: string | null) {
     if (this.activeContact && this.activeContact.id === id) {
       return;
