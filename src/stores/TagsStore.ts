@@ -11,9 +11,10 @@ export class TagsStore {
     makeAutoObservable(this);
   }
 
-  noTags = false;
+  noTags = store.get("noTags") ?? false;
   toggleNoTags() {
     this.noTags = !this.noTags;
+    store.set("noTags", this.noTags);
   }
 
   async load(schoolIds: number[]) {
