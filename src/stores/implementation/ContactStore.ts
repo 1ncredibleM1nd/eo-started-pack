@@ -154,7 +154,7 @@ export class ContactStore {
       return;
     }
 
-    if (this.hasContact(id)) {
+    if (id && this.hasContact(id)) {
       chatStore.isLoaded = false;
 
       this.activeContact = this.getContact(id);
