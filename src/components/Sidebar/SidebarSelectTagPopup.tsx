@@ -53,7 +53,7 @@ const SidebarSelectTagListItem = observer(
 
 const SidebarSelectTagContainer = observer(
   ({ onComplete }: { onComplete: any }) => {
-    const { tagsStore, contactStore } = useStore();
+    const { tagsStore, contactStore, sidebarStore } = useStore();
     const activeContact = contactStore?.activeContact;
     const allTags =
       tagsStore.getBySchools([Number(activeContact?.schoolId)]) ?? [];
@@ -72,6 +72,14 @@ const SidebarSelectTagContainer = observer(
 
     const addTags = async () => {
       await activeContact?.addTag(selectTags.selected, true);
+
+      if (
+        tagsStore.noTags &&
+        !tagsStore.activeTags.some(({ id }) => selectTags.selected.includes(id))
+      ) {
+        sidebarStore.hide();
+        contactStore.setActiveContact(null);
+      }
     };
 
     return (
