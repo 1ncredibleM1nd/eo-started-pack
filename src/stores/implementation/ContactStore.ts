@@ -142,9 +142,7 @@ export class ContactStore {
   }
 
   getContact(id: string) {
-    return this.contact.find(
-      (contactItem: Conversation) => contactItem.id == id
-    );
+    return this.contact.find((contact: Conversation) => contact?.id == id);
   }
 
   hasContact(id: string) {
