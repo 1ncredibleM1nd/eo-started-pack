@@ -78,9 +78,12 @@ export class ContactStore {
 
     this.addContact(conversations);
     this.setPrevPage(page);
-    document
-      .getElementById(`contacts_item_${firstContact.id}`)
-      ?.scrollIntoView(); // restore scroll position
+
+    if (firstContact) {
+      document
+        .getElementById(`contacts_item_${firstContact.id}`)
+        ?.scrollIntoView(); // restore scroll position
+    }
 
     this.setHasPrev(page !== 1);
     this.setPageLoading(false);
