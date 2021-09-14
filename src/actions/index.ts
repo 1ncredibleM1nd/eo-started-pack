@@ -52,7 +52,7 @@ async function getConversations({
 }: {
   schoolIds: number[];
   page?: number;
-  conversationId?: string;
+  conversationId?: number;
 }) {
   const action = "Ошибка получения контактов";
   const section = "contacts";
@@ -86,7 +86,7 @@ async function getConversations({
 }
 
 async function getMessages(
-  conversationId: string,
+  conversationId: number,
   page: number,
   schoolIds: number[]
 ) {
@@ -112,7 +112,7 @@ async function getMessages(
 }
 
 async function sendMessage(
-  conversationId: string,
+  conversationId: number,
   message: string,
   conversationSourceAccountId: string,
   schoolIds: Array<number>,
@@ -132,9 +132,14 @@ async function sendMessage(
       replyTo
     );
 
-    isError(response, section, action, true);
+    if (!isError(response, section, action, true)) {
+      return response.data.data;
+    }
+
+    return {};
   } catch (error) {
     messageError(error.toString() ?? action, section);
+    return {};
   }
 }
 

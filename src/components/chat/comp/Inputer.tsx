@@ -15,11 +15,12 @@ const ALL_ACCEPT_TYPE = "file_extension|audio/*|video/*|image/*|media_type";
 const INSTAGRAM_ACCEPT_TYPE = "image/*";
 
 const Inputer = observer(() => {
-  const { chatStore, contactStore, schoolsStore, usersStore } = useStore();
+  const { contactStore, schoolsStore, usersStore } = useStore();
 
   const activeContact = contactStore.activeContact;
-  const user = usersStore.user;
-  const activeSocial = chatStore.activeChat.activeSocial;
+  // const user = usersStore.user;
+  const activeSocial = activeContact?.activeSocial;
+  const currentChat = activeContact?.chat;
 
   const [draft, setDraft] = useState({});
   const [switcher, setSwitcher] = useState("");
@@ -29,11 +30,6 @@ const Inputer = observer(() => {
   );
   const [fileOnHold, setFileOnHold] = useState([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-
-  let currentChat: any;
-  if (chatStore.isLoaded && activeContact) {
-    currentChat = chatStore.activeChat;
-  }
 
   const resetInputAndKeys = () => {
     if (status !== "default") {
@@ -53,11 +49,6 @@ const Inputer = observer(() => {
     },
     [draft, status]
   );
-
-  const selectSocial = (social: string) => {
-    currentChat.activeSocial = social;
-    switcherOff();
-  };
 
   const switcherOff = () => {
     setSwitcher("");
@@ -106,24 +97,18 @@ const Inputer = observer(() => {
   };
 
   const sendMessage = async () => {
-    let message = draft[activeContact.id + status];
-
+    // let message = draft[activeContact.id + status];
     if (
       (draft[activeContact.id + status] &&
         draft[activeContact.id + status].length) ||
       fileOnHold.length > 0
     ) {
+      resetInputAndKeys();
+
       switch (status) {
         case "default":
-          resetInputAndKeys();
-          chatStore.addMsg(
-            draft[activeContact.id + status],
-            user.id,
-            currentChat.activeSocial,
-            null,
-            fileOnHold
-          );
-          chatStore.sendMessage(
+          activeContact.sendMessage(
+            activeContact.id,
             draft[activeContact.id + status],
             activeContact.sourceAccountId,
             schoolsStore.activeSchoolsIds,
@@ -132,28 +117,27 @@ const Inputer = observer(() => {
           );
 
           break;
-        case "edit":
-          resetInputAndKeys();
-          setStatus("default");
-          chatStore.setActiveMessage(null);
-          chatStore.activeChat.activeMessage.editMessage(
-            draft[activeContact.id + status]
-          );
-
-          break;
-        case "reply":
-          resetInputAndKeys();
-          setStatus("default");
-
-          chatStore.addMsg(
-            message,
-            user.id,
-            currentChat.activeSocial,
-            chatStore.activeChat.activeMessage.content,
-            fileOnHold
-          );
-          chatStore.setActiveMessage(null);
-          break;
+        // case "edit":
+        //   resetInputAndKeys();
+        //   setStatus("default");
+        //   currentChat.setActiveMessage(null);
+        //   currentChat.activeMessage.editMessage(
+        //     draft[activeContact.id + status]
+        //   );
+        //
+        //   break;
+        // case "reply":
+        //   setStatus("default");
+        //
+        //   currentChat.setActiveMessage(null);
+        //   currentChat.addMsg(
+        //     message,
+        //     user.id,
+        //     activeSocial,
+        //     currentChat.activeMessage.content,
+        //     fileOnHold
+        //   );
+        //   break;
         default:
           break;
       }
@@ -216,11 +200,11 @@ const Inputer = observer(() => {
             <div className="input-error">{chatError}</div>
           ) : (
             <>
-              {chatStore.activeChat.activeMessage && (
+              {currentChat.activeMessage && (
                 <div className="selected-container">
                   <span>
                     <ReactMarkdown
-                      children={chatStore.activeChat.activeMessage.content}
+                      children={currentChat.activeMessage.content}
                       allowedElements={["a"]}
                       unwrapDisallowed={true}
                       linkTarget="_blank"
@@ -228,12 +212,12 @@ const Inputer = observer(() => {
                   </span>
                   <div className="msg_type">
                     {TypesMessage.getTypeDescription(
-                      chatStore.activeChat.activeMessage.entity.type
+                      currentChat.activeMessage.entity.type
                     )}
                   </div>
                   <CloseOutlined
                     className="close"
-                    onClick={() => chatStore.setActiveMessage(null)}
+                    onClick={() => currentChat.setActiveMessage(null)}
                   />
                 </div>
               )}
@@ -252,20 +236,7 @@ const Inputer = observer(() => {
 
         {/* Button Social.  */}
         <div className="inputer_btn">
-          {/* TODO: temporarily disable, enable after meeting task */}
-          {/*<Popover*/}
-          {/*  visible={switcher === "social"}*/}
-          {/*  content={<SocialMenu selectSocial={selectSocial} />}*/}
-          {/*  trigger="click"*/}
-          {/*>*/}
-          {/*  <Button*/}
-          {/*    disabled={!!chatError}*/}
-          {/*    onClick={() => setSwitcher("social")}*/}
-          {/*    className="transparent not-allowed"*/}
-          {/*  >*/}
-          <SocialIcon social={currentChat.activeSocial} size={30} />
-          {/*</Button>*/}
-          {/*</Popover>*/}
+          <SocialIcon social={activeSocial} size={30} />
         </div>
       </div>
 

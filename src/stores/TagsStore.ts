@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import { Tag } from "@/stores/model/Tag";
 import { tags } from "@/ApiResolvers";
-import group from "lodash.groupby";
+import { groupBy } from "lodash";
 import store from "store";
 
 export class TagsStore {
@@ -34,42 +34,20 @@ export class TagsStore {
     }
   }
 
-  async add(schoolId: number, name: string): Promise<Tag | null> {
-    const { data: r } = await tags.add(schoolId, name);
-
-    if (!r.error) {
-      const tag = new Tag(r.data.id, r.data.name, r.data.schoolId, false);
-      this.tags.set(tag.id, tag);
-      this.saveTags();
-      return tag;
-    }
-
-    return null;
+  add(id: number, schoolId: number, name: string) {
+    const tag = new Tag(id, name, schoolId, false);
+    this.tags.set(tag.id, tag);
+    this.saveTags();
   }
 
-  async delete(id: number) {
-    const { data: r } = await tags.delete(id);
-
-    if (!r.error) {
-      if (r.data) {
-        this.tags.delete(id);
-      }
-
-      this.saveTags();
-      return r.data;
-    }
-
-    return null;
+  delete(id: number) {
+    this.tags.delete(id);
+    this.saveTags();
   }
 
-  async edit(id: number, name: string) {
-    const { data: r } = await tags.edit(id, name);
-    if (!r.error) {
-      if (r.data) {
-        const tag = this.tags.get(id);
-        tag?.setName(name);
-      }
-    }
+  edit(id: number, name: string) {
+    const tag = this.tags.get(id);
+    tag?.setName(name);
   }
 
   saveTags() {
@@ -94,6 +72,6 @@ export class TagsStore {
   }
 
   get groupBySchools() {
-    return group(Array.from(this.tags.values()), "schoolId");
+    return groupBy(Array.from(this.tags.values()), "schoolId");
   }
 }

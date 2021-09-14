@@ -105,9 +105,9 @@ const ChatList = observer(
 );
 
 const Chat = observer(() => {
-  const { chatStore, contactStore } = useStore();
+  const { contactStore } = useStore();
 
-  const activeChat = chatStore.activeChat;
+  const activeChat = contactStore?.activeContact?.chat;
   const activeContact = contactStore.activeContact;
 
   if (!activeChat) {
@@ -118,7 +118,7 @@ const Chat = observer(() => {
     );
   }
 
-  if (!chatStore.isLoaded) {
+  if (!activeChat.isLoaded) {
     return (
       <div className="chat">
         <div className="loading chat_loading">
@@ -129,7 +129,7 @@ const Chat = observer(() => {
   }
 
   const replyMsg = (message: Message) => {
-    chatStore.setActiveMessage(message);
+    activeChat.setActiveMessage(message);
   };
 
   return (
@@ -138,12 +138,12 @@ const Chat = observer(() => {
         <>
           <ChatList
             messages={activeChat?.messages}
-            loading={chatStore.isLoadingPage}
-            hasNextPage={chatStore.hasNextPage}
+            loading={activeChat.isLoadingPage}
+            hasNextPage={activeChat.hasNextPage}
             onLoadMore={() => {
-              chatStore.loadMessages(
+              activeChat.loadMessages(
                 activeContact.id,
-                chatStore.getNextPageNumber
+                activeChat.getNextPageNumber
               );
             }}
             onReplyMessage={replyMsg}

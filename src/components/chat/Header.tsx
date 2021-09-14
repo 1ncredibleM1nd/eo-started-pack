@@ -26,11 +26,13 @@ const Header = observer(() => {
     } else if (appStore.layout === "chat") {
       appStore.setLayout("contact");
       history.replace("");
-      contactStore.setActiveContact(null);
+      contactStore.setActiveContact(-1);
     }
   };
 
-  const school = schoolsStore.getById(contactStore?.activeContact?.schoolId);
+  const school = schoolsStore.getById(
+    contactStore.activeContact?.schoolId ?? -1
+  );
 
   return (
     <div className="chat_header">

@@ -20,20 +20,20 @@ const Search = observer(() => {
   const onChangeTags = async () => {
     history.replace("");
     sidebarStore.hide();
-    await contactStore.setActiveContact(null);
-    contactStore.filterTags();
+    await contactStore.setActiveContact(-1);
+    contactStore.refetch();
   };
 
   const onChangeSocial = () => {
-    contactStore.filterSocial();
+    contactStore.refetch();
   };
 
   async function onChangeSchool() {
     history.replace("");
     sidebarStore.hide();
-    await contactStore.setActiveContact(null);
+    await contactStore.setActiveContact(-1);
     await tagsStore.load(schoolsStore.activeSchoolsIds);
-    contactStore.filterSchools();
+    contactStore.refetch();
   }
 
   const { Panel } = Collapse;
@@ -45,7 +45,7 @@ const Search = observer(() => {
         <div className="search">
           <div className="search-filter">
             <Button
-              disabled={!appStore.isLoaded}
+              disabled={!contactStore.isLoaded}
               onClick={() => contactStore.toggleFilterSwitch()}
               className="transparent"
             >

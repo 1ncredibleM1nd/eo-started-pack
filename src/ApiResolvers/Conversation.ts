@@ -1,6 +1,5 @@
 import { API } from "@/actions/axios";
 import { AxiosResponse } from "axios";
-import { chatStore } from "@/stores/implementation";
 
 export default class Conversation {
   conversations(
@@ -10,7 +9,7 @@ export default class Conversation {
     sources: Object,
     schoolIds: number[],
     page?: number,
-    conversationId?: string
+    conversationId?: number
   ): Promise<AxiosResponse<any>> {
     return API.post(`/conversation/get-conversations`, {
       search: {
@@ -28,13 +27,13 @@ export default class Conversation {
   setTags(conversationId: number, tags: number[]) {
     return API.post("/conversation/set-tags", {
       conversationId,
-      tags,
+      tags: tags.length > 0 ? tags : [0],
     });
   }
 
   messages(
     schoolIds: number[],
-    conversationId: string,
+    conversationId: number,
     page: number
   ): Promise<AxiosResponse<any>> {
     return API.post(`/conversation/get-messages`, {
@@ -45,7 +44,7 @@ export default class Conversation {
   }
 
   sendMessage(
-    conversationId: string,
+    conversationId: number,
     message: string,
     conversationSourceAccountId: string,
     schoolIds: Array<number>,
@@ -69,7 +68,7 @@ export default class Conversation {
       formData.append("replyTo", replyTo.toString());
     }
 
-    formData.append("conversationId", chatStore.activeChat.id);
+    formData.append("conversationId", conversationId.toString());
 
     return API.post(`/conversation/send-message`, formData);
   }

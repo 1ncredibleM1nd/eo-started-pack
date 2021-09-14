@@ -1,20 +1,30 @@
 import { makeAutoObservable } from "mobx";
-import { chatStore, appStore } from "@/stores/implementation";
-import { getConversations } from "@/actions";
 import $ from "jquery";
 import { Conversation } from "../../entities";
 import { globalStore } from "..";
+import { getConversations } from "@/actions";
+import { User } from "@/stores/model/User";
+import { reverse, sortBy } from "lodash";
 
 export class ContactStore {
-  contact: Array<Conversation> = [];
-  activeContact: Conversation | null = null;
+  contacts: Map<number, Conversation> = new Map();
+  activeContactId: number = -1;
+
   search = "";
-  name = "";
   filter = {};
   filterSwitch = false;
 
   constructor() {
     makeAutoObservable(this);
+  }
+
+  get activeContact() {
+    return this.contacts.get(this.activeContactId);
+  }
+
+  isLoaded = false;
+  setLoaded(state: boolean) {
+    this.isLoaded = state;
   }
 
   pageLoading = false;
@@ -46,41 +56,10 @@ export class ContactStore {
     this.filterSwitch = !this.filterSwitch;
   }
 
-  filterSocial() {
-    this.contact = [];
-    this.setNextPage(1);
-    this.setHasNext(true);
-    this.setPrevPage(1);
-    this.setHasPrev(false);
-    appStore.setLoading(false);
-    contactStore.load();
-  }
-
-  filterSchools() {
-    this.contact = [];
-    this.setNextPage(1);
-    this.setHasNext(true);
-    this.setPrevPage(1);
-    this.setHasPrev(false);
-    appStore.setLoading(false);
-    contactStore.load();
-  }
-
-  filterTags() {
-    this.contact = [];
-    this.setNextPage(1);
-    this.setHasNext(true);
-    this.setPrevPage(1);
-    this.setHasPrev(false);
-    appStore.setLoading(false);
-    contactStore.load();
-  }
-
-  setSearch(search: string) {
-    this.search = search;
-    this.contact = [];
-    appStore.setLoading(false);
-    contactStore.load();
+  get sortedConversations() {
+    return reverse(
+      sortBy(Array.from(this.contacts.values()), "lastMessage.timestamp")
+    );
   }
 
   async loadPrev() {
@@ -88,7 +67,7 @@ export class ContactStore {
       return;
     }
 
-    const firstContact = this.contact[0];
+    const firstContact = this.contacts.values().next().value[1];
 
     this.setPageLoading(true);
 
@@ -97,19 +76,11 @@ export class ContactStore {
       page: this.prevPage - 1,
     });
 
-    if (conversations.length > 0) {
-      this.contact.unshift(
-        ...conversations.map((conversation: Conversation) =>
-          chatStore.collectChat(conversation)
-        )
-      );
-
-      this.setPrevPage(page);
-
-      document
-        .getElementById(`contacts_item_${firstContact.id}`)
-        .scrollIntoView(); // restore scroll position
-    }
+    this.addContact(conversations);
+    this.setPrevPage(page);
+    document
+      .getElementById(`contacts_item_${firstContact.id}`)
+      ?.scrollIntoView(); // restore scroll position
 
     this.setHasPrev(page !== 1);
     this.setPageLoading(false);
@@ -127,62 +98,77 @@ export class ContactStore {
       page: this.nextPage + 1,
     });
 
-    if (conversations.length > 0) {
-      this.contact.push(
-        ...conversations.map((conversation: Conversation) =>
-          chatStore.collectChat(conversation)
-        )
-      );
-
-      this.setNextPage(page);
-    }
-
+    this.addContact(conversations);
+    this.setNextPage(page);
     this.setHasNext(conversations.length >= 20);
     this.setPageLoading(false);
   }
 
-  getContact(id: string) {
-    return this.contact.find((contact: Conversation) => contact?.id == id);
+  addContact(contacts: any[]) {
+    for (let contact of contacts) {
+      if (!this.contacts.has(contact.id)) {
+        this.contacts.set(
+          contact.id,
+          new Conversation(
+            contact.id,
+            contact.conversation_source_account_id,
+            contact.last_message,
+            new User(contact.user[0], contact.name, contact.avatar),
+            contact.tags,
+            contact.school_id,
+            contact.send_file,
+            contact.link_social_page,
+            contact.readed
+          )
+        );
+      }
+    }
   }
 
-  hasContact(id: string) {
-    return this.contact.some((contact: Conversation) => contact?.id == id);
+  getContact(id: number) {
+    return this.contacts.get(id);
   }
 
-  async setActiveContact(id: string | null) {
-    if (this.activeContact && this.activeContact.id === id) {
+  hasContact(id: number) {
+    return this.contacts.has(id);
+  }
+
+  removeContact(id: number) {
+    this.contacts.delete(id);
+    this.activeContactId = -1;
+  }
+
+  async setActiveContact(id: number) {
+    if (this.activeContactId === id) {
       return;
     }
 
-    if (id && this.hasContact(id)) {
-      chatStore.isLoaded = false;
+    if (this.hasContact(id)) {
+      this.activeContactId = id;
+      this.activeContact!.chat.setLoaded(false);
+      await this.activeContact!.loadMessages(1);
+      this.activeContact!.chat.setLoaded(true);
 
-      this.activeContact = this.getContact(id);
-      chatStore.activeChat = new Conversation(
-        this.activeContact.id,
-        this.activeContact.contactId,
-        this.activeContact.sourceAccountId,
-        this.activeContact.activeSocial,
-        this.activeContact.user,
-        this.activeContact.tags
-      );
-
-      await chatStore.loadMessages(chatStore.activeChat.contactId, 1);
       $(".msg_space").animate(
         { scrollTop: $(".msg_space").prop("scrollHeight") },
         0
       );
-
-      chatStore.isLoaded = true;
     } else {
-      this.activeContact = null;
-      chatStore.activeChat = null;
+      this.activeContactId = -1;
     }
   }
 
-  async load(id?: string) {
-    const dataContact: Conversation[] = [];
+  async refetch() {
+    this.contacts.clear();
+    this.setNextPage(1);
+    this.setHasNext(true);
+    this.setPrevPage(1);
+    this.setHasPrev(false);
+    this.setLoaded(false);
+    await this.fetch();
+  }
 
+  async fetch(id?: number) {
     const { conversations, page } = await getConversations({
       schoolIds: globalStore.schoolsStore.activeSchoolsIds,
       page: this.prevPage,
@@ -197,64 +183,12 @@ export class ContactStore {
     }
 
     if (!conversations.length) {
-      this.contact = [];
-      appStore.setLoading(true);
-      return;
+      this.contacts.clear();
+    } else {
+      this.addContact(conversations);
     }
 
-    for (let i = 0; i < conversations.length; i++) {
-      const contact = conversations[i];
-      const conversation: Conversation = chatStore.collectChat(contact);
-      dataContact.push(conversation);
-    }
-
-    if (JSON.stringify(this.contact) !== JSON.stringify(dataContact)) {
-      for (let i = 0; i < this.contact.length; i++) {
-        const localContact = this.contact[i];
-
-        let serverContact = dataContact[i];
-
-        if (!serverContact) {
-          continue;
-        }
-
-        // Проверка на последнее сообщение, если оно не соответствует старому - загрузить новые сообщения
-        if (this.activeContact && this.activeContact.id === localContact.id) {
-          if (
-            localContact.getLastMessage().id !==
-              serverContact.getLastMessage().id &&
-            serverContact.getLastMessage().timestamp >
-              localContact.getLastMessage().timestamp
-          ) {
-            await chatStore.loadMessages(this.activeContact.id, 1);
-
-            setTimeout(() => {
-              $(".msg_space").animate(
-                { scrollTop: $(".msg_space").prop("scrollHeight") },
-                0
-              );
-            });
-          }
-        }
-      }
-
-      if (this.contact.length) {
-        // Замена первых 20 контактов
-        for (let i = 0; i <= 19; i++) {
-          this.contact[i] = dataContact[i];
-        }
-      } else {
-        this.contact = dataContact;
-      }
-    }
-
-    appStore.setLoading(true);
-
-    setTimeout(() => {
-      if (!this.pageLoading) {
-        this.load();
-      }
-    }, 1000);
+    this.setLoaded(true);
   }
 }
 

@@ -6,24 +6,19 @@ import "./Contact.scss";
 import { Conversation, Message } from "@/entities";
 import ContactItem from "./comp/ContactItem";
 import { useStore } from "@/stores";
-import { useInView } from "react-intersection-observer";
-import { useLocationQuery } from "@/hooks/useLocationQuery";
-import PuffLoader from "react-spinners/PuffLoader";
 import { css } from "goober";
 import { useHistory } from "react-router-dom";
+import { setUnreadChat } from "@/actions";
+import { useInView } from "react-intersection-observer";
+import { useLocationQuery } from "@/hooks/useLocationQuery";
+import { PuffLoader } from "react-spinners";
 
 const ContactList = observer(() => {
-  const {
-    contactStore,
-    appStore,
-    schoolsStore,
-    usersStore,
-    chatStore,
-    sidebarStore,
-  } = useStore();
+  const { contactStore, appStore, schoolsStore, usersStore, sidebarStore } =
+    useStore();
   const query = useLocationQuery();
   const history = useHistory();
-  const ContactsData = contactStore.contact;
+  const ContactsData = contactStore.sortedConversations;
   const filterSwitch = contactStore.filterSwitch;
 
   const { ref: sentryPrevRef, inView: isVisiblePrev } = useInView({
@@ -64,11 +59,7 @@ const ContactList = observer(() => {
     sidebarStore.show();
   };
 
-  const setUnreadChat = async (id: any) => {
-    chatStore.setUnreadChat(id);
-  };
-
-  if (!appStore.isLoaded) {
+  if (!contactStore.isLoaded) {
     return (
       <div className="loading">
         <HashLoader color="#3498db" size={50} />
@@ -101,7 +92,7 @@ const ContactList = observer(() => {
             {ContactsData.map((contact: Conversation, index: number) => {
               if (!contact) return null;
 
-              const lastMessage: Message = contact.getLastMessage();
+              const lastMessage: Message = contact.lastMessage;
               const online: boolean = false;
               const school: any = schoolsStore.getById(contact.schoolId);
 

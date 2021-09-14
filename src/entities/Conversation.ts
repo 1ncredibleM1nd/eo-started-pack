@@ -3,32 +3,29 @@ import IRole from "@/stores/interface/IRole";
 import Message from "./Message";
 import { User } from "@/stores/model/User";
 import { conversation } from "@/ApiResolvers";
+import { ChatStore } from "@/stores/implementation/ChatStore";
 
 const RESET_TAGS = [0];
 
 class Conversation {
   id: number;
-  contactId: string;
   sourceAccountId: string;
   role: Array<IRole> = [];
   activeSocial: string;
-  messages: Message[] = [];
   user: User;
-  activeMessage: Message = null;
-  schoolId: string;
+  schoolId: number;
   sendFile: boolean;
-  linkSocialPage: string = null;
+  linkSocialPage: string = "";
   readed: boolean;
-  tags: number[] = [];
+  chat: ChatStore;
 
   constructor(
     id: number,
-    contactId: string,
     sourceAccountId: string,
-    activeSocial: string,
+    lastMessage: Message,
     user: User,
     tags: number[],
-    schoolId?: string,
+    schoolId?: number,
     sendFile?: boolean,
     linkSocialPage?: string,
     readed?: boolean
@@ -36,38 +33,58 @@ class Conversation {
     makeAutoObservable(this);
 
     this.id = id;
-    this.contactId = contactId;
     this.sourceAccountId = sourceAccountId;
-    this.activeSocial = activeSocial;
+    this.activeSocial = lastMessage.social_media;
     this.user = user;
     this.tags = tags;
     this.schoolId = schoolId;
     this.sendFile = sendFile;
     this.linkSocialPage = linkSocialPage;
     this.readed = readed;
+
+    this.chat = new ChatStore();
+    this.addMessage(lastMessage);
   }
 
-  addMessage(message: Message): void {
-    this.messages.push(message);
+  read(state: boolean) {
+    this.readed = state;
   }
 
-  getLastMessage(): Message | null {
-    return this.messages[this.messages.length - 1];
+  async loadMessages(page: number = 1) {
+    await this.chat.loadMessages(this.id, page);
   }
 
-  async addTag(tagIds: number[], replace = false) {
-    const tags = replace ? tagIds : [...this.tags, ...tagIds];
-    const { data } = await conversation.setTags(
-      this.id,
-      tags.length > 0 ? tags : RESET_TAGS
+  addMessage(message: Message) {
+    this.chat.addMessage(message);
+  }
+  removeMessage(messageId: number) {
+    this.chat.removeMessage(messageId);
+  }
+
+  async sendMessage(
+    contactId: number,
+    content: string,
+    conversationSourceAccountId: string,
+    schoolIds: Array<number>,
+    files: Array<File>,
+    activeMessage: Message
+  ) {
+    await this.chat.sendMessage(
+      contactId,
+      content || "Files",
+      conversationSourceAccountId,
+      schoolIds,
+      files,
+      activeMessage
     );
-    if (data.data) {
-      if (replace) {
-        this.tags = tagIds;
-      } else {
-        this.tags.push(...tagIds);
-      }
-    }
+  }
+
+  get lastMessage(): Message {
+    return this.chat.lastMessage;
+  }
+
+  async addTag(tagIds: number[]) {
+    const { data } = await conversation.setTags(this.id, tagIds);
   }
 
   async deleteTag(id: number) {
@@ -76,10 +93,11 @@ class Conversation {
       this.id,
       filteredTags.length > 0 ? filteredTags : RESET_TAGS
     );
+  }
 
-    if (data.data) {
-      this.tags = filteredTags;
-    }
+  tags: number[] = [];
+  setTags(tags: number[]) {
+    this.tags = tags;
   }
 }
 

@@ -1,7 +1,8 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores";
 import { css, styled } from "goober";
+import { tags as tagsApi } from "@/ApiResolvers";
 import { Dropdown, Input, Menu } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
 
@@ -47,15 +48,18 @@ export const SidebarTag = observer(({ id }: TProps) => {
 
   const inputRef = useRef(null);
 
+  useEffect(() => {
+    setTagName(tag?.name ?? "");
+  }, [tag?.name]);
+
   const onDelete = async () => {
     await contactStore.activeContact?.deleteTag(id);
-
     const activeTags = contactStore.activeContact?.tags ?? [];
 
     // reset contact if last tag delete
-    if (activeTags.length === 0 && !activeTags.some((tagId) => tagId === id)) {
+    if (!activeTags.some((tagId) => tagId === id)) {
       sidebarStore.hide();
-      contactStore.setActiveContact(null);
+      contactStore.removeContact(contactStore.activeContactId);
     }
   };
 
@@ -67,7 +71,7 @@ export const SidebarTag = observer(({ id }: TProps) => {
 
     const trimmedTagName = tagName.trim();
     if (trimmedTagName !== "") {
-      await tagsStore.edit(id, trimmedTagName);
+      await tagsApi.edit(id, trimmedTagName);
       setTagName(trimmedTagName);
     } else {
       setTagName(tag?.name ?? "");

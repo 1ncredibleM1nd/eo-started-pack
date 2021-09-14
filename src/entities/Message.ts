@@ -4,7 +4,7 @@ import Attachment from "./Attachment";
 import { User } from "@/stores/model/User";
 
 class Message {
-  id: string;
+  id: number;
   combineWithPrevious: boolean;
   social_media: string;
   content: string;
@@ -20,7 +20,7 @@ class Message {
   isLastMessage: boolean;
 
   constructor(
-    id: string,
+    id: number,
     combineWithPrevious: boolean,
     social_media: string,
     content: string,

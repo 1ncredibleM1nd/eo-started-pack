@@ -71,14 +71,14 @@ const SidebarSelectTagContainer = observer(
     };
 
     const addTags = async () => {
-      await activeContact?.addTag(selectTags.selected, true);
+      await activeContact?.addTag(selectTags.selected);
 
       if (
-        tagsStore.noTags &&
+        (tagsStore.activeTags.length > 0 || tagsStore.noTags) &&
         !tagsStore.activeTags.some(({ id }) => selectTags.selected.includes(id))
       ) {
         sidebarStore.hide();
-        contactStore.setActiveContact(null);
+        contactStore.removeContact(contactStore.activeContactId);
       }
     };
 

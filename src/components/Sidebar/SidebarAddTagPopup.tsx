@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { Input, Popover } from "antd";
 import { IconDelete, IconSettings } from "@/images/icons";
+import { tags as tagsApi } from "@/ApiResolvers";
 import { css } from "goober";
 import { useState } from "react";
 import { useStore } from "@/stores";
@@ -49,7 +50,7 @@ const SidebarAddTagContainer = observer(() => {
   const addTag = async () => {
     const trimmedTagName = tagName.trim();
     if (trimmedTagName !== "") {
-      await tagsStore.add(activeContact?.schoolId, trimmedTagName);
+      await tagsApi.add(activeContact?.schoolId ?? -1, trimmedTagName);
     }
 
     setTagName("");
@@ -57,7 +58,7 @@ const SidebarAddTagContainer = observer(() => {
 
   const deleteTag = async (id: number) => {
     if (window.confirm("Тег будет удалён из всех диалогов. Вы уверены ?")) {
-      if (await tagsStore.delete(id)) {
+      if (await tagsApi.delete(id)) {
         activeContact?.deleteTag(id);
       }
     }

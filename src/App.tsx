@@ -7,7 +7,12 @@ import { useStore } from "./stores";
 import { BrowserRouter as Router } from "react-router-dom";
 
 const App = observer(() => {
-  const { appStore, authStore, tagsStore, schoolsStore } = useStore();
+  const {
+    init: initGlobalStore,
+    authStore,
+    tagsStore,
+    schoolsStore,
+  } = useStore();
 
   useEffect(() => {
     async function init() {
@@ -19,7 +24,7 @@ const App = observer(() => {
 
       let response = await authStore.initialize();
       if (response) {
-        appStore.initialization();
+        initGlobalStore();
       }
     }
 
