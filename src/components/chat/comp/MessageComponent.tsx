@@ -91,6 +91,7 @@ const MessageComponent = observer((props: IProps) => {
       <MessageAttachment
         key={`reply_file_attachment_${attachment.url}`}
         attachment={attachment}
+        reply={true}
       />
     )) ?? [];
 

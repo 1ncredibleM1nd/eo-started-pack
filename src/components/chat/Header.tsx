@@ -79,18 +79,18 @@ const Header = observer(() => {
                       <img src={school.logo} className="school-logo" alt={""} />
                     </div>
                     <p>{school.name}</p>
-                  </div>
-                </div>
-                <div className={"header_settings"}>
-                  <div
-                    className="trigger"
-                    onClick={() => sidebarStore.toggle()}
-                  >
-                    <IconPaperClip
-                      width={18}
-                      height={18}
-                      fill={sidebarStore.opened ? "#2a99ff" : "#a3a3a3"}
-                    />
+                    <div className={"header_settings"}>
+                      <div
+                        className="trigger"
+                        onClick={() => sidebarStore.toggle()}
+                      >
+                        <IconPaperClip
+                          width={18}
+                          height={18}
+                          fill={sidebarStore.opened ? "#2a99ff" : "#a3a3a3"}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

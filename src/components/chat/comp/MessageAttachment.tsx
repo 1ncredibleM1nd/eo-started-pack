@@ -12,13 +12,13 @@ import { css } from "goober";
 import { MessageAttachmentVoice } from "./MessageAttachmentVoice";
 import { MessageAttachmentAudio } from "./MessageAttachmentAudio";
 
-type TProps = { attachment: TMessageAttachment };
+type TProps = { attachment: TMessageAttachment; reply: boolean };
 
-export const MessageAttachment = observer(({ attachment }: TProps) => {
+export const MessageAttachment = observer(({ attachment, reply }: TProps) => {
   if (attachment.type === "file") {
     return <MessageAttachmentFile attachment={attachment} />;
   } else if (attachment.type === "image") {
-    return <MessageAttachmentImage attachment={attachment} />;
+    return <MessageAttachmentImage attachment={attachment} reply={reply} />;
   } else if (attachment.type === "voice") {
     return <MessageAttachmentVoice attachment={attachment} />;
   } else if (attachment.type === "audio") {
