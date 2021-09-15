@@ -62,6 +62,7 @@ class RootStore {
         }
       } else {
         if (
+          this.tagsStore.activeTags.length === 0 ||
           this.tagsStore.activeTags.some(({ id }) => data.tags.includes(id))
         ) {
           this.contactStore.addContact([data]);
