@@ -165,13 +165,12 @@
   }
 
   p {
-    display: inline-flex;
-    flex-wrap: wrap;
     font-size: 16px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     margin: 0 5px;
+    max-width: 100%;
     color: $dark_blue_soft;
 
     @include _480 {
@@ -183,6 +182,7 @@
 .header_info {
   display: flex;
   flex-flow: row;
+  flex: 1;
   justify-content: flex-start;
 
   @include _480 {
