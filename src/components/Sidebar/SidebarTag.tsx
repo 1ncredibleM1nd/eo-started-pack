@@ -54,10 +54,11 @@ export const SidebarTag = observer(({ id }: TProps) => {
 
   const onDelete = async () => {
     await contactStore.activeContact?.deleteTag(id);
-    const activeTags = contactStore.activeContact?.tags ?? [];
+    const activeTags = tagsStore.activeTags ?? [];
+    const contactTags = contactStore.activeContact?.tags ?? [];
 
     // reset contact if last tag delete
-    if (!activeTags.some((tagId) => tagId === id)) {
+    if (!activeTags.every((tag) => contactTags.includes(tag.id))) {
       sidebarStore.hide();
       contactStore.removeContact(contactStore.activeContactId);
     }
