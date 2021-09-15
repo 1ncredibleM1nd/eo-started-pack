@@ -61,10 +61,19 @@ class RootStore {
           contact.read(data.readed);
         }
       } else {
-        if (
+        const hasSchools = this.schoolsStore.activeSchoolsIds.includes(
+          data.school_id
+        );
+
+        const hasSources = this.channelsStore.activeChannels.some(
+          (channel) => channel.id === data?.last_message?.social_media
+        );
+
+        const hasTags =
           this.tagsStore.activeTags.length === 0 ||
-          this.tagsStore.activeTags.some(({ id }) => data.tags.includes(id))
-        ) {
+          this.tagsStore.activeTags.some(({ id }) => data.tags.includes(id));
+
+        if (hasSchools && hasSources && hasTags) {
           this.contactStore.addContact([data]);
         }
       }
