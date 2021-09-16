@@ -75,10 +75,14 @@ const Header = observer(() => {
                     </p>
                   </div>
                   <div className={"header_school"}>
-                    <div className={"header_school_logo"}>
-                      <img src={school.logo} className="school-logo" alt={""} />
-                    </div>
-                    <p>{school.name}</p>
+                    <img
+                      src={school.logo}
+                      className="header_school_logo"
+                      alt={""}
+                    />
+                    <a className={"header_school_name"} title={school.name}>
+                      {school.name}
+                    </a>
                   </div>
                 </div>
                 <div className={"header_settings"}>
