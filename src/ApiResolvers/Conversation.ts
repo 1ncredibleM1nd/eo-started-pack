@@ -4,7 +4,7 @@ import { AxiosResponse } from "axios";
 export default class Conversation {
   conversations(
     query: string,
-    tags: number[],
+    tags: string[],
     noTags: boolean,
     sources: Object,
     schoolIds: number[],

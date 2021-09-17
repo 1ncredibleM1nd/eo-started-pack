@@ -18,6 +18,10 @@ export class SchoolsStore {
     return this.schools.find(({ id }) => schoolId === id);
   }
 
+  isActive(schoolId: number) {
+    return this.getById(schoolId)?.active;
+  }
+
   async init() {
     const { data } = await account.getSchools();
     Object.entries(data.data).forEach(([id, school]) => {

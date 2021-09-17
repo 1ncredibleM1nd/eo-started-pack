@@ -15,7 +15,7 @@ class RootStore {
   authStore = authStore;
   contactStore = contactStore;
   sidebarStore = new SidebarStore();
-  tagsStore = new TagsStore();
+  tagsStore = new TagsStore(this);
   usersStore = new UsersStore();
   schoolsStore = new SchoolsStore();
   channelsStore = new ChannelsStore();
@@ -116,6 +116,8 @@ class RootStore {
     socket.connect();
   }
 }
+
+export type RootStoreInstance = InstanceType<typeof RootStore>;
 
 export const globalStore = new RootStore();
 

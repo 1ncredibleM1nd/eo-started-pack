@@ -62,7 +62,7 @@ async function getConversations({
       (channel) => channel.id
     );
 
-    const tags = globalStore.tagsStore.activeTags.map(({ id }) => id);
+    const tags = globalStore.tagsStore.activeTags.map(({ name }) => name);
 
     const response = await resolver.conversation.conversations(
       contactStore.search,

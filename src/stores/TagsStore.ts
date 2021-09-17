@@ -1,13 +1,14 @@
+import store from "store";
 import { makeAutoObservable } from "mobx";
 import { Tag } from "@/stores/model/Tag";
 import { tags } from "@/ApiResolvers";
-import { groupBy } from "lodash";
-import store from "store";
+import { filter, uniqBy } from "lodash";
+import type { RootStoreInstance } from "@/stores/index";
 
 export class TagsStore {
   tags = new Map<number, Tag>();
 
-  constructor() {
+  constructor(private readonly rootStore: RootStoreInstance) {
     makeAutoObservable(this);
   }
 
@@ -71,7 +72,12 @@ export class TagsStore {
     return Array.from(this.tags.values()).filter(({ selected }) => selected);
   }
 
-  get groupBySchools() {
-    return groupBy(Array.from(this.tags.values()), "schoolId");
+  get groupByName() {
+    return uniqBy(
+      filter(Array.from(this.tags.values()), (tag) =>
+        this.rootStore.schoolsStore.isActive(tag.schoolId)
+      ),
+      "name"
+    );
   }
 }
