@@ -67,7 +67,7 @@ export class ContactStore {
       return;
     }
 
-    const firstContact = this.contacts.values().next().value[1];
+    const firstContact = this.sortedConversations.values().next().value;
 
     this.setPageLoading(true);
 
@@ -79,6 +79,7 @@ export class ContactStore {
     this.addContact(conversations);
     this.setPrevPage(page);
 
+    console.log(firstContact);
     if (firstContact) {
       document
         .getElementById(`contacts_item_${firstContact.id}`)

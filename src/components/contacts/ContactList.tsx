@@ -31,12 +31,10 @@ const ContactList = observer(() => {
   const trackScrollPosition = useCallback((node) => {
     const id = query.get("im");
     if (node && id) {
-      setTimeout(() => {
-        document.getElementById(`contacts_item_${id}`)?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }, 1000);
+      document.getElementById(`contacts_item_${id}`)?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     }
   }, []);
 
