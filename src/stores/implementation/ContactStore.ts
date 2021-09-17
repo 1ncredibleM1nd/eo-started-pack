@@ -79,7 +79,6 @@ export class ContactStore {
     this.addContact(conversations);
     this.setPrevPage(page);
 
-    console.log(firstContact);
     if (firstContact) {
       document
         .getElementById(`contacts_item_${firstContact.id}`)
