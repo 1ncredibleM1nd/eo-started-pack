@@ -21,7 +21,10 @@ const ContactList = observer(() => {
   const ContactsData = contactStore.sortedConversations;
   const filterSwitch = contactStore.filterSwitch;
 
-  const { ref: sentryPrevRef, inView: isVisiblePrev } = useInView({});
+  const { ref: sentryPrevRef, inView: isVisiblePrev } = useInView({
+    initialInView: true,
+    threshold: 0.85,
+  });
   const { ref: sentryNextRef, inView: isVisibleNext } = useInView({
     threshold: 0.85,
   });
