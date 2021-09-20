@@ -5,7 +5,7 @@ import { TextAreaRef, TextAreaProps } from "antd/lib/input/TextArea";
 import { useEffect } from "react";
 
 export const InputerTextArea = observer(
-  ({ value, autoSize, onPressEnter, onChange }: TextAreaProps) => {
+  ({ value, autoSize, onPressEnter, onChange, onPaste }: TextAreaProps) => {
     const inputRef = useRef<TextAreaRef | null>(null);
 
     useEffect(() => {
@@ -19,6 +19,7 @@ export const InputerTextArea = observer(
         autoSize={autoSize}
         value={value}
         onChange={onChange}
+        onPaste={onPaste}
         onPressEnter={onPressEnter}
       />
     );

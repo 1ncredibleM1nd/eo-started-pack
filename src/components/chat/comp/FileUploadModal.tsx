@@ -14,8 +14,6 @@ type IProps = {
   openFileInput?: () => void;
   handleEnter?: (e: any) => void;
   onChange?: (name: string, value: string, event: any) => void;
-  setSwitcher?: (key: string) => void;
-  switcher?: string;
   messageContent?: string;
   inputRef?: any;
   fileOnHold?: any[];

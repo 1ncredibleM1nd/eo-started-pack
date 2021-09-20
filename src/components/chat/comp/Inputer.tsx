@@ -15,15 +15,13 @@ const ALL_ACCEPT_TYPE = "file_extension|audio/*|video/*|image/*|media_type";
 const INSTAGRAM_ACCEPT_TYPE = "image/*";
 
 const Inputer = observer(() => {
-  const { contactStore, schoolsStore, usersStore } = useStore();
+  const { contactStore, schoolsStore } = useStore();
 
   const activeContact = contactStore.activeContact;
-  // const user = usersStore.user;
   const activeSocial = activeContact?.activeSocial;
   const currentChat = activeContact?.chat;
 
   const [draft, setDraft] = useState({});
-  const [switcher, setSwitcher] = useState("");
   const [status, setStatus] = useState("default");
   const [acceptType, setAcceptType] = useState(
     activeSocial === "instagram" ? INSTAGRAM_ACCEPT_TYPE : ALL_ACCEPT_TYPE
@@ -49,10 +47,6 @@ const Inputer = observer(() => {
     },
     [draft, status]
   );
-
-  const switcherOff = () => {
-    setSwitcher("");
-  };
 
   const handleFileInput = (e: any) => {
     e.preventDefault();
@@ -94,6 +88,10 @@ const Inputer = observer(() => {
       clearFiles();
       sendMessage();
     }
+  };
+
+  const onPasteToTextArea = (ev: ClipboardEvent) => {
+    setFileOnHold([...fileOnHold, ...ev.clipboardData.files]);
   };
 
   const sendMessage = async () => {
@@ -158,17 +156,16 @@ const Inputer = observer(() => {
 
   const openFileInput = () => {
     fileInputRef.current.click();
-    switcher === "attachments" ? setSwitcher("") : setSwitcher("attachments");
   };
 
   let sendEnabled =
     draft[activeContact.id + status] &&
     draft[activeContact.id + status].length > 0;
   let chatError = false;
-  let acceptAttachments = !!chatError || !activeContact.sendFile;
+  let acceptAttachments = chatError || !activeContact.sendFile;
 
   return (
-    <div className={`inputer ${!!chatError ? "has-error" : ""}`}>
+    <div className={`inputer ${chatError ? "has-error" : ""}`}>
       <FileUploadModal
         clearFiles={clearFiles}
         deleteFileOnHold={deleteFileOnHold}
@@ -176,8 +173,6 @@ const Inputer = observer(() => {
         openFileInput={openFileInput}
         handleEnter={handleEnter}
         onChange={onChange}
-        setSwitcher={setSwitcher}
-        switcher={switcher}
         messageContent={draft[activeContact.id + status]}
         fileOnHold={fileOnHold}
         activeContactId={activeContact.id}
@@ -196,7 +191,7 @@ const Inputer = observer(() => {
         </div>
 
         <div className="main_input">
-          {!!chatError ? (
+          {chatError ? (
             <div className="input-error">{chatError}</div>
           ) : (
             <>
@@ -224,6 +219,7 @@ const Inputer = observer(() => {
 
               <InputerTextArea
                 autoSize
+                onPaste={onPasteToTextArea}
                 value={draft[activeContact.id + status]}
                 onChange={(e) => {
                   onChange(activeContact.id, e.target.value, e);
