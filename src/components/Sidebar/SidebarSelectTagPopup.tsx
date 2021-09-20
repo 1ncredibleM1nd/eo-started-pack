@@ -68,9 +68,6 @@ const SidebarSelectTagContainer = observer(
 
     const selectTag = async (id: number, checked: boolean) => {
       selectTags.select(id, checked);
-    };
-
-    const addTags = async () => {
       await activeContact?.addTag(selectTags.selected);
 
       if (
@@ -116,20 +113,6 @@ const SidebarSelectTagContainer = observer(
             />
           ))}
         </div>
-
-        <Button
-          type={"link"}
-          className={css`
-            padding: 0;
-            height: auto;
-          `}
-          onClick={() => {
-            addTags();
-            onComplete();
-          }}
-        >
-          Добавить к диалогу
-        </Button>
       </div>
     );
   }
