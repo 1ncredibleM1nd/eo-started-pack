@@ -1121,17 +1121,7 @@
 }
 
 .inputer {
-  max-height: 70%;
-  position: relative;
-  z-index: 100;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-end;
-  padding: 10px 15px;
+  padding: 10px 15px 10px 0;
   background: #fff;
 
   &.has-error {
@@ -1143,23 +1133,66 @@
   }
 
   @include _375 {
-    padding: 10px 5px;
+    padding: 10px 15px 10px 0;
   }
 
   .input-container {
     height: 100%;
-    width: calc(100% - 58px);
     min-height: 50px;
     border-radius: 10px;
     padding: 5px;
     background: #fff;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     align-items: flex-end;
+    .up_main_input{
+      width: 100%;
+      display: flex;
+      padding-left: 15px;
+    }
 
-    @include _375 {
-      width: calc(100% - 38px);
+    .down_main_input {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+  }
+
+  .selected-container {
+    width: 100%;
+    max-height: 40px;
+    overflow: hidden;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 28px;
+    border-left: 2px solid $blue_lite;
+    padding-left: 6px;
+    padding-right: 10px;
+    position: relative;
+
+    .selected-container_left{
+      display: flex;
+      flex-direction: column;
+    }
+
+    .selected-container_right{
+      padding: 20px;
+      width: 20px;
+      height: 20px;
+    }
+    .close {
+      display: block;
+      box-sizing: border-box;
+      font-size: 20px;
+    }
+
+    .msg_type {
+      font-size: 0.75rem;
+      color: $grey_lite;
     }
   }
 
@@ -1169,32 +1202,8 @@
     height: 100%;
     padding: 5px;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-
-    .selected-container {
-      width: 100%;
-      max-height: 40px;
-      overflow: hidden;
-      margin-bottom: 5px;
-      min-height: 28px;
-      border-left: 2px solid $blue_lite;
-      padding-left: 6px;
-      padding-right: 10px;
-      position: relative;
-
-      .close {
-        position: absolute;
-        top: 1px;
-        right: 5px;
-        font-size: 15px;
-      }
-
-      .msg_type {
-        font-size: 0.75rem;
-        color: $grey_lite;
-      }
-    }
+    align-items: center;
+    justify-content: center;
 
     textarea {
       outline: none !important;
@@ -1207,7 +1216,6 @@
       height: 100%;
       background: transparent;
       border: none;
-
       max-height: 50vh !important;
       overflow: auto;
     }
@@ -1215,8 +1223,8 @@
 
   .send_btn {
     color: #fff;
-    width: 53px;
-    height: 53px;
+    width: 40px;
+    height: 40px;
     font-size: 24px;
     text-align: center;
     display: flex;
@@ -1247,7 +1255,6 @@
       height: 42px;
       width: 42px;
       position: relative;
-      top: -5px;
 
       .icon_x {
         width: 30px !important;
