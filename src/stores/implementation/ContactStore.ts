@@ -185,9 +185,8 @@ export class ContactStore {
       this.setHasNext(conversations.length >= 20);
     }
 
-    if (!conversations.length) {
-      this.contacts.clear();
-    } else {
+    this.contacts.clear();
+    if (conversations.length > 0) {
       this.addContact(conversations);
     }
 
