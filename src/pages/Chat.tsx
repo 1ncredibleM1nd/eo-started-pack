@@ -34,7 +34,7 @@ const App = observer(() => {
           sm={layout === "contact" ? 24 : 0}
           md={10}
           lg={7}
-          xl={6}
+          xl={7}
           xxl={6}
           style={{ height: "100%" }}
         >
@@ -56,7 +56,7 @@ const App = observer(() => {
             sm={layout === "info" ? 24 : 0}
             md={layout === "info" ? 14 : 0}
             lg={7}
-            xl={7}
+            xl={6}
             xxl={5}
           >
             <Sidebar />

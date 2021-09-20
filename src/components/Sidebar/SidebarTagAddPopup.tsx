@@ -25,7 +25,7 @@ const SidebarTagAddPopupListItem = observer(
             font-size: 14px;
             margin: 0;
 
-            max-width: 100px;
+            max-width: calc(100% - 20px);
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
@@ -56,7 +56,7 @@ const SidebarAddTagContainer = observer(() => {
     <div
       className={css`
         padding: 10px;
-        min-width: 200px;
+        max-width: 200px;
       `}
     >
       <div

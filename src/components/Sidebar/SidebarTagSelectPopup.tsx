@@ -24,6 +24,14 @@ const SidebarSelectTagListItem = observer(
           display: inline-flex;
           margin: 8px 0;
           justify-content: space-between;
+
+          .ant-checkbox-wrapper {
+            min-width: 0;
+
+            span:last-child {
+              min-width: calc(100% - 20px);
+            }
+          }
         `}
       >
         <Checkbox
@@ -38,7 +46,6 @@ const SidebarSelectTagListItem = observer(
               font-size: 14px;
               margin: 0;
 
-              max-width: 100px;
               text-overflow: ellipsis;
               white-space: nowrap;
               overflow: hidden;
@@ -87,7 +94,7 @@ const SidebarSelectTagContainer = observer(() => {
     <div
       className={css`
         padding: 10px;
-        min-width: 200px;
+        max-width: 200px;
       `}
     >
       <h2
