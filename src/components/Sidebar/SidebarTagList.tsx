@@ -2,8 +2,8 @@ import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores";
 import { SidebarTag } from "./SidebarTag";
 import { css } from "goober";
-import { SidebarAddTagPopup } from "@/components/Sidebar/SidebarAddTagPopup";
-import { SidebarSelectTagPopup } from "@/components/Sidebar/SidebarSelectTagPopup";
+import { SidebarTagAddPopup } from "@/components/Sidebar/SidebarTagAddPopup";
+import { SidebarTagSelectPopup } from "@/components/Sidebar/SidebarTagSelectPopup";
 
 export const SidebarTagList = observer(() => {
   const { contactStore } = useStore();
@@ -24,7 +24,7 @@ export const SidebarTagList = observer(() => {
         >
           Теги
         </h2>
-        <SidebarAddTagPopup />
+        <SidebarTagAddPopup />
       </div>
 
       <div
@@ -36,7 +36,7 @@ export const SidebarTagList = observer(() => {
         {tags.map((tagId) => (
           <SidebarTag key={tagId} id={tagId} />
         ))}
-        <SidebarSelectTagPopup />
+        <SidebarTagSelectPopup />
       </div>
     </div>
   );

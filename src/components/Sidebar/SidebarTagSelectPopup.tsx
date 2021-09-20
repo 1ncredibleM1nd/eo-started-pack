@@ -1,11 +1,12 @@
 import { observer } from "mobx-react-lite";
-import { Button, Checkbox, Popover } from "antd";
+import { Checkbox, Popover } from "antd";
 import { IconAdd } from "@/images/icons";
 import { css } from "goober";
 import { useStore } from "@/stores";
 import { Tag } from "@/stores/model/Tag";
 import { useEffect, useState } from "react";
 import { SidebarSelectTags } from "@/stores/SidebarSelectTags";
+import { SidebarTagAddInput } from "@/components/Sidebar/SidebarTagAddInput";
 
 const SidebarSelectTagListItem = observer(
   ({
@@ -51,74 +52,78 @@ const SidebarSelectTagListItem = observer(
   }
 );
 
-const SidebarSelectTagContainer = observer(
-  ({ onComplete }: { onComplete: any }) => {
-    const { tagsStore, contactStore, sidebarStore } = useStore();
-    const activeContact = contactStore?.activeContact;
-    const allTags =
-      tagsStore.getBySchools([Number(activeContact?.schoolId)]) ?? [];
-    const contactTags = activeContact?.tags ?? [];
-    const [selectTags] = useState(() => new SidebarSelectTags(allTags));
+const SidebarSelectTagContainer = observer(() => {
+  const { tagsStore, contactStore, sidebarStore } = useStore();
+  const activeContact = contactStore?.activeContact;
+  const allTags =
+    tagsStore.getBySchools([Number(activeContact?.schoolId)]) ?? [];
+  const contactTags = activeContact?.tags ?? [];
+  const [selectTags] = useState(() => new SidebarSelectTags(allTags));
 
-    useEffect(() => {
-      allTags.forEach((tag) =>
-        selectTags.select(tag.id, contactTags.includes(tag.id))
-      );
-    }, [contactTags]);
+  useEffect(() => {
+    allTags.forEach((tag) =>
+      selectTags.select(tag.id, contactTags.includes(tag.id))
+    );
+  }, [contactTags]);
 
-    const selectTag = async (id: number, checked: boolean) => {
-      selectTags.select(id, checked);
-      await activeContact?.addTag(selectTags.selected);
+  const selectTag = async (id: number, checked: boolean) => {
+    selectTags.select(id, checked);
+    await activeContact?.addTag(selectTags.selected);
 
-      if (
-        (tagsStore.activeTags.length > 0 || tagsStore.noTags) &&
-        !tagsStore.activeTags.some(({ id }) => selectTags.selected.includes(id))
-      ) {
-        sidebarStore.hide();
-        contactStore.removeContact(contactStore.activeContactId);
-      }
-    };
+    if (
+      (tagsStore.activeTags.length > 0 || tagsStore.noTags) &&
+      !tagsStore.activeTags.some(({ id }) => selectTags.selected.includes(id))
+    ) {
+      sidebarStore.hide();
+      contactStore.removeContact(contactStore.activeContactId);
+    }
+  };
 
-    return (
-      <div
+  const onAddedTag = async (tag: Tag) => {
+    await selectTag(tag.id, true);
+  };
+
+  return (
+    <div
+      className={css`
+        padding: 10px;
+        min-width: 200px;
+      `}
+    >
+      <h2
         className={css`
-          padding: 10px;
-          min-width: 200px;
+          font-size: 14px;
+          font-weight: 500;
         `}
       >
-        <h2
-          className={css`
-            font-size: 14px;
-            font-weight: 500;
-          `}
-        >
-          Теги
-        </h2>
+        Теги
+      </h2>
 
-        <div
-          className={css`
-            display: flex;
-            flex-flow: column;
-            overflow-y: scroll;
-            max-height: 200px;
-            padding: 0 10px 0 0;
-          `}
-        >
-          {allTags.map((tag) => (
-            <SidebarSelectTagListItem
-              key={tag.id}
-              tag={tag}
-              checked={selectTags.getChecked(tag.id)}
-              onSelect={selectTag}
-            />
-          ))}
-        </div>
+      <div
+        className={css`
+          display: flex;
+          flex-flow: column;
+          overflow-y: scroll;
+          max-height: 200px;
+          padding: 0 10px 0 0;
+        `}
+      >
+        {allTags.map((tag) => (
+          <SidebarSelectTagListItem
+            key={tag.id}
+            tag={tag}
+            checked={selectTags.getChecked(tag.id)}
+            onSelect={selectTag}
+          />
+        ))}
       </div>
-    );
-  }
-);
 
-export const SidebarSelectTagPopup = observer(() => {
+      <SidebarTagAddInput onAdded={onAddedTag} />
+    </div>
+  );
+});
+
+export const SidebarTagSelectPopup = observer(() => {
   const [visible, setVisible] = useState(false);
 
   return (

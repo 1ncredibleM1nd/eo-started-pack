@@ -1,14 +1,12 @@
 import { observer } from "mobx-react-lite";
-import { Input, Popover } from "antd";
+import { Popover } from "antd";
 import { IconDelete, IconSettings } from "@/images/icons";
 import { tags as tagsApi } from "@/ApiResolvers";
 import { css } from "goober";
-import { useState } from "react";
 import { useStore } from "@/stores";
+import { SidebarTagAddInput } from "@/components/Sidebar/SidebarTagAddInput";
 
-type TProps = {};
-
-const SidebarAddTagListItem = observer(
+const SidebarTagAddPopupListItem = observer(
   ({ id, onDelete }: { id: number; onDelete: any }) => {
     const { tagsStore } = useStore();
     const tag = tagsStore.getById([id])[0];
@@ -45,16 +43,6 @@ const SidebarAddTagContainer = observer(() => {
   const { contactStore, tagsStore } = useStore();
   const activeContact = contactStore.activeContact;
   const tags = tagsStore.getBySchools([Number(activeContact?.schoolId)]) ?? [];
-  const [tagName, setTagName] = useState(""); // for tests
-
-  const addTag = async () => {
-    const trimmedTagName = tagName.trim();
-    if (trimmedTagName !== "") {
-      await tagsApi.add(activeContact?.schoolId ?? -1, trimmedTagName);
-    }
-
-    setTagName("");
-  };
 
   const deleteTag = async (id: number) => {
     if (window.confirm("Тег будет удалён из всех диалогов. Вы уверены ?")) {
@@ -81,31 +69,19 @@ const SidebarAddTagContainer = observer(() => {
         `}
       >
         {tags.map((tag) => (
-          <SidebarAddTagListItem
+          <SidebarTagAddPopupListItem
             key={tag.id}
             id={tag.id}
             onDelete={deleteTag}
           />
         ))}
       </div>
-      <Input
-        className={css`
-          padding: 0 0 5px 0;
-          border: none;
-          outline: none;
-          box-shadow: none !important;
-          border-bottom: 1px solid #607d8b !important;
-        `}
-        onChange={(e) => setTagName(e.target.value)}
-        onPressEnter={() => addTag()}
-        value={tagName}
-        placeholder={"Введите новый тег"}
-      />
+      <SidebarTagAddInput />
     </div>
   );
 });
 
-export const SidebarAddTagPopup = observer(({}: TProps) => {
+export const SidebarTagAddPopup = observer(() => {
   return (
     <Popover
       trigger={"click"}
