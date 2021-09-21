@@ -164,6 +164,86 @@ const Inputer = observer(() => {
   let chatError = false;
   let acceptAttachments = chatError || !activeContact.sendFile;
 
+  const upperSideInput = () => {
+    return (
+      <div className="up_main_input">
+        {currentChat.activeMessage && (
+          <div className="selected-container">
+            <div className="selected-container_left">
+              <span>
+                <ReactMarkdown
+                  children={currentChat.activeMessage.content}
+                  allowedElements={["a"]}
+                  unwrapDisallowed={true}
+                  linkTarget="_blank"
+                />
+              </span>
+              <div className="msg_type">
+                {TypesMessage.getTypeDescription(
+                  currentChat.activeMessage.entity.type
+                )}
+              </div>
+            </div>
+            <div className="selection-container_right">
+              <CloseOutlined
+                className="close"
+                onClick={() => currentChat.setActiveMessage(null)}
+              />
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+  const lowerSideInput = () => {
+    return (
+      <div className="down_main_input">
+        <div className="inputer_btn">
+          <Button
+            disabled={acceptAttachments}
+            onClick={openFileInput}
+            className="transparent"
+          >
+            <IconClip width={24} height={24} fill="#a3a3a3" />
+          </Button>
+        </div>
+
+        <div className="main_input">
+          <>
+            <InputerTextArea
+              autoSize
+              onPaste={onPasteToTextArea}
+              value={draft[activeContact.id + status]}
+              onChange={(e) => {
+                onChange(activeContact.id, e.target.value, e);
+              }}
+              onPressEnter={handleEnter}
+            />
+          </>
+        </div>
+        <div className="inputer_btn">
+          <SocialIcon social={activeSocial} size={30} />
+        </div>
+
+        <Button
+          disabled={!!chatError || !sendEnabled}
+          onClick={sendMessage}
+          className="send_btn"
+        >
+          <IconButtonSend width={36} height={36} fill="#a3a3a3" />
+        </Button>
+        <input
+          type="file"
+          hidden
+          accept={acceptType}
+          name="files"
+          ref={fileInputRef}
+          // multiple
+          onChange={handleFileInput}
+        />
+      </div>
+    );
+  };
   return (
     <div className={`inputer ${chatError ? "has-error" : ""}`}>
       <FileUploadModal
@@ -179,86 +259,14 @@ const Inputer = observer(() => {
       />
 
       <div className="input-container">
-        <div className="up_main_input">
-          {currentChat.activeMessage && (
-            <div className="selected-container">
-              <div className="selected-container_left">
-                <span>
-                  <ReactMarkdown
-                    children={currentChat.activeMessage.content}
-                    allowedElements={["a"]}
-                    unwrapDisallowed={true}
-                    linkTarget="_blank"
-                  />
-                </span>
-                <div className="msg_type">
-                  {TypesMessage.getTypeDescription(
-                    currentChat.activeMessage.entity.type
-                  )}
-                </div>
-              </div>
-              <div className="selection-container_right">
-                <CloseOutlined
-                  className="close"
-                  onClick={() => currentChat.setActiveMessage(null)}
-                />
-              </div>
-            </div>
-          )}
-        </div>
-        {/* Button Attachment */}
-        <div className="down_main_input">
-          <div className="inputer_btn">
-            <Button
-              disabled={acceptAttachments}
-              onClick={openFileInput}
-              className="transparent"
-            >
-              <IconClip width={24} height={24} fill="#a3a3a3" />
-            </Button>
-          </div>
-
-          <div className="main_input">
-            {/* TODO: temporary hide by PROD-2331 Fixed Error */}
-            {chatError ? (
-              <div className="input-error">{chatError}</div>
-            ) : (
-              <>
-                <InputerTextArea
-                  autoSize
-                  onPaste={onPasteToTextArea}
-                  value={draft[activeContact.id + status]}
-                  onChange={(e) => {
-                    onChange(activeContact.id, e.target.value, e);
-                  }}
-                  onPressEnter={handleEnter}
-                />
-              </>
-            )}
-          </div>
-
-          {/* Button Social.  */}
-          <div className="inputer_btn">
-            <SocialIcon social={activeSocial} size={30} />
-          </div>
-
-          <Button
-            disabled={!!chatError || !sendEnabled}
-            onClick={sendMessage}
-            className="send_btn"
-          >
-            <IconButtonSend width={36} height={36} fill="#a3a3a3" />
-          </Button>
-          <input
-            type="file"
-            hidden
-            accept={acceptType}
-            name="files"
-            ref={fileInputRef}
-            // multiple
-            onChange={handleFileInput}
-          />
-        </div>
+        {chatError ? (
+          <div className="input-error">{chatError}</div>
+        ) : (
+          <>
+            {upperSideInput()}
+            {lowerSideInput()}
+          </>
+        )}
       </div>
     </div>
   );
