@@ -84,16 +84,14 @@ const ChatList = observer(
               dayjs(message.timestamp * 1000)
             );
             const currentDateDivider =
-              prevDateDivider !== messageDateDivider
-                ? messageDateDivider
-                : null;
+              prevDateDivider !== messageDateDivider ? messageDateDivider : "";
 
             prevDateDivider = messageDateDivider;
             return (
               <MessageComponent
                 key={`message_${message.id}`}
                 message={message}
-                replyMsg={onReplyMessage}
+                onReplyMessage={onReplyMessage}
                 messageDateDivider={currentDateDivider}
               />
             );
@@ -128,16 +126,12 @@ const Chat = observer(() => {
     );
   }
 
-  const replyMsg = (message: Message) => {
-    activeChat.setActiveMessage(message);
-  };
-
   return (
     <div className="chat position-relative">
       {activeChat && activeContact ? (
         <>
           <ChatList
-            messages={activeChat?.messages}
+            messages={activeChat?.messages ?? []}
             loading={activeChat.isLoadingPage}
             hasNextPage={activeChat.hasNextPage}
             onLoadMore={() => {
@@ -146,7 +140,9 @@ const Chat = observer(() => {
                 activeChat.getNextPageNumber
               );
             }}
-            onReplyMessage={replyMsg}
+            onReplyMessage={(message: Message) => {
+              activeChat.setActiveMessage(message);
+            }}
           />
           <Inputer />
         </>

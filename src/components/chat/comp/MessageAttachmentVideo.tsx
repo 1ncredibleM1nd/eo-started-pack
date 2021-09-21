@@ -1,6 +1,5 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
-import { TMessageAttachment } from "@/types/message";
 import {
   Player,
   BigPlayButton,
@@ -12,8 +11,9 @@ import {
   ProgressControl,
 } from "video-react";
 import "video-react/dist/video-react.css";
+import { Attachment } from "@/entities";
 
-type TProps = { attachment: TMessageAttachment };
+type TProps = { attachment: Attachment };
 
 export const MessageAttachmentVideo = observer(({ attachment }: TProps) => {
   return (

@@ -6,9 +6,9 @@ import {
 import * as fileApi from "@/ApiResolvers/file";
 import { Spin } from "antd";
 import { useState } from "react";
-import type { TMessageAttachment } from "@/types/message";
+import { Attachment } from "@/entities";
 
-type TProps = { attachment: TMessageAttachment };
+type TProps = { attachment: Attachment };
 
 export const MessageAttachmentFile = observer(({ attachment }: TProps) => {
   const [downloading, setDownload] = useState(false);

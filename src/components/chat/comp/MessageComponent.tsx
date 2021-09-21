@@ -6,17 +6,16 @@ import { MoreOutlined } from "@ant-design/icons";
 import { Message } from "@/entities";
 import { UserAvatar } from "@/components/user_info/UserAvatar";
 import { MessageAttachment } from "./MessageAttachment";
-import { TMessageAttachment } from "@/types/message";
 import dayjs from "@/services/dayjs";
 import { download } from "@/ApiResolvers/file";
 import { SocialIcon } from "@/components/SocialIcon";
 import { IconPencilAlt } from "@/images/icons";
 import { MessageCommentLink } from "./MessageCommentLink";
 
-type IProps = {
-  message?: Message;
-  replyMsg?: (arg0: Message) => void;
-  messageDateDivider: any;
+type TProps = {
+  message: Message;
+  messageDateDivider: string;
+  onReplyMessage?: (arg0: Message) => void;
 };
 
 const MessageOptions = observer(({ message }: { message: Message }) => {
@@ -44,10 +43,11 @@ const MessageOptions = observer(({ message }: { message: Message }) => {
   );
 });
 
-const MessageComponent = observer((props: IProps) => {
-  const { message, replyMsg, messageDateDivider } = props;
-
+const MessageComponent = observer((props: TProps) => {
+  const { message, messageDateDivider, onReplyMessage } = props;
   const [dropdownMenuOpened, setDropdownMenuOpen] = useState(false);
+  const [dropdownMenuDisabled, setDropdownMenuDisabled] = useState(false);
+  const onImagePreview = (state: boolean) => setDropdownMenuDisabled(state);
 
   const DropDownMenu = (message: Message) => {
     const canShowDownload =
@@ -58,11 +58,14 @@ const MessageComponent = observer((props: IProps) => {
           type === "file" ||
           type === "audio" ||
           type === "voice" ||
-          (type === "video" && isIframe === false)
+          (type === "video" && !isIframe)
       );
     return (
       <Menu>
-        <Menu.Item key={"message_menu_reply"} onClick={() => replyMsg(message)}>
+        <Menu.Item
+          key={"message_menu_reply"}
+          onClick={() => onReplyMessage(message)}
+        >
           {message.entity.type.indexOf("comment") > -1
             ? "Ответить на комментарий"
             : "Ответить"}
@@ -87,19 +90,21 @@ const MessageComponent = observer((props: IProps) => {
 
   const messageReplyTo = message?.entity?.data?.replyTo;
   const renderReplyAttachments =
-    message?.reply?.attachments.map((attachment: TMessageAttachment) => (
+    message?.reply?.attachments.map((attachment) => (
       <MessageAttachment
         key={`reply_file_attachment_${attachment.url}`}
         attachment={attachment}
         reply={true}
+        onImagePreview={onImagePreview}
       />
     )) ?? [];
 
   const renderAttachments =
-    message?.attachments.map((attachment: TMessageAttachment) => (
+    message?.attachments.map((attachment) => (
       <MessageAttachment
         key={`file_attachment_${attachment.url}`}
         attachment={attachment}
+        onImagePreview={onImagePreview}
       />
     )) ?? [];
 
@@ -133,6 +138,7 @@ const MessageComponent = observer((props: IProps) => {
           </div>
           <div className={`message-container`}>
             <Dropdown
+              disabled={dropdownMenuDisabled}
               overlay={DropDownMenu(message)}
               overlayStyle={{ animationDelay: "0s", animationDuration: "0s" }}
               onVisibleChange={(visible) => {
@@ -199,6 +205,7 @@ const MessageComponent = observer((props: IProps) => {
             <div className="msg_menu-container">
               <div className="msg_menu">
                 <Dropdown
+                  disabled={dropdownMenuDisabled}
                   visible={dropdownMenuOpened}
                   onVisibleChange={(visible) => setDropdownMenuOpen(visible)}
                   overlay={DropDownMenu(message)}
