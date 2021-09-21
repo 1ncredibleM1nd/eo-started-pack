@@ -134,15 +134,28 @@ export const SidebarTagSelectPopup = observer(() => {
   const [visible, setVisible] = useState(false);
 
   return (
-    <Popover
-      visible={visible}
-      onVisibleChange={(value) => setVisible(value)}
-      content={
-        <SidebarSelectTagContainer onComplete={() => setVisible(false)} />
-      }
-      trigger={"click"}
-      destroyTooltipOnHide
-    >
+    <>
+      <Popover
+        arrowContent={false}
+        visible={visible}
+        onVisibleChange={(value) => setVisible(value)}
+        content={
+          <SidebarSelectTagContainer onComplete={() => setVisible(false)} />
+        }
+        trigger={"click"}
+        destroyTooltipOnHide
+        className={css`
+          position: absolute;
+          display: flex;
+          width: 100%;
+          align-items: center;
+        `}
+        overlayClassName={css`
+          .ant-popover-arrow {
+            display: none;
+          }
+        `}
+      />
       <div
         className={css`
           display: inline-flex;
@@ -152,6 +165,7 @@ export const SidebarTagSelectPopup = observer(() => {
           padding: 0;
           margin: 0 5px 5px 0;
         `}
+        onClick={() => setVisible(!visible)}
       >
         <IconAdd
           className={css`
@@ -161,6 +175,6 @@ export const SidebarTagSelectPopup = observer(() => {
         />
         Добавить
       </div>
-    </Popover>
+    </>
   );
 });
