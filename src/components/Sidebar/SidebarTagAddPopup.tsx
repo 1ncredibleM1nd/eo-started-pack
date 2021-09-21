@@ -53,6 +53,7 @@ const SidebarTagConfirmRemove = observer(
           className={css`
             font-weight: bold;
             font-size: 14px;
+            text-align: center;
           `}
         >
           Тег будет удален из всех диалогов. Вы уверены ?
