@@ -1,13 +1,14 @@
 import { observer } from "mobx-react-lite";
-import { Popover } from "antd";
+import { Button, Popover } from "antd";
 import { IconDelete, IconSettings } from "@/images/icons";
 import { tags as tagsApi } from "@/ApiResolvers";
 import { css } from "goober";
 import { useStore } from "@/stores";
 import { SidebarTagAddInput } from "@/components/Sidebar/SidebarTagAddInput";
+import { useState } from "react";
 
 const SidebarTagAddPopupListItem = observer(
-  ({ id, onDelete }: { id: number; onDelete: any }) => {
+  ({ id, onRemove }: { id: number; onRemove: any }) => {
     const { tagsStore } = useStore();
     const tag = tagsStore.getById([id])[0];
 
@@ -33,22 +34,59 @@ const SidebarTagAddPopupListItem = observer(
         >
           {tag?.name ?? "Untitled"}
         </h4>
-        <IconDelete fill={"#607d8b"} onClick={() => onDelete(id)} />
+        <IconDelete fill={"#607d8b"} onClick={() => onRemove(id)} />
       </div>
     );
   }
 );
 
-const SidebarAddTagContainer = observer(() => {
+const SidebarTagConfirmRemove = observer(
+  ({ onRemove, onCancel }: { onRemove: any; onCancel: any }) => {
+    return (
+      <div
+        className={css`
+          display: flex;
+          flex-direction: column;
+        `}
+      >
+        <h2
+          className={css`
+            font-weight: bold;
+            font-size: 14px;
+          `}
+        >
+          Тег будет удален из всех диалогов. Вы уверены ?
+        </h2>
+        <Button
+          type={"text"}
+          className={css`
+            color: #ef8079;
+          `}
+          onClick={onRemove}
+        >
+          Удалить
+        </Button>
+        <Button type={"text"} onClick={onCancel}>
+          Отмена
+        </Button>
+      </div>
+    );
+  }
+);
+
+const SidebarTagAddContainer = observer(() => {
   const { contactStore, tagsStore } = useStore();
   const activeContact = contactStore.activeContact;
   const tags = tagsStore.getBySchools([Number(activeContact?.schoolId)]) ?? [];
+  const [removeTagId, setRemoveTagId] = useState(-1);
 
-  const deleteTag = async (id: number) => {
-    if (window.confirm("Тег будет удалён из всех диалогов. Вы уверены ?")) {
-      if (await tagsApi.delete(id)) {
-        activeContact?.deleteTag(id);
+  const removeTag = async () => {
+    if (removeTagId > -1) {
+      if (await tagsApi.remove(removeTagId)) {
+        activeContact?.removeTag(removeTagId);
       }
+
+      setRemoveTagId(-1);
     }
   };
 
@@ -59,24 +97,33 @@ const SidebarAddTagContainer = observer(() => {
         max-width: 200px;
       `}
     >
-      <div
-        className={css`
-          display: flex;
-          flex-flow: column;
-          overflow-y: scroll;
-          max-height: 200px;
-          padding: 0 10px 0 0;
-        `}
-      >
-        {tags.map((tag) => (
-          <SidebarTagAddPopupListItem
-            key={tag.id}
-            id={tag.id}
-            onDelete={deleteTag}
-          />
-        ))}
-      </div>
-      <SidebarTagAddInput />
+      {removeTagId !== -1 ? (
+        <SidebarTagConfirmRemove
+          onRemove={() => removeTag()}
+          onCancel={() => setRemoveTagId(-1)}
+        />
+      ) : (
+        <>
+          <div
+            className={css`
+              display: flex;
+              flex-flow: column;
+              overflow-y: scroll;
+              max-height: 200px;
+              padding: 0 10px 0 0;
+            `}
+          >
+            {tags.map((tag) => (
+              <SidebarTagAddPopupListItem
+                key={tag.id}
+                id={tag.id}
+                onRemove={() => setRemoveTagId(tag.id)}
+              />
+            ))}
+          </div>
+          <SidebarTagAddInput />
+        </>
+      )}
     </div>
   );
 });
@@ -85,7 +132,7 @@ export const SidebarTagAddPopup = observer(() => {
   return (
     <Popover
       trigger={"click"}
-      content={<SidebarAddTagContainer />}
+      content={<SidebarTagAddContainer />}
       placement={"bottom"}
       destroyTooltipOnHide
     >

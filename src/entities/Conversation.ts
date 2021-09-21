@@ -87,7 +87,7 @@ class Conversation {
     const { data } = await conversation.setTags(this.id, tagIds);
   }
 
-  async deleteTag(id: number) {
+  async removeTag(id: number) {
     const filteredTags = this.tags.filter((tagId) => tagId !== id);
     const { data } = await conversation.setTags(
       this.id,
