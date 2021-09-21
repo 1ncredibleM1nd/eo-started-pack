@@ -34,7 +34,13 @@ const SidebarTagAddPopupListItem = observer(
         >
           {tag?.name ?? "Untitled"}
         </h4>
-        <IconDelete fill={"#607d8b"} onClick={() => onRemove(id)} />
+        <IconDelete
+          fill={"#607d8b"}
+          onClick={() => onRemove(id)}
+          className={css`
+            cursor: pointer;
+          `}
+        />
       </div>
     );
   }
