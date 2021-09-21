@@ -11,6 +11,7 @@ import { download } from "@/ApiResolvers/file";
 import { SocialIcon } from "@/components/SocialIcon";
 import { IconPencilAlt } from "@/images/icons";
 import { MessageCommentLink } from "./MessageCommentLink";
+import { MessageUser } from "@/components/chat/comp/MessageUser";
 
 type TProps = {
   message: Message;
@@ -36,6 +37,7 @@ const MessageOptions = observer(({ message }: { message: Message }) => {
             type={message.entity.type}
           />
         </div>
+        {!message.income && <MessageUser user={message.user} />}
         <div className="msg_time">
           {dayjs(message.timestamp * 1000).format("HH:mm")}
         </div>

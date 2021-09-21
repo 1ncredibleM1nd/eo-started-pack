@@ -546,6 +546,17 @@
   }
 }
 
+.message_sender_wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.msg_sender {
+  margin: 0;
+  font-size: 12px;
+}
+
 .msg-role {
   font-size: 13px;
   color: $blue_origin;
