@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useCallback, useState } from "react";
 import { observer } from "mobx-react-lite";
 import "./Chat.scss";
 import Inputer from "./comp/Inputer";
@@ -21,7 +21,7 @@ const ChatListLoading = observer(() => {
 const ChatList = observer(
   ({ messages, loading, hasNextPage, onLoadMore, onReplyMessage }) => {
     let prevDateDivider = "";
-
+    const [scrollLocked, setScrollLocked] = useState(false);
     const [infiniteRef, { rootRef }] = useInfiniteScroll({
       loading,
       hasNextPage,
@@ -61,7 +61,7 @@ const ChatList = observer(
     return (
       <div
         id={"chat-scroller"}
-        className={"msg_space"}
+        className={!scrollLocked ? "msg_space" : "msg_space lock-scroll"}
         ref={rootRefSetter}
         onScroll={handleRootScroll}
       >
@@ -93,6 +93,7 @@ const ChatList = observer(
                 message={message}
                 onReplyMessage={onReplyMessage}
                 messageDateDivider={currentDateDivider}
+                onDropdownOpen={(state) => setScrollLocked(state)}
               />
             );
           })}

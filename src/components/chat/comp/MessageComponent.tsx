@@ -16,6 +16,7 @@ type TProps = {
   message: Message;
   messageDateDivider: string;
   onReplyMessage?: (arg0: Message) => void;
+  onDropdownOpen: (state: boolean) => void;
 };
 
 const MessageOptions = observer(({ message }: { message: Message }) => {
@@ -44,7 +45,7 @@ const MessageOptions = observer(({ message }: { message: Message }) => {
 });
 
 const MessageComponent = observer((props: TProps) => {
-  const { message, messageDateDivider, onReplyMessage } = props;
+  const { message, messageDateDivider, onReplyMessage, onDropdownOpen } = props;
   const [dropdownMenuOpened, setDropdownMenuOpen] = useState(false);
   const [dropdownMenuDisabled, setDropdownMenuDisabled] = useState(false);
   const onImagePreview = (state: boolean) => setDropdownMenuDisabled(state);
@@ -145,6 +146,7 @@ const MessageComponent = observer((props: TProps) => {
                 if (visible) {
                   setDropdownMenuOpen(false);
                 }
+                onDropdownOpen(visible);
               }}
               placement="bottomLeft"
               trigger={["contextMenu"]}
@@ -207,7 +209,10 @@ const MessageComponent = observer((props: TProps) => {
                 <Dropdown
                   disabled={dropdownMenuDisabled}
                   visible={dropdownMenuOpened}
-                  onVisibleChange={(visible) => setDropdownMenuOpen(visible)}
+                  onVisibleChange={(visible) => {
+                    setDropdownMenuOpen(visible);
+                    onDropdownOpen(visible);
+                  }}
                   overlay={DropDownMenu(message)}
                   overlayStyle={{
                     animationDelay: "0s",

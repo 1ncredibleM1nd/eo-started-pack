@@ -1110,14 +1110,19 @@
 }
 
 .msg_space {
+  padding-left: 1px;
   min-height: 100px;
   width: 100%;
   overflow-x: hidden;
-  overflow-y: auto;
   position: relative;
   padding-top: 30px;
   padding-bottom: 30px;
   height: 100%;
+
+}
+
+.lock-scroll {
+  overflow-y: hidden;
 }
 
 .inputer {
