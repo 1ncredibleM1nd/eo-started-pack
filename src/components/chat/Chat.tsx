@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback, useState } from "react";
+import { useRef, useEffect, useCallback, useState, useMemo } from "react";
 import { observer } from "mobx-react-lite";
 import "./Chat.scss";
 import Inputer from "./comp/Inputer";
@@ -9,7 +9,6 @@ import dayjs, { toCalendar } from "@/services/dayjs";
 import MessageComponent from "@/components/chat/comp/MessageComponent";
 import useInfiniteScroll from "react-infinite-scroll-hook";
 import { useStore } from "@/stores";
-import { isChrome, isSafari } from "react-device-detect";
 
 const ChatListLoading = observer(() => {
   return (
@@ -22,7 +21,6 @@ const ChatListLoading = observer(() => {
 const ChatList = observer(
   ({ messages, loading, hasNextPage, onLoadMore, onReplyMessage }) => {
     let prevDateDivider = "";
-    const [scrollLocked, setScrollLocked] = useState(false);
     const [infiniteRef, { rootRef }] = useInfiniteScroll({
       loading,
       hasNextPage,
@@ -33,6 +31,15 @@ const ChatList = observer(
     const scrollableRootRef = useRef<HTMLDivElement | null>(null);
     const lastScrollDistanceToBottomRef = useRef<number>();
 
+    const [scrollLocked, setScrollLocked] = useState(false);
+    const canLockScroll = useMemo(
+      () =>
+        scrollLocked &&
+        (scrollableRootRef.current?.scrollHeight ?? 0) >
+          (scrollableRootRef.current?.clientHeight ?? 0),
+      [scrollLocked]
+    );
+
     useEffect(() => {
       const scrollableRoot = scrollableRootRef.current;
       const lastScrollDistanceToBottom =
@@ -42,6 +49,21 @@ const ChatList = observer(
           scrollableRoot.scrollHeight - lastScrollDistanceToBottom;
       }
     }, [messages, rootRef]);
+
+    useEffect(() => {
+      const disableScroll = (ev) => scrollLocked && ev.preventDefault();
+      scrollableRootRef.current?.addEventListener(
+        "mousewheel",
+        disableScroll,
+        false
+      );
+
+      return () =>
+        scrollableRootRef.current?.removeEventListener(
+          "mousewheel",
+          disableScroll
+        );
+    }, [scrollLocked]);
 
     const rootRefSetter = useCallback(
       (node: HTMLDivElement) => {
@@ -62,13 +84,7 @@ const ChatList = observer(
     return (
       <div
         id={"chat-scroller"}
-        className={`msg_space ${
-          scrollLocked
-            ? isChrome || isSafari
-              ? "lock-scroll-chromium"
-              : "lock-scroll"
-            : ""
-        }`}
+        className={`msg_space ${canLockScroll ? "lock-scroll" : ""}`}
         ref={rootRefSetter}
         onScroll={handleRootScroll}
       >

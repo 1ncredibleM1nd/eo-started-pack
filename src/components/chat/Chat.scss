@@ -1121,23 +1121,18 @@
 }
 
 .msg_space {
-  padding-left: 1px;
   min-height: 100px;
   width: 100%;
   overflow-x: hidden;
   position: relative;
   padding-top: 30px;
   padding-bottom: 30px;
+  padding-left: 0px;
   height: 100%;
-
 }
 
 .lock-scroll {
-  overflow-y: hidden;
-}
-
-.lock-scroll-chromium {
-  overflow-y: hidden;
+  box-sizing: content-box;
   padding-right: 3px;
 }
 
