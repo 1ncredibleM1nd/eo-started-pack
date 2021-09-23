@@ -1122,8 +1122,8 @@
 
 .msg_space {
   min-height: 100px;
-  width: 100%;
   overflow-x: hidden;
+  width: auto;
   position: relative;
   padding-top: 30px;
   padding-bottom: 30px;
@@ -1133,8 +1133,9 @@
 
 .lock-scroll {
   overflow: hidden;
-  box-sizing: content-box;
-  padding-right: 3px;
+  @supports not( -moz-appearance:none ) {
+    padding-right: 3px;
+  }
 }
 
 .inputer {

@@ -21,6 +21,7 @@ const ChatListLoading = observer(() => {
 const ChatList = observer(
   ({ messages, loading, hasNextPage, onLoadMore, onReplyMessage }) => {
     let prevDateDivider = "";
+    const [scrollLocked, setScrollLocked] = useState(false);
     const [infiniteRef, { rootRef }] = useInfiniteScroll({
       loading,
       hasNextPage,
@@ -31,15 +32,6 @@ const ChatList = observer(
     const scrollableRootRef = useRef<HTMLDivElement | null>(null);
     const lastScrollDistanceToBottomRef = useRef<number>();
 
-    const [scrollLocked, setScrollLocked] = useState(false);
-    const canLockScroll = useMemo(
-      () =>
-        scrollLocked &&
-        (scrollableRootRef.current?.scrollHeight ?? 0) >
-          (scrollableRootRef.current?.clientHeight ?? 0),
-      [scrollLocked]
-    );
-
     useEffect(() => {
       const scrollableRoot = scrollableRootRef.current;
       const lastScrollDistanceToBottom =
@@ -49,32 +41,6 @@ const ChatList = observer(
           scrollableRoot.scrollHeight - lastScrollDistanceToBottom;
       }
     }, [messages, rootRef]);
-
-    useEffect(() => {
-      const disableScroll = (ev) => scrollLocked && ev.preventDefault();
-      scrollableRootRef.current?.addEventListener(
-        "DOMScrollContent",
-        disableScroll,
-        false
-      );
-      scrollableRootRef.current?.addEventListener(
-        "mousewheel",
-        disableScroll,
-        false
-      );
-
-      return () => {
-        scrollableRootRef.current?.removeEventListener(
-          "DOMScrollContent",
-          disableScroll,
-          false
-        );
-        scrollableRootRef.current?.removeEventListener(
-          "mousewheel",
-          disableScroll
-        );
-      };
-    }, [scrollLocked]);
 
     const rootRefSetter = useCallback(
       (node: HTMLDivElement) => {
@@ -95,7 +61,7 @@ const ChatList = observer(
     return (
       <div
         id={"chat-scroller"}
-        className={`msg_space ${canLockScroll ? "lock-scroll" : ""}`}
+        className={`msg_space ${scrollLocked ? "lock-scroll" : ""}`}
         ref={rootRefSetter}
         onScroll={handleRootScroll}
       >
