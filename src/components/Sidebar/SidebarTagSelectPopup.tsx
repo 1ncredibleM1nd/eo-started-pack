@@ -1,12 +1,12 @@
 import { observer } from "mobx-react-lite";
 import { Checkbox, Popover } from "antd";
-import { IconAdd } from "@/images/icons";
 import { css } from "goober";
 import { useStore } from "@/stores";
 import { Tag } from "@/stores/model/Tag";
 import { useEffect, useState } from "react";
 import { SidebarSelectTags } from "@/stores/SidebarSelectTags";
 import { SidebarTagAddInput } from "@/components/Sidebar/SidebarTagAddInput";
+import { Icon } from "@/ui/Icon/Icon";
 
 const SidebarSelectTagListItem = observer(
   ({
@@ -167,7 +167,8 @@ export const SidebarTagSelectPopup = observer(() => {
         `}
         onClick={() => setVisible(!visible)}
       >
-        <IconAdd
+        <Icon
+          name={"icon_add"}
           className={css`
             margin-right: 5px;
           `}

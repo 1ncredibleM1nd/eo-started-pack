@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import "./Header.scss";
 import { useStore } from "@/stores";
 import { Link, useHistory } from "react-router-dom";
-import { IconArrowLeft, IconPaperClip } from "@/images/icons";
+import { Icon } from "@/ui/Icon/Icon";
 
 const Header = observer(() => {
   const { contactStore, appStore, schoolsStore, sidebarStore } = useStore();
@@ -53,7 +53,7 @@ const Header = observer(() => {
                     onClick={() => closeContact()}
                     className="transparent"
                   >
-                    <IconArrowLeft width={18} height={18} fill="#70acdd" />
+                    <Icon name={"icon_arrow_left"} fill="#70acdd" />
                   </Link>
                 </div>
                 <div className={"header_info"}>
@@ -90,9 +90,8 @@ const Header = observer(() => {
                     className="trigger"
                     onClick={() => sidebarStore.toggle()}
                   >
-                    <IconPaperClip
-                      width={18}
-                      height={18}
+                    <Icon
+                      name={"icon_paper_clip"}
                       fill={sidebarStore.opened ? "#2a99ff" : "#a3a3a3"}
                     />
                   </div>

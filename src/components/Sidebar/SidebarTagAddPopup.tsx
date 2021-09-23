@@ -1,11 +1,11 @@
 import { observer } from "mobx-react-lite";
 import { Button, Popover } from "antd";
-import { IconDelete, IconSettings } from "@/images/icons";
 import { tags as tagsApi } from "@/ApiResolvers";
 import { css } from "goober";
 import { useStore } from "@/stores";
 import { SidebarTagAddInput } from "@/components/Sidebar/SidebarTagAddInput";
 import { useState } from "react";
+import { Icon } from "@/ui/Icon/Icon";
 
 const SidebarTagAddPopupListItem = observer(
   ({ id, onRemove }: { id: number; onRemove: any }) => {
@@ -34,7 +34,8 @@ const SidebarTagAddPopupListItem = observer(
         >
           {tag?.name ?? "Untitled"}
         </h4>
-        <IconDelete
+        <Icon
+          name={"icon_delete"}
           fill={"#607d8b"}
           onClick={() => onRemove(id)}
           className={css`
@@ -143,7 +144,8 @@ export const SidebarTagAddPopup = observer(() => {
       placement={"bottom"}
       destroyTooltipOnHide
     >
-      <IconSettings
+      <Icon
+        name={"icon_settings"}
         className={css`
           margin-left: 5px;
           cursor: pointer;

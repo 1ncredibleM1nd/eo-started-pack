@@ -1,3 +1,5 @@
+// import "virtual:svg-icons-names";
+
 import { createElement } from "react";
 import * as ReactDOM from "react-dom";
 import { setup } from "goober";

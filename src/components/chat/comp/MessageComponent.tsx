@@ -8,10 +8,9 @@ import { UserAvatar } from "@/components/user_info/UserAvatar";
 import { MessageAttachment } from "./MessageAttachment";
 import dayjs from "@/services/dayjs";
 import { download } from "@/ApiResolvers/file";
-import { SocialIcon } from "@/components/SocialIcon";
-import { IconPencilAlt } from "@/images/icons";
 import { MessageCommentLink } from "./MessageCommentLink";
 import { MessageUser } from "@/components/chat/comp/MessageUser";
+import { Icon } from "@/ui/Icon/Icon";
 
 type TProps = {
   message: Message;
@@ -28,7 +27,7 @@ const MessageOptions = observer(({ message }: { message: Message }) => {
   return (
     <div className="message-options">
       <div className={`social_media_icon ${message.social_media}`}>
-        <SocialIcon social={message.social_media} size={18} />
+        <Icon name={`social_media_${message.social_media}`} />
       </div>
       <span className="message-status">
         <div className="msg_type">
@@ -228,7 +227,7 @@ const MessageComponent = observer((props: TProps) => {
               </div>
               {message.edited && (
                 <div className="editted_icon">
-                  <IconPencilAlt fill="#262626" />
+                  <Icon name={"icon_pencil_alt"} fill="#262626" />
                 </div>
               )}
             </div>

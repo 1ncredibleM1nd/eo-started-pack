@@ -8,8 +8,8 @@ import "./Search.scss";
 import { FilterTags } from "@/components/Filter/FilterTags";
 import { FilterSchools } from "@/components/Filter/FilterSchools";
 import { FilterChannels } from "@/components/Filter/FilterChannels";
-import { IconFilter, IconFilterClose } from "@/images/icons";
 import { useHistory } from "react-router-dom";
+import { Icon } from "@/ui/Icon/Icon";
 
 const Search = observer(() => {
   const { contactStore, appStore, schoolsStore, tagsStore, sidebarStore } =
@@ -50,9 +50,9 @@ const Search = observer(() => {
               className="transparent"
             >
               {filterSwitch ? (
-                <IconFilterClose width={18} height={18} fill="#a3a3a3" />
+                <Icon name={"icon_filter_close"} fill="#a3a3a3" />
               ) : (
-                <IconFilter width={18} height={18} fill="#a3a3a3" />
+                <Icon name={"icon_filter"} fill="#a3a3a3" />
               )}
             </Button>
           </div>

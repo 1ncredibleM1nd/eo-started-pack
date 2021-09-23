@@ -8,8 +8,7 @@ import { CloseOutlined } from "@ant-design/icons";
 import FileUploadModal from "./FileUploadModal";
 import { InputerTextArea } from "./InputerTextArea";
 import { useStore } from "@/stores";
-import { SocialIcon } from "@/components/SocialIcon";
-import { IconButtonSend, IconClip } from "@/images/icons";
+import { Icon } from "@/ui/Icon/Icon";
 
 const ALL_ACCEPT_TYPE = "file_extension|audio/*|video/*|image/*|media_type";
 const INSTAGRAM_ACCEPT_TYPE = "image/*";
@@ -186,7 +185,7 @@ const Inputer = observer(() => {
             onClick={openFileInput}
             className="transparent"
           >
-            <IconClip width={24} height={24} fill="#a3a3a3" />
+            <Icon name={"icon_clip"} size="md" fill="#a3a3a3" />
           </Button>
         </div>
 
@@ -232,7 +231,7 @@ const Inputer = observer(() => {
 
         {/* Button Social.  */}
         <div className="inputer_btn">
-          <SocialIcon social={activeSocial} size={30} />
+          <Icon name={`social_media_${activeSocial}`} size={"lg"} />
         </div>
       </div>
 
@@ -241,7 +240,7 @@ const Inputer = observer(() => {
         onClick={sendMessage}
         className="send_btn"
       >
-        <IconButtonSend width={36} height={36} fill="#a3a3a3" />
+        <Icon name={"icon_button_send"} size="xl" fill="#a3a3a3" />
       </Button>
       <input
         type="file"
