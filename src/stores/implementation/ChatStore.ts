@@ -67,10 +67,10 @@ export class ChatStore {
       globalStore.schoolsStore.activeSchoolsIds
     );
 
-    this.messages = sortBy(
-      uniqBy([...newMessages, ...this.messages], "id"),
-      "timestamp"
-    ).map((message: Message, index) =>
+    this.messages = sortBy(uniqBy([...newMessages, ...this.messages], "id"), [
+      "timestamp",
+      "id",
+    ]).map((message: Message, index) =>
       this.collectMessage({
         previous: newMessages[index - 1],
         current: message,
