@@ -9,6 +9,7 @@ import dayjs, { toCalendar } from "@/services/dayjs";
 import MessageComponent from "@/components/chat/comp/MessageComponent";
 import useInfiniteScroll from "react-infinite-scroll-hook";
 import { useStore } from "@/stores";
+import { isChrome } from "react-device-detect";
 
 const ChatListLoading = observer(() => {
   return (
@@ -61,7 +62,9 @@ const ChatList = observer(
     return (
       <div
         id={"chat-scroller"}
-        className={!scrollLocked ? "msg_space" : "msg_space lock-scroll"}
+        className={`msg_space ${
+          scrollLocked ? (isChrome ? "lock-scroll-chrome" : "lock-scroll") : ""
+        }`}
         ref={rootRefSetter}
         onScroll={handleRootScroll}
       >
@@ -91,7 +94,10 @@ const ChatList = observer(
               <MessageComponent
                 key={`message_${message.id}`}
                 message={message}
-                onReplyMessage={onReplyMessage}
+                onReplyMessage={(message: Message) => {
+                  onReplyMessage(message);
+                  setScrollLocked(false);
+                }}
                 messageDateDivider={currentDateDivider}
                 onDropdownOpen={(state) => setScrollLocked(state)}
               />

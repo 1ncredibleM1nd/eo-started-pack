@@ -1136,6 +1136,11 @@
   overflow-y: hidden;
 }
 
+.lock-scroll-chrome {
+  overflow-y: hidden;
+  padding-right: 3px;
+}
+
 .inputer {
   max-height: 70%;
   position: relative;
