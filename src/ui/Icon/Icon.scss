@@ -1,23 +1,13 @@
-.icon {
-  &_size {
-    &_sm {
-      width: 18px;
-      height: 18px;
-    }
-
-    &_md {
-      width: 24px;
-      height: 24px;
-    }
-
-    &_lg {
-      width: 30px;
-      height: 30px;
-    }
-
-    &_xl {
-      width: 36px;
-      height: 36px;
-    }
+@mixin size($name, $val) {
+  &_size_#{$name} {
+    width: #{$val}px;
+    height: #{$val}px;
   }
+}
+
+.icon {
+  @include size("sm", 18);
+  @include size("md", 24);
+  @include size("lg", 30);
+  @include size("xl", 36);
 }
