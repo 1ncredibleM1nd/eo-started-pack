@@ -53,16 +53,27 @@ const ChatList = observer(
     useEffect(() => {
       const disableScroll = (ev) => scrollLocked && ev.preventDefault();
       scrollableRootRef.current?.addEventListener(
+        "DOMScrollContent",
+        disableScroll,
+        false
+      );
+      scrollableRootRef.current?.addEventListener(
         "mousewheel",
         disableScroll,
         false
       );
 
-      return () =>
+      return () => {
+        scrollableRootRef.current?.removeEventListener(
+          "DOMScrollContent",
+          disableScroll,
+          false
+        );
         scrollableRootRef.current?.removeEventListener(
           "mousewheel",
           disableScroll
         );
+      };
     }, [scrollLocked]);
 
     const rootRefSetter = useCallback(
