@@ -10,6 +10,8 @@ import { InputerTextArea } from "./InputerTextArea";
 import { useStore } from "@/stores";
 import { SocialIcon } from "@/components/SocialIcon";
 import { IconButtonSend, IconClip } from "@/images/icons";
+import { ReplyCurrentMessage } from "@/components/chat/comp/ReplyCurrentMessage";
+import { MessageTransmitter } from "@/components/chat/comp/MessageTransmitter";
 
 const ALL_ACCEPT_TYPE = "file_extension|audio/*|video/*|image/*|media_type";
 const INSTAGRAM_ACCEPT_TYPE = "image/*";
@@ -163,87 +165,6 @@ const Inputer = observer(() => {
     draft[activeContact.id + status].length > 0;
   let chatError = false;
   let acceptAttachments = chatError || !activeContact.sendFile;
-
-  const upperSideInput = () => {
-    return (
-      <div className="up_main_input">
-        {currentChat.activeMessage && (
-          <div className="selected-container">
-            <div className="selected-container_left">
-              <span>
-                <ReactMarkdown
-                  children={currentChat.activeMessage.content}
-                  allowedElements={["a"]}
-                  unwrapDisallowed={true}
-                  linkTarget="_blank"
-                />
-              </span>
-              <div className="msg_type">
-                {TypesMessage.getTypeDescription(
-                  currentChat.activeMessage.entity.type
-                )}
-              </div>
-            </div>
-            <div className="selection-container_right">
-              <CloseOutlined
-                className="close"
-                onClick={() => currentChat.setActiveMessage(null)}
-              />
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  };
-  const lowerSideInput = () => {
-    return (
-      <div className="down_main_input">
-        <div className="inputer_btn">
-          <Button
-            disabled={acceptAttachments}
-            onClick={openFileInput}
-            className="transparent"
-          >
-            <IconClip width={24} height={24} fill="#a3a3a3" />
-          </Button>
-        </div>
-
-        <div className="main_input">
-          <>
-            <InputerTextArea
-              autoSize
-              onPaste={onPasteToTextArea}
-              value={draft[activeContact.id + status]}
-              onChange={(e) => {
-                onChange(activeContact.id, e.target.value, e);
-              }}
-              onPressEnter={handleEnter}
-            />
-          </>
-        </div>
-        <div className="inputer_btn">
-          <SocialIcon social={activeSocial} size={30} />
-        </div>
-
-        <Button
-          disabled={!!chatError || !sendEnabled}
-          onClick={sendMessage}
-          className="send_btn"
-        >
-          <IconButtonSend width={36} height={36} fill="#a3a3a3" />
-        </Button>
-        <input
-          type="file"
-          hidden
-          accept={acceptType}
-          name="files"
-          ref={fileInputRef}
-          // multiple
-          onChange={handleFileInput}
-        />
-      </div>
-    );
-  };
   return (
     <div className={`inputer ${chatError ? "has-error" : ""}`}>
       <FileUploadModal
@@ -263,8 +184,24 @@ const Inputer = observer(() => {
           <div className="input-error">{chatError}</div>
         ) : (
           <>
-            {upperSideInput()}
-            {lowerSideInput()}
+            <ReplyCurrentMessage currentChat={currentChat} />
+            <MessageTransmitter
+              sendMessage={sendMessage}
+              acceptAttachments={acceptAttachments}
+              acceptType={acceptType}
+              activeContact={activeContact}
+              activeSocial={activeSocial}
+              chatError={chatError}
+              handleEnter={handleEnter}
+              status={status}
+              handleFileInput={handleFileInput}
+              openFileInput={openFileInput}
+              draft={draft}
+              onPasteToTextArea={onPasteToTextArea}
+              sendEnabled={sendEnabled}
+              fileInputRef={fileInputRef}
+              onChange={onChange}
+            />
           </>
         )}
       </div>
