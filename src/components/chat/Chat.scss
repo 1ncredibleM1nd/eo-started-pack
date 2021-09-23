@@ -1133,8 +1133,10 @@
 
 .lock-scroll {
   overflow: hidden;
+
   @supports not( -moz-appearance:none ) {
     padding-right: 3px;
+    box-sizing: content-box;
   }
 }
 

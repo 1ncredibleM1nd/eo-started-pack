@@ -21,7 +21,6 @@ const ChatListLoading = observer(() => {
 const ChatList = observer(
   ({ messages, loading, hasNextPage, onLoadMore, onReplyMessage }) => {
     let prevDateDivider = "";
-    const [scrollLocked, setScrollLocked] = useState(false);
     const [infiniteRef, { rootRef }] = useInfiniteScroll({
       loading,
       hasNextPage,
@@ -31,6 +30,15 @@ const ChatList = observer(
 
     const scrollableRootRef = useRef<HTMLDivElement | null>(null);
     const lastScrollDistanceToBottomRef = useRef<number>();
+
+    const [scrollLocked, setScrollLocked] = useState(false);
+    const canLockScroll = useMemo(
+      () =>
+        scrollLocked &&
+        (scrollableRootRef.current?.scrollHeight ?? 0) >
+          (scrollableRootRef.current?.clientHeight ?? 0),
+      [scrollLocked, scrollableRootRef]
+    );
 
     useEffect(() => {
       const scrollableRoot = scrollableRootRef.current;
@@ -61,7 +69,7 @@ const ChatList = observer(
     return (
       <div
         id={"chat-scroller"}
-        className={`msg_space ${scrollLocked ? "lock-scroll" : ""}`}
+        className={`msg_space ${canLockScroll ? "lock-scroll" : ""}`}
         ref={rootRefSetter}
         onScroll={handleRootScroll}
       >
