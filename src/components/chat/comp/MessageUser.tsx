@@ -10,7 +10,7 @@ export const MessageUser = observer((props: TProps) => {
   const { user } = props;
   return (
     <div className="msg_sender_wrapper">
-      <p className="msg_sender"> {user?.username ?? "Бот"}</p>
+      <p className="msg_sender"> от {user?.username ?? "Бот"}</p>
     </div>
   );
 });

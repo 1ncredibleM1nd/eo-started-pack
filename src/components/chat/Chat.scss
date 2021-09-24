@@ -550,11 +550,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
 }
 
 .msg_sender {
-  margin: 0;
+  margin: 0 0 0 -5px;
   font-size: 12px;
+
+  @include _480 {
+    width: 70px;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 }
 
 .msg-role {
