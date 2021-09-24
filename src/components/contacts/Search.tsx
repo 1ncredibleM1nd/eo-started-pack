@@ -1,19 +1,16 @@
-import { Fragment } from "react";
+import "./Search.scss";
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores";
-
-import { Input, Collapse, Button } from "antd";
-import "./Search.scss";
-
+import { Collapse, Button } from "antd";
 import { FilterTags } from "@/components/Filter/FilterTags";
 import { FilterSchools } from "@/components/Filter/FilterSchools";
 import { FilterChannels } from "@/components/Filter/FilterChannels";
 import { useHistory } from "react-router-dom";
 import { Icon } from "@/ui/Icon/Icon";
+import { SearchInput } from "./SearchInput";
 
 const Search = observer(() => {
-  const { contactStore, appStore, schoolsStore, tagsStore, sidebarStore } =
-    useStore();
+  const { contactStore, schoolsStore, tagsStore, sidebarStore } = useStore();
   const history = useHistory();
   const filterSwitch = contactStore.filterSwitch;
 
@@ -36,52 +33,34 @@ const Search = observer(() => {
     contactStore.refetch();
   }
 
-  const { Panel } = Collapse;
-  const { Search } = Input;
-
   return (
-    <Fragment>
-      <div className="contact_header">
-        <div className="search">
-          <div className="search-filter">
-            <Button
-              disabled={!contactStore.isLoaded}
-              onClick={() => contactStore.toggleFilterSwitch()}
-              className="transparent"
-            >
-              {filterSwitch ? (
-                <Icon name={"icon_filter_close"} fill="#a3a3a3" />
-              ) : (
-                <Icon name={"icon_filter"} fill="#a3a3a3" />
-              )}
-            </Button>
-          </div>
-
-          {/* TODO: temporary hide by PROD-2058 */}
-          {/*<div className="search-input">*/}
-          {/*  <Search*/}
-          {/*    disabled*/}
-          {/*    placeholder="Поиск..."*/}
-          {/*    value={searchText}*/}
-          {/*    onChange={(e) => onChange(e.target.value)}*/}
-          {/*    enterButton*/}
-          {/*  />*/}
-          {/*</div>*/}
+    <div className="contact_header">
+      <div className="search">
+        <div className="search-filter">
+          <Button
+            disabled={!contactStore.isLoaded}
+            onClick={() => contactStore.toggleFilterSwitch()}
+            className="transparent"
+          >
+            {filterSwitch ? (
+              <Icon name={"icon_filter_close"} fill="#a3a3a3" />
+            ) : (
+              <Icon name={"icon_filter"} fill="#a3a3a3" />
+            )}
+          </Button>
         </div>
 
-        <Collapse
-          bordered={false}
-          accordion
-          activeKey={filterSwitch ? "1" : ""}
-        >
-          <Panel header="" key="1">
-            <FilterTags onChangeTags={onChangeTags} />
-            <FilterSchools onChangeSchool={onChangeSchool} />
-            <FilterChannels onChangeSocial={onChangeSocial} />
-          </Panel>
-        </Collapse>
+        <SearchInput />
       </div>
-    </Fragment>
+
+      <Collapse bordered={false} accordion activeKey={filterSwitch ? "1" : ""}>
+        <Collapse.Panel header="" key="1">
+          <FilterTags onChangeTags={onChangeTags} />
+          <FilterSchools onChangeSchool={onChangeSchool} />
+          <FilterChannels onChangeSocial={onChangeSocial} />
+        </Collapse.Panel>
+      </Collapse>
+    </div>
   );
 });
 
