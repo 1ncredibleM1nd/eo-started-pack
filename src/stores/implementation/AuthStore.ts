@@ -8,6 +8,7 @@ export class AuthStore {
   token = "";
   userId = "";
   timestamp = "";
+  rentId = "";
 
   constructor() {
     makeAutoObservable(this);
@@ -23,6 +24,14 @@ export class AuthStore {
 
   getToken() {
     return localStorage.getItem("token");
+  }
+
+  setRentId(rentId: string) {
+    this.rentId = rentId;
+  }
+
+  getRentId() {
+    return this.rentId;
   }
 
   setTimestamp(timestamp: string) {
@@ -67,6 +76,7 @@ export class AuthStore {
 
         window.history.replaceState(
           window.history.state,
+          // @ts-ignore forgive me for that
           null,
           currentUrl.href
         );
@@ -104,11 +114,13 @@ export class AuthStore {
 
     if (this.isFrame) {
       let encrypted_data = currentUrl.searchParams.get("encrypted_data");
+      // @ts-ignore forgive me for that
       let decrypted_data = atob(encrypted_data).split("_");
 
       this.setTimestamp(decrypted_data[0]);
-      this.setUserId(decrypted_data[1]);
-      this.setToken(decrypted_data[2]);
+      this.setRentId(decrypted_data[1]);
+      this.setUserId(decrypted_data[2]);
+      this.setToken(decrypted_data[3]);
     }
 
     await this.login();
