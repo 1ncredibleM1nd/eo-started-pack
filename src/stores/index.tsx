@@ -36,9 +36,19 @@ class RootStore {
 
   initSocket() {
     socket.on("connect", () => {
-      socket.emit("join", {
-        token: this.authStore.getToken(),
-      });
+      const token = this.authStore.getToken();
+      socket.emit(
+        "join",
+        this.authStore.isFrame
+          ? {
+              token,
+              isFrame: {
+                rentId: this.authStore.getRentId(),
+                userId: this.usersStore.user?.id,
+              },
+            }
+          : { token }
+      );
     });
 
     socket.on("joined", async () => {
