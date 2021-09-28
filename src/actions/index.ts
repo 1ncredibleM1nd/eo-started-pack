@@ -78,10 +78,10 @@ async function getConversations({
       return response.data.data;
     }
 
-    return { conversations: [], page: 1 };
+    return { items: [], page: 1 };
   } catch (error) {
     messageError(error.toString() ?? action, section);
-    return { conversations: [], page: 1 };
+    return { items: [], page: 1 };
   }
 }
 
@@ -104,10 +104,10 @@ async function getMessages(
       return response.data.data;
     }
 
-    return { messages: [], page: 1 };
+    return { items: [], page: 1 };
   } catch (error) {
     messageError(error.toString() ?? action, section);
-    return { messages: [], page: 1 };
+    return { items: [], page: 1 };
   }
 }
 

@@ -71,7 +71,7 @@ export class ContactStore {
 
     this.setPageLoading(true);
 
-    const { conversations, page } = await getConversations({
+    const { items: conversations, page } = await getConversations({
       schoolIds: globalStore.schoolsStore.activeSchoolsIds,
       page: this.prevPage - 1,
     });
@@ -96,7 +96,7 @@ export class ContactStore {
 
     this.setPageLoading(true);
 
-    const { conversations, page } = await getConversations({
+    const { items: conversations, page } = await getConversations({
       schoolIds: globalStore.schoolsStore.activeSchoolsIds,
       page: this.nextPage + 1,
     });
@@ -172,7 +172,7 @@ export class ContactStore {
   }
 
   async fetch(id?: number) {
-    const { conversations, page } = await getConversations({
+    const { items: conversations, page } = await getConversations({
       schoolIds: globalStore.schoolsStore.activeSchoolsIds,
       page: this.prevPage,
       conversationId: id,

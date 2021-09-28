@@ -61,7 +61,7 @@ export class ChatStore {
   async loadMessages(contactId: number, page: number) {
     this.isLoadingPage = true;
 
-    const { messages: newMessages } = await getMessages(
+    const { items: newMessages } = await getMessages(
       contactId,
       page,
       globalStore.schoolsStore.activeSchoolsIds
