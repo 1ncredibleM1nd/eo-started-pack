@@ -1,15 +1,17 @@
 @import "@/styles/variables.scss";
 @import '@/styles/media.scss';
 
-.reply-current-message{
+.reply-current-message {
   width: 100%;
   display: flex;
   padding-left: 15px;
+
   &_position_left {
     display: flex;
     flex-direction: column;
   }
-  &_position_right{
+
+  &_position_right {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,7 +19,8 @@
     width: 20px;
     height: 20px;
   }
-  &-selected-container{
+
+  &-selected-container {
     width: 100%;
     max-height: 40px;
     overflow: hidden;
@@ -31,11 +34,15 @@
     padding-right: 10px;
     position: relative;
   }
-  &_button_close{
+
+  &_button_close {
     display: block;
     box-sizing: border-box;
     font-size: 18px;
   }
 
-
+  &-type {
+    font-size: 0.75rem;
+    color: $grey_lite;
+  }
 }

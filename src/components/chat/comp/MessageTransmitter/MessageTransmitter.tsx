@@ -1,10 +1,10 @@
-import React from "react";
+import React, { MutableRefObject } from "react";
 import { observer } from "mobx-react-lite";
 import { Button } from "antd";
 import { InputerTextArea } from "@/components/chat/comp/InputerTextArea";
 import Conversation from "@/ApiResolvers/Conversation";
-import { MutableRefObject } from "react";
 import { Icon } from "@/ui/Icon/Icon";
+import { useClassName } from "@/hooks/useClassName";
 import "./MessageTransmitter.scss";
 
 type TProps = {
@@ -43,9 +43,10 @@ export const MessageTransmitter = observer((props: TProps) => {
     fileInputRef,
     onChange,
   } = props;
+  const { cn } = useClassName("message-transmitter");
   return (
-    <div className="down_main_input">
-      <div className="inputer_btn">
+    <div className={cn()}>
+      <div className={cn({ wrapper: "clip" })}>
         <Button
           disabled={acceptAttachments}
           onClick={openFileInput}
@@ -55,7 +56,7 @@ export const MessageTransmitter = observer((props: TProps) => {
         </Button>
       </div>
 
-      <div className="main_input">
+      <div className={cn("input-text-area-wrapper")}>
         <>
           <InputerTextArea
             autoSize
@@ -68,14 +69,14 @@ export const MessageTransmitter = observer((props: TProps) => {
           />
         </>
       </div>
-      <div className="inputer_btn">
-        <Icon name={`social_media_${activeSocial}`} size={"lg"} />
+      <div className={cn({ wrapper: "social" })}>
+        <Icon name={`social_media_${activeSocial}`} size={"md"} />
       </div>
 
       <Button
         disabled={!!chatError || !sendEnabled}
         onClick={sendMessage}
-        className="send_btn"
+        className={cn("button-send")}
       >
         <Icon name={"icon_button_send"} size="xl" fill="#a3a3a3" />
       </Button>
