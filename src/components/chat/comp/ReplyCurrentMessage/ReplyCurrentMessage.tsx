@@ -4,6 +4,8 @@ import ReactMarkdown from "react-markdown";
 import { TypesMessage } from "@/stores/classes";
 import { CloseOutlined } from "@ant-design/icons";
 import { ChatStore } from "@/stores/implementation/ChatStore";
+import "./ReplyCurrentMessage.scss";
+import { useClassName } from "@/hooks/useClassName";
 
 type TProps = {
   currentChat: ChatStore;
@@ -11,11 +13,12 @@ type TProps = {
 
 export const ReplyCurrentMessage = observer((props: TProps) => {
   const { currentChat } = props;
+  const { cn } = useClassName("reply-current-message");
   return (
-    <div className="up_main_input">
+    <div className={cn()}>
       {currentChat.activeMessage && (
-        <div className="selected-container">
-          <div className="selected-container_left">
+        <div className={cn("selected-container")}>
+          <div className={cn({ position: "left" })}>
             <span>
               <ReactMarkdown
                 children={currentChat.activeMessage.content}
@@ -24,15 +27,15 @@ export const ReplyCurrentMessage = observer((props: TProps) => {
                 linkTarget="_blank"
               />
             </span>
-            <div className="msg_type">
+            <div className={cn("type")}>
               {TypesMessage.getTypeDescription(
                 currentChat.activeMessage.entity.type
               )}
             </div>
           </div>
-          <div className="selection-container_right">
+          <div className={cn({ position: "right" })}>
             <CloseOutlined
-              className="close"
+              className={cn({ button: "close" })}
               onClick={() => currentChat.setActiveMessage(null)}
             />
           </div>

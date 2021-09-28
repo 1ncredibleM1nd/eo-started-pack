@@ -5,6 +5,7 @@ import { InputerTextArea } from "@/components/chat/comp/InputerTextArea";
 import Conversation from "@/ApiResolvers/Conversation";
 import { MutableRefObject } from "react";
 import { Icon } from "@/ui/Icon/Icon";
+import "./MessageTransmitter.scss";
 
 type TProps = {
   acceptAttachments: boolean;

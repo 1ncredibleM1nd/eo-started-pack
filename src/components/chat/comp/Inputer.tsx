@@ -1,15 +1,10 @@
 import { useState, useRef, useCallback } from "react";
 import { observer } from "mobx-react-lite";
-import ReactMarkdown from "react-markdown";
 import $ from "jquery";
-import { Button } from "antd";
-import { TypesMessage } from "@/stores/classes";
-import { CloseOutlined } from "@ant-design/icons";
 import FileUploadModal from "./FileUploadModal";
-import { InputerTextArea } from "./InputerTextArea";
 import { useStore } from "@/stores";
-import { Icon } from "@/ui/Icon/Icon";
-
+import ReplyCurrentMessage from "@/components/chat/comp/ReplyCurrentMessage";
+import MessageTransmitter from "@/components/chat/comp/MessageTransmitter";
 const ALL_ACCEPT_TYPE = "file_extension|audio/*|video/*|image/*|media_type";
 const INSTAGRAM_ACCEPT_TYPE = "image/*";
 
@@ -177,79 +172,31 @@ const Inputer = observer(() => {
       />
 
       <div className="input-container">
-        {/* Button Attachment */}
-        <div className="inputer_btn">
-          <Button
-            disabled={acceptAttachments}
-            onClick={openFileInput}
-            className="transparent"
-          >
-            <Icon name={"icon_clip"} size="md" fill="#a3a3a3" />
-          </Button>
-        </div>
-
-        <div className="main_input">
-          {chatError ? (
-            <div className="input-error">{chatError}</div>
-          ) : (
-            <>
-              {currentChat.activeMessage && (
-                <div className="selected-container">
-                  <span>
-                    <ReactMarkdown
-                      children={currentChat.activeMessage.content}
-                      allowedElements={["a"]}
-                      unwrapDisallowed={true}
-                      linkTarget="_blank"
-                    />
-                  </span>
-                  <div className="msg_type">
-                    {TypesMessage.getTypeDescription(
-                      currentChat.activeMessage.entity.type
-                    )}
-                  </div>
-                  <CloseOutlined
-                    className="close"
-                    onClick={() => currentChat.setActiveMessage(null)}
-                  />
-                </div>
-              )}
-
-              <InputerTextArea
-                autoSize
-                onPaste={onPasteToTextArea}
-                value={draft[activeContact.id + status]}
-                onChange={(e) => {
-                  onChange(activeContact.id, e.target.value, e);
-                }}
-                onPressEnter={handleEnter}
-              />
-            </>
-          )}
-        </div>
-
-        {/* Button Social.  */}
-        <div className="inputer_btn">
-          <Icon name={`social_media_${activeSocial}`} size={"lg"} />
-        </div>
+        {chatError ? (
+          <div className="input-error">{chatError}</div>
+        ) : (
+          <>
+            <ReplyCurrentMessage currentChat={currentChat} />
+            <MessageTransmitter
+              sendMessage={sendMessage}
+              acceptAttachments={acceptAttachments}
+              acceptType={acceptType}
+              activeContact={activeContact}
+              activeSocial={activeSocial}
+              chatError={chatError}
+              handleEnter={handleEnter}
+              status={status}
+              handleFileInput={handleFileInput}
+              openFileInput={openFileInput}
+              draft={draft}
+              onPasteToTextArea={onPasteToTextArea}
+              sendEnabled={sendEnabled}
+              fileInputRef={fileInputRef}
+              onChange={onChange}
+            />
+          </>
+        )}
       </div>
-
-      <Button
-        disabled={!!chatError || !sendEnabled}
-        onClick={sendMessage}
-        className="send_btn"
-      >
-        <Icon name={"icon_button_send"} size="xl" fill="#a3a3a3" />
-      </Button>
-      <input
-        type="file"
-        hidden
-        accept={acceptType}
-        name="files"
-        ref={fileInputRef}
-        // multiple
-        onChange={handleFileInput}
-      />
     </div>
   );
 });
