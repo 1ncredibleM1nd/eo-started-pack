@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { Button, Popover } from "antd";
-import { tags as tagsApi } from "@/ApiResolvers";
+import { tags as tagsApi } from "@/api";
 import { css } from "goober";
 import { useStore } from "@/stores";
 import { SidebarTagAddInput } from "@/components/Sidebar/SidebarTagAddInput";

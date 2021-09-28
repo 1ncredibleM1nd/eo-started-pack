@@ -3,7 +3,7 @@ import {
   LoadingOutlined,
   VerticalAlignBottomOutlined,
 } from "@ant-design/icons";
-import * as fileApi from "@/ApiResolvers/file";
+import * as fileApi from "@/api/file";
 import { Spin } from "antd";
 import { useState } from "react";
 import { Attachment } from "@/entities";

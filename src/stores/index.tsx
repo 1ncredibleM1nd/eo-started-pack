@@ -9,6 +9,7 @@ import { TagsStore } from "@/stores/TagsStore";
 import { socket } from "@/services/socket";
 import $ from "jquery";
 import { notification } from "antd";
+import { SearchStore } from "./SearchStore";
 
 class RootStore {
   appStore = appStore;
@@ -19,6 +20,7 @@ class RootStore {
   usersStore = new UsersStore();
   schoolsStore = new SchoolsStore();
   channelsStore = new ChannelsStore();
+  searchStore = new SearchStore(this);
 
   constructor() {
     makeAutoObservable(this, {

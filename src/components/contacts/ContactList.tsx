@@ -1,25 +1,22 @@
 import { useCallback, useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import HashLoader from "react-spinners/HashLoader";
 import "./ContactList.scss";
 import "./Contact.scss";
-import { Conversation, Message } from "@/entities";
-import ContactItem from "./comp/ContactItem";
+import { Conversation } from "@/entities";
+import { ConversationItem } from "./comp/Conversation";
 import { useStore } from "@/stores";
-import { css } from "goober";
 import { useHistory } from "react-router-dom";
 import { setUnreadChat } from "@/actions";
 import { useInView } from "react-intersection-observer";
 import { useLocationQuery } from "@/hooks/useLocationQuery";
-import { PuffLoader } from "react-spinners";
+import { ContactListLoader } from "./ContactListLoader/ContactListLoader";
 
 const ContactList = observer(() => {
   const { contactStore, appStore, schoolsStore, usersStore, sidebarStore } =
     useStore();
   const query = useLocationQuery();
   const history = useHistory();
-  const ContactsData = contactStore.sortedConversations;
-  const filterSwitch = contactStore.filterSwitch;
+  const { sortedConversations, filterSwitch } = contactStore;
 
   const { ref: sentryPrevRef, inView: isVisiblePrev } = useInView({});
   const { ref: sentryNextRef, inView: isVisibleNext } = useInView({
@@ -36,6 +33,13 @@ const ContactList = observer(() => {
     }
   }, []);
 
+  const onSelect = (conversation: Conversation) => {
+    history.replace(`chat?im=${conversation.id}`);
+    contactStore.setActiveContact(conversation);
+    appStore.setLayout("chat");
+    sidebarStore.show();
+  };
+
   useEffect(() => {
     if (isVisiblePrev) {
       contactStore.loadPrev();
@@ -48,101 +52,52 @@ const ContactList = observer(() => {
     }
   }, [contactStore, isVisibleNext]);
 
-  const selectContact = async (id: any) => {
-    history.replace(`chat?im=${id}`);
-    contactStore.setActiveContact(id);
-    appStore.setLayout("chat");
-    sidebarStore.show();
-  };
-
-  if (!contactStore.isLoaded) {
-    return (
-      <div className="loading">
-        <HashLoader color="#3498db" size={50} />
-      </div>
-    );
-  }
-
   return (
-    <div className={`menu_list ${filterSwitch ? "active" : ""}`}>
-      <div className="tab-content">
-        <div className="tab-pane active" id="chats-content">
-          <ul
-            className="contacts-list"
-            id="chatContactTab"
-            ref={trackScrollPosition}
-          >
-            <div ref={sentryPrevRef}>
-              {contactStore.hasPrev && (
-                <div
-                  className={css`
-                    display: flex;
-                    justify-content: center;
-                  `}
-                >
-                  <PuffLoader color="#3498db" size={50} />
-                </div>
-              )}
-            </div>
-
-            {ContactsData.map((contact: Conversation, index: number) => {
-              if (!contact) return null;
-
-              const lastMessage: Message = contact.lastMessage;
-              const online: boolean = false;
-              const school: any = schoolsStore.getById(contact.schoolId);
-
-              return (
-                <div
-                  id={`contacts_item_${contact.id}`}
-                  key={`contacts_item_${contact.id}`}
-                >
-                  <ContactItem
-                    isIAm={
-                      lastMessage &&
-                      !lastMessage.income &&
-                      lastMessage.user &&
-                      lastMessage.user.id === usersStore.user?.id
-                    }
-                    isManager={lastMessage && !lastMessage.income}
-                    index={index}
-                    lastMessage={lastMessage}
-                    contact={contact}
-                    online={online}
-                    active={
-                      contactStore.activeContact &&
-                      contactStore.activeContact.id === contact.id
-                    }
-                    selectContact={selectContact}
-                    school={school}
-                    setUnreadChat={setUnreadChat}
-                  />
-                </div>
-              );
-            })}
-
-            <div ref={sentryNextRef}>
-              {contactStore.hasNext && (
-                <div
-                  className={css`
-                    display: flex;
-                    justify-content: center;
-                  `}
-                >
-                  <PuffLoader color="#3498db" size={50} />
-                </div>
-              )}
-            </div>
-
-            {ContactsData && !ContactsData.length && (
-              <li className={`contacts-item friends`}>
-                <div className="announcement">Контактов нет ¯\_(ツ)_/¯</div>
-              </li>
-            )}
-          </ul>
-        </div>
+    <ul className="contacts-list" ref={trackScrollPosition}>
+      <div ref={sentryPrevRef}>
+        {contactStore.hasPrev && <ContactListLoader />}
       </div>
-    </div>
+
+      {sortedConversations.map((conversation: Conversation, index: number) => {
+        if (!conversation) return null;
+
+        const lastMessage = conversation.lastMessage;
+        return (
+          <div
+            id={`contacts_item_${conversation.id}`}
+            key={`contacts_item_${conversation.id}`}
+          >
+            <ConversationItem
+              isIAm={
+                lastMessage &&
+                !lastMessage.income &&
+                lastMessage.user &&
+                lastMessage.user.id === usersStore.user?.id
+              }
+              isManager={lastMessage && !lastMessage.income}
+              index={index}
+              lastMessage={lastMessage}
+              contact={conversation}
+              online={false}
+              active={contactStore.activeContact?.hover(conversation.id)}
+              selectContact={onSelect}
+              school={schoolsStore.getById(conversation.schoolId)}
+              setUnreadChat={setUnreadChat}
+            />
+          </div>
+        );
+      })}
+
+      <div ref={sentryNextRef}>
+        {contactStore.hasNext && <ContactListLoader />}
+      </div>
+
+      {sortedConversations && !sortedConversations.length && (
+        <li className={`contacts-item friends`}>
+          <div className="announcement">Контактов нет ¯\_(ツ)_/¯</div>
+        </li>
+      )}
+    </ul>
   );
 });
 

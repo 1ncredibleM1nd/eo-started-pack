@@ -49,19 +49,19 @@
   color: $dark_blue_litter;
 }
 
-.menu_list {
-  width: 100%;
-  height: 100%;
-  height: -webkit-fill-available;
-  overflow: scroll;
-  margin-top: 0;
-  transition: ease-in-out 0.1s;
-  transition-delay: 0.1s;
+// .menu_list {
+//   width: 100%;
+//   height: 100%;
+//   height: -webkit-fill-available;
+//   overflow: scroll;
+//   margin-top: 0;
+//   transition: ease-in-out 0.1s;
+//   transition-delay: 0.1s;
 
-  &.active {
-    height: calc(100vh - 145px);
-  }
-}
+//   &.active {
+//     height: calc(100vh - 145px);
+//   }
+// }
 
 .avatar {
   span {

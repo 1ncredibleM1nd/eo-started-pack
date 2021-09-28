@@ -7,8 +7,20 @@ import ChatPlaceholder from "./comp/ChatPlaceholder";
 import { Message } from "../../entities";
 import dayjs, { toCalendar } from "@/services/dayjs";
 import MessageComponent from "@/components/chat/comp/MessageComponent";
-import useInfiniteScroll from "react-infinite-scroll-hook";
+// import useInfiniteScroll from "react-infinite-scroll-hook";
 import { useStore } from "@/stores";
+import { useInView } from "react-intersection-observer";
+
+type TChatListProps = {
+  messages: Message[];
+  activeMessageId: number;
+  loading: boolean;
+  hasNext: boolean;
+  hasPrev: boolean;
+  onLoadNext: () => void;
+  onLoadPrev: () => void;
+  onReplyMessage: (message: Message) => void;
+};
 
 const ChatListLoading = observer(() => {
   return (
@@ -19,19 +31,35 @@ const ChatListLoading = observer(() => {
 });
 
 const ChatList = observer(
-  ({ messages, loading, hasNextPage, onLoadMore, onReplyMessage }) => {
+  ({
+    messages,
+    activeMessageId,
+    loading,
+    hasNext,
+    hasPrev,
+    onLoadNext,
+    onLoadPrev,
+    onReplyMessage,
+  }: TChatListProps) => {
     let prevDateDivider = "";
-    const [infiniteRef, { rootRef }] = useInfiniteScroll({
-      loading,
-      hasNextPage,
-      onLoadMore,
-      disabled: false,
-    });
-
     const scrollableRootRef = useRef<HTMLDivElement | null>(null);
     const lastScrollDistanceToBottomRef = useRef<number>();
-
     const [scrollLocked, setScrollLocked] = useState(false);
+    const { ref: sentryPrevRef, inView: isVisiblePrev } = useInView({});
+    const { ref: sentryNextRef, inView: isVisibleNext } = useInView({});
+
+    const rootRefSetter = useCallback((node: HTMLDivElement) => {
+      scrollableRootRef.current = node;
+    }, []);
+
+    const handleRootScroll = useCallback(() => {
+      const rootNode = scrollableRootRef.current;
+      if (rootNode) {
+        lastScrollDistanceToBottomRef.current =
+          rootNode.scrollHeight - rootNode.scrollTop;
+      }
+    }, []);
+
     const canLockScroll = useMemo(
       () =>
         scrollLocked &&
@@ -48,23 +76,19 @@ const ChatList = observer(
         scrollableRoot.scrollTop =
           scrollableRoot.scrollHeight - lastScrollDistanceToBottom;
       }
-    }, [messages, rootRef]);
+    }, [messages]);
 
-    const rootRefSetter = useCallback(
-      (node: HTMLDivElement) => {
-        rootRef(node);
-        scrollableRootRef.current = node;
-      },
-      [rootRef]
-    );
-
-    const handleRootScroll = useCallback(() => {
-      const rootNode = scrollableRootRef.current;
-      if (rootNode) {
-        lastScrollDistanceToBottomRef.current =
-          rootNode.scrollHeight - rootNode.scrollTop;
+    useEffect(() => {
+      if (isVisiblePrev) {
+        onLoadPrev();
       }
-    }, []);
+    }, [isVisiblePrev]);
+
+    useEffect(() => {
+      if (isVisibleNext) {
+        onLoadNext();
+      }
+    }, [isVisibleNext]);
 
     return (
       <div
@@ -73,8 +97,8 @@ const ChatList = observer(
         ref={rootRefSetter}
         onScroll={handleRootScroll}
       >
-        {hasNextPage && (
-          <div ref={infiniteRef}>
+        {hasNext && (
+          <div ref={sentryNextRef}>
             <ChatListLoading />
           </div>
         )}
@@ -99,6 +123,7 @@ const ChatList = observer(
               <MessageComponent
                 key={`message_${message.id}`}
                 message={message}
+                active={activeMessageId === message.id}
                 onReplyMessage={(message: Message) => {
                   onReplyMessage(message);
                   setScrollLocked(false);
@@ -109,6 +134,12 @@ const ChatList = observer(
             );
           })}
         </div>
+
+        {hasPrev && (
+          <div ref={sentryPrevRef}>
+            <ChatListLoading />
+          </div>
+        )}
       </div>
     );
   }
@@ -144,13 +175,15 @@ const Chat = observer(() => {
         <>
           <ChatList
             messages={activeChat?.messages ?? []}
-            loading={activeChat.isLoadingPage}
-            hasNextPage={activeChat.hasNextPage}
-            onLoadMore={() => {
-              activeChat.loadMessages(
-                activeContact.id,
-                activeChat.getNextPageNumber
-              );
+            activeMessageId={activeChat.messageId}
+            loading={activeChat.pageLoading}
+            hasNext={activeChat.hasNextPage}
+            hasPrev={activeChat.hasPrevPage}
+            onLoadNext={() => {
+              activeChat.loadNext(activeContact.id);
+            }}
+            onLoadPrev={() => {
+              activeChat.loadPrev(activeContact.id);
             }}
             onReplyMessage={(message: Message) => {
               activeChat.setActiveMessage(message);

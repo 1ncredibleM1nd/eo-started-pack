@@ -1,6 +1,6 @@
 import store from "store";
 import { School } from "./model/School";
-import { account } from "@/ApiResolvers";
+import { account } from "@/api";
 import { makeAutoObservable } from "mobx";
 
 export class SchoolsStore {

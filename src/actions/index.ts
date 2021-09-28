@@ -1,5 +1,5 @@
 import { contactStore } from "@/stores/implementation";
-import * as resolver from "../ApiResolvers/index";
+import * as resolver from "../api/index";
 import { AxiosResponse } from "axios";
 import { notification } from "antd";
 import { globalStore } from "@/stores";
@@ -88,7 +88,8 @@ async function getConversations({
 async function getMessages(
   conversationId: number,
   page: number,
-  schoolIds: number[]
+  schoolIds: number[],
+  messageId?: number
 ) {
   const action = "Ошибка получения сообщений";
   const section = "messages";
@@ -97,7 +98,8 @@ async function getMessages(
     const response = await resolver.conversation.messages(
       schoolIds,
       conversationId,
-      page
+      page,
+      messageId
     );
 
     if (!isError(response, section, action, true)) {

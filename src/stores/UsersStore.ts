@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { User } from "./model/User";
-import { account } from "@/ApiResolvers";
+import { account } from "@/api";
 
 export class UsersStore {
   user: User | null = null;

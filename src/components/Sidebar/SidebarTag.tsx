@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores";
 import { css, styled } from "goober";
-import { tags as tagsApi } from "@/ApiResolvers";
+import { tags as tagsApi } from "@/api";
 import { Dropdown, Input, Menu } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
 

@@ -10,14 +10,7 @@ const MAX_MESSAGE_COUNT_ON_PAGE = 29;
 export class ChatStore {
   messages: Message[] = [];
   activeMessage: Message;
-
-  hasNextPage = true;
-  isLoadingPage = false;
-
-  isLoaded = false;
-  setLoaded(state: boolean) {
-    this.isLoaded = state;
-  }
+  messageId?: number;
 
   constructor() {
     makeAutoObservable(this);
@@ -36,8 +29,22 @@ export class ChatStore {
   }
 
   get lastMessage() {
-    return this.messages[this.messages.length - 1];
+    return (
+      this.messages.find(({ id }) => id === this.messageId) ||
+      this.messages[this.messages.length - 1]
+    );
   }
+
+  isLoaded = false;
+  setLoaded(state: boolean) {
+    this.isLoaded = state;
+  }
+
+  pageLoading = false;
+  hasPrevPage = true;
+  prevPage: number = 1;
+  hasNextPage = true;
+  nextPage: number = 1;
 
   async sendMessage(
     contactId: number,
@@ -58,12 +65,46 @@ export class ChatStore {
     );
   }
 
-  async loadMessages(contactId: number, page: number) {
-    this.isLoadingPage = true;
+  async loadMessages(contactId: number, page: number, messageId?: number) {
+    this.pageLoading = true;
 
-    const { items: newMessages } = await getMessages(
+    const { items: newMessages, page: responsePage } = await getMessages(
       contactId,
       page,
+      globalStore.schoolsStore.activeSchoolsIds,
+      messageId
+    );
+
+    this.messages = sortBy(uniqBy([...newMessages], "id"), [
+      "timestamp",
+      "id",
+    ]).map((message: Message, index) =>
+      this.collectMessage({
+        previous: newMessages[index - 1],
+        current: message,
+      })
+    );
+
+    this.messageId = messageId;
+
+    this.prevPage = responsePage;
+    this.hasPrevPage = this.prevPage > 1;
+
+    this.nextPage = responsePage;
+    this.hasNextPage =
+      this.messagesCount > MAX_MESSAGE_COUNT_ON_PAGE * page - 1;
+
+    this.pageLoading = false;
+  }
+
+  async loadPrev(contactId: number) {
+    if (this.pageLoading || !this.hasPrevPage || this.prevPage === 1) {
+      return;
+    }
+
+    const { items: newMessages, page } = await getMessages(
+      contactId,
+      this.prevPage - 1,
       globalStore.schoolsStore.activeSchoolsIds
     );
 
@@ -77,10 +118,44 @@ export class ChatStore {
       })
     );
 
+    this.prevPage = page;
+    this.hasPrevPage = this.prevPage > 1;
+
+    document
+      .getElementById(`message-${this.lastMessage.id}`)
+      ?.scrollIntoView({ block: "center" });
+  }
+
+  async loadNext(contactId: number) {
+    if (this.pageLoading || !this.hasNextPage) {
+      return;
+    }
+
+    const firstItem = this.messages[0];
+    const { items: newMessages, page } = await getMessages(
+      contactId,
+      this.nextPage + 1,
+      globalStore.schoolsStore.activeSchoolsIds
+    );
+    console.log(firstItem);
+
+    this.messages = sortBy(uniqBy([...newMessages, ...this.messages], "id"), [
+      "timestamp",
+      "id",
+    ]).map((message: Message, index) =>
+      this.collectMessage({
+        previous: newMessages[index - 1],
+        current: message,
+      })
+    );
+
+    this.nextPage = page;
     this.hasNextPage =
       this.messagesCount > MAX_MESSAGE_COUNT_ON_PAGE * page - 1;
 
-    this.isLoadingPage = false;
+    document.getElementById(`message-${firstItem.id}}`)?.scrollIntoView({
+      block: "center",
+    });
   }
 
   addMessage(message: Message) {

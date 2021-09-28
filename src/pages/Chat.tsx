@@ -9,13 +9,13 @@ import { Sidebar } from "@/layouts/Sidebar";
 
 const App = observer(() => {
   const { appStore, contactStore, sidebarStore } = useStore();
-  const layout = appStore.layout;
+  const { layout } = appStore;
   const query = useLocationQuery();
   const id = useMemo(() => Number(query.get("im")), [query]);
 
   useEffect(() => {
     if (contactStore.isLoaded && contactStore.hasContact(id)) {
-      contactStore.setActiveContact(id);
+      contactStore.setActiveContact(contactStore.getContact(id));
       appStore.setLayout("chat");
     }
   }, [contactStore.isLoaded]);
@@ -34,7 +34,7 @@ const App = observer(() => {
           sm={layout === "contact" ? 24 : 0}
           md={10}
           lg={7}
-          xl={7}
+          xl={withSidebar ? 7 : 6}
           xxl={6}
           style={{ height: "100%" }}
         >
