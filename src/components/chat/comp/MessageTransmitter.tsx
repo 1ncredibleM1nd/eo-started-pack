@@ -1,12 +1,10 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import { Button } from "antd";
-import { IconButtonSend, IconClip } from "@/images/icons";
 import { InputerTextArea } from "@/components/chat/comp/InputerTextArea";
-import { SocialIcon } from "@/components/SocialIcon";
-import { ContactStore } from "@/stores/implementation/ContactStore";
 import Conversation from "@/ApiResolvers/Conversation";
 import { MutableRefObject } from "react";
+import { Icon } from "@/ui/Icon/Icon";
 
 type TProps = {
   acceptAttachments: boolean;
@@ -52,7 +50,7 @@ export const MessageTransmitter = observer((props: TProps) => {
           onClick={openFileInput}
           className="transparent"
         >
-          <IconClip width={24} height={24} fill="#a3a3a3" />
+          <Icon name={"icon_clip"} size="md" fill="#a3a3a3" />
         </Button>
       </div>
 
@@ -70,7 +68,7 @@ export const MessageTransmitter = observer((props: TProps) => {
         </>
       </div>
       <div className="inputer_btn">
-        <SocialIcon social={activeSocial} size={30} />
+        <Icon name={`social_media_${activeSocial}`} size={"lg"} />
       </div>
 
       <Button
@@ -78,7 +76,7 @@ export const MessageTransmitter = observer((props: TProps) => {
         onClick={sendMessage}
         className="send_btn"
       >
-        <IconButtonSend width={36} height={36} fill="#a3a3a3" />
+        <Icon name={"icon_button_send"} size="xl" fill="#a3a3a3" />
       </Button>
       <input
         type="file"

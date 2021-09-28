@@ -162,7 +162,6 @@ const Inputer = observer(() => {
     draft[activeContact.id + status].length > 0;
   let chatError = false;
   let acceptAttachments = chatError || !activeContact.sendFile;
-
   return (
     <div className={`inputer ${chatError ? "has-error" : ""}`}>
       <FileUploadModal
