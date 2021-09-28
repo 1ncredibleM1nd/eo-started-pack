@@ -78,7 +78,7 @@ export const MessageTransmitter = observer((props: TProps) => {
         onClick={sendMessage}
         className={cn("button-send")}
       >
-        <Icon name={"icon_button_send"} size="xl" fill="#a3a3a3" />
+        <Icon name={"icon_button_send"} size="xl" />
       </Button>
       <input
         type="file"
