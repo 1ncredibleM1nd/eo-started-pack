@@ -53,7 +53,7 @@ export const SidebarTag = observer(({ id }: TProps) => {
   }, [tag?.name]);
 
   const onDelete = async () => {
-    await contactStore.activeContact?.deleteTag(id);
+    await contactStore.activeContact?.removeTag(id);
     const activeTags = tagsStore.activeTags ?? [];
     const contactTags = contactStore.activeContact?.tags ?? [];
 

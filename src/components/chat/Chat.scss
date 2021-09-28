@@ -546,6 +546,26 @@
   }
 }
 
+.message_sender_wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.msg_sender {
+  margin: 0 0 0 -5px;
+  font-size: 12px;
+
+  @include _480 {
+    width: 70px;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
 .msg-role {
   font-size: 13px;
   color: $blue_origin;
@@ -1111,13 +1131,22 @@
 
 .msg_space {
   min-height: 100px;
-  width: 100%;
   overflow-x: hidden;
-  overflow-y: auto;
+  width: auto;
   position: relative;
   padding-top: 30px;
   padding-bottom: 30px;
+  padding-left: 0px;
   height: 100%;
+}
+
+.lock-scroll {
+  overflow: hidden;
+
+  @supports not( -moz-appearance:none ) {
+    padding-right: 3px;
+    box-sizing: content-box;
+  }
 }
 
 .inputer {

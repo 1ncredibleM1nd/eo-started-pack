@@ -11,7 +11,7 @@ export class Tags {
     return API.post("/tag/add-tag", { schoolId, name });
   }
 
-  static delete(id: number) {
+  static remove(id: number) {
     return API.post("/tag/delete-tag", { id });
   }
 

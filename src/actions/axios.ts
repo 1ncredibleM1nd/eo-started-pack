@@ -11,6 +11,7 @@ const API = axios.create({
   withCredentials: true,
 });
 
+// @ts-ignore forgive me for that
 function CredentialsInterceptor(request) {
   let interlayer: string;
 
@@ -28,6 +29,10 @@ function CredentialsInterceptor(request) {
 
   if (authStore.isFrame) {
     request.headers["User"] = authStore.getUserId();
+  }
+
+  if (authStore.isFrame) {
+    request.headers["RentId"] = authStore.getRentId();
   }
 
   request.url = interlayer + request.url;

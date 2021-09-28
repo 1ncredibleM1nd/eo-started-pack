@@ -1,8 +1,8 @@
 import { observer } from "mobx-react-lite";
 import { LoadingOutlined } from "@ant-design/icons";
-import type { TMessageAttachment } from "@/types/message";
+import { Attachment } from "@/entities";
 
-type TProps = { attachment: TMessageAttachment };
+type TProps = { attachment: Attachment };
 
 export const MessageAttachmentLink = observer(({ attachment }: TProps) => {
   return (

@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { TMessageAttachment } from "@/types/message";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
 import { css } from "goober";
+import { Attachment } from "@/entities";
 
-type TProps = { attachment: TMessageAttachment };
+type TProps = { attachment: Attachment };
 
 export const MessageAttachmentIframe = observer(({ attachment }: TProps) => {
   const [loading, setLoading] = useState(true);

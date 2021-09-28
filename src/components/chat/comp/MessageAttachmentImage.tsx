@@ -1,20 +1,28 @@
 import { observer } from "mobx-react-lite";
 import { Image, Spin } from "antd";
-import { TMessageAttachment } from "@/types/message";
 import { LoadingOutlined } from "@ant-design/icons";
 import "./MessageAttachmentImage.scss";
+import { Attachment } from "@/entities";
 
-type TProps = { attachment: TMessageAttachment; reply: boolean };
+type TProps = {
+  attachment: Attachment;
+  reply?: boolean;
+  onImagePreview: (state: boolean) => void;
+};
 
 export const MessageAttachmentImage = observer(
-  ({ attachment, reply }: TProps) => {
+  ({ attachment, reply, onImagePreview }: TProps) => {
     return (
       <Image
         className={`message-attachment-image ${
           reply ? "message-attachment-image--reply" : ""
         }`}
         src={attachment.data.preview}
-        preview={{ src: attachment.url, mask: false }}
+        preview={{
+          src: attachment.url,
+          mask: false,
+          onVisibleChange: (visible) => onImagePreview(visible),
+        }}
         placeholder={
           <div
             style={{

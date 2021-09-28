@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useCallback, useState, useMemo } from "react";
 import { observer } from "mobx-react-lite";
 import "./Chat.scss";
 import Inputer from "./comp/Inputer";
@@ -21,7 +21,6 @@ const ChatListLoading = observer(() => {
 const ChatList = observer(
   ({ messages, loading, hasNextPage, onLoadMore, onReplyMessage }) => {
     let prevDateDivider = "";
-
     const [infiniteRef, { rootRef }] = useInfiniteScroll({
       loading,
       hasNextPage,
@@ -31,6 +30,15 @@ const ChatList = observer(
 
     const scrollableRootRef = useRef<HTMLDivElement | null>(null);
     const lastScrollDistanceToBottomRef = useRef<number>();
+
+    const [scrollLocked, setScrollLocked] = useState(false);
+    const canLockScroll = useMemo(
+      () =>
+        scrollLocked &&
+        (scrollableRootRef.current?.scrollHeight ?? 0) >
+          (scrollableRootRef.current?.clientHeight ?? 0),
+      [scrollLocked, scrollableRootRef]
+    );
 
     useEffect(() => {
       const scrollableRoot = scrollableRootRef.current;
@@ -61,7 +69,7 @@ const ChatList = observer(
     return (
       <div
         id={"chat-scroller"}
-        className={"msg_space"}
+        className={`msg_space ${canLockScroll ? "lock-scroll" : ""}`}
         ref={rootRefSetter}
         onScroll={handleRootScroll}
       >
@@ -84,17 +92,19 @@ const ChatList = observer(
               dayjs(message.timestamp * 1000)
             );
             const currentDateDivider =
-              prevDateDivider !== messageDateDivider
-                ? messageDateDivider
-                : null;
+              prevDateDivider !== messageDateDivider ? messageDateDivider : "";
 
             prevDateDivider = messageDateDivider;
             return (
               <MessageComponent
                 key={`message_${message.id}`}
                 message={message}
-                replyMsg={onReplyMessage}
+                onReplyMessage={(message: Message) => {
+                  onReplyMessage(message);
+                  setScrollLocked(false);
+                }}
                 messageDateDivider={currentDateDivider}
+                onDropdownOpen={(state) => setScrollLocked(state)}
               />
             );
           })}
@@ -128,16 +138,12 @@ const Chat = observer(() => {
     );
   }
 
-  const replyMsg = (message: Message) => {
-    activeChat.setActiveMessage(message);
-  };
-
   return (
     <div className="chat position-relative">
       {activeChat && activeContact ? (
         <>
           <ChatList
-            messages={activeChat?.messages}
+            messages={activeChat?.messages ?? []}
             loading={activeChat.isLoadingPage}
             hasNextPage={activeChat.hasNextPage}
             onLoadMore={() => {
@@ -146,7 +152,9 @@ const Chat = observer(() => {
                 activeChat.getNextPageNumber
               );
             }}
-            onReplyMessage={replyMsg}
+            onReplyMessage={(message: Message) => {
+              activeChat.setActiveMessage(message);
+            }}
           />
           <Inputer />
         </>

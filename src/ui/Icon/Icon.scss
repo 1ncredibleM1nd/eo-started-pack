@@ -1,0 +1,13 @@
+@mixin size($name, $val) {
+  &_size_#{$name} {
+    width: #{$val}px;
+    height: #{$val}px;
+  }
+}
+
+.icon {
+  @include size("sm", 18);
+  @include size("md", 24);
+  @include size("lg", 30);
+  @include size("xl", 36);
+}

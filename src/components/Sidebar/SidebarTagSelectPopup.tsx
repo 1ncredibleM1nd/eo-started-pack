@@ -1,12 +1,12 @@
 import { observer } from "mobx-react-lite";
 import { Checkbox, Popover } from "antd";
-import { IconAdd } from "@/images/icons";
 import { css } from "goober";
 import { useStore } from "@/stores";
 import { Tag } from "@/stores/model/Tag";
 import { useEffect, useState } from "react";
 import { SidebarSelectTags } from "@/stores/SidebarSelectTags";
 import { SidebarTagAddInput } from "@/components/Sidebar/SidebarTagAddInput";
+import { Icon } from "@/ui/Icon/Icon";
 
 const SidebarSelectTagListItem = observer(
   ({
@@ -134,15 +134,28 @@ export const SidebarTagSelectPopup = observer(() => {
   const [visible, setVisible] = useState(false);
 
   return (
-    <Popover
-      visible={visible}
-      onVisibleChange={(value) => setVisible(value)}
-      content={
-        <SidebarSelectTagContainer onComplete={() => setVisible(false)} />
-      }
-      trigger={"click"}
-      destroyTooltipOnHide
-    >
+    <>
+      <Popover
+        arrowContent={false}
+        visible={visible}
+        onVisibleChange={(value) => setVisible(value)}
+        content={
+          <SidebarSelectTagContainer onComplete={() => setVisible(false)} />
+        }
+        trigger={"click"}
+        destroyTooltipOnHide
+        className={css`
+          position: absolute;
+          display: flex;
+          width: 100%;
+          align-items: center;
+        `}
+        overlayClassName={css`
+          .ant-popover-arrow {
+            display: none;
+          }
+        `}
+      />
       <div
         className={css`
           display: inline-flex;
@@ -152,8 +165,10 @@ export const SidebarTagSelectPopup = observer(() => {
           padding: 0;
           margin: 0 5px 5px 0;
         `}
+        onClick={() => setVisible(!visible)}
       >
-        <IconAdd
+        <Icon
+          name={"icon_add"}
           className={css`
             margin-right: 5px;
           `}
@@ -161,6 +176,6 @@ export const SidebarTagSelectPopup = observer(() => {
         />
         Добавить
       </div>
-    </Popover>
+    </>
   );
 });

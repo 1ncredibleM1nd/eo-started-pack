@@ -5,7 +5,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { bytesToSize } from "@/utils/bytesToSize";
 import { InputerTextArea } from "./InputerTextArea";
 import { useStore } from "@/stores";
-import { IconFile, IconPen, IconTimes } from "@/images/icons";
+import { Icon } from "@/ui/Icon/Icon";
 
 type IProps = {
   clearFiles?: () => void;
@@ -109,10 +109,10 @@ const ModalFileController = observer(
     return (
       <div className="file_modal-file-controller">
         <div onClick={onClickDelete} className="file_controller-item delete">
-          <IconTimes width={24} height={24} fill="#a3a3a3" />
+          <Icon name={"icon_times"} size="md" fill="#a3a3a3" />
         </div>
         <div onClick={onClickEdit} className="file_controller-item change">
-          <IconPen width={18} height={18} fill="#a3a3a3" />
+          <Icon name={"icon_pen"} fill="#a3a3a3" />
         </div>
       </div>
     );
@@ -172,7 +172,7 @@ const UploadMediaPreview = observer(
         <div className="file-holder-preview file">
           <div className="content">
             <div className="play-icon">
-              <IconFile width={24} height={24} fill="white" />
+              <Icon name="icon_file" size="md" fill="white" />
             </div>
           </div>
         </div>

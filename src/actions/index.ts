@@ -104,10 +104,10 @@ async function getMessages(
       return response.data.data;
     }
 
-    return [];
+    return { messages: [], page: 1 };
   } catch (error) {
     messageError(error.toString() ?? action, section);
-    return [];
+    return { messages: [], page: 1 };
   }
 }
 

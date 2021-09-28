@@ -5,8 +5,7 @@ import { UserAvatar } from "@/components/user_info/UserAvatar";
 import { Message } from "@/entities";
 import ReactMarkdown from "react-markdown";
 import { Menu, Dropdown } from "antd";
-import { SocialIcon } from "@/components/SocialIcon";
-import { IconComment } from "@/images/icons";
+import { Icon } from "@/ui/Icon/Icon";
 
 type IProps = {
   index: number;
@@ -125,7 +124,7 @@ const ContactItem = observer((props: IProps) => {
 
             <div className={"contacts-info-icon"}>
               <div className={`social_media_icon ${social_media}`}>
-                <SocialIcon social={social_media} size={18} />
+                <Icon name={`social_media_${social_media}`} />
               </div>
             </div>
 
@@ -138,11 +137,7 @@ const ContactItem = observer((props: IProps) => {
             {lastMessage ? (
               <div className={`last_msg ${status}`}>
                 {lastMessage?.entity?.type.includes("comment") && (
-                  <IconComment
-                    width={18}
-                    height={18}
-                    className="icon_comment"
-                  />
+                  <Icon name={"icon_comment"} className="icon_comment" />
                 )}
                 {isManager ? (
                   <div className="from">

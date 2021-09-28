@@ -61,16 +61,16 @@ export class ChatStore {
   async loadMessages(contactId: number, page: number) {
     this.isLoadingPage = true;
 
-    const newMessages = await getMessages(
+    const { messages: newMessages } = await getMessages(
       contactId,
       page,
       globalStore.schoolsStore.activeSchoolsIds
     );
 
-    this.messages = sortBy(
-      uniqBy([...newMessages, ...this.messages], "id"),
-      "timestamp"
-    ).map((message: Message, index) =>
+    this.messages = sortBy(uniqBy([...newMessages, ...this.messages], "id"), [
+      "timestamp",
+      "id",
+    ]).map((message: Message, index) =>
       this.collectMessage({
         previous: newMessages[index - 1],
         current: message,

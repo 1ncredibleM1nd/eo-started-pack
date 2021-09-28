@@ -1,14 +1,14 @@
 import React, { useCallback, useRef, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { TMessageAttachment } from "@/types/message";
 import { WaveSurfer, WaveForm } from "wavesurfer-react";
 import { Icon } from "@iconify/react";
 import playCircle from "@iconify/icons-mdi/play-circle";
 import pauseCircle from "@iconify/icons-mdi/pause-circle";
 import dayjs from "@/services/dayjs";
 import "../VoicePlayer.scss";
+import { Attachment } from "@/entities";
 
-type TProps = { attachment: TMessageAttachment };
+type TProps = { attachment: Attachment };
 
 export const MessageAttachmentVoice = observer(({ attachment }: TProps) => {
   const id = "waveform-" + new Date().getTime();
