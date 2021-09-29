@@ -1,10 +1,8 @@
-import { Conversation } from "@/entities";
-
 export type TSearchByMessageRequest = {
   search: {
     query: string;
     sources: string[];
-    tags: number[];
+    tags: string[];
     noTags: boolean;
     conversationId?: number;
   };
@@ -12,11 +10,11 @@ export type TSearchByMessageRequest = {
   schoolIds: number[];
 };
 
-export type TSerachBySourceAccountRequest = {
+export type TSearchBySourceAccountRequest = {
   search: {
     query: string;
     sources: string[];
-    tags: number[];
+    tags: string[];
     noTags: boolean;
     conversationId?: number;
   };

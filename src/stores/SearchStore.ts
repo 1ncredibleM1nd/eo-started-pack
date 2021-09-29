@@ -3,7 +3,7 @@ import { action, makeAutoObservable } from "mobx";
 import { RootStoreInstance } from ".";
 import {
   TSearchByMessageRequest,
-  TSerachBySourceAccountRequest,
+  TSearchBySourceAccountRequest,
 } from "@/api/types";
 import { debounce } from "lodash";
 import { ItemsQuery, TItemsQueryResponse } from "./model/ItemsQuery";
@@ -24,7 +24,7 @@ export class SearchStore {
 
   searchBySourceAccountQuery = new ItemsQuery<
     Conversation,
-    TSerachBySourceAccountRequest,
+    TSearchBySourceAccountRequest,
     TItemsQueryResponse<Conversation>
   >(SearchAPI.bySourceAccount);
 
@@ -64,7 +64,7 @@ export class SearchStore {
             sources: this.rootStore.channelsStore.activeChannels.map(
               ({ id }) => id
             ),
-            tags: this.rootStore.tagsStore.activeTags.map(({ id }) => id),
+            tags: this.rootStore.tagsStore.activeTags.map(({ name }) => name),
             noTags: this.rootStore.tagsStore.noTags,
           },
           page: 1,
