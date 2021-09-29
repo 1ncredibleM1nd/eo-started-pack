@@ -112,7 +112,7 @@ export class ItemsQuery<T, I, O extends TItemsQueryResponse<T>> {
           ...data,
           items: [...this.items, ...data.items],
         };
-        this._hasNext = data.items?.length > PAGE_ITEMS_COUNT;
+        this._hasNext = data.items?.length >= PAGE_ITEMS_COUNT;
         this.setError(undefined);
       },
       (error: Error) => {

@@ -4,7 +4,7 @@ import { User } from "@/stores/model/User";
 import { RequestBuilder } from "../request-builder";
 import type {
   TSearchByMessageRequest,
-  TSerachBySourceAccountRequest,
+  TSearchBySourceAccountRequest,
 } from "../types";
 
 const transformConversations = (output: TItemsQueryResponse<Conversation>) => {
@@ -37,7 +37,7 @@ const transformConversations = (output: TItemsQueryResponse<Conversation>) => {
 
 export default class Search {
   static bySourceAccount = new RequestBuilder<
-    TSerachBySourceAccountRequest,
+    TSearchBySourceAccountRequest,
     TItemsQueryResponse<Conversation>
   >()
     .withPath("/conversation/search-by-sourceaccount")
