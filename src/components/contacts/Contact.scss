@@ -251,6 +251,11 @@
 
   &.active {
     background: $blue_soft;
+
+    &:hover{
+      cursor: auto;
+      background: $blue_soft;
+    }
   }
 }
 
