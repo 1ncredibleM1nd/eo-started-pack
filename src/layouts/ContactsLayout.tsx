@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import Search from "@/components/contacts/Search";
-import HashLoader from "react-spinners/HashLoader";
+import PuffLoader from "react-spinners/PuffLoader";
 import ContactList from "@/components/contacts/ContactList";
 import { useStore } from "@/stores";
 import { SearchResult } from "@/components/Search/SearchResult";
@@ -14,7 +14,7 @@ const ContactLayout = observer(() => {
       <Search />
       {isLoading ? (
         <div className="loading">
-          <HashLoader color="#3498db" size={50} />
+          <PuffLoader color="#3498db" size={50} />
         </div>
       ) : searchStore.running ? (
         <SearchResult />

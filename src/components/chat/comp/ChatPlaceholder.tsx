@@ -32,7 +32,7 @@ const Chat = observer(() => {
 
   return (
     <div className="start_chat_page">
-      <UserAvatar size="64" user={user} round={true} textSizeRatio={1.75} />
+      <UserAvatar size="200px" user={user} round={true} textSizeRatio={1.75} />
       <h5 className="mt-3">Привет, {user ? user.username : "Пользователь"}</h5>
       <p className="text-muted">Выбирай контакт слева, чтобы начать общаться</p>
     </div>
