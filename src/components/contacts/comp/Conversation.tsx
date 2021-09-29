@@ -112,7 +112,7 @@ export const ConversationItem = observer(
 
           <div className="contacts-content">
             <div className="contacts-info">
-              <div className={"contacts-info-icon"}>
+              <div className={"contacts-school-icon"}>
                 <img
                   src={school.logo}
                   className="school-logo"
@@ -121,7 +121,7 @@ export const ConversationItem = observer(
                 />
               </div>
 
-              <div className={"contacts-info-icon"}>
+              <div className={"contacts-school-icon"}>
                 <div className={`social_media_icon ${social_media}`}>
                   <Icon name={`social_media_${social_media}`} />
                 </div>

@@ -19,18 +19,19 @@
     }
   }
 
-  .contacts-info-icon {
+  .contacts-school-icon {
+    height: 18px;
+    width: 18px;
     margin: 0 6px 0 0;
-
-    .social_media_icon {
-      position: relative;
-      top: 1px;
-      right: 0;
-      bottom: 0;
-      left: 0;
-    }
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     .school-logo {
+      width: 18px;
+      height: auto;
       margin: 0;
     }
   }
