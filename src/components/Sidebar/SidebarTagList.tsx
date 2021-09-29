@@ -14,12 +14,15 @@ export const SidebarTagList = observer(() => {
       <div
         className={css`
           display: inline-flex;
+          align-items: center;
+          margin-bottom: 12px;
         `}
       >
         <h2
           className={css`
             font-size: 14px;
             font-weight: 500;
+            margin-bottom: 0;
           `}
         >
           Теги

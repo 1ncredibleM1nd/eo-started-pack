@@ -45,7 +45,7 @@ const App = observer(() => {
           sm={layout === "chat" ? 24 : 0}
           md={layout === "chat" ? 14 : 0}
           lg={withSidebar ? 10 : 17}
-          xl={withSidebar ? 11 : 18}
+          xl={withSidebar ? 11 : 17}
           xxl={withSidebar ? 13 : 18}
         >
           <ChatLayout />

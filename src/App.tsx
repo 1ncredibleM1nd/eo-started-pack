@@ -48,7 +48,7 @@ const App = observer(() => {
               <Chats />
             </Router>
 
-            {/*<NavBarLayout /> */}
+            {/* <NavBarLayout /> */}
           </div>
         </div>
       </Layout>

@@ -39,6 +39,7 @@ export const UserAvatar = (props: TProps) => {
         className="image-avatar"
         src={user.avatar}
         height={size}
+        width={size}
         alt=""
         preview={false}
         onError={() => setFallback(true)}

@@ -25,7 +25,12 @@ export const SidebarUser = observer(() => {
           font-size: 14px;
           font-weight: 500;
           margin-left: 10px;
-          max-width: 120px;
+          max-width: calc(100% - 90px);
+
+          margin-bottom: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         `}
       >
         {contactStore.activeContact?.user.username ?? ""}
