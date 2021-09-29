@@ -1,0 +1,14 @@
+.filter-counter {
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  .filter-number {
+    color: #3498db;
+    position: absolute;
+    top: 50%;
+    left: 90%;
+    font-size: 10px;
+  }
+}

@@ -72,6 +72,10 @@ export class TagsStore {
     return Array.from(this.tags.values()).filter(({ selected }) => selected);
   }
 
+  get activeTagsCount() {
+    return this.activeTags.length;
+  }
+
   get groupByName() {
     return uniqBy(
       filter(Array.from(this.tags.values()), (tag) =>

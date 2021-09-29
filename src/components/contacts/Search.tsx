@@ -8,6 +8,7 @@ import { FilterChannels } from "@/components/Filter/FilterChannels";
 import { useHistory } from "react-router-dom";
 import { Icon } from "@/ui/Icon/Icon";
 import { SearchInput } from "./SearchInput";
+import FilterButton from "@/components/contacts/comp/FilterButton";
 
 const Search = observer(() => {
   const { contactStore, schoolsStore, tagsStore, sidebarStore, searchStore } =
@@ -58,11 +59,10 @@ const Search = observer(() => {
             onClick={() => contactStore.toggleFilterSwitch()}
             className="transparent"
           >
-            {filterSwitch ? (
-              <Icon name={"icon_filter_close"} fill="#a3a3a3" />
-            ) : (
-              <Icon name={"icon_filter"} fill="#a3a3a3" />
-            )}
+            <FilterButton
+              count={tagsStore.activeTagsCount}
+              visible={filterSwitch}
+            />
           </Button>
         </div>
 
