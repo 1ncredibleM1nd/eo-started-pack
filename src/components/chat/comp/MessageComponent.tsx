@@ -67,7 +67,10 @@ const MessageComponent = observer((props: TProps) => {
       <Menu>
         <Menu.Item
           key={"message_menu_reply"}
-          onClick={() => onReplyMessage(message)}
+          onClick={() => {
+            onReplyMessage(message);
+            setDropdownMenuOpen(false);
+          }}
         >
           {message.entity.type.indexOf("comment") > -1
             ? "Ответить на комментарий"
