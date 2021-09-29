@@ -7,12 +7,13 @@ import { Message } from "@/entities";
 import { UserAvatar } from "@/components/user_info/UserAvatar";
 import { MessageAttachment } from "./MessageAttachment";
 import dayjs from "@/services/dayjs";
-import { download } from "@/ApiResolvers/file";
+import { download } from "@/api/file";
 import { MessageCommentLink } from "./MessageCommentLink";
 import { MessageUser } from "@/components/chat/comp/MessageUser";
 import { Icon } from "@/ui/Icon/Icon";
 
 type TProps = {
+  active: boolean;
   message: Message;
   messageDateDivider: string;
   onReplyMessage?: (arg0: Message) => void;
@@ -118,9 +119,10 @@ const MessageComponent = observer((props: TProps) => {
         </div>
       )}
       <div
-        className={`message message-${message.id} ${
-          message.income ? "" : "self"
-        } ${message.combineWithPrevious ? "not-main" : ""}`}
+        id={`message-${message.id}`}
+        className={`message  ${message.income ? "" : "self"} ${
+          message.combineWithPrevious ? "not-main" : ""
+        } ${props.active ? "active" : ""}`}
       >
         <div className="message-wrapper">
           <div className="avatar avatar-sm">

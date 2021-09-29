@@ -1,7 +1,7 @@
 import "./Icon.scss";
 import { observer } from "mobx-react-lite";
 import { SVGProps } from "react";
-import { mergeClassName, useClassName } from "@/hooks/useClassName";
+import { useClassName } from "@/hooks/useClassName";
 
 type TIconSize = "sm" | "md" | "lg" | "xl";
 
@@ -12,7 +12,7 @@ export type TIconProps = {
 
 export const Icon = observer(
   ({ name, fill, size = "sm", ...svgProps }: TIconProps) => {
-    const { cn } = useClassName("icon");
+    const { cn, mergeClassName } = useClassName("icon");
 
     return (
       <svg

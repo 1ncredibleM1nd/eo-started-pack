@@ -3,7 +3,7 @@ import { css } from "goober";
 import { Input } from "antd";
 import { useState } from "react";
 import { useStore } from "@/stores";
-import { tags as tagsApi } from "@/ApiResolvers";
+import { tags as tagsApi } from "@/api";
 
 type TProps = {
   onAdded?: any;

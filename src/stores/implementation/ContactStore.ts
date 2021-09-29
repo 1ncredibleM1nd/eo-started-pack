@@ -8,7 +8,7 @@ import { reverse, sortBy } from "lodash";
 
 export class ContactStore {
   contacts: Map<number, Conversation> = new Map();
-  activeContactId: number = -1;
+  activeContact?: Conversation;
 
   search = "";
   filter = {};
@@ -18,8 +18,8 @@ export class ContactStore {
     makeAutoObservable(this);
   }
 
-  get activeContact() {
-    return this.contacts.get(this.activeContactId);
+  get activeContactId() {
+    return this.activeContact?.id;
   }
 
   isLoaded = false;
@@ -129,35 +129,42 @@ export class ContactStore {
   }
 
   getContact(id: number) {
-    return this.contacts.get(id);
+    if (this.contacts.has(id)) {
+      return this.contacts.get(id);
+    } else if (this.activeContact?.id === id) {
+      return this.activeContact;
+    }
+
+    return undefined;
   }
 
   hasContact(id: number) {
-    return this.contacts.has(id);
+    return this.contacts.has(id) || this.activeContact?.id === id;
   }
 
   removeContact(id: number) {
     this.contacts.delete(id);
-    this.activeContactId = -1;
+    this.activeContact = undefined;
   }
 
-  async setActiveContact(id: number) {
-    if (this.activeContactId === id) {
-      return;
-    }
-
-    if (this.hasContact(id)) {
-      this.activeContactId = id;
+  async setActiveContact(
+    conversation?: Conversation,
+    highlightSearchMessage = false
+  ) {
+    this.activeContact = conversation;
+    if (this.activeContact) {
       this.activeContact!.chat.setLoaded(false);
-      await this.activeContact!.loadMessages(1);
+      await this.activeContact!.loadMessages(
+        1,
+        highlightSearchMessage ? conversation?.lastMessage.id : undefined
+      );
       this.activeContact!.chat.setLoaded(true);
 
-      $(".msg_space").animate(
-        { scrollTop: $(".msg_space").prop("scrollHeight") },
-        0
-      );
-    } else {
-      this.activeContactId = -1;
+      document
+        .getElementById(`message-${this.activeContact.chat.messageId}`)
+        ?.scrollIntoView({
+          block: "center",
+        });
     }
   }
 

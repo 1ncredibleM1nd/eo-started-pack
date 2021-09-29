@@ -17,7 +17,7 @@ type IProps = {
   messageContent?: string;
   inputRef?: any;
   fileOnHold?: any[];
-  activeContactId?: string;
+  activeContactId?: number;
 };
 
 const FileUploadModal = observer((props: IProps) => {

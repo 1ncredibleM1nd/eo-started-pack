@@ -1,7 +1,7 @@
 import store from "store";
 import { makeAutoObservable } from "mobx";
 import { Tag } from "@/stores/model/Tag";
-import { tags } from "@/ApiResolvers";
+import { tags } from "@/api";
 import { filter, uniqBy } from "lodash";
 import type { RootStoreInstance } from "@/stores/index";
 

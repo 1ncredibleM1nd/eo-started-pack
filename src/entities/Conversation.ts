@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 import IRole from "@/stores/interface/IRole";
 import Message from "./Message";
 import { User } from "@/stores/model/User";
-import { conversation } from "@/ApiResolvers";
+import { conversation } from "@/api";
 import { ChatStore } from "@/stores/implementation/ChatStore";
 
 const RESET_TAGS = [0];
@@ -50,13 +50,14 @@ class Conversation {
     this.readed = state;
   }
 
-  async loadMessages(page: number = 1) {
-    await this.chat.loadMessages(this.id, page);
+  async loadMessages(page: number = 1, messageId?: number) {
+    await this.chat.loadMessages(this.id, page, messageId);
   }
 
   addMessage(message: Message) {
     this.chat.addMessage(message);
   }
+
   removeMessage(messageId: number) {
     this.chat.removeMessage(messageId);
   }
@@ -98,6 +99,10 @@ class Conversation {
   tags: number[] = [];
   setTags(tags: number[]) {
     this.tags = tags;
+  }
+
+  hover(sourceId: number) {
+    return this.id === sourceId || this.lastMessage.id === sourceId;
   }
 }
 

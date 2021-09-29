@@ -34,11 +34,13 @@ export default class Conversation {
   messages(
     schoolIds: number[],
     conversationId: number,
-    page: number
+    page: number,
+    messageId?: number
   ): Promise<AxiosResponse<any>> {
     return API.post(`/conversation/get-messages`, {
       page,
       conversationId,
+      messageId,
       schoolIds,
     });
   }

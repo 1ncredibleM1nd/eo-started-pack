@@ -746,10 +746,33 @@
   max-width: 25rem;
 }
 
+@keyframes highlight {
+  0% {
+    background-color: transparent;
+  }
+
+  25% {
+    background-color: rgba($blue_origin, .5)
+  }
+
+  50% {
+    background-color: transparent;
+  }
+
+  75% {
+    background-color: rgba($blue_origin, .5)
+  }
+
+  100% {
+    background-color: transparent;
+  }
+}
+
 .message {
   padding-left: 0 !important;
   padding-right: 0rem !important;
   margin-bottom: 5px;
+  background-color: transparent;
 
   @include _990 {
     /*padding-left: 10px !important;*/
@@ -757,6 +780,11 @@
 
   @include _768 {
     /*padding-left: 20px !important;*/
+  }
+
+  &.active {
+    padding: 10px;
+    animation: highlight 0.5s linear;
   }
 
   .msg_menu-container {

@@ -7,3 +7,6 @@ const conversation = new Conversation();
 const tags = Tags;
 
 export { account, conversation, tags };
+
+export type { TRequest } from "./request-builder";
+export { default as SearchAPI } from "./modules/search";
