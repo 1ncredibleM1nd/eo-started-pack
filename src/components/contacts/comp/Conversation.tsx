@@ -52,22 +52,22 @@ export const ConversationItem = observer(
           >
             Пометить как непрочитанное
           </Menu.Item>
-          <Menu.Item
-            key={"chat_open_new_tab"}
-            onClick={() => {
-              window.open(`/chat?im=${contactId}`, "_blank");
-            }}
-          >
-            Открыть в новой вкладке
-          </Menu.Item>
-          <Menu.Item
-            key={"chat_open_new_window"}
-            onClick={() => {
-              window.open(`/chat?im=${contactId}`, "_blank", "location=yes");
-            }}
-          >
-            Открыть в новом окне
-          </Menu.Item>
+          {/*<Menu.Item*/}
+          {/*  key={"chat_open_new_tab"}*/}
+          {/*  onClick={() => {*/}
+          {/*    window.open(`/chat?im=${contactId}`, "_blank");*/}
+          {/*  }}*/}
+          {/*>*/}
+          {/*  Открыть в новой вкладке*/}
+          {/*</Menu.Item>*/}
+          {/*<Menu.Item*/}
+          {/*  key={"chat_open_new_window"}*/}
+          {/*  onClick={() => {*/}
+          {/*    window.open(`/chat?im=${contactId}`, "_blank", "location=yes");*/}
+          {/*  }}*/}
+          {/*>*/}
+          {/*  Открыть в новом окне*/}
+          {/*</Menu.Item>*/}
         </Menu>
       );
     };
