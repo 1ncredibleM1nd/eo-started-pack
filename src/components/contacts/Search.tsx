@@ -66,7 +66,7 @@ const Search = observer(() => {
           </Button>
         </div>
 
-        {/* <SearchInput /> */}
+        <SearchInput />
       </div>
 
       <Collapse bordered={false} accordion activeKey={filterSwitch ? "1" : ""}>
