@@ -119,6 +119,7 @@ export const SidebarTag = observer(({ id }: TProps) => {
         disabled={!edited}
         onChange={(ev) => setTagName(ev.target.value)}
         onPressEnter={() => onEdit()}
+        onBlur={() => onEdit()}
       />
 
       <SidebarTagMenu>
