@@ -21,10 +21,7 @@ const App = observer(() => {
   }, [contactStore.isLoaded]);
 
   const withSidebar =
-    sidebarStore.opened &&
-    contactStore.isLoaded &&
-    query.get("im") &&
-    contactStore.hasContact(id);
+    sidebarStore.opened && query.get("im") && contactStore.hasContact(id);
 
   return (
     <Layout hasSider={true} className="chat_page">

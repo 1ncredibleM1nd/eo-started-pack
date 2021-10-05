@@ -151,8 +151,9 @@ export class ContactStore {
     conversation?: Conversation,
     highlightSearchMessage = false
   ) {
-    this.activeContact = conversation;
-    if (this.activeContact) {
+    if (conversation?.id !== this.activeContact?.id) {
+      this.activeContact = conversation;
+
       this.activeContact!.chat.setLoaded(false);
       await this.activeContact!.loadMessages(
         1,
@@ -161,7 +162,7 @@ export class ContactStore {
       this.activeContact!.chat.setLoaded(true);
 
       document
-        .getElementById(`message-${this.activeContact.chat.messageId}`)
+        .getElementById(`message-${this.activeContact?.chat.messageId}`)
         ?.scrollIntoView({
           block: "center",
         });
