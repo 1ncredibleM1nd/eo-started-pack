@@ -16,7 +16,7 @@ const ContactList = observer(() => {
     useStore();
   const query = useLocationQuery();
   const history = useHistory();
-  const { sortedConversations, filterSwitch } = contactStore;
+  const { sortedConversations } = contactStore;
 
   const { ref: sentryPrevRef, inView: isVisiblePrev } = useInView({});
   const { ref: sentryNextRef, inView: isVisibleNext } = useInView({
@@ -27,7 +27,6 @@ const ContactList = observer(() => {
     const id = query.get("im");
     if (node && id) {
       document.getElementById(`contacts_item_${id}`)?.scrollIntoView({
-        behavior: "smooth",
         block: "start",
       });
     }

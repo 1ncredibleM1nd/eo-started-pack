@@ -102,6 +102,9 @@ export class ChatStore {
       return;
     }
 
+    const scroller = document.querySelector(".msg_space");
+    const saveScrollPosition = scroller?.scrollTop || 0;
+
     const { items: newMessages, page } = await getMessages(
       contactId,
       this.prevPage - 1,
@@ -121,9 +124,9 @@ export class ChatStore {
     this.prevPage = page;
     this.hasPrevPage = this.prevPage > 1;
 
-    document
-      .getElementById(`message-${this.lastMessage.id}`)
-      ?.scrollIntoView({ block: "center" });
+    if (scroller) {
+      scroller.scrollTop = saveScrollPosition;
+    }
   }
 
   async loadNext(contactId: number) {
@@ -137,7 +140,6 @@ export class ChatStore {
       this.nextPage + 1,
       globalStore.schoolsStore.activeSchoolsIds
     );
-    console.log(firstItem);
 
     this.messages = sortBy(uniqBy([...newMessages, ...this.messages], "id"), [
       "timestamp",
@@ -153,9 +155,7 @@ export class ChatStore {
     this.hasNextPage =
       this.messagesCount > MAX_MESSAGE_COUNT_ON_PAGE * page - 1;
 
-    document.getElementById(`message-${firstItem.id}}`)?.scrollIntoView({
-      block: "center",
-    });
+    document.getElementById(`message-${firstItem.id}}`)?.scrollIntoView();
   }
 
   addMessage(message: Message) {

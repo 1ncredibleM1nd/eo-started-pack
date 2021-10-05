@@ -151,7 +151,8 @@ export class ContactStore {
     conversation?: Conversation,
     highlightSearchMessage = false
   ) {
-    const needUpdate = conversation?.id !== this.activeContact?.id;
+    const needUpdate =
+      conversation?.id !== this.activeContact?.id || highlightSearchMessage;
     if (needUpdate) {
       this.activeContact = conversation;
       this.activeContact?.chat.setLoaded(false);
@@ -166,7 +167,7 @@ export class ContactStore {
       document
         .getElementById(`message-${this.activeContact?.chat.messageId}`)
         ?.scrollIntoView({
-          block: "center",
+          block: "start",
         });
     }
   }
