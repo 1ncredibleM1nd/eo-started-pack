@@ -151,15 +151,17 @@ export class ContactStore {
     conversation?: Conversation,
     highlightSearchMessage = false
   ) {
-    if (conversation?.id !== this.activeContact?.id) {
+    const needUpdate = conversation?.id !== this.activeContact?.id;
+    if (needUpdate) {
       this.activeContact = conversation;
+      this.activeContact?.chat.setLoaded(false);
 
-      this.activeContact!.chat.setLoaded(false);
-      await this.activeContact!.loadMessages(
+      await this.activeContact?.loadMessages(
         1,
         highlightSearchMessage ? conversation?.lastMessage.id : undefined
       );
-      this.activeContact!.chat.setLoaded(true);
+
+      this.activeContact?.chat.setLoaded(true);
 
       document
         .getElementById(`message-${this.activeContact?.chat.messageId}`)
