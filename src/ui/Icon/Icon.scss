@@ -6,8 +6,13 @@
 }
 
 .icon {
+  @include size("xs", 14);
   @include size("sm", 18);
   @include size("md", 24);
   @include size("lg", 30);
   @include size("xl", 36);
+
+  &_interactive {
+    cursor: pointer;
+  }
 }
