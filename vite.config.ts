@@ -1,9 +1,8 @@
 import { join } from "path";
-import reactRefresh from "@vitejs/plugin-react-refresh";
+import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import createSvgSpritePlugin from "vite-plugin-svg-sprite";
 import createImportPlugin from "vite-plugin-import";
-import reactJsx from "vite-react-jsx";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -17,8 +16,7 @@ export default defineConfig({
     },
   },
   plugins: [
-    reactRefresh(),
-    reactJsx(),
+    react(),
     createSvgSpritePlugin(),
     createImportPlugin({
       onlyBuild: false,
