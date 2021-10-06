@@ -1,7 +1,9 @@
+import { singleton } from "tsyringe";
 import { makeAutoObservable } from "mobx";
 import { User } from "./model/User";
 import { account } from "@/api";
 
+@singleton()
 export class UsersStore {
   user: User | null = null;
 

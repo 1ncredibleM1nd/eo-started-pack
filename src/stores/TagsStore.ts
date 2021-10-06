@@ -1,16 +1,18 @@
+import { singleton } from "tsyringe";
 import store from "store";
 import { makeAutoObservable } from "mobx";
 import { Tag } from "@/stores/model/Tag";
 import { tags } from "@/api";
 import { filter, uniqBy } from "lodash";
-import type { RootStoreInstance } from "@/stores/index";
+import { SchoolsStore } from "./SchoolsStore";
 
+@singleton()
 export class TagsStore {
-  tags = new Map<number, Tag>();
-
-  constructor(private readonly rootStore: RootStoreInstance) {
+  constructor(private schools: SchoolsStore) {
     makeAutoObservable(this);
   }
+
+  tags = new Map<number, Tag>();
 
   noTags = store.get("noTags") ?? false;
   toggleNoTags() {
@@ -79,7 +81,7 @@ export class TagsStore {
   get groupByName() {
     return uniqBy(
       filter(Array.from(this.tags.values()), (tag) =>
-        this.rootStore.schoolsStore.isActive(tag.schoolId)
+        this.schools.isActive(tag.schoolId)
       ),
       "name"
     );

@@ -1,3 +1,4 @@
+import { container } from "tsyringe";
 import { createContext, useContext, ReactNode } from "react";
 import { UsersStore } from "./UsersStore";
 import { SchoolsStore } from "./SchoolsStore";
@@ -15,12 +16,12 @@ class RootStore {
   appStore = appStore;
   authStore = authStore;
   contactStore = contactStore;
-  sidebarStore = new SidebarStore();
-  tagsStore = new TagsStore(this);
-  usersStore = new UsersStore();
-  schoolsStore = new SchoolsStore();
-  channelsStore = new ChannelsStore();
-  searchStore = new SearchStore(this);
+  sidebarStore = container.resolve(SidebarStore);
+  tagsStore = container.resolve(TagsStore);
+  usersStore = container.resolve(UsersStore);
+  schoolsStore = container.resolve(SchoolsStore);
+  channelsStore = container.resolve(ChannelsStore);
+  searchStore = container.resolve(SearchStore);
 
   constructor() {
     makeAutoObservable(this, {

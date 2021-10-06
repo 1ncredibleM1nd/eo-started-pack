@@ -1,6 +1,5 @@
-import { SearchAPI } from "@/api";
+import { Api } from "@/api";
 import { action, makeAutoObservable } from "mobx";
-import { RootStoreInstance } from ".";
 import {
   TSearchByMessageRequest,
   TSearchBySourceAccountRequest,
@@ -8,30 +7,37 @@ import {
 import { debounce } from "lodash";
 import { ItemsQuery, TItemsQueryResponse } from "./model/ItemsQuery";
 import { Conversation } from "@/entities";
+import { ChannelsStore } from "./ChannelsStore";
+import { SchoolsStore } from "./SchoolsStore";
+import { TagsStore } from "./TagsStore";
+import { singleton } from "tsyringe";
 
+@singleton()
 export class SearchStore {
-  constructor(private readonly rootStore: RootStoreInstance) {
-    makeAutoObservable(this);
-  }
-
   isLoaded = true;
+  searchQuery = "";
+  searchByMessageQuery;
+  searchBySourceAccountQuery;
 
-  searchByMessageQuery = new ItemsQuery<
-    Conversation,
-    TSearchByMessageRequest,
-    TItemsQueryResponse<Conversation>
-  >(SearchAPI.byMessage);
+  constructor(
+    private api: Api,
+    private tags: TagsStore,
+    private schools: SchoolsStore,
+    private channels: ChannelsStore
+  ) {
+    this.searchByMessageQuery = new ItemsQuery<
+      Conversation,
+      TSearchByMessageRequest,
+      TItemsQueryResponse<Conversation>
+    >(this.api.search.byMessage);
 
-  searchBySourceAccountQuery = new ItemsQuery<
-    Conversation,
-    TSearchBySourceAccountRequest,
-    TItemsQueryResponse<Conversation>
-  >(SearchAPI.bySourceAccount);
+    this.searchBySourceAccountQuery = new ItemsQuery<
+      Conversation,
+      TSearchBySourceAccountRequest,
+      TItemsQueryResponse<Conversation>
+    >(this.api.search.bySourceAccount);
 
-  searchQuery: string = "";
-  setSearchQuery(searchQuery: string) {
-    this.searchQuery = searchQuery;
-    this.fetch();
+    makeAutoObservable(this);
   }
 
   get isEmpty() {
@@ -45,6 +51,11 @@ export class SearchStore {
     );
   }
 
+  setSearchQuery(searchQuery: string) {
+    this.searchQuery = searchQuery;
+    this.fetch();
+  }
+
   reset() {
     this.searchQuery = "";
     this.searchByMessageQuery.reset();
@@ -53,7 +64,7 @@ export class SearchStore {
 
   fetch = debounce(
     action("fetch", async () => {
-      if (this.searchQuery === "") {
+      if (this.isEmpty) {
         this.reset();
       } else {
         this.isLoaded = false;
@@ -61,14 +72,12 @@ export class SearchStore {
         const request = {
           search: {
             query: this.searchQuery,
-            sources: this.rootStore.channelsStore.activeChannels.map(
-              ({ id }) => id
-            ),
-            tags: this.rootStore.tagsStore.activeTags.map(({ name }) => name),
-            noTags: this.rootStore.tagsStore.noTags,
+            sources: this.channels.activeChannels.map(({ id }) => id),
+            tags: this.tags.activeTags.map(({ name }) => name),
+            noTags: this.tags.noTags,
           },
           page: 1,
-          schoolIds: this.rootStore.schoolsStore.activeSchoolsIds,
+          schoolIds: this.schools.activeSchoolsIds,
         };
 
         await Promise.all([

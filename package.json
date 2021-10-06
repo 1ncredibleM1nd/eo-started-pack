@@ -35,6 +35,7 @@
     "store": "^2.0.12",
     "swiper": "^6.4.8",
     "tsyringe": "^4.6.0",
+    "typedi": "^0.10.0",
     "video-react": "^0.14.1",
     "wavesurfer-react": "^2.0.8",
     "wavesurfer.js": "^5.1.0"

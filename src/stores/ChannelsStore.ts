@@ -1,7 +1,9 @@
+import { singleton } from "tsyringe";
 import store from "store";
 import { makeAutoObservable } from "mobx";
 import { Channel } from "./model/Channel";
 
+@singleton()
 export class ChannelsStore {
   channels: Channel[] = [];
 

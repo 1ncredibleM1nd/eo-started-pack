@@ -1,8 +1,10 @@
+import { singleton } from "tsyringe";
 import store from "store";
 import { School } from "./model/School";
 import { account } from "@/api";
 import { makeAutoObservable } from "mobx";
 
+@singleton()
 export class SchoolsStore {
   schools: School[] = [];
 
