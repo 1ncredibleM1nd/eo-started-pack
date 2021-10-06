@@ -74,7 +74,8 @@
   },
   "lint-staged": {
     "src/**/*.{tsx,jsx,ts,js,json}": [
-      "eslint --fix"
+      "eslint --fix",
+      "stylelint --fix"
     ]
   },
   "simple-git-hooks": {
