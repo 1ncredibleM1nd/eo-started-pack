@@ -1,16 +1,17 @@
+import "reflect-metadata";
 import { createElement } from "react";
-import * as ReactDOM from "react-dom";
+import { render } from "react-dom";
 import { setup } from "goober";
 
-import App from "./App";
 import "@/images/icons/index";
 import "./styles/index.scss";
 import "./styles/ant/index.scss";
+import App from "./App";
 import { GlobalStoreProvider } from "./stores";
 
 setup(createElement);
 
-ReactDOM.render(
+render(
   <GlobalStoreProvider>
     <App />
   </GlobalStoreProvider>,
