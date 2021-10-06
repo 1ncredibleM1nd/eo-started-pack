@@ -6,7 +6,7 @@
   max-height: 50vh;
   box-shadow: 0 25px 25px -25px rgba(0, 0, 0, 0.12);
 
-  @include _480{
+  @include _480 {
     height: 100vh;
     max-height: 100vh;
   }
@@ -105,9 +105,12 @@
   width: 100%;
   font-size: 15px;
   display: inline-flex;
-  flex-wrap: wrap;
   min-height: 20px;
+  padding-right: 4px;
 
+  @include _768{
+    padding-right: 24px;
+  }
   .icon_comment {
     margin-right: 4px;
     align-self: center;
@@ -115,7 +118,7 @@
 
   .from {
     margin-right: 5px;
-    display: flex;
+    display: inline;
     color: #2A99FF;
     position: relative;
     white-space: nowrap;
@@ -125,9 +128,11 @@
     width: 90%;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
+    display: inline;
+    white-space: nowrap;
+    @include _768{
+      width: 100%;
+    }
   }
 
   .unreaded_count {
@@ -136,9 +141,19 @@
     border-radius: 50%;
     color: $white;
     position: absolute;
-    right: 10px;
+    right: 7px;
+    top: 7px;
     font-size: 12px;
     bottom: 10px;
+
+    @include _990{
+      right: 5px;
+    }
+
+    @include _768{
+      right: 7px;
+      top: 7px;
+    }
   }
 }
 
@@ -236,6 +251,7 @@
 
 .contacts-item {
   padding: 10px 10px !important;
+  padding-right: 15px !important;
 
   &.loading {
     height: auto !important;
@@ -243,16 +259,19 @@
 
   @include _990 {
     padding: 10px !important;
+    padding-right: 15px !important;
+
   }
 
   @include _768 {
     padding: 10px 17px !important;
+    padding-right: 0px !important;
   }
 
   &.active {
     background: $blue_soft;
 
-    &:hover{
+    &:hover {
       cursor: auto;
       background: $blue_soft;
     }
@@ -330,5 +349,51 @@
     .last_msg.unread {
       width: 85%;
     }
+  }
+}
+
+
+.chat-time {
+  margin-right: 5px;
+  margin-left: 7px;
+  @include _768{
+    margin-right: 0;
+  }
+}
+
+
+.contactItem_img {
+  // margin-right: 0px;
+  width: 22px;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 15px;
+  color: $grey_lite;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  position: absolute;
+  top: 9px;
+  right: 0px;
+  z-index: 10;
+
+  @include _768{
+
+    position: static;
+  }
+
+}
+
+
+@media (min-width: 992px) {
+  .contacts-item .contactItem_img .contactItem_img_icon {
+    visibility: hidden;
+  }
+
+  .contacts-item:hover .contactItem_img .contactItem_img_icon {
+    visibility: visible;
   }
 }

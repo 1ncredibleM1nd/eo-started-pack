@@ -155,14 +155,11 @@
   }
 }
 
-.audio-holder {
-}
+.audio-holder {}
 
-.video-holder {
-}
+.video-holder {}
 
-.file-holder {
-}
+.file-holder {}
 
 .seting_menu_header {
   display: flex;
@@ -377,7 +374,8 @@
   justify-content: center;
   align-items: center;
   height: 30px;
-  margin: 25px 0;
+  margin-bottom: 25px;
+  margin-top: 13px;
   padding: 0 20px;
 }
 
@@ -599,7 +597,8 @@
   width: 18px;
   border-radius: 15px;
   min-width: 18px;
-  overflow: hidden;;
+  overflow: hidden;
+  ;
 
   // &.instagram {
   //   border-radius: 3px;
@@ -632,10 +631,6 @@
     text-align: left;
   }
 
-  // @include _768 {
-  //   padding-left: 30px !important;
-  // }
-
   .avatar {
     order: 1;
   }
@@ -657,11 +652,14 @@
     align-items: center;
   }
 
+  .message-container {
+    margin: 0;
+    margin-right: 5px !important;
+  }
+
   .message-content {
-    min-width: 7.5em;
-    max-width: 40rem;
+    width: 100%;
     min-height: 40px;
-    margin-right: 0.25rem !important;
     background: $blue_soft !important;
     padding-left: 1rem !important;
     padding-right: 1rem;
@@ -771,24 +769,15 @@
 .message {
   padding-left: 0 !important;
   padding-right: 0rem !important;
-  margin-bottom: 5px;
+  margin-bottom: 12px;
   background-color: transparent;
 
-  @include _990 {
-    /*padding-left: 10px !important;*/
-  }
-
-  @include _768 {
-    /*padding-left: 20px !important;*/
-  }
-
   &.active {
-    padding: 10px;
     animation: highlight 0.5s linear;
   }
 
   .msg_menu-container {
-    position: absolute;
+    position: static;
     right: -35px;
     top: 0;
     height: 100%;
@@ -800,14 +789,27 @@
 
     .msg_menu {
       width: 100%;
-      height: 32px;
+      height: 30px;
+      width: 30px;
       display: flex;
       justify-content: center;
       align-items: flex-start;
       margin-bottom: auto;
       visibility: hidden;
       opacity: 0;
+      margin-top: -4px;
+
+      .dropdown-trigger {
+        color: $grey_lite;
+        font-size: 18px;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
     }
+
     .editted_icon {
       width: 100%;
       height: 32px;
@@ -840,6 +842,8 @@
 
   .message-container {
     position: relative;
+    margin: 0;
+    margin-left: 5px;
 
     &:hover .msg_menu {
       opacity: 1;
@@ -849,11 +853,9 @@
   }
 
   .message-content {
-    min-width: 70px;
-    max-width: 40rem;
+    width: 100%;
     min-height: 40px;
     font-size: 16px;
-    left: 5px;
     position: relative;
     padding-left: 5px;
     color: $black !important;
@@ -1023,10 +1025,6 @@
       position: relative;
     }
 
-    .msg_menu .dropdown-trigger {
-      color: $grey_default;
-    }
-
     .readed-status {
       position: absolute;
       right: 8px;
@@ -1128,6 +1126,7 @@
   .message-options {
     position: relative;
     top: 2px;
+
     .avatar {
       cursor: pointer;
       position: relative;
@@ -1162,8 +1161,8 @@
   overflow-x: hidden;
   width: auto;
   position: relative;
-  padding-top: 30px;
-  padding-bottom: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   padding-left: 0px;
   height: 100%;
 }
@@ -1171,7 +1170,7 @@
 .lock-scroll {
   overflow: hidden;
 
-  @supports not( -moz-appearance:none ) {
+  @supports not(-moz-appearance:none) {
     padding-right: 3px;
     box-sizing: content-box;
   }
@@ -1197,13 +1196,15 @@
     height: 100%;
     min-height: 50px;
     border-radius: 10px;
-    padding: 5px;
+    padding: 5px 0;
+    padding-left: 5px;
     background: #fff;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-end;
-    .up_main_input{
+
+    .up_main_input {
       width: 100%;
       display: flex;
       padding-left: 15px;
@@ -1231,16 +1232,17 @@
     padding-right: 10px;
     position: relative;
 
-    .selected-container_left{
+    .selected-container_left {
       display: flex;
       flex-direction: column;
     }
 
-    .selected-container_right{
+    .selected-container_right {
       padding: 20px;
       width: 20px;
       height: 20px;
     }
+
     .close {
       display: block;
       box-sizing: border-box;
@@ -1375,5 +1377,60 @@
 }
 
 a.message-link {
-  color: inherit!important;
+  color: inherit !important;
+}
+
+
+// ---------------
+// UPDATE message grid styles
+// TODO: нужен рефакторинг
+// ---------------
+
+
+
+.message .message-container {
+  max-width: calc(100% - 36px * 2 - 5px *2 + 30px);
+  display: flex;
+  flex-direction: row;
+}
+
+.message .message-content {
+  max-width: 40rem;
+}
+
+.message.self .message-container {
+  flex-direction: row-reverse;
+}
+
+@media (max-width: 480px) {
+  .message {
+    .message-wrapper {
+      padding: 0 10px;
+    }
+
+
+  }
+
+  .message.self .message-container {
+    margin-right: 3px !important;
+  }
+
+  .message .message-container {
+    margin-left: 3px !important;
+  }
+
+  .message .message-container {
+    max-width: calc(100% - 3px *2 + 30px);
+  }
+
+
+  .avatar.avatar-sm {
+    display: none !important;
+
+  }
+
+  .message .msg_menu-container .msg_menu {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
 }

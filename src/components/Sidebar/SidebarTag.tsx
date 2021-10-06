@@ -17,7 +17,7 @@ const SidebarTagContainer = styled("div")`
   align-items: center;
 
   padding: 0 15px 0 10px;
-  min-width: 100px;
+  width: calc(33% - 4px);
   min-height: 30px;
   color: #607d8b;
   border: 1px solid #607d8b;
@@ -25,6 +25,10 @@ const SidebarTagContainer = styled("div")`
   margin: 0 5px 5px 0;
   text-align: center;
   border-radius: 6px;
+
+  @media (max-width: 1300px) {
+    width: calc(50% - 5px);
+  }
 `;
 
 const SidebarTagMenu = styled("div")`

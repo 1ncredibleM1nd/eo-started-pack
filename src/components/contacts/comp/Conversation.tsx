@@ -6,6 +6,7 @@ import { Message } from "@/entities";
 import ReactMarkdown from "react-markdown";
 import { Menu, Dropdown } from "antd";
 import { Icon } from "@/ui/Icon/Icon";
+import { MoreOutlined } from "@ant-design/icons";
 
 type IProps = {
   index: number;
@@ -87,90 +88,99 @@ export const ConversationItem = observer(
     };
 
     return (
-      <Dropdown
-        overlay={DropDownMenu(contact.id)}
-        overlayStyle={{ animationDelay: "0s", animationDuration: "0s" }}
-        placement="bottomLeft"
-        trigger={["contextMenu"]}
+      <li
+        onClick={() => selectContact(contact)}
+        className={`contacts-item contacts-item-${index} friends ${
+          active && "active"
+        }`}
       >
-        <li
-          onClick={() => selectContact(contact)}
-          className={`contacts-item contacts-item-${index} friends ${
-            active && "active"
-          }`}
-        >
-          <div className="avatar">
-            <Badge className={`online_dot ${active && "active"}`} dot={online}>
-              <UserAvatar
-                size="48"
-                user={contact.user}
-                round={true}
-                textSizeRatio={1.75}
+        <div className="avatar">
+          <Badge className={`online_dot ${active && "active"}`} dot={online}>
+            <UserAvatar
+              size="48"
+              user={contact.user}
+              round={true}
+              textSizeRatio={1.75}
+            />
+          </Badge>
+        </div>
+
+        <div className="contacts-content">
+          <div className="contacts-info">
+            <div className={"contacts-school-icon"}>
+              <img
+                src={school.logo}
+                className="school-logo"
+                title={school.name}
+                alt={school.name}
               />
-            </Badge>
-          </div>
+            </div>
 
-          <div className="contacts-content">
-            <div className="contacts-info">
-              <div className={"contacts-school-icon"}>
-                <img
-                  src={school.logo}
-                  className="school-logo"
-                  title={school.name}
-                  alt={school.name}
-                />
-              </div>
-
-              <div className={"contacts-school-icon"}>
-                <div className={`social_media_icon ${social_media}`}>
-                  <Icon name={`social_media_${social_media}`} />
-                </div>
-              </div>
-
-              <h4 className="chat-name user_name_to">
-                {contact.user.username}
-              </h4>
-              <div className="chat-time">
-                {lastMessage && <>{contactTime(lastMessage)}</>}
+            <div className={"contacts-school-icon"}>
+              <div className={`social_media_icon ${social_media}`}>
+                <Icon name={`social_media_${social_media}`} />
               </div>
             </div>
-            <div className="contacts-texts">
-              {lastMessage ? (
-                <div className={`last_msg ${status}`}>
-                  {lastMessage?.entity?.type.includes("comment") && (
-                    <Icon name={"icon_comment"} className="icon_comment" />
-                  )}
-                  {isManager ? (
-                    <div className="from">
-                      {`${
-                        isIAm
-                          ? "Вы"
-                          : lastMessage.user?.username.trim() ?? "Группа"
-                      }:`}
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                  <ReactMarkdown
-                    className="last-message-content"
-                    children={lastMessage.content}
-                    allowedElements={[]}
-                    unwrapDisallowed={true}
-                    linkTarget="_blank"
+
+            <h4 className="chat-name user_name_to">{contact.user.username}</h4>
+
+            <div className="chat-time">
+              {lastMessage && <>{contactTime(lastMessage)}</>}
+            </div>
+
+            <Dropdown
+              overlay={DropDownMenu(contact.id)}
+              overlayStyle={{ animationDelay: "0s", animationDuration: "0s" }}
+              placement="bottomRight"
+              trigger={["click"]}
+            >
+              <div
+                className="contactItem_img"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <div className="contactItem_img_icon">
+                  <MoreOutlined
+                    className="dropdown-trigger"
+                    style={{ fontSize: "18px" }}
                   />
-                  {status === "unread" && (
-                    <div className="unreaded_count"></div>
-                  )}
                 </div>
-              ) : (
-                <div className={`last_msg ${status}`}>
-                  *Добавлен в контакты*
-                </div>
-              )}
-            </div>
+              </div>
+            </Dropdown>
           </div>
-        </li>
-      </Dropdown>
+          <div className="contacts-texts">
+            {lastMessage ? (
+              <div className={`last_msg ${status}`}>
+                {lastMessage?.entity?.type.includes("comment") && (
+                  <Icon name={"icon_comment"} className="icon_comment" />
+                )}
+                {isManager ? (
+                  <div className="from">
+                    {`${
+                      isIAm
+                        ? "Вы"
+                        : lastMessage.user?.username.trim() ?? "Группа"
+                    }:`}
+                  </div>
+                ) : (
+                  ""
+                )}
+                <ReactMarkdown
+                  className="last-message-content"
+                  children={lastMessage.content}
+                  allowedElements={[]}
+                  unwrapDisallowed={true}
+                  linkTarget="_blank"
+                />
+                {status === "unread" && <div className="unreaded_count"></div>}
+              </div>
+            ) : (
+              <div className={`last_msg ${status}`}>*Добавлен в контакты*</div>
+            )}
+          </div>
+        </div>
+      </li>
     );
   }
 );
