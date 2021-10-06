@@ -9,7 +9,7 @@
     padding: 0 4%;
 
     .comments_container {
-      background: #F1F1F1;
+      background: #f1f1f1;
       padding: 16px 25px;
       display: flex;
       box-shadow: 0 3px 6px #00000029;
@@ -29,7 +29,6 @@
     .is_active {
       color: #cde4f6;
     }
-
   }
 
   .chak_ant {
@@ -46,8 +45,7 @@
       width: 70%;
       display: flex;
       font-size: 13px;
-      color: #919DA8;
-
+      color: #919da8;
     }
 
     .data_block {
@@ -56,7 +54,7 @@
 
       svg {
         font-size: 18px;
-        color: #83BEE6;
+        color: #83bee6;
       }
     }
 
@@ -84,15 +82,13 @@
       left: 46.3%;
       bottom: -32px;
       border: 14px solid transparent;
-      border-top: 19px solid #F1F4F9;
+      border-top: 19px solid #f1f4f9;
     }
 
     .message-block-content::after {
       border-top: 10px solid white;
       bottom: -19px;
     }
-
-
   }
 
   .text_chekin {
@@ -106,10 +102,8 @@
     width: 36px;
     border-radius: 50%;
   }
-
-
 }
 
 .active_messages {
-  background: #D7D7D9;
+  background: #d7d7d9;
 }

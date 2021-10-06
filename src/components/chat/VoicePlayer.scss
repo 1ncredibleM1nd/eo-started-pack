@@ -1,62 +1,62 @@
 $time-color: #607d8b !default;
-$theme-color: #3FA6E4 !default;
+$theme-color: #3fa6e4 !default;
 
 .voice-message {
-    min-width: 250px;
+  min-width: 250px;
+  display: flex;
+  height: 40px;
+  margin-top: 10px;
+  align-items: center;
+  position: relative;
+
+  [id^=waveform] {
+    width: calc(100% - 80px);
+    margin: auto;
+
+    & > wave {
+      overflow: hidden !important;
+    }
+  }
+
+  .voice-time {
+    color: $time-color;
+    font-size: 12px;
+    margin-top: auto;
+  }
+
+  .main-controls-button {
     display: flex;
+    margin-left: -3px;
+    color: $theme-color;
+    font-size: 35px;
+    width: 35px;
+    height: 35px;
+  }
+
+  .play-pause-button {
+    font-size: 40px;
+    width: 40px;
     height: 40px;
-    margin-top: 10px;
-    align-items: center;
-    position: relative;
+  }
 
-    [id^=waveform] {
-        width: calc(100% - 80px);
-        margin: auto;
+  .button-clear {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    overflow: hidden;
+    cursor: pointer;
 
-        & > wave {
-            overflow: hidden!important;
-        }
+    &:hover {
+      opacity: 0.9;
+      transition-duration: 0.2s;
     }
 
-    .voice-time {
-        color: $time-color;
-        font-size: 12px;
-        margin-top: auto;
+    &:active {
+      opacity: 0.95;
     }
 
-    .main-controls-button {
-        display: flex;
-        margin-left: -3px;
-        color: $theme-color;
-        font-size: 35px;
-        width: 35px;
-        height: 35px;
+    &:focus:not(:focus-visible) {
+      outline: 0;
     }
-
-    .play-pause-button {
-        font-size: 40px;
-        width: 40px;
-        height: 40px;
-    }
-
-    .button-clear {
-        background-color: transparent;
-        border: none;
-        padding: 0;
-        overflow: hidden;
-        cursor: pointer;
-
-        &:hover {
-            opacity: .9;
-            transition-duration: .2s;
-        }
-
-        &:active {
-            opacity: .95;
-        }
-
-        &:focus:not(:focus-visible) {
-            outline: 0;
-        }
-    }
+  }
 }

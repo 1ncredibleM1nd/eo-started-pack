@@ -108,9 +108,10 @@
   min-height: 20px;
   padding-right: 4px;
 
-  @include _768{
+  @include _768 {
     padding-right: 24px;
   }
+
   .icon_comment {
     margin-right: 4px;
     align-self: center;
@@ -119,7 +120,7 @@
   .from {
     margin-right: 5px;
     display: inline;
-    color: #2A99FF;
+    color: #2a99ff;
     position: relative;
     white-space: nowrap;
   }
@@ -130,7 +131,8 @@
     text-overflow: ellipsis;
     display: inline;
     white-space: nowrap;
-    @include _768{
+
+    @include _768 {
       width: 100%;
     }
   }
@@ -146,11 +148,11 @@
     font-size: 12px;
     bottom: 10px;
 
-    @include _990{
+    @include _990 {
       right: 5px;
     }
 
-    @include _768{
+    @include _768 {
       right: 7px;
       top: 7px;
     }
@@ -260,12 +262,11 @@
   @include _990 {
     padding: 10px !important;
     padding-right: 15px !important;
-
   }
 
   @include _768 {
     padding: 10px 17px !important;
-    padding-right: 0px !important;
+    padding-right: 0 !important;
   }
 
   &.active {
@@ -352,15 +353,14 @@
   }
 }
 
-
 .chat-time {
   margin-right: 5px;
   margin-left: 7px;
-  @include _768{
+
+  @include _768 {
     margin-right: 0;
   }
 }
-
 
 .contactItem_img {
   // margin-right: 0px;
@@ -374,19 +374,15 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-
   position: absolute;
   top: 9px;
-  right: 0px;
+  right: 0;
   z-index: 10;
 
-  @include _768{
-
+  @include _768 {
     position: static;
   }
-
 }
-
 
 @media (min-width: 992px) {
   .contacts-item .contactItem_img .contactItem_img_icon {

@@ -45,7 +45,6 @@ const SidebarSelectTagListItem = observer(
               font-weight: 400;
               font-size: 14px;
               margin: 0;
-
               text-overflow: ellipsis;
               white-space: nowrap;
               overflow: hidden;

@@ -26,7 +26,6 @@ export const SidebarUser = observer(() => {
           font-weight: 500;
           margin-left: 10px;
           max-width: calc(100% - 90px);
-
           margin-bottom: 0;
           overflow: hidden;
           text-overflow: ellipsis;

@@ -56,8 +56,8 @@ export const SearchInput = observer(() => {
           width: 100%;
           font-size: 16px;
           box-shadow: none;
-          padding-top: 0px;
-          padding-bottom: 0px;
+          padding-top: 0;
+          padding-bottom: 0;
         }
       `}
     />

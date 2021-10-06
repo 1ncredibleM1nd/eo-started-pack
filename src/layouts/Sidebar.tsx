@@ -16,7 +16,6 @@ export const Sidebar = observer(() => {
         className={css`
           padding: 15px 10px;
           padding-bottom: 13px;
-
           border-left: 1px solid #e6ebeb;
         `}
       >

@@ -25,7 +25,6 @@ const SidebarTagAddPopupListItem = observer(
             font-weight: 400;
             font-size: 14px;
             margin: 0;
-
             max-width: calc(100% - 20px);
             text-overflow: ellipsis;
             white-space: nowrap;

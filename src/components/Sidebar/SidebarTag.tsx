@@ -15,13 +15,11 @@ const SidebarTagContainer = styled("div")`
   display: inline-flex;
   justify-content: center;
   align-items: center;
-
   padding: 0 15px 0 10px;
   width: calc(33% - 4px);
   min-height: 30px;
   color: #607d8b;
   border: 1px solid #607d8b;
-
   margin: 0 5px 5px 0;
   text-align: center;
   border-radius: 6px;
@@ -98,13 +96,11 @@ export const SidebarTag = observer(({ id }: TProps) => {
           left: 0;
           right: 0;
           padding: 0 10px;
-
           color: #607d8b;
           text-align: center;
           text-overflow: ellipsis;
           white-space: nowrap;
           overflow: hidden;
-
           border: none;
           outline: none;
           background-color: transparent;
