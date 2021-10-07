@@ -49,7 +49,7 @@ deploy_prod:
       npm ci && npm run build -- --mode development &&
       rm -rf build && mv dist build"
   only:
-    - /^PROD-[0-9.]*$/
+    - /^PROD-[0-9.].*$/
 
 deploy to dima:
   extends:
