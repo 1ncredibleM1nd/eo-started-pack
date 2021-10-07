@@ -5,7 +5,7 @@ export default class TypesMessage {
   public static PHOTO_COMMENT: string = "photo_comment";
   public static VIDEO_COMMENT: string = "video_comment";
   public static BOARD_COMMENT: string = "board_comment";
-  public static STORY_REACTION: string = "story_reaction";
+  public static STORY: string = "story";
 
   public static getTypeDescription(type: string): string {
     switch (type) {
@@ -19,8 +19,8 @@ export default class TypesMessage {
         return "Комментарий к видео";
       case TypesMessage.BOARD_COMMENT:
         return "Комментарий к обсуждению";
-      case TypesMessage.STORY_REACTION:
-        return "Реакция на сториз";
+      case TypesMessage.STORY:
+        return "Сториз";
       case TypesMessage.MESSAGE:
       default:
         return "Сообщение";
