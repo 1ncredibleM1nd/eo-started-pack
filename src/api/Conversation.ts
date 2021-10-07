@@ -12,15 +12,17 @@ export default class Conversation {
     conversationId?: number
   ): Promise<AxiosResponse<any>> {
     return API.post(`/conversation/get-conversations`, {
-      search: {
-        query,
+      filter: {
         sources,
+        schoolIds,
+        conversationId,
         tags,
         noTags,
-        conversationId,
+      },
+      search: {
+        query,
       },
       page,
-      schoolIds,
     });
   }
 
