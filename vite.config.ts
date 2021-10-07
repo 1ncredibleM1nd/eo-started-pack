@@ -34,6 +34,11 @@ export default defineConfig({
           libraryDirectory: "es",
           style: "css",
         },
+        {
+          libraryName: "lodash",
+          libraryDirectory: "",
+          camel2DashComponentName: false,
+        },
       ],
     }),
   ],
