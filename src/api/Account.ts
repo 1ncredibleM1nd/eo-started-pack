@@ -13,10 +13,6 @@ export type TApiSchools = {
   data: { [id: string]: { logo: string; schoolName: string } };
 };
 
-function call<T>(path: string, params: T) {
-  return fetch(`${import.meta.env.VITE_APP_API_URL}/v1/${path}`);
-}
-
 export default class Account {
   info() {
     return API.get<TApiUser>("/account/get-account");
