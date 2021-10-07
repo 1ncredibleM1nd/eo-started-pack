@@ -1,7 +1,7 @@
 import "./ContactListLoader.scss";
 import { observer } from "mobx-react-lite";
 import { useClassName } from "@/hooks/useClassName";
-import { PuffLoader } from "react-spinners";
+import PuffLoader from "react-spinners/PuffLoader";
 
 export const ContactListLoader = observer(() => {
   const { cn } = useClassName("contact-list-loader");

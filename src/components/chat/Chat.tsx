@@ -2,7 +2,7 @@ import { useRef, useEffect, useCallback, useState, useMemo } from "react";
 import { observer } from "mobx-react-lite";
 import "./Chat.scss";
 import Inputer from "./comp/Inputer";
-import { PuffLoader } from "react-spinners";
+import PuffLoader from "react-spinners/PuffLoader";
 import ChatPlaceholder from "./comp/ChatPlaceholder";
 import { Message } from "../../entities";
 import dayjs, { toCalendar } from "@/services/dayjs";

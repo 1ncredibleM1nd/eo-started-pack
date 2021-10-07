@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import Search from "@/components/contacts/Search";
-import { PuffLoader } from "react-spinners";
+import PuffLoader from "react-spinners/PuffLoader";
 import ContactList from "@/components/contacts/ContactList";
 import { useStore } from "@/stores";
 import { SearchResult } from "@/components/Search/SearchResult";
