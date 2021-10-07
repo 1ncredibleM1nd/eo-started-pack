@@ -1,4 +1,3 @@
-import { Service } from "typedi";
 import Account from "./Account";
 import Conversation from "./Conversation";
 import { Tags } from "./Tags";
