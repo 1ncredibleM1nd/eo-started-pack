@@ -1,6 +1,7 @@
 image: node:14-alpine
 
 stages:
+  - deploy to test
   - deploy_dev
   - deploy_demo
   - deploy_prod
@@ -37,3 +38,39 @@ deploy_prod:
       git checkout -f tags/$CI_COMMIT_TAG &&
       npm ci && npm run build -- --mode production &&
       rm -rf build && mv dist build"
+
+.deploy_to_test_script:
+  stage: deploy to test
+  script:
+    - sshpass ssh -t admin@84.201.139.43 "cd web/$SERVER_DOMAIN/public_html &&
+      git fetch --all &&
+      git checkout -f $CI_COMMIT_REF_NAME &&
+      git pull --ff-only origin $CI_COMMIT_REF_NAME &&
+      npm ci && npm run build -- --mode development &&
+      rm -rf build && mv dist build"
+  rules:
+    - if: '$CI_COMMIT_BRANCH != "develop"'
+      when: manual
+  only:
+    - /^PROD-[0-9.]*$/
+
+deploy to dima:
+  extends:
+    - .deploy_to_test_script
+  variables:
+    SERVER_DOMAIN: dima.chat.dev.prodamus.pro
+  when: manual
+
+deploy to andrew:
+  extends:
+    - .deploy_to_test_script
+  variables:
+    SERVER_DOMAIN: andrew.chat.dev.prodamus.pro
+  when: manual
+
+deploy to nikita:
+  extends:
+    - .deploy_to_test_script
+  variables:
+    SERVER_DOMAIN: nikita.chat.dev.prodamus.pro
+  when: manual
