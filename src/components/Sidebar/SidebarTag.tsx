@@ -61,7 +61,7 @@ export const SidebarTag = observer(({ id }: TProps) => {
 
     // reset contact if last tag delete
     if (!activeTags.every((tag) => contactTags.includes(tag.id))) {
-      sidebarStore.hide();
+      sidebarStore.setOpened(false);
       contactStore.removeContact(contactStore.activeContactId);
     }
   };

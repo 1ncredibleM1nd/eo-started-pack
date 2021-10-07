@@ -5,17 +5,20 @@ import { ChatLayout, ContactsLayout } from "@/layouts";
 import "@/styles/index.scss";
 import { useStore } from "@/stores";
 import { useLocationQuery } from "@/hooks/useLocationQuery";
-import { Sidebar } from "@/layouts/Sidebar";
+import { Sidebar } from "@/pages/Sidebar";
+import { useDeviceDetect } from "@/hooks/useDeviceDetect";
 
 const App = observer(() => {
   const { appStore, contactStore, sidebarStore } = useStore();
   const { layout } = appStore;
   const query = useLocationQuery();
   const id = useMemo(() => Number(query.get("im")), [query]);
+  const { isMobile } = useDeviceDetect();
 
   useEffect(() => {
     if (contactStore.isLoaded && contactStore.hasContact(id)) {
       contactStore.setActiveContact(contactStore.getContact(id));
+      sidebarStore.setOpened(!isMobile());
       appStore.setLayout("chat");
     }
   }, [contactStore.isLoaded]);
@@ -37,28 +40,28 @@ const App = observer(() => {
         >
           <ContactsLayout />
         </Col>
+
         <Col
-          xs={layout === "chat" ? 24 : 0}
-          sm={layout === "chat" ? 24 : 0}
-          md={14}
+          xs={layout === "chat" && !withSidebar ? 24 : 0}
+          sm={layout === "chat" && !withSidebar ? 24 : 0}
+          md={layout === "chat" && !withSidebar ? 14 : 0}
           lg={withSidebar ? 10 : 17}
           xl={withSidebar ? 11 : 17}
           xxl={withSidebar ? 13 : 18}
         >
           <ChatLayout />
         </Col>
-        {withSidebar && (
-          <Col
-            xs={layout === "info" ? 24 : 0}
-            sm={layout === "info" ? 24 : 0}
-            md={layout === "info" ? 14 : 0}
-            lg={7}
-            xl={6}
-            xxl={5}
-          >
-            <Sidebar />
-          </Col>
-        )}
+
+        <Col
+          xs={layout === "chat" && withSidebar ? 24 : 0}
+          sm={layout === "chat" && withSidebar ? 24 : 0}
+          md={layout === "chat" && withSidebar ? 14 : 0}
+          lg={7}
+          xl={6}
+          xxl={5}
+        >
+          <Sidebar />
+        </Col>
       </Row>
     </Layout>
   );

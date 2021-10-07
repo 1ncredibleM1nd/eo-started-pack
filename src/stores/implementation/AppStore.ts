@@ -1,13 +1,15 @@
 import { makeAutoObservable } from "mobx";
 
+type TLayout = "contact" | "chat";
+
 export class AppStore {
-  layout = "contact";
+  layout: TLayout = "contact";
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  setLayout(layout: string) {
+  setLayout(layout: TLayout) {
     this.layout = layout;
   }
 }

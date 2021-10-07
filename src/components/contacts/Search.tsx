@@ -17,7 +17,7 @@ const Search = observer(() => {
 
   const onChangeTags = async () => {
     history.replace("");
-    sidebarStore.hide();
+    sidebarStore.setOpened(false);
     if (searchStore.running) {
       searchStore.fetch();
     } else {
@@ -28,7 +28,7 @@ const Search = observer(() => {
 
   const onChangeSocial = async () => {
     history.replace("");
-    sidebarStore.hide();
+    sidebarStore.setOpened(false);
     if (searchStore.running) {
       searchStore.fetch();
     } else {
@@ -39,7 +39,7 @@ const Search = observer(() => {
 
   async function onChangeSchool() {
     history.replace("");
-    sidebarStore.hide();
+    sidebarStore.setOpened(false);
     if (searchStore.running) {
       searchStore.fetch();
     } else {

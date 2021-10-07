@@ -1,4 +1,5 @@
 import { Conversation } from "@/entities";
+import { useDeviceDetect } from "@/hooks/useDeviceDetect";
 import { useStore } from "@/stores";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
@@ -8,6 +9,7 @@ import { SearchResultLoadMore } from "./SearchResultLoadMore";
 
 export const SearchResultMessages = observer(() => {
   const history = useHistory();
+  const { isMobile } = useDeviceDetect();
   const { searchStore, schoolsStore, contactStore, sidebarStore, appStore } =
     useStore();
 
@@ -17,7 +19,7 @@ export const SearchResultMessages = observer(() => {
     history.replace(`chat?im=${conversation.id}`);
     contactStore.setActiveContact(conversation, true);
     appStore.setLayout("chat");
-    sidebarStore.show();
+    sidebarStore.setOpened(!isMobile());
   };
 
   const onLoadMore = () => {

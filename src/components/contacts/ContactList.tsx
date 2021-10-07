@@ -10,12 +10,14 @@ import { setUnreadChat } from "@/actions";
 import { useInView } from "react-intersection-observer";
 import { useLocationQuery } from "@/hooks/useLocationQuery";
 import { ContactListLoader } from "./ContactListLoader/ContactListLoader";
+import { useDeviceDetect } from "@/hooks/useDeviceDetect";
 
 const ContactList = observer(() => {
   const { contactStore, appStore, schoolsStore, usersStore, sidebarStore } =
     useStore();
   const query = useLocationQuery();
   const history = useHistory();
+  const { isMobile } = useDeviceDetect();
   const { sortedConversations } = contactStore;
 
   const { ref: sentryPrevRef, inView: isVisiblePrev } = useInView({});
@@ -36,7 +38,7 @@ const ContactList = observer(() => {
     history.replace(`chat?im=${conversation.id}`);
     contactStore.setActiveContact(conversation);
     appStore.setLayout("chat");
-    sidebarStore.show();
+    sidebarStore.setOpened(!isMobile());
   };
 
   useEffect(() => {

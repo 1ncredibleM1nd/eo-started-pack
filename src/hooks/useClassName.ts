@@ -1,6 +1,8 @@
-import { cn, ClassNameList } from "@bem-react/classname";
+import { cn } from "@bem-react/classname";
 
-export function mergeClassName(...classes: ClassNameList) {
+export function mergeClassName(
+  ...classes: Array<string | boolean | undefined>
+) {
   return classes.filter((className) => className).join(" ");
 }
 

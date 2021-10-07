@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import { observer } from "mobx-react-lite";
 import "./Header.scss";
 import { useStore } from "@/stores";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Icon } from "@/ui/Icon/Icon";
 
 const Header = observer(() => {
@@ -48,13 +48,11 @@ const Header = observer(() => {
                     appStore.layout !== "contact" ? "active" : ""
                   }`}
                 >
-                  <Link
-                    to={"/"}
+                  <Icon
+                    name={"icon_arrow_left"}
+                    fill="#70acdd"
                     onClick={() => closeContact()}
-                    className="transparent"
-                  >
-                    <Icon name={"icon_arrow_left"} fill="#70acdd" />
-                  </Link>
+                  />
                 </div>
                 <div className={"header_info"}>
                   <div className={`header_title`}>

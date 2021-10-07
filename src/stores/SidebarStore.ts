@@ -9,19 +9,11 @@ export class SidebarStore {
     makeAutoObservable(this);
   }
 
-  show() {
-    this.opened = true;
-  }
-
-  hide() {
-    this.opened = false;
+  setOpened(opened: boolean) {
+    this.opened = opened;
   }
 
   toggle() {
-    if (this.opened) {
-      this.hide();
-    } else {
-      this.show();
-    }
+    this.setOpened(!this.opened);
   }
 }
