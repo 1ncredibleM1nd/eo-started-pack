@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores";
 import { css, styled } from "goober";
-import { tags as tagsApi } from "@/api";
 import { Dropdown, Input, Menu } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
 
@@ -74,7 +73,7 @@ export const SidebarTag = observer(({ id }: TProps) => {
 
     const trimmedTagName = tagName.trim();
     if (trimmedTagName !== "") {
-      await tagsApi.edit(id, trimmedTagName);
+      await tagsStore.editRemote(id, trimmedTagName);
       setTagName(trimmedTagName);
     } else {
       setTagName(tag?.name ?? "");

@@ -53,6 +53,10 @@ export class TagsStore {
     tag?.setName(name);
   }
 
+  editRemote(id: number, name: string) {
+    return tags.edit(id, name);
+  }
+
   saveTags() {
     store.set(
       "tags",
