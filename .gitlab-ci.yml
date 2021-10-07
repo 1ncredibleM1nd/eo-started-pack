@@ -8,9 +8,8 @@ stages:
 
 deploy to dev:
   stage: deploy to dev
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "develop"'
-      when: always
+  only:
+    - dev
   script:
     - echo $CI_COMMIT_REF_NAME
     - sshpass ssh -t admin@84.201.139.43 "cd web/chat.dev.prodamus.pro/public_html &&
@@ -22,9 +21,8 @@ deploy to dev:
 
 deploy to demo:
   stage: deploy to demo
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "demo"'
-      when: always
+  only:
+    - master
   script:
     - sshpass ssh -t admin@84.201.139.43 "cd web/chat.demo.prodamus.pro/public_html &&
       git checkout -f &&
