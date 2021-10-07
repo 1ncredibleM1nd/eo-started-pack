@@ -1,9 +1,17 @@
-import "./Icon.scss";
+import { css } from "goober";
 import { observer } from "mobx-react-lite";
 import { SVGProps } from "react";
-import { useClassName } from "@/hooks/useClassName";
+import { classnames } from "@/utils/styles";
 
-type TIconSize = "xs" | "sm" | "md" | "lg" | "xl";
+enum IconSize {
+  xs = 14,
+  sm = 18,
+  md = 24,
+  lg = 30,
+  xl = 36,
+}
+
+type TIconSize = keyof typeof IconSize;
 
 export type TIconProps = {
   name: string;
@@ -19,13 +27,20 @@ export const Icon = observer(
     interactive = false,
     ...svgProps
   }: TIconProps) => {
-    const { cn, mergeClassName } = useClassName("icon");
+    const iconSize = IconSize[size];
 
     return (
       <svg
         {...svgProps}
-        className={mergeClassName(
-          cn({ size, interactive }),
+        className={classnames(
+          css`
+            width: ${iconSize}px;
+            height: ${iconSize}px;
+          `,
+          interactive &&
+            css`
+              cursor: pointer;
+            `,
           svgProps.className
         )}
       >
