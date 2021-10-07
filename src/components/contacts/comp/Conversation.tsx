@@ -7,6 +7,7 @@ import ReactMarkdown from "react-markdown";
 import { Menu, Dropdown } from "antd";
 import { Icon } from "@/ui/Icon/Icon";
 import { MoreOutlined } from "@ant-design/icons";
+import { useStore } from "@/stores";
 
 type IProps = {
   index: number;
@@ -36,6 +37,7 @@ export const ConversationItem = observer(
   }: IProps) => {
     let social_media: string = "";
     let status: string = "read";
+    const { authStore } = useStore();
 
     if (lastMessage) {
       if (!contact.readed) {
@@ -53,22 +55,30 @@ export const ConversationItem = observer(
           >
             Пометить как непрочитанное
           </Menu.Item>
-          {/*<Menu.Item*/}
-          {/*  key={"chat_open_new_tab"}*/}
-          {/*  onClick={() => {*/}
-          {/*    window.open(`/chat?im=${contactId}`, "_blank");*/}
-          {/*  }}*/}
-          {/*>*/}
-          {/*  Открыть в новой вкладке*/}
-          {/*</Menu.Item>*/}
-          {/*<Menu.Item*/}
-          {/*  key={"chat_open_new_window"}*/}
-          {/*  onClick={() => {*/}
-          {/*    window.open(`/chat?im=${contactId}`, "_blank", "location=yes");*/}
-          {/*  }}*/}
-          {/*>*/}
-          {/*  Открыть в новом окне*/}
-          {/*</Menu.Item>*/}
+          {!authStore.isFrame ? (
+            <>
+              <Menu.Item
+                key={"chat_open_new_tab"}
+                onClick={() => {
+                  window.open(`/chat?im=${contactId}`, "_blank");
+                }}
+              >
+                Открыть в новой вкладке
+              </Menu.Item>
+              <Menu.Item
+                key={"chat_open_new_window"}
+                onClick={() => {
+                  window.open(
+                    `/chat?im=${contactId}`,
+                    "_blank",
+                    "location=yes"
+                  );
+                }}
+              >
+                Открыть в новом окне
+              </Menu.Item>
+            </>
+          ) : null}
         </Menu>
       );
     };
