@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from "react";
+import { useMediaQuery } from "react-responsive";
 import { observer } from "mobx-react-lite";
 import { Row, Col, Layout } from "antd";
 import { ChatLayout, ContactsLayout } from "@/layouts";
@@ -6,20 +7,19 @@ import "@/styles/index.scss";
 import { useStore } from "@/stores";
 import { useLocationQuery } from "@/hooks/useLocationQuery";
 import { Sidebar } from "@/pages/Sidebar";
-import { useDeviceDetect } from "@/hooks/useDeviceDetect";
 
 const App = observer(() => {
   const { appStore, contactStore, sidebarStore } = useStore();
   const { layout } = appStore;
   const query = useLocationQuery();
+  const sidebarOpenedByDefault = useMediaQuery({ minWidth: 1024 });
   const id = useMemo(() => Number(query.get("im")), [query]);
-  const { isMobile } = useDeviceDetect();
 
   useEffect(() => {
     if (contactStore.isLoaded && contactStore.hasContact(id)) {
       contactStore.setActiveContact(contactStore.getContact(id));
-      sidebarStore.setOpened(!isMobile());
       appStore.setLayout("chat");
+      sidebarStore.setOpened(sidebarOpenedByDefault);
     }
   }, [contactStore.isLoaded]);
 

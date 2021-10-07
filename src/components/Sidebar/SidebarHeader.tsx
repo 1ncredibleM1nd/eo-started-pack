@@ -9,7 +9,7 @@ const SidebarHeaderWrapper = styled("div")`
   width: 100%;
   height: 60px;
 
-  @media (min-width: 480px) {
+  @media (min-width: 1024px) {
     display: none;
   }
 `;

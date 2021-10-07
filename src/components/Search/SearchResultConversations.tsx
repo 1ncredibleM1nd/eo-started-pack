@@ -1,5 +1,5 @@
+import { useMediaQuery } from "react-responsive";
 import { Conversation } from "@/entities";
-import { useDeviceDetect } from "@/hooks/useDeviceDetect";
 import { useStore } from "@/stores";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router";
@@ -9,7 +9,7 @@ import { SearchResultLoadMore } from "./SearchResultLoadMore";
 
 export const SearchResultConversations = observer(() => {
   const history = useHistory();
-  const { isMobile } = useDeviceDetect();
+  const sidebarOpenedByDefault = useMediaQuery({ minWidth: 1024 });
   const { searchStore, schoolsStore, contactStore, sidebarStore, appStore } =
     useStore();
 
@@ -19,7 +19,7 @@ export const SearchResultConversations = observer(() => {
     history.replace(`chat?im=${conversation.id}`);
     contactStore.setActiveContact(conversation, true);
     appStore.setLayout("chat");
-    sidebarStore.setOpened(!isMobile());
+    sidebarStore.setOpened(sidebarOpenedByDefault);
   };
 
   const onLoadMore = () => {
