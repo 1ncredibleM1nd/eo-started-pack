@@ -2,12 +2,11 @@ import { useRef, useEffect, useCallback, useState, useMemo } from "react";
 import { observer } from "mobx-react-lite";
 import "./Chat.scss";
 import Inputer from "./comp/Inputer";
-import PuffLoader from "react-spinners/PuffLoader";
+import { PuffLoader } from "react-spinners";
 import ChatPlaceholder from "./comp/ChatPlaceholder";
 import { Message } from "../../entities";
 import dayjs, { toCalendar } from "@/services/dayjs";
 import MessageComponent from "@/components/chat/comp/MessageComponent";
-// import useInfiniteScroll from "react-infinite-scroll-hook";
 import { useStore } from "@/stores";
 import { useInView } from "react-intersection-observer";
 

@@ -394,118 +394,6 @@
   text-align: center;
 }
 
-.swiper-button-next::after,
-.swiper-button-prev::after {
-  display: none;
-}
-
-.smile_realization {
-  max-height: 20px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  bottom: -10px;
-  left: 30px;
-  position: relative;
-}
-
-.smile_msg {
-  margin: 0 5px;
-  border: 1px solid $grey_blue_litter;
-  border-radius: 30px;
-  background: $white;
-  font-size: 18px;
-  z-index: 10;
-  width: 32px;
-  height: 32px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.swiper-button-next {
-  margin-top: -20px;
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  z-index: 10;
-  top: 82%;
-  right: -2px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-
-.swiper-button-prev {
-  margin-top: -20px;
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  top: 82%;
-  left: -2px;
-  z-index: 10;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-
-.swiper-slide {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 70px !important;
-  height: 100%;
-  position: relative;
-  margin: 0 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.05s;
-
-  &:hover {
-    transform: scale(1.05) translateY(-2px);
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.12);
-  }
-}
-
-.smile_menu {
-  position: relative;
-  width: 170px;
-  padding: 10px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: center;
-
-  .smile_swiper_item {
-    width: 33%;
-    height: 50px;
-    font-size: 30px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-    cursor: pointer;
-
-    &:hover {
-      background: #1111;
-    }
-  }
-}
-
 .message-status.self {
   position: absolute;
   bottom: -22px;
@@ -597,7 +485,6 @@
   border-radius: 15px;
   min-width: 18px;
   overflow: hidden;
-  
 
   // &.instagram {
   //   border-radius: 3px;
@@ -685,10 +572,6 @@
     }
 
     .editted_icon {
-      left: -28px;
-    }
-
-    .smile {
       left: -28px;
     }
 
@@ -1035,22 +918,6 @@
 
       .msg_type {
         font-size: 0.75rem;
-      }
-    }
-
-    .smile {
-      position: absolute;
-      right: -28px;
-      top: 0;
-      cursor: pointer;
-      opacity: 0.4;
-
-      &.active {
-        opacity: 0.7;
-      }
-
-      &:hover {
-        opacity: 0.7;
       }
     }
 
