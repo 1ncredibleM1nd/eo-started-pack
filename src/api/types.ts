@@ -1,23 +1,27 @@
 export type TSearchByMessageRequest = {
   search: {
     query: string;
+  };
+  filter: {
     sources: string[];
+    schoolIds: number[];
+    conversationId?: number;
     tags: string[];
     noTags: boolean;
-    conversationId?: number;
   };
   page?: number;
-  schoolIds: number[];
 };
 
 export type TSearchBySourceAccountRequest = {
   search: {
     query: string;
+  };
+  filter: {
     sources: string[];
+    schoolIds: number[];
+    conversationId?: number;
     tags: string[];
     noTags: boolean;
-    conversationId?: number;
   };
   page?: number;
-  schoolIds: number[];
 };

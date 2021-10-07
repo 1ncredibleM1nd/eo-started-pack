@@ -72,12 +72,14 @@ export class SearchStore {
         const request = {
           search: {
             query: this.searchQuery,
+          },
+          filter: {
             sources: this.channels.activeChannels.map(({ id }) => id),
+            schoolIds: this.schools.activeSchoolsIds,
             tags: this.tags.activeTags.map(({ name }) => name),
             noTags: this.tags.noTags,
           },
           page: 1,
-          schoolIds: this.schools.activeSchoolsIds,
         };
 
         await Promise.all([
