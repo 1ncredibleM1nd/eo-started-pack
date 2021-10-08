@@ -143,17 +143,17 @@ export const SidebarTagSelectPopup = observer(() => {
         }
         trigger={"click"}
         destroyTooltipOnHide
-        // className={css`
-        //   position: absolute;
-        //   display: flex;
-        //   width: 100%;
-        //   align-items: center;
-        // `}
-        // overlayClassName={css`
-        //   .ant-popover-arrow {
-        //     display: none;
-        //   }
-        // `}
+        className={css`
+          position: absolute;
+          display: flex;
+          width: 100%;
+          align-items: center;
+        `}
+        overlayClassName={css`
+          .ant-popover-arrow {
+            display: none;
+          }
+        `}
       />
       <div
         className={css`
