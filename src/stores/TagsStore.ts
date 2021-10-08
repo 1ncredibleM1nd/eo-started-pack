@@ -13,7 +13,6 @@ export class TagsStore {
   }
 
   tags = new Map<number, Tag>();
-
   noTags = store.get("noTags") ?? false;
   toggleNoTags() {
     this.noTags = !this.noTags;
@@ -74,6 +73,14 @@ export class TagsStore {
     );
   }
 
+  resetTags() {
+    Array.from(this.tags.values()).forEach((tag) => {
+      tag.selected = false;
+    });
+
+    this.noTags = false;
+  }
+
   get activeTags() {
     return Array.from(this.tags.values()).filter(({ selected }) => selected);
   }
@@ -88,6 +95,6 @@ export class TagsStore {
         this.schools.isActive(tag.schoolId)
       ),
       "name"
-    );
+    ) as Tag[];
   }
 }
