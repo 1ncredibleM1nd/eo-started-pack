@@ -54,17 +54,14 @@ const Search = observer(() => {
   return (
     <div className="contact_header">
       <div className="search">
-        <div className="search-filter">
-          <Button
-            disabled={!contactStore.isLoaded}
-            onClick={() => setFilterVisible(!filterVisible)}
-            className="transparent"
-          >
-            <FilterButton
-              count={tagsStore.activeTagsCount}
-              visible={filterVisible}
-            />
-          </Button>
+        <div
+          className="search-filter"
+          onClick={() => setFilterVisible(!filterVisible)}
+        >
+          <FilterButton
+            count={tagsStore.activeTagsCount}
+            visible={filterVisible}
+          />
         </div>
 
         <SearchInput />
