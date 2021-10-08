@@ -1,4 +1,4 @@
-import React, { MutableRefObject } from "react";
+import { MutableRefObject } from "react";
 import { observer } from "mobx-react-lite";
 import { Button } from "antd";
 import { InputerTextArea } from "@/components/chat/comp/InputerTextArea";
