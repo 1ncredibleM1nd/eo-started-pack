@@ -127,11 +127,8 @@ export const SidebarTag = observer(({ id }: TProps) => {
               className={css`
                 border-radius: 10px;
               `}
-              onClick={() => setMenuVisible(false)}
-            >
-              <Menu.Item
-                key={"sidebar-tag-edit-item"}
-                onClick={() => {
+              onClick={(ev) => {
+                if (ev.key === "sidebar-tag-edit-item") {
                   setTimeout(() => {
                     inputRef.current!.focus({
                       cursor: "end",
@@ -139,11 +136,17 @@ export const SidebarTag = observer(({ id }: TProps) => {
                   });
 
                   setEdited(true);
-                }}
-              >
+                } else if (ev.key === "sidebar-tag-del-item") {
+                  onDelete();
+                }
+
+                setMenuVisible(false);
+              }}
+            >
+              <Menu.Item key={"sidebar-tag-edit-item"}>
                 Переименовать у всех
               </Menu.Item>
-              <Menu.Item key={"sidebar-tag-del-item"} onClick={onDelete}>
+              <Menu.Item key={"sidebar-tag-del-item"}>
                 Удалить у диалога
               </Menu.Item>
             </Menu>
