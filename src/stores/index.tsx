@@ -99,7 +99,7 @@ class RootStore {
     });
 
     socket.on("tagAdded", (data) => {
-      this.tagsStore.add(data.id, data.school_id, data.name);
+      this.tagsStore.add(data.id, data.school_id, data.name, data.color);
     });
 
     socket.on("tagRemoved", (data) => {

@@ -7,6 +7,7 @@ import { MoreOutlined } from "@ant-design/icons";
 
 type TProps = {
   id: number;
+  color: string;
 };
 
 const SidebarTagContainer = styled("div")`
@@ -35,7 +36,7 @@ const SidebarTagMenu = styled("div")`
   }
 `;
 
-export const SidebarTag = observer(({ id }: TProps) => {
+export const SidebarTag = observer(({ id, color }: TProps) => {
   const { tagsStore, contactStore, sidebarStore } = useStore();
   const tag = tagsStore.getById([id])[0];
 
@@ -83,6 +84,10 @@ export const SidebarTag = observer(({ id }: TProps) => {
         setEdited(false);
         setMenuVisible(true);
       }}
+      className={css`
+        background-color: ${tag?.color ? tag?.color : "#D9D9D9"};
+        border: none;
+      `}
     >
       <Input
         type={"text"}
@@ -91,22 +96,20 @@ export const SidebarTag = observer(({ id }: TProps) => {
           left: 0;
           right: 0;
           padding: 0 10px;
-          color: #607d8b;
+          color: #050505 !important;
           text-align: center;
           text-overflow: ellipsis;
           white-space: nowrap;
           overflow: hidden;
-          border: none;
           outline: none;
-          background-color: transparent;
+          border: none !important;
+          background-color: ${tag?.color ? tag?.color : "#D9D9D9"} !important;
 
           &:focus {
             box-shadow: none;
           }
 
           &:disabled {
-            color: #607d8b;
-            -webkit-text-fill-color: #607d8b;
             cursor: default;
           }
         `}
@@ -158,7 +161,11 @@ export const SidebarTag = observer(({ id }: TProps) => {
           placement="bottomLeft"
           trigger={["click"]}
         >
-          <MoreOutlined />
+          <MoreOutlined
+            className={css`
+              color: #050505;
+            `}
+          />
         </Dropdown>
       </SidebarTagMenu>
     </SidebarTagContainer>

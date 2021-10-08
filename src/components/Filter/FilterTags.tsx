@@ -47,6 +47,7 @@ export const FilterTags = observer(({ onChangeTags }: TProps) => {
               tag.setSelected(!tag.selected);
               onChangeTags();
             }}
+            color={tag.color}
           />
         ))}
         <FilterItemTag
