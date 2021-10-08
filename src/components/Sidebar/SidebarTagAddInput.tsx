@@ -39,6 +39,7 @@ export const SidebarTagAddInput = observer(({ onAdded }: TProps) => {
       `}
       onChange={(e) => setTagName(e.target.value)}
       onPressEnter={onPressEnter}
+      onBlur={onPressEnter}
       value={tagName}
       placeholder={"Введите новый тег"}
     />
