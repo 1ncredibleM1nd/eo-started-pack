@@ -3,6 +3,7 @@ import * as resolver from "../api/index";
 import { AxiosResponse } from "axios";
 import { notification } from "antd";
 import { globalStore } from "@/stores";
+import { TConversationDialogStatus } from "@/entities/Conversation";
 
 /**
  *
@@ -49,10 +50,12 @@ async function getConversations({
   schoolIds,
   page,
   conversationId,
+  dialogStatus,
 }: {
   schoolIds: number[];
   page?: number;
   conversationId?: number;
+  dialogStatus?: TConversationDialogStatus;
 }) {
   const action = "Ошибка получения контактов";
   const section = "contacts";
@@ -71,7 +74,8 @@ async function getConversations({
       sources,
       schoolIds,
       page,
-      conversationId
+      conversationId,
+      dialogStatus
     );
 
     if (!isError(response, section, action, true)) {
@@ -222,24 +226,6 @@ async function getSchools() {
   }
 }
 
-async function setUnreadChat(contactId: string) {
-  const action = "Ошибка: не удалось отметить чат, как непрочитанный";
-  const section = "messages";
-
-  try {
-    const response = await resolver.conversation.unread(contactId);
-
-    if (!isError(response, section, action, true)) {
-      return response.data.data;
-    }
-
-    return [];
-  } catch (error) {
-    messageError(error.toString() ?? action, section);
-    return [];
-  }
-}
-
 export {
   sendMessage,
   getConversations,
@@ -248,5 +234,4 @@ export {
   setSession,
   getUserData,
   getSchools,
-  setUnreadChat,
 };

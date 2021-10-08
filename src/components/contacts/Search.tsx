@@ -8,12 +8,14 @@ import { FilterChannels } from "@/components/Filter/FilterChannels";
 import { useHistory } from "react-router-dom";
 import { SearchInput } from "./SearchInput";
 import FilterButton from "@/components/contacts/comp/FilterButton";
+import { FilterDialogStatus } from "../FilterDialogStatus/FilterDialogStatus";
+import { useState } from "react";
 
 const Search = observer(() => {
   const { contactStore, schoolsStore, tagsStore, sidebarStore, searchStore } =
     useStore();
   const history = useHistory();
-  const filterSwitch = contactStore.filterSwitch;
+  const [filterVisible, setFilterVisible] = useState(false);
 
   const onChangeTags = async () => {
     history.replace("");
@@ -52,29 +54,32 @@ const Search = observer(() => {
   return (
     <div className="contact_header">
       <div className="search">
-        <div className="search-filter">
-          <Button
-            disabled={!contactStore.isLoaded}
-            onClick={() => contactStore.toggleFilterSwitch()}
-            className="transparent"
-          >
-            <FilterButton
-              count={tagsStore.activeTagsCount}
-              visible={filterSwitch}
-            />
-          </Button>
+        <div
+          className="search-filter"
+          onClick={() => setFilterVisible(!filterVisible)}
+        >
+          <FilterButton
+            count={tagsStore.activeTagsCount}
+            visible={filterVisible}
+          />
         </div>
 
         <SearchInput />
       </div>
 
-      <Collapse bordered={false} accordion activeKey={filterSwitch ? "1" : ""}>
-        <Collapse.Panel header="" key="1">
+      <Collapse
+        bordered={false}
+        accordion
+        activeKey={filterVisible ? "filter" : ""}
+      >
+        <Collapse.Panel header="" key="filter">
           <FilterTags onChangeTags={onChangeTags} />
           <FilterSchools onChangeSchool={onChangeSchool} />
           <FilterChannels onChangeSocial={onChangeSocial} />
         </Collapse.Panel>
       </Collapse>
+
+      <FilterDialogStatus />
     </div>
   );
 });

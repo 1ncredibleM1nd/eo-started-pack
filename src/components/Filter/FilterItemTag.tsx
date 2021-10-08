@@ -6,10 +6,12 @@ export const FilterItemTag = observer(
     name,
     selected,
     onSelect,
+    color,
   }: {
     name: string;
     selected: boolean;
     onSelect: any;
+    color: string;
   }) => {
     return (
       <div
@@ -21,9 +23,15 @@ export const FilterItemTag = observer(
           padding: 0 15px 0 10px;
           min-width: 100px;
           min-height: 30px;
-          border: 1px solid ${selected ? "#3498db" : "#607d8b"};
           border-radius: 6px;
           cursor: pointer;
+          transition: 0.2s;
+          background-color:
+            ${ !selected
+            ? "#E0E4E4"
+            : color
+            ? color
+            : "#d4e9f7"};
 
           @media (max-width: 1160px) {
             width: calc(50% - 5px);
@@ -45,7 +53,7 @@ export const FilterItemTag = observer(
       >
         <span
           className={css`
-            color: ${selected ? "#3498db" : "#607d8b"};
+            color: #050505;
             text-align: center;
             text-overflow: ellipsis;
             white-space: nowrap;

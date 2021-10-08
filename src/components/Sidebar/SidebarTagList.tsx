@@ -37,7 +37,7 @@ export const SidebarTagList = observer(() => {
         `}
       >
         {tags.map((tagId) => (
-          <SidebarTag key={tagId} id={tagId} />
+          <SidebarTag key={tagId} id={tagId} color={tagId.color} />
         ))}
         <SidebarTagSelectPopup />
       </div>

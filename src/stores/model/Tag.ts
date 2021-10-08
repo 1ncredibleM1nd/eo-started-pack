@@ -6,13 +6,21 @@ export class Tag {
   name: string = "";
   schoolId: number = -1;
   selected: boolean = false;
+  color: string = "";
 
-  constructor(id: number, name: string, schoolId: number, selected: boolean) {
+  constructor(
+    id: number,
+    name: string,
+    schoolId: number,
+    selected: boolean,
+    color: string
+  ) {
     makeAutoObservable(this);
     this.id = id;
     this.name = name;
     this.schoolId = schoolId;
     this.selected = selected;
+    this.color = color;
   }
 
   setName(name: string) {

@@ -29,15 +29,16 @@ export class TagsStore {
             tag.id,
             tag.name,
             tag.schoolId,
-            store.get("tags", {})[tag.id] ?? false
+            store.get("tags", {})[tag.id] ?? false,
+            tag.color
           )
         );
       });
     }
   }
 
-  add(id: number, schoolId: number, name: string) {
-    const tag = new Tag(id, name, schoolId, false);
+  add(id: number, schoolId: number, name: string, color: string) {
+    const tag = new Tag(id, name, schoolId, false, color);
     this.tags.set(tag.id, tag);
     this.saveTags();
   }

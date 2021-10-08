@@ -7,6 +7,8 @@ import { ChatStore } from "@/stores/implementation/ChatStore";
 
 const RESET_TAGS = [0];
 
+export type TConversationDialogStatus = "" | "unread" | "unanswer";
+
 class Conversation {
   id: number;
   sourceAccountId: string;
@@ -16,7 +18,8 @@ class Conversation {
   schoolId: number;
   sendFile: boolean;
   linkSocialPage: string = "";
-  readed: boolean;
+  // readed: boolean;
+  dialogStatus: TConversationDialogStatus = "";
   chat: ChatStore;
 
   constructor(
@@ -28,7 +31,7 @@ class Conversation {
     schoolId?: number,
     sendFile?: boolean,
     linkSocialPage?: string,
-    readed?: boolean
+    dialogStatus: TConversationDialogStatus = ""
   ) {
     makeAutoObservable(this);
 
@@ -40,14 +43,22 @@ class Conversation {
     this.schoolId = schoolId;
     this.sendFile = sendFile;
     this.linkSocialPage = linkSocialPage;
-    this.readed = readed;
+    this.dialogStatus = dialogStatus;
 
     this.chat = new ChatStore();
     this.addMessage(lastMessage);
   }
 
-  read(state: boolean) {
-    this.readed = state;
+  get readed() {
+    return this.dialogStatus !== "unread";
+  }
+
+  get answered() {
+    return this.dialogStatus !== "unanswer";
+  }
+
+  setDialogStatus(status: TConversationDialogStatus) {
+    this.dialogStatus = status;
   }
 
   async loadMessages(page: number = 1, messageId?: number) {
