@@ -21,21 +21,26 @@ export const FilterTags = observer(({ onChangeTags }: TProps) => {
           display: flex;
           align-items: baseline;
           justify-content: space-between;
+          height: 30px;
         `}
       >
         <FilterItemTitle>Теги</FilterItemTitle>
-        <Button
-          type="link"
-          className={css`
-            padding: 0;
-          `}
-          onClick={() => {
-            tagsStore.resetTags();
-            onChangeTags();
-          }}
-        >
-          Сбросить теги
-        </Button>
+        {(tagsStore.activeTagsCount > 0 || tagsStore.noTags) && (
+          <div
+            className={css`
+              padding: 0;
+              font-size: 14px;
+              color: #3498db;
+              cursor: pointer;
+            `}
+            onClick={() => {
+              tagsStore.resetTags();
+              onChangeTags();
+            }}
+          >
+            Сбросить теги
+          </div>
+        )}
       </div>
       <FilterItemSection>
         {tagsStore.groupByName.map((tag) => (
