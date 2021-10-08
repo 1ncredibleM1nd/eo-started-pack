@@ -13,7 +13,7 @@ type IProps = {
   changeFileOnHold?: (index: number) => void;
   openFileInput?: () => void;
   handleEnter?: (e: any) => void;
-  onChange?: (name: string, value: string, event: any) => void;
+  onChange?: (name: string, value: string) => void;
   messageContent?: string;
   inputRef?: any;
   fileOnHold?: any[];
@@ -84,10 +84,8 @@ const FileUploadModal = observer((props: IProps) => {
             <div className="main_input in_modal">
               <InputerTextArea
                 autoSize={{ minRows: 3, maxRows: 5 }}
-                value={messageContent}
-                onChange={(e) => {
-                  onChange(activeContactId, e.target.value, e);
-                }}
+                value={messageContent ?? ""}
+                onChange={(value) => onChange(activeContactId, value)}
                 onPressEnter={handleEnter}
               />
             </div>

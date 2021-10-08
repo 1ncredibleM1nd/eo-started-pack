@@ -61,10 +61,8 @@ export const MessageTransmitter = observer((props: TProps) => {
           <InputerTextArea
             autoSize
             onPaste={onPasteToTextArea}
-            value={draft[activeContact.id + status]}
-            onChange={(e) => {
-              onChange(activeContact.id, e.target.value, e);
-            }}
+            value={draft[activeContact.id + status] ?? ""}
+            onChange={(value) => onChange(activeContact.id, value)}
             onPressEnter={handleEnter}
           />
         </>

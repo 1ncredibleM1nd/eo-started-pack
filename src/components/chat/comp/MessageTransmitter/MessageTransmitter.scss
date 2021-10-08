@@ -5,7 +5,7 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
 
   &-button-send {
     color: #fff;
@@ -64,8 +64,8 @@
   }
 
   &_wrapper_social {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
