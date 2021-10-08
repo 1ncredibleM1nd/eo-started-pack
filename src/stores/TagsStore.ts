@@ -75,10 +75,11 @@ export class TagsStore {
 
   resetTags() {
     Array.from(this.tags.values()).forEach((tag) => {
-      tag.selected = false;
+      tag.setSelected(false);
     });
 
     this.noTags = false;
+    store.set("noTags", false);
   }
 
   get activeTags() {
