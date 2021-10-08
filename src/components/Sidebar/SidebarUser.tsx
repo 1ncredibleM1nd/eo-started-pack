@@ -11,7 +11,7 @@ export const SidebarUser = observer(() => {
         display: inline-flex;
         width: 100%;
         align-items: center;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
       `}
     >
       <UserAvatar

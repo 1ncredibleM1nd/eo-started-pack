@@ -155,11 +155,14 @@
   }
 }
 
-.audio-holder {}
+.audio-holder {
+}
 
-.video-holder {}
+.video-holder {
+}
 
-.file-holder {}
+.file-holder {
+}
 
 .seting_menu_header {
   display: flex;
@@ -374,8 +377,7 @@
   justify-content: center;
   align-items: center;
   height: 30px;
-  margin-bottom: 25px;
-  margin-top: 13px;
+  margin: 25px 0;
   padding: 0 20px;
 }
 
@@ -517,6 +519,10 @@
     text-align: left;
   }
 
+  // @include _768 {
+  //   padding-left: 30px !important;
+  // }
+
   .avatar {
     order: 1;
   }
@@ -538,14 +544,11 @@
     align-items: center;
   }
 
-  .message-container {
-    margin: 0;
-    margin-right: 5px !important;
-  }
-
   .message-content {
-    width: 100%;
+    min-width: 7.5em;
+    max-width: 40rem;
     min-height: 40px;
+    margin-right: 0.25rem !important;
     background: $blue_soft !important;
     padding-left: 1rem !important;
     padding-right: 1rem;
@@ -653,12 +656,20 @@
   margin-bottom: 12px;
   background-color: transparent;
 
+  @include _990 {
+    /* padding-left: 10px !important; */
+  }
+
+  @include _768 {
+    /* padding-left: 20px !important; */
+  }
+
   &.active {
     animation: highlight 0.5s linear;
   }
 
   .msg_menu-container {
-    position: static;
+    position: absolute;
     right: -35px;
     top: 0;
     height: 100%;
@@ -670,25 +681,13 @@
 
     .msg_menu {
       width: 100%;
-      height: 30px;
-      width: 30px;
+      height: 32px;
       display: flex;
       justify-content: center;
       align-items: flex-start;
       margin-bottom: auto;
       visibility: hidden;
       opacity: 0;
-      margin-top: -4px;
-
-      .dropdown-trigger {
-        color: $grey_lite;
-        font-size: 18px;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
     }
 
     .editted_icon {
@@ -722,8 +721,6 @@
 
   .message-container {
     position: relative;
-    margin: 0;
-    margin-left: 5px;
 
     &:hover .msg_menu {
       opacity: 1;
@@ -733,9 +730,11 @@
   }
 
   .message-content {
-    width: 100%;
+    min-width: 70px;
+    max-width: 40rem;
     min-height: 40px;
     font-size: 16px;
+    left: 5px;
     position: relative;
     padding-left: 5px;
     color: $black !important;
@@ -901,6 +900,10 @@
       position: relative;
     }
 
+    .msg_menu .dropdown-trigger {
+      color: $grey_default;
+    }
+
     .readed-status {
       position: absolute;
       right: 8px;
@@ -1027,7 +1030,7 @@
 .lock-scroll {
   overflow: hidden;
 
-  @supports not(-moz-appearance:none) {
+  @supports not( -moz-appearance:none ) {
     padding-right: 3px;
     box-sizing: content-box;
   }
@@ -1053,8 +1056,7 @@
     height: 100%;
     min-height: 50px;
     border-radius: 10px;
-    padding: 5px 0;
-    padding-left: 5px;
+    padding: 5px;
     background: #fff;
     display: flex;
     flex-direction: column;

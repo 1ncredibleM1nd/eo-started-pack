@@ -15,7 +15,7 @@ export const SidebarTagList = observer(() => {
         className={css`
           display: inline-flex;
           align-items: center;
-          margin-bottom: 15px;
+          margin-bottom: 12px;
         `}
       >
         <h2

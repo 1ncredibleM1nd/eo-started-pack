@@ -8,7 +8,7 @@ const SidebarWrapper = styled("div")`
   background-color: #f4f5f6;
   border-left: 1px solid #e6ebeb;
 
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     border-left: none;
   }
 `;
