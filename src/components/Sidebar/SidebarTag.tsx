@@ -105,7 +105,8 @@ export const SidebarTag = observer(({ id }: TProps) => {
           }
 
           &:disabled {
-            color: inherit;
+            color: #607d8b;
+            -webkit-text-fill-color: #607d8b;
             cursor: default;
           }
         `}
