@@ -143,15 +143,6 @@
     right: 10px;
     font-size: 12px;
     bottom: 10px;
-
-    @include _990 {
-      right: 5px;
-    }
-
-    @include _768 {
-      right: 7px;
-      top: 7px;
-    }
   }
 }
 
