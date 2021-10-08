@@ -14,13 +14,14 @@ const SidebarWrapper = styled("div")`
 `;
 
 const SidebarContent = styled("div")`
-  height: calc(100vh - 60px);
+  height: 100vh;
   padding: 15px 10px;
   padding-bottom: 13px;
   overflow-y: scroll;
 
   @media (max-width: 480px) {
     padding-top: 0;
+    height: calc(100vh - 60px);
   }
 `;
 
