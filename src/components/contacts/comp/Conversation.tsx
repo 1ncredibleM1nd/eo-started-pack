@@ -7,18 +7,23 @@ import ReactMarkdown from "react-markdown";
 import { Menu, Dropdown } from "antd";
 import { Icon } from "@/ui/Icon/Icon";
 import { useStore } from "@/stores";
+import Conversation, {
+  TConversationDialogStatus,
+} from "@/entities/Conversation";
+import { css } from "goober";
+import { classnames } from "@/utils/styles";
 
 type IProps = {
   index: number;
   lastMessage: Message;
-  contact: any;
+  contact: Conversation;
   online: any;
   active: any;
   selectContact: any;
   isIAm: boolean;
   isManager: boolean;
   school: any;
-  setUnreadChat: any;
+  onChangeStatus?: (id: number, status: TConversationDialogStatus) => void;
 };
 
 export const ConversationItem = observer(
@@ -32,27 +37,29 @@ export const ConversationItem = observer(
     isIAm,
     isManager,
     school,
-    setUnreadChat,
+    onChangeStatus,
   }: IProps) => {
     let social_media: string = "";
-    let status: string = "read";
     const { authStore } = useStore();
 
     if (lastMessage) {
-      if (!contact.readed) {
-        status = "unread";
-      }
       social_media = lastMessage.social_media;
     }
 
-    const DropDownMenu = (contactId: string) => {
+    const DropDownMenu = (contactId: number) => {
       return (
         <Menu onClick={({ domEvent }) => domEvent.stopPropagation()}>
           <Menu.Item
-            key={"chat_unread_menu"}
-            onClick={() => setUnreadChat(contactId)}
+            key={"chat_unread_menu_item"}
+            onClick={() => onChangeStatus?.(contactId, "unread")}
           >
             Пометить как непрочитанное
+          </Menu.Item>
+          <Menu.Item
+            key={"chat_unanswer_menu_item"}
+            onClick={() => onChangeStatus?.(contactId, "unanswer")}
+          >
+            Пометить как неотвеченное
           </Menu.Item>
           {!authStore.isFrame ? (
             <>
@@ -146,7 +153,7 @@ export const ConversationItem = observer(
             </div>
             <div className="contacts-texts">
               {lastMessage ? (
-                <div className={`last_msg ${status}`}>
+                <div className={`last_msg ${contact.dialogStatus}`}>
                   {lastMessage?.entity?.type.includes("comment") && (
                     <Icon name={"icon_comment"} className="icon_comment" />
                   )}
@@ -168,12 +175,34 @@ export const ConversationItem = observer(
                     unwrapDisallowed={true}
                     linkTarget="_blank"
                   />
-                  {status === "unread" && (
-                    <div className="unreaded_count"></div>
+                  {contact.dialogStatus !== "" && (
+                    <div
+                      className={classnames(
+                        css`
+                          position: absolute;
+                          padding: 4px;
+                          border-radius: 50%;
+                          background: transparent;
+                          right: 10px;
+                          bottom: 10px;
+
+                          &.unread {
+                            background: #3498db;
+                            border: 2px solid #3498db;
+                          }
+
+                          &.unanswer {
+                            background: transparent;
+                            border: 2px solid #3498db;
+                          }
+                        `,
+                        contact.dialogStatus
+                      )}
+                    ></div>
                   )}
                 </div>
               ) : (
-                <div className={`last_msg ${status}`}>
+                <div className={`last_msg ${contact.dialogStatus}`}>
                   *Добавлен в контакты*
                 </div>
               )}

@@ -65,13 +65,13 @@ class RootStore {
         contact.addMessage(data.last_message);
 
         if (this.contactStore.activeContactId === data.id) {
-          contact.read(true);
+          contact.setDialogStatus("");
           $(".msg_space").animate(
             { scrollTop: $(".msg_space").prop("scrollHeight") },
             0
           );
         } else {
-          contact.read(data.readed);
+          contact.setDialogStatus(data.dialog_status);
         }
       } else {
         const hasSchools = this.schoolsStore.activeSchoolsIds.includes(
@@ -92,11 +92,16 @@ class RootStore {
       }
     });
 
-    socket.on("conversationStatus", async ({ conversation_id, readed }) => {
-      if (this.contactStore.hasContact(conversation_id)) {
-        this.contactStore.getContact(conversation_id)!.read(readed);
+    socket.on(
+      "conversationDialogStatus",
+      async ({ conversation_id, dialog_status }) => {
+        if (this.contactStore.hasContact(conversation_id)) {
+          this.contactStore
+            .getContact(conversation_id)!
+            .setDialogStatus(dialog_status);
+        }
       }
-    });
+    );
 
     socket.on("tagAdded", (data) => {
       this.tagsStore.add(data.id, data.school_id, data.name, data.color);

@@ -29,7 +29,7 @@ const transformConversations = (output: TItemsQueryResponse<Conversation>) => {
           conversation.school_id,
           conversation.send_file,
           conversation.link_social_page,
-          conversation.readed
+          conversation.dialog_status
         )
     ),
   };

@@ -5,14 +5,14 @@ import { globalStore } from "..";
 import { getConversations } from "@/actions";
 import { User } from "@/stores/model/User";
 import { reverse, sortBy } from "lodash";
+import { TConversationDialogStatus } from "@/entities/Conversation";
+import { conversation } from "@/api";
 
 export class ContactStore {
   contacts: Map<number, Conversation> = new Map();
   activeContact?: Conversation;
 
-  search = "";
-  filter = {};
-  filterSwitch = false;
+  dialogStatus: TConversationDialogStatus = ""; // use for all
 
   constructor() {
     makeAutoObservable(this);
@@ -52,10 +52,6 @@ export class ContactStore {
     this.nextPage = page;
   }
 
-  toggleFilterSwitch() {
-    this.filterSwitch = !this.filterSwitch;
-  }
-
   get sortedConversations() {
     return reverse(
       sortBy(Array.from(this.contacts.values()), "lastMessage.timestamp")
@@ -74,6 +70,7 @@ export class ContactStore {
     const { items: conversations, page } = await getConversations({
       schoolIds: globalStore.schoolsStore.activeSchoolsIds,
       page: this.prevPage - 1,
+      dialogStatus: this.dialogStatus,
     });
 
     this.addContact(conversations);
@@ -99,6 +96,7 @@ export class ContactStore {
     const { items: conversations, page } = await getConversations({
       schoolIds: globalStore.schoolsStore.activeSchoolsIds,
       page: this.nextPage + 1,
+      dialogStatus: this.dialogStatus,
     });
 
     this.addContact(conversations);
@@ -121,7 +119,7 @@ export class ContactStore {
             contact.school_id,
             contact.send_file,
             contact.link_social_page,
-            contact.readed
+            contact.dialog_status
           )
         );
       }
@@ -187,6 +185,7 @@ export class ContactStore {
       schoolIds: globalStore.schoolsStore.activeSchoolsIds,
       page: this.prevPage,
       conversationId: id,
+      dialogStatus: this.dialogStatus,
     });
 
     this.setPrevPage(page);
@@ -202,6 +201,15 @@ export class ContactStore {
     }
 
     this.setLoaded(true);
+  }
+
+  async setDialogStatus(status: TConversationDialogStatus) {
+    this.dialogStatus = status;
+    return await this.refetch();
+  }
+
+  async setDialogStatusById(id: number, status: TConversationDialogStatus) {
+    return await conversation.setDialogStatus(id, status);
   }
 }
 

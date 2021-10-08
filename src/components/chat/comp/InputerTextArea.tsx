@@ -41,7 +41,7 @@ export const InputerTextArea = observer(
           <Button
             className={css`
               display: flex;
-              align-items: center;
+              align-items: flex-end;
               justify-content: center;
               width: 40px;
               height: 40px;
@@ -52,15 +52,11 @@ export const InputerTextArea = observer(
               margin: 0 2px;
               border-radius: 4px;
               border: none;
-
-              &:hover {
-                background-color: #f5f5f5;
-              }
             `}
           >
             <SmileOutlined
               className={css`
-                color: #c0cecf;
+                color: #a3a3a3;
                 font-size: 24px;
                 height: 24px;
 

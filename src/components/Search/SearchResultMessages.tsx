@@ -48,7 +48,6 @@ export const SearchResultMessages = observer(() => {
             active={contactStore.activeContact?.hover(lastMessage.id)}
             selectContact={onSelect}
             school={schoolsStore.getById(conversation.schoolId)}
-            setUnreadChat={() => {}}
           />
         </div>
       );

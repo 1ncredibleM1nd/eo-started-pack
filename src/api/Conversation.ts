@@ -1,4 +1,5 @@
 import { API } from "@/actions/axios";
+import { TConversationDialogStatus } from "@/entities/Conversation";
 import { AxiosResponse } from "axios";
 
 export default class Conversation {
@@ -9,7 +10,8 @@ export default class Conversation {
     sources: Object,
     schoolIds: number[],
     page?: number,
-    conversationId?: number
+    conversationId?: number,
+    dialogStatus?: TConversationDialogStatus
   ): Promise<AxiosResponse<any>> {
     return API.post(`/conversation/get-conversations`, {
       filter: {
@@ -18,6 +20,7 @@ export default class Conversation {
         conversationId,
         tags,
         noTags,
+        dialogStatus,
       },
       search: {
         query,
@@ -77,11 +80,10 @@ export default class Conversation {
     return API.post(`/conversation/send-message`, formData);
   }
 
-  unread(contactId: string): Promise<AxiosResponse<any>> {
-    const params = new URLSearchParams();
-
-    params.set("conversationId", contactId);
-
-    return API.get(`/conversation/set-unread-conversation?${params}`);
+  setDialogStatus(id: number, status: TConversationDialogStatus) {
+    return API.post("/conversation/set-conversation-status", {
+      conversationId: id,
+      status,
+    });
   }
 }

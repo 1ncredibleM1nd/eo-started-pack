@@ -6,7 +6,6 @@ import { Conversation } from "@/entities";
 import { ConversationItem } from "./comp/Conversation";
 import { useStore } from "@/stores";
 import { useHistory } from "react-router-dom";
-import { setUnreadChat } from "@/actions";
 import { useInView } from "react-intersection-observer";
 import { useLocationQuery } from "@/hooks/useLocationQuery";
 import { ContactListLoader } from "./ContactListLoader/ContactListLoader";
@@ -83,7 +82,9 @@ const ContactList = observer(() => {
               active={contactStore.activeContact?.hover(conversation.id)}
               selectContact={onSelect}
               school={schoolsStore.getById(conversation.schoolId)}
-              setUnreadChat={setUnreadChat}
+              onChangeStatus={(id, status) =>
+                contactStore.setDialogStatusById(id, status)
+              }
             />
           </div>
         );
