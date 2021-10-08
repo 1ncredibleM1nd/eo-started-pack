@@ -183,7 +183,7 @@ export const ConversationItem = observer(
                           padding: 4px;
                           border-radius: 50%;
                           background: transparent;
-                          right: 10px;
+                          right: 5px;
                           bottom: 10px;
 
                           &.unread {
