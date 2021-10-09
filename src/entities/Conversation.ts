@@ -7,7 +7,12 @@ import { ChatStore } from "@/stores/implementation/ChatStore";
 
 const RESET_TAGS = [0];
 
-export type TConversationDialogStatus = "" | "unread" | "unanswer";
+export type TConversationDialogStatus =
+  | ""
+  | "unread"
+  | "unanswer"
+  | "read"
+  | "answer";
 
 class Conversation {
   id: number;
