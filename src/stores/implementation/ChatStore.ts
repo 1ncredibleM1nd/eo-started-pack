@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 import { contactStore } from "@/stores/implementation";
 import { getMessages, sendMessage } from "@/actions";
 import { Entity, Message } from "../../entities";
-import { globalStore } from "..";
+import { rootStore } from "..";
 import { uniqBy, sortBy } from "lodash";
 
 const MAX_MESSAGE_COUNT_ON_PAGE = 29;
@@ -71,7 +71,7 @@ export class ChatStore {
     const { items: newMessages, page: responsePage } = await getMessages(
       contactId,
       page,
-      globalStore.schoolsStore.activeSchoolsIds,
+      rootStore.schoolsStore.activeSchoolsIds,
       messageId
     );
 
@@ -108,7 +108,7 @@ export class ChatStore {
     const { items: newMessages, page } = await getMessages(
       contactId,
       this.prevPage - 1,
-      globalStore.schoolsStore.activeSchoolsIds
+      rootStore.schoolsStore.activeSchoolsIds
     );
 
     this.messages = sortBy(uniqBy([...newMessages, ...this.messages], "id"), [
@@ -138,7 +138,7 @@ export class ChatStore {
     const { items: newMessages, page } = await getMessages(
       contactId,
       this.nextPage + 1,
-      globalStore.schoolsStore.activeSchoolsIds
+      rootStore.schoolsStore.activeSchoolsIds
     );
 
     this.messages = sortBy(uniqBy([...newMessages, ...this.messages], "id"), [

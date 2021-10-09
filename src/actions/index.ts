@@ -2,17 +2,9 @@ import { contactStore } from "@/stores/implementation";
 import * as resolver from "../api/index";
 import { AxiosResponse } from "axios";
 import { notification } from "antd";
-import { globalStore } from "@/stores";
+import { rootStore } from "@/stores";
 import { TConversationDialogStatus } from "@/entities/Conversation";
 
-/**
- *
- * @param message
- * @param section
- * @param description
- *
- * @return void
- */
 function messageError(
   message?: string,
   section: string = "other",
@@ -61,16 +53,17 @@ async function getConversations({
   const section = "contacts";
 
   try {
-    const sources = globalStore.channelsStore.activeChannels.map(
+    // TODO: remove directly usage rootStore, replace on params
+    const sources = rootStore.channelsStore.activeChannels.map(
       (channel) => channel.id
     );
 
-    const tags = globalStore.tagsStore.activeTags.map(({ name }) => name);
+    const tags = rootStore.tagsStore.activeTags.map(({ name }) => name);
 
     const response = await resolver.conversation.conversations(
       contactStore.search,
       tags,
-      globalStore.tagsStore.noTags,
+      rootStore.tagsStore.noTags,
       sources,
       schoolIds,
       page,

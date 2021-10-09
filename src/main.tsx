@@ -7,13 +7,13 @@ import App from "./App";
 import "@/images/icons/index";
 import "./styles/index.scss";
 import "./styles/ant/index.scss";
-import { GlobalStoreProvider } from "./stores";
+import { RootStoreProvider } from "./stores";
 
 setup(createElement);
 
 render(
-  <GlobalStoreProvider>
+  <RootStoreProvider>
     <App />
-  </GlobalStoreProvider>,
+  </RootStoreProvider>,
   document.getElementById("root")
 );

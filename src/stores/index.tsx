@@ -137,18 +137,18 @@ class RootStore {
 
 export type RootStoreInstance = InstanceType<typeof RootStore>;
 
-export const globalStore = new RootStore();
+export const rootStore = new RootStore();
 
-export const GlobalStoreContext = createContext(globalStore);
+export const RootStoreContext = createContext(rootStore);
 
 export function useStore(): RootStore {
-  return useContext(GlobalStoreContext);
+  return useContext(RootStoreContext);
 }
 
-export function GlobalStoreProvider({ children }: { children: ReactNode }) {
+export function RootStoreProvider({ children }: { children: ReactNode }) {
   return (
-    <GlobalStoreContext.Provider value={globalStore}>
+    <RootStoreContext.Provider value={rootStore}>
       {children}
-    </GlobalStoreContext.Provider>
+    </RootStoreContext.Provider>
   );
 }

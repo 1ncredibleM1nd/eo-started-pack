@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { isLogged, setSession } from "@/actions";
-import { globalStore } from "..";
+import { rootStore } from "..";
 
 export class AuthStore {
   loading = false;
@@ -97,7 +97,7 @@ export class AuthStore {
           }
 
           this.setToken(token);
-          await globalStore.usersStore.init();
+          await rootStore.usersStore.init();
         } else {
           window.location.href = `${
             import.meta.env.VITE_APP_ACCOUNT_URL

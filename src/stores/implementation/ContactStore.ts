@@ -1,7 +1,6 @@
 import { makeAutoObservable } from "mobx";
-import $ from "jquery";
 import { Conversation } from "../../entities";
-import { globalStore } from "..";
+import { rootStore } from "..";
 import { getConversations } from "@/actions";
 import { User } from "@/stores/model/User";
 import { reverse, sortBy } from "lodash";
@@ -68,7 +67,7 @@ export class ContactStore {
     this.setPageLoading(true);
 
     const { items: conversations, page } = await getConversations({
-      schoolIds: globalStore.schoolsStore.activeSchoolsIds,
+      schoolIds: rootStore.schoolsStore.activeSchoolsIds,
       page: this.prevPage - 1,
       dialogStatus: this.dialogStatus,
     });
@@ -94,7 +93,7 @@ export class ContactStore {
     this.setPageLoading(true);
 
     const { items: conversations, page } = await getConversations({
-      schoolIds: globalStore.schoolsStore.activeSchoolsIds,
+      schoolIds: rootStore.schoolsStore.activeSchoolsIds,
       page: this.nextPage + 1,
       dialogStatus: this.dialogStatus,
     });
@@ -182,7 +181,7 @@ export class ContactStore {
 
   async fetch(id?: number) {
     const { items: conversations, page } = await getConversations({
-      schoolIds: globalStore.schoolsStore.activeSchoolsIds,
+      schoolIds: rootStore.schoolsStore.activeSchoolsIds,
       page: this.prevPage,
       conversationId: id,
       dialogStatus: this.dialogStatus,

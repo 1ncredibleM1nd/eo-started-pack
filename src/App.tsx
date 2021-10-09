@@ -8,7 +8,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 const App = observer(() => {
   const {
-    init: initGlobalStore,
+    init: initRootStore,
     authStore,
     tagsStore,
     schoolsStore,
@@ -24,7 +24,7 @@ const App = observer(() => {
 
       let response = await authStore.initialize();
       if (response) {
-        initGlobalStore();
+        initRootStore();
       }
     }
 
