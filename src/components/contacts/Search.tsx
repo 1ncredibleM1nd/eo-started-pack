@@ -1,14 +1,14 @@
 import "./Search.scss";
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores";
-import { Collapse, Button } from "antd";
+import { Collapse } from "antd";
 import { FilterTags } from "@/components/Filter/FilterTags";
 import { FilterSchools } from "@/components/Filter/FilterSchools";
 import { FilterChannels } from "@/components/Filter/FilterChannels";
 import { useHistory } from "react-router-dom";
 import { SearchInput } from "./SearchInput";
 import FilterButton from "@/components/contacts/comp/FilterButton";
-import { FilterDialogStatus } from "../FilterDialogStatus/FilterDialogStatus";
+import { FilterDialogStatus } from "../Filter/FilterDialogStatus";
 import { useState } from "react";
 
 const Search = observer(() => {
