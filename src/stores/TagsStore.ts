@@ -1,15 +1,31 @@
-import { singleton } from "tsyringe";
+import { inject, singleton } from "tsyringe";
 import store from "store";
 import { makeAutoObservable } from "mobx";
 import { Tag } from "@/stores/model/Tag";
 import { tags } from "@/api";
 import { filter, uniqBy } from "lodash";
 import { SchoolsStore } from "./SchoolsStore";
+import { Socket } from "socket.io-client";
 
 @singleton()
 export class TagsStore {
-  constructor(private schools: SchoolsStore) {
+  constructor(
+    private schools: SchoolsStore,
+    @inject("Socket") private socket: Socket
+  ) {
     makeAutoObservable(this);
+
+    this.socket.on("tagAdded", (data) => {
+      this.add(data.id, data.school_id, data.name, data.color);
+    });
+
+    this.socket.on("tagRemoved", (data) => {
+      this.delete(data.id);
+    });
+
+    this.socket.on("tagEdited", (data) => {
+      this.edit(data.id, data.name);
+    });
   }
 
   tags = new Map<number, Tag>();

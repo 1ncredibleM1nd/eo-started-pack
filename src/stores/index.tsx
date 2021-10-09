@@ -13,9 +13,9 @@ import { notification } from "antd";
 import { SearchStore } from "./SearchStore";
 
 class RootStore {
-  appStore = appStore;
-  authStore = authStore;
-  contactStore = contactStore;
+  appStore = appStore; // TODO: wrap with di container
+  authStore = authStore; // TODO: wrap with di container
+  contactStore = contactStore; // TODO: wrap with di container
   sidebarStore = container.resolve(SidebarStore);
   tagsStore = container.resolve(TagsStore);
   usersStore = container.resolve(UsersStore);
@@ -102,18 +102,6 @@ class RootStore {
         }
       }
     );
-
-    socket.on("tagAdded", (data) => {
-      this.tagsStore.add(data.id, data.school_id, data.name, data.color);
-    });
-
-    socket.on("tagRemoved", (data) => {
-      this.tagsStore.delete(data.id);
-    });
-
-    socket.on("tagEdited", (data) => {
-      this.tagsStore.edit(data.id, data.name);
-    });
 
     socket.on("tagsDialogApplying", (data) => {
       if (this.contactStore.hasContact(data.conversation_id)) {
