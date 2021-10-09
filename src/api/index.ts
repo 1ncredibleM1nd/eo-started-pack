@@ -2,7 +2,7 @@ import Account from "./Account";
 import Conversation from "./Conversation";
 import { Tags } from "./Tags";
 import { default as SearchAPI } from "./modules/search";
-import { singleton } from "tsyringe";
+import { injectable } from "inversify";
 
 const account = new Account();
 const conversation = new Conversation();
@@ -12,7 +12,7 @@ export { account, conversation, tags };
 
 export type { TRequest } from "./request-builder";
 
-@singleton()
+@injectable()
 export class Api {
   search = SearchAPI;
 }

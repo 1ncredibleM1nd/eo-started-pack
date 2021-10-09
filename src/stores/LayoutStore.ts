@@ -1,9 +1,9 @@
+import { injectable } from "inversify";
 import { makeAutoObservable } from "mobx";
-import { singleton } from "tsyringe";
 
 type TLayout = "contact" | "chat";
 
-@singleton()
+@injectable()
 export class LayoutStore {
   layout: TLayout = "contact";
 

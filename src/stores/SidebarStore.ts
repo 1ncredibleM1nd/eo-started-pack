@@ -1,7 +1,7 @@
-import { singleton } from "tsyringe";
+import { injectable } from "inversify";
 import { makeAutoObservable } from "mobx";
 
-@singleton()
+@injectable()
 export class SidebarStore {
   opened = true;
 

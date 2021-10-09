@@ -1,9 +1,9 @@
-import { singleton } from "tsyringe";
+import { injectable } from "inversify";
 import { makeAutoObservable } from "mobx";
 import { User } from "./model/User";
 import { account } from "@/api";
 
-@singleton()
+@injectable()
 export class UsersStore {
   user: User | null = null;
 

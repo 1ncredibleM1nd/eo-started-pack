@@ -1,3 +1,4 @@
+import { inject, injectable } from "inversify";
 import { Api } from "@/api";
 import { action, makeAutoObservable } from "mobx";
 import {
@@ -10,9 +11,9 @@ import { Conversation } from "@/entities";
 import { ChannelsStore } from "./ChannelsStore";
 import { SchoolsStore } from "./SchoolsStore";
 import { TagsStore } from "./TagsStore";
-import { singleton } from "tsyringe";
+import { TYPES } from "@/types/ioc";
 
-@singleton()
+@injectable()
 export class SearchStore {
   isLoaded = true;
   searchQuery = "";
@@ -20,9 +21,16 @@ export class SearchStore {
   searchBySourceAccountQuery;
 
   constructor(
+    @inject(TYPES.Api)
     private api: Api,
+
+    @inject(TYPES.Tags)
     private tags: TagsStore,
+
+    @inject(TYPES.Schools)
     private schools: SchoolsStore,
+
+    @inject(TYPES.Channels)
     private channels: ChannelsStore
   ) {
     this.searchByMessageQuery = new ItemsQuery<

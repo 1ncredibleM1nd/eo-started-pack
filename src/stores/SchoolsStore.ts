@@ -1,10 +1,10 @@
-import { singleton } from "tsyringe";
+import { injectable } from "inversify";
 import store from "store";
 import { School } from "./model/School";
 import { account } from "@/api";
 import { makeAutoObservable } from "mobx";
 
-@singleton()
+@injectable()
 export class SchoolsStore {
   schools: School[] = [];
 

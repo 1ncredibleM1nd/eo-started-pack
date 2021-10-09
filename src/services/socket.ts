@@ -1,9 +1,8 @@
-import { io } from "socket.io-client";
-import { container } from "tsyringe";
+import { io, Socket } from "socket.io-client";
 
 export const socket = io(`${import.meta.env.VITE_APP_SOCKET_URL}`, {
   transports: ["websocket"],
   autoConnect: false,
 });
 
-container.register("Socket", { useValue: socket });
+export { Socket };

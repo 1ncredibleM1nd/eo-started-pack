@@ -1,9 +1,9 @@
-import { singleton } from "tsyringe";
+import { injectable } from "inversify";
 import store from "store";
 import { makeAutoObservable } from "mobx";
 import { Channel } from "./model/Channel";
 
-@singleton()
+@injectable()
 export class ChannelsStore {
   channels: Channel[] = [];
 
