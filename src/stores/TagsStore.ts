@@ -1,18 +1,15 @@
-import { inject, singleton } from "tsyringe";
+import { singleton } from "tsyringe";
 import store from "store";
 import { makeAutoObservable } from "mobx";
 import { Tag } from "@/stores/model/Tag";
 import { tags } from "@/api";
 import { filter, uniqBy } from "lodash";
 import { SchoolsStore } from "./SchoolsStore";
-import { Socket } from "socket.io-client";
+import { Socket } from "@/services/socket";
 
 @singleton()
 export class TagsStore {
-  constructor(
-    private schools: SchoolsStore,
-    @inject("Socket") private socket: Socket
-  ) {
+  constructor(private schools: SchoolsStore, private socket: Socket) {
     makeAutoObservable(this);
 
     this.socket.on("tagAdded", (data) => {
