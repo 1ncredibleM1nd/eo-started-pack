@@ -57,9 +57,9 @@ export const ConversationItem = observer(
           </Menu.Item>
           <Menu.Item
             key={"chat_unanswer_menu_item"}
-            onClick={() => onChangeStatus?.(contactId, "unanswer")}
+            onClick={() => onChangeStatus?.(contactId, "answer")}
           >
-            Пометить как неотвеченное
+            Пометить как отвеченное
           </Menu.Item>
           {!authStore.isFrame ? (
             <>
