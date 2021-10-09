@@ -10,7 +10,6 @@ import { conversation } from "@/api";
 export class ContactStore {
   contacts: Map<number, Conversation> = new Map();
   activeContact?: Conversation;
-
   dialogStatus: TConversationDialogStatus = ""; // use for all
 
   constructor() {

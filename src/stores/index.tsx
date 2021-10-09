@@ -4,18 +4,19 @@ import { UsersStore } from "./UsersStore";
 import { SchoolsStore } from "./SchoolsStore";
 import { ChannelsStore } from "./ChannelsStore";
 import { SidebarStore } from "@/stores/SidebarStore";
-import { appStore, authStore, contactStore } from "@/stores/implementation";
+import { authStore, contactStore } from "@/stores/implementation";
 import { action, makeAutoObservable } from "mobx";
 import { TagsStore } from "@/stores/TagsStore";
 import { socket } from "@/services/socket";
 import $ from "jquery";
 import { notification } from "antd";
 import { SearchStore } from "./SearchStore";
+import { LayoutStore } from "./LayoutStore";
 
 class RootStore {
-  appStore = appStore; // TODO: wrap with di container
   authStore = authStore; // TODO: wrap with di container
   contactStore = contactStore; // TODO: wrap with di container
+  layoutStore = container.resolve(LayoutStore);
   sidebarStore = container.resolve(SidebarStore);
   tagsStore = container.resolve(TagsStore);
   usersStore = container.resolve(UsersStore);

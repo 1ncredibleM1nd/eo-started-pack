@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import { Icon } from "@/ui/Icon/Icon";
 
 const Header = observer(() => {
-  const { contactStore, appStore, schoolsStore, sidebarStore } = useStore();
+  const { contactStore, layoutStore, schoolsStore, sidebarStore } = useStore();
   const history = useHistory();
   const activeContact = contactStore.activeContact;
   let chatTitle: any;
@@ -19,12 +19,8 @@ const Header = observer(() => {
   }
 
   const closeContact = () => {
-    if (appStore.layout === "contact") {
-      appStore.setLayout("info");
-    } else if (appStore.layout === "info") {
-      appStore.setLayout("contact");
-    } else if (appStore.layout === "chat") {
-      appStore.setLayout("contact");
+    if (layoutStore.layout === "chat") {
+      layoutStore.setLayout("contact");
       history.replace("");
       contactStore.setActiveContact(undefined);
     }
@@ -45,7 +41,7 @@ const Header = observer(() => {
               <div className="header_content">
                 <div
                   className={`back_trigger ${
-                    appStore.layout !== "contact" ? "active" : ""
+                    layoutStore.layout !== "contact" ? "active" : ""
                   }`}
                 >
                   <Icon

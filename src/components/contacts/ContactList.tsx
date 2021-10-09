@@ -12,7 +12,7 @@ import { ContactListLoader } from "./ContactListLoader/ContactListLoader";
 import { useMediaQuery } from "react-responsive";
 
 const ContactList = observer(() => {
-  const { contactStore, appStore, schoolsStore, usersStore, sidebarStore } =
+  const { contactStore, layoutStore, schoolsStore, usersStore, sidebarStore } =
     useStore();
   const query = useLocationQuery();
   const history = useHistory();
@@ -35,8 +35,8 @@ const ContactList = observer(() => {
 
   const onSelect = (conversation: Conversation) => {
     history.replace(`chat?im=${conversation.id}`);
+    layoutStore.setLayout("chat");
     contactStore.setActiveContact(conversation);
-    appStore.setLayout("chat");
     sidebarStore.setOpened(sidebarOpenedByDefault);
   };
 

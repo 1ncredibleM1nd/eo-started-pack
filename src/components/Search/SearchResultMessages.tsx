@@ -10,15 +10,15 @@ import { SearchResultLoadMore } from "./SearchResultLoadMore";
 export const SearchResultMessages = observer(() => {
   const history = useHistory();
   const sidebarOpenedByDefault = useMediaQuery({ minWidth: 1024 });
-  const { searchStore, schoolsStore, contactStore, sidebarStore, appStore } =
+  const { searchStore, schoolsStore, contactStore, sidebarStore, layoutStore } =
     useStore();
 
   const { searchByMessageQuery } = searchStore;
 
   const onSelect = (conversation: Conversation) => {
     history.replace(`chat?im=${conversation.id}`);
+    layoutStore.setLayout("chat");
     contactStore.setActiveContact(conversation, true);
-    appStore.setLayout("chat");
     sidebarStore.setOpened(sidebarOpenedByDefault);
   };
 

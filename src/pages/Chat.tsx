@@ -9,8 +9,7 @@ import { useLocationQuery } from "@/hooks/useLocationQuery";
 import { Sidebar } from "@/pages/Sidebar";
 
 const App = observer(() => {
-  const { appStore, contactStore, sidebarStore } = useStore();
-  const { layout } = appStore;
+  const { layoutStore, contactStore, sidebarStore } = useStore();
   const query = useLocationQuery();
   const sidebarOpenedByDefault = useMediaQuery({ minWidth: 1024 });
   const id = useMemo(() => Number(query.get("im")), [query]);
@@ -18,7 +17,7 @@ const App = observer(() => {
   useEffect(() => {
     if (contactStore.isLoaded && contactStore.hasContact(id)) {
       contactStore.setActiveContact(contactStore.getContact(id));
-      appStore.setLayout("chat");
+      layoutStore.setLayout("chat");
       sidebarStore.setOpened(sidebarOpenedByDefault);
     }
   }, [contactStore.isLoaded]);
@@ -30,8 +29,8 @@ const App = observer(() => {
     <Layout hasSider={true} className="chat_page">
       <Row>
         <Col
-          xs={layout === "contact" ? 24 : 0}
-          sm={layout === "contact" ? 24 : 0}
+          xs={layoutStore.layout === "contact" ? 24 : 0}
+          sm={layoutStore.layout === "contact" ? 24 : 0}
           md={10}
           lg={7}
           xl={7}
@@ -42,9 +41,9 @@ const App = observer(() => {
         </Col>
 
         <Col
-          xs={layout === "chat" && !withSidebar ? 24 : 0}
-          sm={layout === "chat" && !withSidebar ? 24 : 0}
-          md={layout === "chat" && !withSidebar ? 14 : 0}
+          xs={layoutStore.layout === "chat" && !withSidebar ? 24 : 0}
+          sm={layoutStore.layout === "chat" && !withSidebar ? 24 : 0}
+          md={layoutStore.layout === "chat" && !withSidebar ? 14 : 0}
           lg={withSidebar ? 10 : 17}
           xl={withSidebar ? 11 : 17}
           xxl={withSidebar ? 13 : 18}
@@ -53,9 +52,9 @@ const App = observer(() => {
         </Col>
 
         <Col
-          xs={layout === "chat" && withSidebar ? 24 : 0}
-          sm={layout === "chat" && withSidebar ? 24 : 0}
-          md={layout === "chat" && withSidebar ? 14 : 0}
+          xs={layoutStore.layout === "chat" && withSidebar ? 24 : 0}
+          sm={layoutStore.layout === "chat" && withSidebar ? 24 : 0}
+          md={layoutStore.layout === "chat" && withSidebar ? 14 : 0}
           lg={7}
           xl={6}
           xxl={5}

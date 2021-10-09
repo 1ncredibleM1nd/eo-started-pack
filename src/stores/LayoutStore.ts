@@ -1,8 +1,10 @@
 import { makeAutoObservable } from "mobx";
+import { singleton } from "tsyringe";
 
 type TLayout = "contact" | "chat";
 
-export class AppStore {
+@singleton()
+export class LayoutStore {
   layout: TLayout = "contact";
 
   constructor() {
@@ -13,5 +15,3 @@ export class AppStore {
     this.layout = layout;
   }
 }
-
-export const appStore = new AppStore();
