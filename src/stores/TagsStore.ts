@@ -1,5 +1,4 @@
-import { inject, injectable } from "inversify";
-import { TYPES } from "@/types/ioc";
+import { inject, singleton } from "tsyringe";
 import store from "store";
 import { makeAutoObservable } from "mobx";
 import { Tag } from "@/stores/model/Tag";
@@ -8,11 +7,11 @@ import { filter, uniqBy } from "lodash";
 import { SchoolsStore } from "./SchoolsStore";
 import { Socket } from "socket.io-client";
 
-@injectable()
+@singleton()
 export class TagsStore {
   constructor(
-    @inject(TYPES.Schools) private schools: SchoolsStore,
-    @inject(TYPES.Socket) private socket: Socket
+    private schools: SchoolsStore,
+    @inject("Socket") private socket: Socket
   ) {
     makeAutoObservable(this);
 

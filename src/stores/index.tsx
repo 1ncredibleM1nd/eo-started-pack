@@ -1,30 +1,28 @@
-import "./ioc.config";
-import { container } from "./ioc";
-import { TYPES } from "@/types/ioc";
+import { container } from "tsyringe";
 import { createContext, useContext, ReactNode } from "react";
-import { authStore, contactStore } from "@/stores/implementation";
-import { action, makeAutoObservable } from "mobx";
-import { socket } from "@/services/socket";
-import $ from "jquery";
-import { notification } from "antd";
-import { LayoutStore } from "./LayoutStore";
-import { SidebarStore } from "./SidebarStore";
-import { TagsStore } from "./TagsStore";
 import { UsersStore } from "./UsersStore";
 import { SchoolsStore } from "./SchoolsStore";
 import { ChannelsStore } from "./ChannelsStore";
+import { SidebarStore } from "@/stores/SidebarStore";
+import { authStore, contactStore } from "@/stores/implementation";
+import { action, makeAutoObservable } from "mobx";
+import { TagsStore } from "@/stores/TagsStore";
+import { socket } from "@/services/socket";
+import $ from "jquery";
+import { notification } from "antd";
 import { SearchStore } from "./SearchStore";
+import { LayoutStore } from "./LayoutStore";
 
 class RootStore {
   authStore = authStore; // TODO: wrap with di container
   contactStore = contactStore; // TODO: wrap with di container
-  layoutStore = container.get(TYPES.Layout) as LayoutStore;
-  sidebarStore = container.get(TYPES.Sidebar) as SidebarStore;
-  tagsStore = container.get(TYPES.Tags) as TagsStore;
-  usersStore = container.get(TYPES.Users) as UsersStore;
-  schoolsStore = container.get(TYPES.Schools) as SchoolsStore;
-  channelsStore = container.get(TYPES.Channels) as ChannelsStore;
-  searchStore = container.get(TYPES.Search) as SearchStore;
+  layoutStore = container.resolve(LayoutStore);
+  sidebarStore = container.resolve(SidebarStore);
+  tagsStore = container.resolve(TagsStore);
+  usersStore = container.resolve(UsersStore);
+  schoolsStore = container.resolve(SchoolsStore);
+  channelsStore = container.resolve(ChannelsStore);
+  searchStore = container.resolve(SearchStore);
 
   constructor() {
     makeAutoObservable(this, {
