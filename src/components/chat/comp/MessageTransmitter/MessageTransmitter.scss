@@ -6,6 +6,7 @@
   width: 100%;
   justify-content: space-between;
   align-items: flex-end;
+  padding: 5px;
 
   &-button-send {
     color: #fff;
@@ -22,6 +23,7 @@
 
     svg {
       fill: #3498db;
+
     }
 
     &:hover {
@@ -97,3 +99,4 @@
     }
   }
 }
+

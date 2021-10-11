@@ -4,7 +4,12 @@
 .reply-current-message {
   width: 100%;
   display: flex;
-  padding-left: 15px;
+  padding-left: 5px;
+  padding-right: 5px;
+
+  @include _480 {
+    padding-left: 15px;
+  }
 
   &_position_left {
     display: flex;

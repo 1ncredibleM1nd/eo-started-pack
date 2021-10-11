@@ -108,17 +108,18 @@ export class ContactStore {
       if (!this.contacts.has(contact.id)) {
         this.contacts.set(
           contact.id,
-          new Conversation(
-            contact.id,
-            contact.conversation_source_account_id,
-            contact.last_message,
-            new User(contact.user[0], contact.name, contact.avatar),
-            contact.tags,
-            contact.school_id,
-            contact.send_file,
-            contact.link_social_page,
-            contact.dialog_status
-          )
+          new Conversation({
+            id: contact.id,
+            sourceAccountId: contact.conversation_source_account_id,
+            lastMessage: contact.last_message,
+            user: new User(contact.user[0], contact.name, contact.avatar),
+            tags: contact.tags,
+            schoolId: contact.school_id,
+            sendFile: contact.send_file,
+            linkSocialPage: contact.link_social_page,
+            dialogStatus: contact.dialog_status,
+            restrictions: contact.restrictions,
+          })
         );
       }
     }

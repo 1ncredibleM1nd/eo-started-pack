@@ -26,18 +26,31 @@ class Conversation {
   // readed: boolean;
   dialogStatus: TConversationDialogStatus = "";
   chat: ChatStore;
+  restrictions: { cannotSend?: string; cannotSendMessageInsta?: boolean };
 
-  constructor(
-    id: number,
-    sourceAccountId: string,
-    lastMessage: Message,
-    user: User,
-    tags: number[],
-    schoolId?: number,
-    sendFile?: boolean,
-    linkSocialPage?: string,
-    dialogStatus: TConversationDialogStatus = ""
-  ) {
+  constructor({
+    id,
+    sourceAccountId,
+    lastMessage,
+    user,
+    tags,
+    schoolId,
+    sendFile,
+    linkSocialPage,
+    dialogStatus = "",
+    restrictions,
+  }: {
+    id: number;
+    sourceAccountId: string;
+    lastMessage: Message;
+    user: User;
+    tags: number[];
+    schoolId?: number;
+    sendFile?: boolean;
+    linkSocialPage?: string;
+    dialogStatus: TConversationDialogStatus;
+    restrictions: { cannotSend?: string; cannotSendMessageInsta?: boolean };
+  }) {
     makeAutoObservable(this);
 
     this.id = id;
@@ -49,6 +62,7 @@ class Conversation {
     this.sendFile = sendFile;
     this.linkSocialPage = linkSocialPage;
     this.dialogStatus = dialogStatus;
+    this.restrictions = restrictions;
 
     this.chat = new ChatStore();
     this.addMessage(lastMessage);

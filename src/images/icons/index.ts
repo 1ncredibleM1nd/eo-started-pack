@@ -22,3 +22,4 @@ import "./social_media_instagram.svg";
 import "./social_media_telegram.svg";
 import "./social_media_vkontakte.svg";
 import "./social_media_odnoklassniki.svg";
+import "./exclamation_circle.svg";

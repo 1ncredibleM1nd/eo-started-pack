@@ -16,7 +16,6 @@ type TProps = {
   activeContact: Conversation | undefined;
   handleEnter: (e: any) => Promise<void>;
   activeSocial: string | undefined;
-  chatError: boolean;
   sendEnabled: any;
   sendMessage: () => Promise<void>;
   acceptType: string;
@@ -35,7 +34,6 @@ export const MessageTransmitter = observer((props: TProps) => {
     activeContact,
     handleEnter,
     activeSocial,
-    chatError,
     sendEnabled,
     sendMessage,
     acceptType,
@@ -72,7 +70,7 @@ export const MessageTransmitter = observer((props: TProps) => {
       </div>
 
       <Button
-        disabled={!!chatError || !sendEnabled}
+        disabled={!sendEnabled}
         onClick={sendMessage}
         className={cn("button-send")}
       >

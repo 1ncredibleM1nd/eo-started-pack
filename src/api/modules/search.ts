@@ -16,21 +16,22 @@ const transformConversations = (output: TItemsQueryResponse<Conversation>) => {
     ...output,
     items: output.items.map(
       (conversation) =>
-        new Conversation(
-          conversation.id,
-          conversation.conversation_source_account_id,
-          conversation.last_message,
-          new User(
+        new Conversation({
+          id: conversation.id,
+          sourceAccountId: conversation.conversation_source_account_id,
+          lastMessage: conversation.last_message,
+          user: new User(
             conversation.user[0],
             conversation.name,
             conversation.avatar
           ),
-          conversation.tags,
-          conversation.school_id,
-          conversation.send_file,
-          conversation.link_social_page,
-          conversation.dialog_status
-        )
+          tags: conversation.tags,
+          schoolId: conversation.school_id,
+          sendFile: conversation.send_file,
+          linkSocialPage: conversation.link_social_page,
+          dialogStatus: conversation.dialog_status,
+          restrictions: conversation.restrictions,
+        })
     ),
   };
 };

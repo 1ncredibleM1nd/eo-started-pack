@@ -2,9 +2,11 @@ import { useState, useRef, useCallback } from "react";
 import { observer } from "mobx-react-lite";
 import $ from "jquery";
 import FileUploadModal from "./FileUploadModal";
+import { css } from "goober";
 import { useStore } from "@/stores";
 import ReplyCurrentMessage from "@/components/chat/comp/ReplyCurrentMessage";
 import MessageTransmitter from "@/components/chat/comp/MessageTransmitter";
+import ErrorDialogInfo from "@/components/chat/comp/MessageTransmitter/ErrorDialogInfo";
 const ALL_ACCEPT_TYPE = "file_extension|audio/*|video/*|image/*|media_type";
 const INSTAGRAM_ACCEPT_TYPE = "image/*";
 
@@ -155,10 +157,34 @@ const Inputer = observer(() => {
   let sendEnabled =
     draft[activeContact.id + status] &&
     draft[activeContact.id + status].length > 0;
-  let chatError = false;
-  let acceptAttachments = chatError || !activeContact.sendFile;
+
+  let chatError = {
+    isError: false,
+    commentError: {
+      commentTitle: "",
+      commentText: "",
+    },
+  };
+
+  if (activeContact.restrictions.cannotSend) {
+    chatError.isError = true;
+    chatError.commentError.commentTitle =
+      activeContact?.restrictions.cannotSend;
+    chatError.commentError.commentText = "";
+  } else if (
+    activeContact.restrictions.cannotSendMessageInsta &&
+    !activeContact.chat.activeMessage
+  ) {
+    chatError.isError = activeContact?.restrictions.cannotSendMessageInsta;
+    chatError.commentError.commentTitle =
+      "Отправка сообщения в диалог недоступна, потому что клиент не писал вам в личные сообщения";
+    chatError.commentError.commentText =
+      "У вас есть возможность ответить ему под постом. Для этого выберите в диалоговом меню присланного комментария пункт «Ответить в комментарии»";
+  }
+  let acceptAttachments = chatError.isError || !activeContact.sendFile;
+
   return (
-    <div className={`inputer ${chatError ? "has-error" : ""}`}>
+    <div className={`inputer ${chatError.isError ? "has-error" : ""}`}>
       <FileUploadModal
         clearFiles={clearFiles}
         deleteFileOnHold={deleteFileOnHold}
@@ -170,10 +196,9 @@ const Inputer = observer(() => {
         fileOnHold={fileOnHold}
         activeContactId={activeContact.id}
       />
-
       <div className="input-container">
-        {chatError ? (
-          <div className="input-error">{chatError}</div>
+        {chatError.isError ? (
+          <ErrorDialogInfo chatError={chatError} />
         ) : (
           <>
             <ReplyCurrentMessage currentChat={currentChat} />
@@ -183,7 +208,6 @@ const Inputer = observer(() => {
               acceptType={acceptType}
               activeContact={activeContact}
               activeSocial={activeSocial}
-              chatError={chatError}
               handleEnter={handleEnter}
               status={status}
               handleFileInput={handleFileInput}

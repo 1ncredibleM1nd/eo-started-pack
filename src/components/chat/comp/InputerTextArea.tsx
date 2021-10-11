@@ -10,13 +10,22 @@ import { Button, Dropdown } from "antd";
 
 type TProps = Pick<
   TextAreaProps,
-  "value" | "autoSize" | "onPressEnter" | "onPaste"
+  "value" | "autoSize" | "onPressEnter" | "onPaste" | "disabled"
 > & {
   onChange: (value: string) => void;
+  chatError?: { isError: boolean; commentError: string };
 };
 
 export const InputerTextArea = observer(
-  ({ value, autoSize, onPressEnter, onChange, onPaste }: TProps) => {
+  ({
+    value,
+    autoSize,
+    onPressEnter,
+    onChange,
+    onPaste,
+    disabled,
+    chatError,
+  }: TProps) => {
     const inputRef = useRef<TextAreaRef | null>(null);
 
     useEffect(() => {
