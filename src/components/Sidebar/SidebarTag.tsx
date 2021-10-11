@@ -7,7 +7,6 @@ import { MoreOutlined } from "@ant-design/icons";
 
 type TProps = {
   id: number;
-  color: string;
 };
 
 const SidebarTagContainer = styled("div")`
@@ -27,8 +26,9 @@ const SidebarTagContainer = styled("div")`
 
 const SidebarTagMenu = styled("div")`
   position: absolute;
-  top: 0;
+  top: 6px;
   right: 0;
+  display: flex;
   visibility: hidden;
 
   ${SidebarTagContainer}:hover > & {
@@ -36,7 +36,7 @@ const SidebarTagMenu = styled("div")`
   }
 `;
 
-export const SidebarTag = observer(({ id, color }: TProps) => {
+export const SidebarTag = observer(({ id }: TProps) => {
   const { tagsStore, contactStore, sidebarStore } = useStore();
   const tag = tagsStore.getById([id])[0];
 
@@ -164,6 +164,7 @@ export const SidebarTag = observer(({ id, color }: TProps) => {
           <MoreOutlined
             className={css`
               color: #050505;
+              font-size: 17px;
             `}
           />
         </Dropdown>

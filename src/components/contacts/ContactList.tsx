@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import "./ContactList.scss";
 import "./Contact.scss";
 import { Conversation } from "@/entities";
-import { ConversationItem } from "./comp/Conversation";
+import { ConversationItem } from "./comp/Conversation/ConversationItem";
 import { useStore } from "@/stores";
 import { useHistory } from "react-router-dom";
 import { useInView } from "react-intersection-observer";

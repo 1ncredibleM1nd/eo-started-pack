@@ -3,7 +3,7 @@ import { Conversation } from "@/entities";
 import { useStore } from "@/stores";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router";
-import { ConversationItem } from "../contacts/comp/Conversation";
+import { ConversationItem } from "../contacts/comp/Conversation/ConversationItem";
 import { SearchResultCount } from "./SearchResultCount";
 import { SearchResultLoadMore } from "./SearchResultLoadMore";
 

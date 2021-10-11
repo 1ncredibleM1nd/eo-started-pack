@@ -12,6 +12,8 @@ import Conversation, {
 } from "@/entities/Conversation";
 import { css } from "goober";
 import { classnames } from "@/utils/styles";
+import ConversationTag from "@/components/contacts/comp/Tags";
+import { ConversationWrapper } from "@/components/contacts/comp/Conversation/ConversationWrapper";
 
 type IProps = {
   index: number;
@@ -44,6 +46,14 @@ export const ConversationItem = observer(
 
     if (lastMessage) {
       social_media = lastMessage.social_media;
+    }
+
+    let tags = [];
+
+    let max = contact.tags.length > 5 ? 5 : contact.tags.length;
+
+    for (let i = 0; i < max; i++) {
+      tags.push(contact.tags[i]);
     }
 
     const DropDownMenu = (contactId: number) => {
@@ -184,16 +194,17 @@ export const ConversationItem = observer(
                           border-radius: 50%;
                           background: transparent;
                           right: 5px;
-                          bottom: 10px;
 
                           &.unread {
                             background: #3498db;
                             border: 2px solid #3498db;
+                            bottom: 6px;
                           }
 
                           &.unanswer {
                             background: transparent;
                             border: 2px solid #3498db;
+                            bottom: 4px;
                           }
                         `,
                         contact.dialogStatus
@@ -207,6 +218,18 @@ export const ConversationItem = observer(
                 </div>
               )}
             </div>
+
+            <ConversationWrapper>
+              {tags.map((tagId) => (
+                <ConversationTag key={tagId} id={tagId} isButton={false} />
+              ))}
+
+              {tags.length != 0 && contact.tags.length > tags.length ? (
+                <ConversationTag isButton={true} />
+              ) : (
+                ""
+              )}
+            </ConversationWrapper>
           </div>
         </li>
       </Dropdown>
