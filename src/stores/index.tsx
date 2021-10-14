@@ -12,6 +12,7 @@ import $ from "jquery";
 import { notification } from "antd";
 import { SearchStore } from "./SearchStore";
 import { LayoutStore } from "./LayoutStore";
+import { ManagersStore } from "@/stores/ManagersStore";
 
 class RootStore {
   authStore = authStore; // TODO: wrap with di container
@@ -23,6 +24,7 @@ class RootStore {
   schoolsStore = container.resolve(SchoolsStore);
   channelsStore = container.resolve(ChannelsStore);
   searchStore = container.resolve(SearchStore);
+  managersStore = container.resolve(ManagersStore);
 
   constructor() {
     makeAutoObservable(this, {
@@ -35,6 +37,7 @@ class RootStore {
     await this.usersStore.init();
     await Promise.all([this.channelsStore.init(), this.schoolsStore.init()]);
     await this.tagsStore.load(this.schoolsStore.activeSchoolsIds);
+    await this.managersStore.load(this.schoolsStore.activeSchoolsIds);
     this.initSocket();
   }
 

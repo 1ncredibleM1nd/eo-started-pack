@@ -4,6 +4,7 @@ import Message from "./Message";
 import { User } from "@/stores/model/User";
 import { conversation } from "@/api";
 import { ChatStore } from "@/stores/implementation/ChatStore";
+import { Managers } from "@/api/Managers";
 
 const RESET_TAGS = [0];
 
@@ -27,6 +28,7 @@ class Conversation {
   dialogStatus: TConversationDialogStatus = "";
   chat: ChatStore;
   restrictions: { cannotSend?: string; cannotSendMessageInsta?: boolean };
+  manager_id: number | null;
 
   constructor({
     id,
@@ -39,6 +41,7 @@ class Conversation {
     linkSocialPage,
     dialogStatus = "",
     restrictions,
+    manager_id,
   }: {
     id: number;
     sourceAccountId: string;
@@ -50,6 +53,7 @@ class Conversation {
     linkSocialPage?: string;
     dialogStatus: TConversationDialogStatus;
     restrictions: { cannotSend?: string; cannotSendMessageInsta?: boolean };
+    manager_id: number;
   }) {
     makeAutoObservable(this);
 
@@ -63,7 +67,7 @@ class Conversation {
     this.linkSocialPage = linkSocialPage;
     this.dialogStatus = dialogStatus;
     this.restrictions = restrictions;
-
+    this.manager_id = manager_id;
     this.chat = new ChatStore();
     this.addMessage(lastMessage);
   }
@@ -108,6 +112,10 @@ class Conversation {
       files,
       activeMessage
     );
+  }
+  async changeManager(managerId: number | null) {
+    this.manager_id = managerId;
+    const { data: r } = await conversation.setManager(this.id, managerId);
   }
 
   get lastMessage(): Message {

@@ -31,6 +31,7 @@ const transformConversations = (output: TItemsQueryResponse<Conversation>) => {
           linkSocialPage: conversation.link_social_page,
           dialogStatus: conversation.dialog_status,
           restrictions: conversation.restrictions,
+          manager_id: conversation.manager_id,
         })
     ),
   };

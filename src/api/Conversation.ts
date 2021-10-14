@@ -1,6 +1,7 @@
 import { API } from "@/actions/axios";
 import { TConversationDialogStatus } from "@/entities/Conversation";
 import { AxiosResponse } from "axios";
+import { conversation } from "@/api/index";
 
 export default class Conversation {
   conversations(
@@ -78,6 +79,13 @@ export default class Conversation {
     formData.append("conversationId", conversationId.toString());
 
     return API.post(`/conversation/send-message`, formData);
+  }
+
+  setManager(id: number, managerId: number | null) {
+    return API.post("/conversation/set-manager", {
+      conversationId: id,
+      managerId: managerId,
+    });
   }
 
   setDialogStatus(id: number, status: TConversationDialogStatus) {

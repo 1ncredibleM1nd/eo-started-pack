@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 import { SidebarHeader } from "@/components/Sidebar/SidebarHeader";
 import { SidebarUser } from "@/components/Sidebar/SidebarUser";
 import { SidebarTagList } from "@/components/Sidebar/SidebarTagList";
+import { SidebarManagerSelector } from "@/components/Sidebar/SidebarManagerSelector/SidebarManagerSelector";
 
 const SidebarWrapper = styled("div")`
   background-color: #f4f5f6;
@@ -32,6 +33,7 @@ export const Sidebar = observer(() => {
       <SidebarContent>
         <SidebarUser />
         <SidebarTagList />
+        <SidebarManagerSelector />
       </SidebarContent>
     </SidebarWrapper>
   );

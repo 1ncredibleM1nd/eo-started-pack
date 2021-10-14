@@ -20,6 +20,10 @@ export class ContactStore {
     return this.activeContact?.id;
   }
 
+  changeManager(managerId: number) {
+    this.activeContact?.changeManager(managerId);
+  }
+
   isLoaded = false;
   setLoaded(state: boolean) {
     this.isLoaded = state;
@@ -119,6 +123,7 @@ export class ContactStore {
             linkSocialPage: contact.link_social_page,
             dialogStatus: contact.dialog_status,
             restrictions: contact.restrictions,
+            manager_id: contact.manager_id,
           })
         );
       }
