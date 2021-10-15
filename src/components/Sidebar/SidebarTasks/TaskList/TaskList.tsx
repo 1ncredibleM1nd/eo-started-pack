@@ -20,7 +20,11 @@ export const TaskList = observer(() => {
             name={task.content}
             isDeadline={moment().unix() < task.timestampDateToComplete}
             isDone={task.status === "completed"}
-            from={managersStore.getById(task.creatorId).username}
+            from={
+              managersStore.getById(task.creatorId)
+                ? managersStore.getById(task.creatorId).username
+                : "Менеджер удалён"
+            }
             dateToComplete={task.timestampDateToComplete}
             createdAt={task.createdAt}
           />

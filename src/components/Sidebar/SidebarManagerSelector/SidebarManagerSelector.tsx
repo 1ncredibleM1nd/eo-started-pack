@@ -33,6 +33,9 @@ export const SidebarManagerSelector = observer(() => {
         Менеджер
       </h2>
       <Popover
+        className={css`
+          padding-bottom: 10px;
+        `}
         placement={"left"}
         content={<ManagerSelector onChangeManager={onChangeManager} />}
         title="Менеджер"
