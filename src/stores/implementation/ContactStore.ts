@@ -6,6 +6,7 @@ import { User } from "@/stores/model/User";
 import { reverse, sortBy } from "lodash";
 import { TConversationDialogStatus } from "@/entities/Conversation";
 import { conversation } from "@/api";
+import { Task } from "@/stores/model/Task";
 
 export class ContactStore {
   contacts: Map<number, Conversation> = new Map();
@@ -22,6 +23,29 @@ export class ContactStore {
 
   changeManager(managerId: number) {
     this.activeContact?.changeManager(managerId);
+  }
+
+  async createTask(task: Task) {
+    this.activeContact.tasks.unshift(task);
+    let { data } = await conversation.createTask(
+      this.activeContact?.id,
+      task.content,
+      task.timestampDateToComplete
+    );
+
+    task.id = data.data.id;
+  }
+
+  async completeTask(id: number) {
+    const completed = this.activeContact?.tasks?.find((task) => task.id === id);
+    completed.status = "completed";
+    this.activeContact?.filterTasks(id);
+    await conversation.setStatusTask(id, "completed");
+  }
+
+  async deleteTask(id: number) {
+    this.activeContact?.deleteTask(id);
+    await conversation.setStatusTask(id, "deleted");
   }
 
   isLoaded = false;
@@ -110,6 +134,12 @@ export class ContactStore {
   addContact(contacts: any[]) {
     for (let contact of contacts) {
       if (!this.contacts.has(contact.id)) {
+        //Todo correction of manager with unknown id
+        const manager = rootStore.managersStore.getById(contact.manager_id);
+        if (!manager) {
+          contact.manager_id = null;
+        }
+
         this.contacts.set(
           contact.id,
           new Conversation({
@@ -124,6 +154,7 @@ export class ContactStore {
             dialogStatus: contact.dialog_status,
             restrictions: contact.restrictions,
             manager_id: contact.manager_id,
+            tasks: contact.tasks,
           })
         );
       }

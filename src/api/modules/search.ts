@@ -32,6 +32,7 @@ const transformConversations = (output: TItemsQueryResponse<Conversation>) => {
           dialogStatus: conversation.dialog_status,
           restrictions: conversation.restrictions,
           manager_id: conversation.manager_id,
+          tasks: conversation.tasks,
         })
     ),
   };

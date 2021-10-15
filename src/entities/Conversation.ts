@@ -4,8 +4,7 @@ import Message from "./Message";
 import { User } from "@/stores/model/User";
 import { conversation } from "@/api";
 import { ChatStore } from "@/stores/implementation/ChatStore";
-import { Managers } from "@/api/Managers";
-
+import { ITask } from "@/stores/interface/ITask";
 const RESET_TAGS = [0];
 
 export type TConversationDialogStatus =
@@ -29,6 +28,7 @@ class Conversation {
   chat: ChatStore;
   restrictions: { cannotSend?: string; cannotSendMessageInsta?: boolean };
   manager_id: number | null;
+  tasks: ITask[] | null = [];
 
   constructor({
     id,
@@ -42,6 +42,7 @@ class Conversation {
     dialogStatus = "",
     restrictions,
     manager_id,
+    tasks,
   }: {
     id: number;
     sourceAccountId: string;
@@ -54,6 +55,7 @@ class Conversation {
     dialogStatus: TConversationDialogStatus;
     restrictions: { cannotSend?: string; cannotSendMessageInsta?: boolean };
     manager_id: number;
+    tasks: ITask[] | null;
   }) {
     makeAutoObservable(this);
 
@@ -70,6 +72,7 @@ class Conversation {
     this.manager_id = manager_id;
     this.chat = new ChatStore();
     this.addMessage(lastMessage);
+    this.tasks = tasks;
   }
 
   get readed() {
@@ -141,6 +144,16 @@ class Conversation {
 
   hover(sourceId: number) {
     return this.id === sourceId || this.lastMessage.id === sourceId;
+  }
+
+  deleteTask(id: number) {
+    this.tasks = this.tasks.filter((task) => task.id !== id);
+  }
+
+  filterTasks(id: number) {
+    const completedTask = this.tasks?.find((task) => task.id === id);
+    this.tasks = this.tasks.filter((task) => completedTask.id !== task.id);
+    this.tasks?.push(completedTask);
   }
 }
 

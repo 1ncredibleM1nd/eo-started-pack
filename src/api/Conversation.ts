@@ -1,7 +1,6 @@
 import { API } from "@/actions/axios";
 import { TConversationDialogStatus } from "@/entities/Conversation";
 import { AxiosResponse } from "axios";
-import { conversation } from "@/api/index";
 
 export default class Conversation {
   conversations(
@@ -91,6 +90,23 @@ export default class Conversation {
   setDialogStatus(id: number, status: TConversationDialogStatus) {
     return API.post("/conversation/set-conversation-status", {
       conversationId: id,
+      status,
+    });
+  }
+
+  // Tasks queries
+
+  createTask(id: number, content: string, timeUp: Date) {
+    return API.post("/conversation/create-task", {
+      conversationId: id,
+      content,
+      timestampDateToComplete: timeUp,
+    });
+  }
+
+  async setStatusTask(id: number, status: string) {
+    return API.post("/conversation/set-status-task", {
+      conversationTaskId: id,
       status,
     });
   }

@@ -4,6 +4,7 @@ import { SidebarHeader } from "@/components/Sidebar/SidebarHeader";
 import { SidebarUser } from "@/components/Sidebar/SidebarUser";
 import { SidebarTagList } from "@/components/Sidebar/SidebarTagList";
 import { SidebarManagerSelector } from "@/components/Sidebar/SidebarManagerSelector/SidebarManagerSelector";
+import SidebarTasks from "@/components/Sidebar/SidebarTasks";
 
 const SidebarWrapper = styled("div")`
   background-color: #f4f5f6;
@@ -34,6 +35,7 @@ export const Sidebar = observer(() => {
         <SidebarUser />
         <SidebarTagList />
         <SidebarManagerSelector />
+        <SidebarTasks />
       </SidebarContent>
     </SidebarWrapper>
   );

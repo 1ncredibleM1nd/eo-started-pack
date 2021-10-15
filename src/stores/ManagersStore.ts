@@ -21,6 +21,7 @@ export class ManagersStore {
       });
     }
   }
+
   getById(id: number | null) {
     return this.managerList.find((manager) => manager.id === id);
   }

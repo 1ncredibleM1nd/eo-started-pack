@@ -1,5 +1,4 @@
 import { makeAutoObservable } from "mobx";
-import store from "store";
 
 export class Manager {
   constructor(id: number, username: string, avatar: string) {

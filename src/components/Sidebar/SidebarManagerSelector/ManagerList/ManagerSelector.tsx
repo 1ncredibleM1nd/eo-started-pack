@@ -27,8 +27,9 @@ export const ManagerSelector = observer((props: TProps) => {
       className={css`
         padding-top: 10px;
         margin-left: 15px;
-        margin-bottom: 10px;
-        max-height: 400px;
+        width: auto;
+        padding-bottom: 10px !important;
+        max-height: 450px;
         overflow: auto;
       `}
       onChange={onChange}

@@ -23,3 +23,8 @@ import "./social_media_telegram.svg";
 import "./social_media_vkontakte.svg";
 import "./social_media_odnoklassniki.svg";
 import "./exclamation_circle.svg";
+
+import "./icon_task.svg";
+import "./icon_task_done.svg";
+import "./icon_delete_task.svg";
+import "./icon_edit_task.svg";
