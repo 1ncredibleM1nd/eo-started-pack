@@ -79,6 +79,7 @@ export const InputerTextArea = observer(
         </Dropdown>
 
         <Input.TextArea
+          id="textInputMessage"
           ref={inputRef}
           placeholder="Ваше сообщение"
           autoSize={autoSize}

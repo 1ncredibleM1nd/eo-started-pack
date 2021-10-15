@@ -7,6 +7,7 @@ import { SidebarStore } from "@/stores/SidebarStore";
 import { authStore, contactStore } from "@/stores/implementation";
 import { action, makeAutoObservable } from "mobx";
 import { TagsStore } from "@/stores/TagsStore";
+import { TemplateAnswersStore } from "@/stores/TemplateAnswersStore";
 import { socket } from "@/services/socket";
 import $ from "jquery";
 import { notification } from "antd";
@@ -24,6 +25,7 @@ class RootStore {
   schoolsStore = container.resolve(SchoolsStore);
   channelsStore = container.resolve(ChannelsStore);
   searchStore = container.resolve(SearchStore);
+  templateAnswersStore = container.resolve(TemplateAnswersStore);
   managersStore = container.resolve(ManagersStore);
 
   constructor() {

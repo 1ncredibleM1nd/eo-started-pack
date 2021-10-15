@@ -4,6 +4,9 @@ import Message from "./Message";
 import { User } from "@/stores/model/User";
 import { conversation } from "@/api";
 import { ChatStore } from "@/stores/implementation/ChatStore";
+import { TemplateAnswersStore } from "@/stores/TemplateAnswersStore";
+import { container } from "tsyringe";
+
 import { ITask } from "@/stores/interface/ITask";
 const RESET_TAGS = [0];
 
@@ -27,6 +30,7 @@ class Conversation {
   dialogStatus: TConversationDialogStatus = "";
   chat: ChatStore;
   restrictions: { cannotSend?: string; cannotSendMessageInsta?: boolean };
+  templateAnswers: TemplateAnswersStore;
   manager_id: number | null;
   tasks: ITask[] | null = [];
 
@@ -71,6 +75,7 @@ class Conversation {
     this.restrictions = restrictions;
     this.manager_id = manager_id;
     this.chat = new ChatStore();
+    this.templateAnswers = container.resolve(TemplateAnswersStore);
     this.addMessage(lastMessage);
     this.tasks = tasks;
   }
@@ -89,6 +94,7 @@ class Conversation {
 
   async loadMessages(page: number = 1, messageId?: number) {
     await this.chat.loadMessages(this.id, page, messageId);
+    await this.templateAnswers.load(this.schoolId);
   }
 
   addMessage(message: Message) {

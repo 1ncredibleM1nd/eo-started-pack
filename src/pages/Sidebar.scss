@@ -1,0 +1,131 @@
+@import "@/styles/variables.scss";
+@import "@/styles/media.scss";
+
+.side-bar-tabs {
+  .ant-tabs-nav-list {
+    padding: 0 11px;
+  }
+
+  .ant-tabs-tab {
+    background: initial !important;
+    border: 0 !important;
+    padding: 8px 4px !important;
+
+    .ant-tabs-tab-btn {
+      display: flex;
+
+      svg {
+        margin-right: 5px;
+      }
+    }
+  }
+
+  .ant-tabs-content {
+    padding: 0 15px;
+  }
+
+  ::-webkit-input-placeholder {
+    color: $grey_blue_default;
+  }
+
+  :-moz-placeholder {
+    color: $grey_blue_default;
+    opacity: 1;
+  }
+
+  ::-moz-placeholder {
+    color: $grey_blue_default;
+    opacity: 1;
+  }
+
+  :-ms-input-placeholder {
+    color: $grey_blue_default;
+  }
+
+  ::-ms-input-placeholder {
+    color: $grey_blue_default;
+  }
+
+  ::placeholder {
+    color: $grey_blue_default;
+  }
+
+  .template-description {
+    padding: 10px 0;
+    width: 100%;
+    height: 240px;
+    border: 0;
+    margin-top: 10px;
+    border-bottom: 1px solid #f4f5f6;
+    border-top: 1px solid #f4f5f6;
+    outline: none;
+  }
+
+  .add-template-btn {
+    background-color: $blue_default;
+    color: #fff;
+    border-radius: 5px;
+    border: 0;
+    font-size: 12px;
+    height: 22px;
+    padding: 0px 10px;
+  }
+
+  .ant-select {
+    outline: none;
+  }
+
+  .ant-select-single .ant-select-selector {
+    box-shadow: none;
+    border: 0;
+    background: #F4F5F6;
+    height: 22px;
+    color: #607D8B;
+    font-size: 12px;
+    align-items: center;
+    border-radius: 5px;
+    min-width: 150px;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  .ant-tree {
+    background: initial;
+    transform: translateX(-10px);
+  }
+
+  .ant-tree-switcher {
+    color: $dark_blue_soft;
+  }
+
+  .ant-tree .ant-tree-treenode {
+    width: 100%;
+  }
+
+  .ant-tree .ant-tree-node-content-wrapper {
+    width: 100%;
+  }
+
+  .template-answer-element {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .template-answer-group-element {
+    font-weight: 500;
+  }
+
+  .template-answer-delete-btn {
+    cursor: pointer;
+    width: 12px;
+    height: 13px;
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .template-answer-element:hover .template-answer-delete-btn {
+    visibility: initial;
+    opacity: 1;
+  }
+}

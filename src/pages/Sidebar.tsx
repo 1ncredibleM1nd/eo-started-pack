@@ -1,10 +1,17 @@
 import { styled } from "goober";
 import { observer } from "mobx-react-lite";
+import { useStore } from "@/stores";
 import { SidebarHeader } from "@/components/Sidebar/SidebarHeader";
 import { SidebarUser } from "@/components/Sidebar/SidebarUser";
 import { SidebarTagList } from "@/components/Sidebar/SidebarTagList";
+import { SidebarTemplateAnswer } from "@/components/Sidebar/SidebarTemplateAnswer";
+import { Tabs } from "antd";
+import { Icon } from "@/ui/Icon/Icon";
+import "./Sidebar.scss";
 import { SidebarManagerSelector } from "@/components/Sidebar/SidebarManagerSelector/SidebarManagerSelector";
 import SidebarTasks from "@/components/Sidebar/SidebarTasks";
+
+const { TabPane } = Tabs;
 
 const SidebarWrapper = styled("div")`
   background-color: #f4f5f6;
@@ -17,7 +24,7 @@ const SidebarWrapper = styled("div")`
 
 const SidebarContent = styled("div")`
   height: 100vh;
-  padding: 15px 10px;
+  padding: 0;
   padding-bottom: 13px;
   overflow-y: scroll;
 
@@ -27,15 +34,36 @@ const SidebarContent = styled("div")`
   }
 `;
 
+const profileTabName = (
+  <>
+    <Icon fill={"currentColor"} name={"icon_profile"} /> Профиль
+  </>
+);
+const tamplateTabName = (
+  <>
+    <Icon fill={"currentColor"} name={"icon_template"} /> Шаблоны
+  </>
+);
+
 export const Sidebar = observer(() => {
+  const { contactStore } = useStore();
   return (
     <SidebarWrapper>
       <SidebarHeader />
       <SidebarContent>
-        <SidebarUser />
-        <SidebarTagList />
-        <SidebarManagerSelector />
-        <SidebarTasks />
+        <Tabs type="card" className="side-bar-tabs">
+          <TabPane tab={profileTabName} key="1">
+            <SidebarUser />
+            <SidebarTagList />
+            <SidebarManagerSelector />
+            <SidebarTasks />
+          </TabPane>
+          <TabPane tab={tamplateTabName} key="2">
+            <SidebarTemplateAnswer
+              key={"st_" + contactStore.activeContact?.id}
+            />
+          </TabPane>
+        </Tabs>
       </SidebarContent>
     </SidebarWrapper>
   );
