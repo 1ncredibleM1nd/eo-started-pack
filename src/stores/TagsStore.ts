@@ -3,7 +3,7 @@ import store from "store";
 import { makeAutoObservable } from "mobx";
 import { Tag } from "@/stores/model/Tag";
 import { tags } from "@/api";
-import { filter, uniqBy } from "lodash";
+import { filter, uniqBy } from "lodash-es";
 import { SchoolsStore } from "./SchoolsStore";
 import { Socket } from "@/services/socket";
 

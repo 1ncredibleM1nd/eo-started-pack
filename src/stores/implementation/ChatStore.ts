@@ -3,7 +3,7 @@ import { contactStore } from "@/stores/implementation";
 import { getMessages, sendMessage } from "@/actions";
 import { Entity, Message } from "../../entities";
 import { rootStore } from "..";
-import { uniqBy, sortBy } from "lodash";
+import { uniqBy, sortBy } from "lodash-es";
 
 const MAX_MESSAGE_COUNT_ON_PAGE = 29;
 

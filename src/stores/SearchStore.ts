@@ -4,7 +4,7 @@ import {
   TSearchByMessageRequest,
   TSearchBySourceAccountRequest,
 } from "@/api/types";
-import { debounce } from "lodash";
+import { debounce } from "lodash-es";
 import { ItemsQuery, TItemsQueryResponse } from "./model/ItemsQuery";
 import { Conversation } from "@/entities";
 import { ChannelsStore } from "./ChannelsStore";
