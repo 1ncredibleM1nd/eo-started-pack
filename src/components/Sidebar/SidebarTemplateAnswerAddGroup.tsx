@@ -94,8 +94,9 @@ export const SidebarTemplateAnswerAddGroup = observer(() => {
   const insertTextToInput = (text: string) => {
     const element = document.getElementById("textInputMessage");
     if (element) {
-      element.value = element.value + text;
+      element.value = text;
       ReactTestUtils.Simulate.change(element);
+      element.focus();
     }
   };
 
