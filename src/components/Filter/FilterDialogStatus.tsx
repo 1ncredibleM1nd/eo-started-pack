@@ -61,7 +61,7 @@ export const FilterDialogStatus = observer(() => {
     <div
       className={css`
         display: flex;
-        margin-bottom: 6px;
+        margin-top: 5px;
         padding-bottom: 6px;
         border-bottom: 1px solid #f4f5f6;
       `}

@@ -10,6 +10,8 @@ import { SearchInput } from "./SearchInput";
 import FilterButton from "@/components/contacts/comp/FilterButton";
 import { FilterDialogStatus } from "../Filter/FilterDialogStatus";
 import { useState } from "react";
+import { css } from "goober";
+import { classnames } from "@/utils/styles";
 
 const Search = observer(() => {
   const { contactStore, schoolsStore, tagsStore, sidebarStore, searchStore } =
@@ -52,35 +54,58 @@ const Search = observer(() => {
   }
 
   return (
-    <div className="contact_header">
-      <div className="search">
-        <div
-          className="search-filter"
-          onClick={() => setFilterVisible(!filterVisible)}
-        >
-          <FilterButton
-            count={tagsStore.activeTagsCount}
-            visible={filterVisible}
-          />
+    <>
+      <div
+        className={classnames(
+          "contact_header",
+          css`
+            max-height: 50%;
+
+            @media (max-width: 480px) {
+              max-height: 100%;
+            }
+          `
+        )}
+      >
+        <div className="search">
+          <div
+            className="search-filter"
+            onClick={() => setFilterVisible(!filterVisible)}
+          >
+            <FilterButton
+              count={tagsStore.activeTagsCount}
+              visible={filterVisible}
+            />
+          </div>
+
+          <SearchInput />
         </div>
 
-        <SearchInput />
+        <div
+          className={classnames(
+            css`
+              height: calc(100% - 60px);
+              overflow: auto;
+            `,
+            "contact-filters"
+          )}
+        >
+          <Collapse
+            bordered={false}
+            accordion
+            activeKey={filterVisible ? "filter" : ""}
+          >
+            <Collapse.Panel header="" key="filter">
+              <FilterTags onChangeTags={onChangeTags} />
+              <FilterSchools onChangeSchool={onChangeSchool} />
+              <FilterChannels onChangeSocial={onChangeSocial} />
+            </Collapse.Panel>
+          </Collapse>
+        </div>
       </div>
 
-      <Collapse
-        bordered={false}
-        accordion
-        activeKey={filterVisible ? "filter" : ""}
-      >
-        <Collapse.Panel header="" key="filter">
-          <FilterTags onChangeTags={onChangeTags} />
-          <FilterSchools onChangeSchool={onChangeSchool} />
-          <FilterChannels onChangeSocial={onChangeSocial} />
-        </Collapse.Panel>
-      </Collapse>
-
       <FilterDialogStatus />
-    </div>
+    </>
   );
 });
 

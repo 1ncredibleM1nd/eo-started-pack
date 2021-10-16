@@ -2,14 +2,7 @@
 @import "@/styles/media.scss";
 
 .ant-collapse-borderless > .ant-collapse-item > .ant-collapse-content {
-  overflow: auto !important;
-  max-height: 50vh;
   box-shadow: 0 25px 25px -25px rgba(0, 0, 0, 0.12);
-
-  @include _480 {
-    height: 100vh;
-    max-height: 100vh;
-  }
 }
 
 .contacts-list {
