@@ -166,12 +166,12 @@ const MessageComponent = observer((props: TProps) => {
               >
                 {message.reply ? (
                   <div className="reply">
+                    {renderReplyAttachments.length > 0 && (
+                      <div className="msg_file_container">
+                        {renderReplyAttachments}
+                      </div>
+                    )}
                     <div className="msg_text_container">
-                      {renderReplyAttachments.length > 0 && (
-                        <div className="msg_file_container">
-                          {renderReplyAttachments}
-                        </div>
-                      )}
                       <ReactMarkdown
                         className="message-markdown-container"
                         children={message.reply.content}
@@ -195,12 +195,10 @@ const MessageComponent = observer((props: TProps) => {
                 ) : (
                   ""
                 )}
+                {renderAttachments.length > 0 && (
+                  <div className="msg_file_container">{renderAttachments}</div>
+                )}
                 <div className="msg_text_container">
-                  {renderAttachments.length > 0 && (
-                    <div className="msg_file_container">
-                      {renderAttachments}
-                    </div>
-                  )}
                   <ReactMarkdown
                     className="message-markdown-container"
                     children={message.content}

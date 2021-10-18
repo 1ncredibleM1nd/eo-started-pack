@@ -1289,3 +1289,70 @@ a.message-link {
     visibility: visible !important;
   }
 }
+
+// ---------------
+// UPDATE: message image grid and reply message grid 
+// ---------------
+
+.message.self .message-content,
+.message .message-content {
+  padding: 0 !important;
+  position: static;
+}
+
+.msg_text_container {
+  padding: 0.5rem 1rem;
+  padding-bottom: 0;
+}
+
+.message .message-content .msg_file_container {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border-bottom: 0;
+  width: 100%;
+  min-height: 60px;
+}
+
+.message .message-content .msg_file_container .ant-image {
+  width: 100%;
+}
+
+.message .message-options {
+  padding: 0.5rem 1rem;
+  margin-top: 0 !important;
+}
+
+.message .message-content .reply {
+  padding-left: 0 !important;
+  margin: 1rem 1rem 0 1rem;
+}
+
+.message .message-content .reply .message-attachment-image {
+  border-radius: 0 10px 0 0;
+  transform: translateX(-1px);
+}
+
+.message .message-content .reply .msg_file_container {
+  // margin-left: 0.5rem;
+  // width: calc(100% - 0.5rem);
+}
+
+.message .message-content .reply .msg_type {
+  padding: 0.5rem 1rem;
+  padding-bottom: 0;
+}
+
+.ant-spin-nested-loading {
+  width: 100%;
+}
+
+.reply .ant-spin-container {
+  margin-left: 0.5rem;
+  padding: 0.5rem;
+}
+
+.ant-spin-container {
+  width: calc(100% - 0.5rem);
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #b4d4e9;
+}
