@@ -3,7 +3,7 @@ import dayjs, { toCalendar } from "@/services/dayjs";
 import { Badge } from "antd";
 import { Message } from "@/entities";
 import ReactMarkdown from "react-markdown";
-import { Menu, Dropdown } from "antd";
+import { Dropdown } from "antd";
 import { Icon } from "@/ui/Icon/Icon";
 import { useStore } from "@/stores";
 import { MoreOutlined } from "@ant-design/icons";
@@ -14,6 +14,7 @@ import { css } from "goober";
 import { classnames } from "@/utils/styles";
 import ConversationTag from "@/components/contacts/comp/Tags";
 import { ConversationWrapper } from "@/components/contacts/comp/Conversation/ConversationWrapper";
+import ConversationContextMenu from "./ConversationContextMenu";
 import AvatarThumb from "@/components/AvatarThumb";
 
 type IProps = {
@@ -56,49 +57,6 @@ export const ConversationItem = observer(
     for (let i = 0; i < max; i++) {
       tags.push(contact.tags[i]);
     }
-
-    const DropDownMenu = (contactId: number) => {
-      return (
-        <Menu onClick={({ domEvent }) => domEvent.stopPropagation()}>
-          <Menu.Item
-            key={"chat_unread_menu_item"}
-            onClick={() => onChangeStatus?.(contactId, "unread")}
-          >
-            Пометить как непрочитанное
-          </Menu.Item>
-          <Menu.Item
-            key={"chat_unanswer_menu_item"}
-            onClick={() => onChangeStatus?.(contactId, "answer")}
-          >
-            Пометить как отвеченное
-          </Menu.Item>
-          {!authStore.isFrame ? (
-            <>
-              <Menu.Item
-                key={"chat_open_new_tab"}
-                onClick={() => {
-                  window.open(`/chat?im=${contactId}`, "_blank");
-                }}
-              >
-                Открыть в новой вкладке
-              </Menu.Item>
-              <Menu.Item
-                key={"chat_open_new_window"}
-                onClick={() => {
-                  window.open(
-                    `/chat?im=${contactId}`,
-                    "_blank",
-                    "location=yes"
-                  );
-                }}
-              >
-                Открыть в новом окне
-              </Menu.Item>
-            </>
-          ) : null}
-        </Menu>
-      );
-    };
 
     const contactTime = (message: Message) => {
       let contactDate = dayjs(message.timestamp * 1000);
@@ -160,7 +118,12 @@ export const ConversationItem = observer(
             </div>
 
             <Dropdown
-              overlay={DropDownMenu(contact.id)}
+              overlay={ConversationContextMenu({
+                status: contact.dialogStatus,
+                onChangeStatus: onChangeStatus,
+                contactId: contact.id,
+                isFrame: authStore.isFrame,
+              })}
               overlayStyle={{ animationDelay: "0s", animationDuration: "0s" }}
               placement="bottomRight"
               trigger={["click"]}
