@@ -2,11 +2,12 @@ import { useRef, useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { css } from "goober";
 import { Input } from "antd";
-import { Button, DatePicker } from "antd";
+import { Button } from "antd";
 import { TextAreaRef } from "antd/lib/input/TextArea";
 import { Task } from "@/stores/model/Task";
 import { useStore } from "@/stores";
-import moment from "moment";
+import { DatePicker } from "@/ui/DatePicker/DatePicker";
+import dayjs from "@/services/dayjs";
 
 type TProps = {
   onCancel: () => void;
@@ -14,7 +15,7 @@ type TProps = {
 
 export const SidebarAddTaskForm = observer(({ onCancel }: TProps) => {
   const { contactStore, usersStore } = useStore();
-  const [date, setDate] = useState(moment().add(1, "day"));
+  const [date, setDate] = useState(dayjs().add(1, "day"));
   const [taskContent, setTaskContent] = useState("");
   const inputRef = useRef<TextAreaRef | null>(null);
 
@@ -32,18 +33,18 @@ export const SidebarAddTaskForm = observer(({ onCancel }: TProps) => {
       taskContent,
       usersStore.user?.id,
       "active",
-      moment().unix(),
-      moment(date).unix()
+      dayjs().unix(),
+      dayjs(date).unix()
     );
 
     await contactStore.createTask(newTask);
-    setDate(moment().add(1, "day"));
+    setDate(dayjs().add(1, "day"));
     setTaskContent("");
     onCancel();
   };
 
   const cancelCreating = () => {
-    setDate(moment().add(1, "day"));
+    setDate(dayjs().add(1, "day"));
     setTaskContent("");
     onCancel();
   };

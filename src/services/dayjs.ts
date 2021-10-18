@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import relativeTime from "dayjs/plugin/calendar";
 import duration from "dayjs/plugin/duration";
 import "dayjs/locale/ru";
@@ -8,6 +8,7 @@ dayjs.extend(relativeTime);
 dayjs.extend(duration);
 
 export default dayjs;
+export { Dayjs };
 
 export function toCalendar(date: dayjs.Dayjs, formats = {}) {
   return date.calendar(null, {

@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import TaskItem from "./TaskItem";
 import { css } from "goober";
 import { useStore } from "@/stores";
-import moment from "moment";
+import dayjs from "@/services/dayjs";
 
 export const TaskList = observer(() => {
   const { contactStore, managersStore } = useStore();
@@ -18,7 +18,7 @@ export const TaskList = observer(() => {
             key={task.id}
             id={task.id}
             name={task.content}
-            isDeadline={moment().unix() < task.timestampDateToComplete}
+            isDeadline={dayjs().unix() < task.timestampDateToComplete}
             isDone={task.status === "completed"}
             from={
               managersStore.getById(task.creatorId)
