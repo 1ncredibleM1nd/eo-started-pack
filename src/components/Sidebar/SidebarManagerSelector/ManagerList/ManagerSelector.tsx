@@ -1,7 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { Radio, RadioChangeEvent, Space } from "antd";
 import { css, styled } from "goober";
-import { UserAvatar } from "@/components/user_info/UserAvatar";
 import React from "react";
 import { useStore } from "@/stores";
 import { ManagerView } from "@/components/Sidebar/SidebarManagerSelector/ManagerView";

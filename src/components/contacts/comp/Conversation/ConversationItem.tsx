@@ -1,7 +1,6 @@
 import { observer } from "mobx-react-lite";
 import dayjs, { toCalendar } from "@/services/dayjs";
 import { Badge } from "antd";
-import { UserAvatar } from "@/components/user_info/UserAvatar";
 import { Message } from "@/entities";
 import ReactMarkdown from "react-markdown";
 import { Menu, Dropdown } from "antd";
@@ -14,6 +13,7 @@ import { css } from "goober";
 import { classnames } from "@/utils/styles";
 import ConversationTag from "@/components/contacts/comp/Tags";
 import { ConversationWrapper } from "@/components/contacts/comp/Conversation/ConversationWrapper";
+import AvatarThumb from "@/components/AvatarThumb";
 
 type IProps = {
   index: number;
@@ -128,11 +128,13 @@ export const ConversationItem = observer(
         >
           <div className="avatar">
             <Badge className={`online_dot ${active && "active"}`} dot={online}>
-              <UserAvatar
-                size="48"
-                user={contact.user}
+              <AvatarThumb
+                size={48}
+                img={contact.user.avatar}
                 round={true}
                 textSizeRatio={1.75}
+                name={contact.user.username}
+                textLength={2}
               />
             </Badge>
           </div>
@@ -140,11 +142,14 @@ export const ConversationItem = observer(
           <div className="contacts-content">
             <div className="contacts-info">
               <div className={"contacts-school-icon"}>
-                <img
-                  src={school.logo}
+                <AvatarThumb
+                  size={18}
+                  img={school.logo}
+                  round={true}
+                  textSizeRatio={2}
+                  name={school.name}
+                  textLength={1}
                   className="school-logo"
-                  title={school.name}
-                  alt={school.name}
                 />
               </div>
 

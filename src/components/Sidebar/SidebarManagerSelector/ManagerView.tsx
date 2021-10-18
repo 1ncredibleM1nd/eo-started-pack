@@ -1,8 +1,8 @@
 import { css, styled } from "goober";
-import { UserAvatar } from "@/components/user_info/UserAvatar";
 import React from "react";
 import { observer } from "mobx-react-lite";
 import { Manager } from "@/stores/model/Manager";
+import AvatarThumb from "@/components/AvatarThumb";
 
 type TProps = {
   manager: Manager;
@@ -22,7 +22,14 @@ export const ManagerView = observer((props: TProps) => {
         align-items: center;
       `}
     >
-      <UserAvatar size={18} user={manager} round={true} textSizeRatio={1.75} />
+      <AvatarThumb
+        size={18}
+        img={manager.avatar}
+        round={true}
+        textSizeRatio={1.75}
+        name={manager.username}
+        textLength={2}
+      />
       <span
         className={css`
           margin-left: 5px;

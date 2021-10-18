@@ -3,6 +3,7 @@ import { useStore } from "@/stores";
 import { Switch } from "antd";
 import { FilterItemTitle } from "@/components/Filter/FilterItemTitle";
 import { FilterItem } from "@/components/Filter/FilterItem";
+import AvatarThumb from "../AvatarThumb";
 
 export const FilterSchools = observer(({ onChangeSchool }) => {
   const { schoolsStore } = useStore();
@@ -21,7 +22,15 @@ export const FilterSchools = observer(({ onChangeSchool }) => {
                 onChangeSchool(Number(school.id));
               }}
             />
-            <img src={school.logo} className="school-logo" alt={school.name} />
+            <AvatarThumb
+              size={18}
+              img={school?.logo}
+              name={school?.name}
+              round={true}
+              textSizeRatio={2}
+              textLength={1}
+              className="school-logo"
+            />
             <p>{school.name}</p>
           </div>
         );

@@ -4,13 +4,13 @@ import ReactMarkdown from "react-markdown";
 import { Menu, Dropdown } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
 import { Message } from "@/entities";
-import { UserAvatar } from "@/components/user_info/UserAvatar";
 import { MessageAttachment } from "./MessageAttachment";
 import dayjs from "@/services/dayjs";
 import { download } from "@/api/file";
 import { MessageCommentLink } from "./MessageCommentLink";
 import { MessageUser } from "@/components/chat/comp/MessageUser";
 import { Icon } from "@/ui/Icon/Icon";
+import AvatarThumb from "@/components/AvatarThumb";
 
 type TProps = {
   active: boolean;
@@ -130,11 +130,13 @@ const MessageComponent = observer((props: TProps) => {
         <div className="message-wrapper">
           <div className="avatar avatar-sm">
             {message.user ? (
-              <UserAvatar
-                size="36"
-                user={message.user}
+              <AvatarThumb
+                size={36}
+                img={message.user.avatar}
                 round={true}
-                textSizeRatio={1.75}
+                textSizeRatio={2}
+                name={message.user.username}
+                textLength={2}
               />
             ) : (
               <img

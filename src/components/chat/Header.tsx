@@ -4,6 +4,7 @@ import "./Header.scss";
 import { useStore } from "@/stores";
 import { useHistory } from "react-router-dom";
 import { Icon } from "@/ui/Icon/Icon";
+import AvatarThumb from "../AvatarThumb";
 
 const Header = observer(() => {
   const { contactStore, layoutStore, schoolsStore, sidebarStore } = useStore();
@@ -69,13 +70,17 @@ const Header = observer(() => {
                     </p>
                   </div>
                   <div className={"header_school"}>
-                    <img
-                      src={school.logo}
+                    <AvatarThumb
+                      size={18}
+                      img={school?.logo}
+                      name={school?.name}
+                      round={true}
+                      textSizeRatio={2}
+                      textLength={1}
                       className="header_school_logo"
-                      alt={""}
                     />
-                    <a className={"header_school_name"} title={school.name}>
-                      {school.name}
+                    <a className="header_school_name" title={school?.name}>
+                      {school?.name}
                     </a>
                   </div>
                 </div>
