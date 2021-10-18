@@ -139,10 +139,7 @@ const MessageComponent = observer((props: TProps) => {
                 textLength={2}
               />
             ) : (
-              <img
-                src="https://png.pngitem.com/pimgs/s/150-1503945_transparent-user-png-default-user-image-png-png.png"
-                alt=""
-              />
+              <Icon name={"robot_icon"} fill="#70acdd" size="xl" />
             )}
           </div>
           <div className={`message-container`}>

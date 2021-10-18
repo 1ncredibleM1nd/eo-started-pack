@@ -30,3 +30,4 @@ import "./icon_task.svg";
 import "./icon_task_done.svg";
 import "./icon_delete_task.svg";
 import "./icon_edit_task.svg";
+import "./robot_icon.svg";
