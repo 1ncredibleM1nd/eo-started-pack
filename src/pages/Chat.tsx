@@ -43,7 +43,7 @@ const App = observer(() => {
         <Col
           xs={layoutStore.layout === "chat" && !withSidebar ? 24 : 0}
           sm={layoutStore.layout === "chat" && !withSidebar ? 24 : 0}
-          md={layoutStore.layout === "chat" && !withSidebar ? 14 : 0}
+          md={14}
           lg={withSidebar ? 10 : 17}
           xl={withSidebar ? 11 : 17}
           xxl={withSidebar ? 13 : 18}
