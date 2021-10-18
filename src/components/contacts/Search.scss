@@ -204,6 +204,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
 
   @include _990 {
     padding: 0;
@@ -212,6 +213,11 @@
 
   @include _768 {
     padding: 0 10px;
+    padding-left: 0;
+  }
+
+  @include _480 {
+    padding: 0;
   }
 
   .search-input {

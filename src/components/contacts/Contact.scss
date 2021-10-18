@@ -97,12 +97,16 @@
 .last_msg {
   width: 100%;
   font-size: 15px;
-  display: inline-flex;
-  flex-wrap: wrap;
   min-height: 20px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding-right: 20px;
 
   @include _768 {
-    padding-right: 24px;
+    padding-right: 20px;
   }
 
   &.unread,
@@ -116,20 +120,15 @@
   }
 
   .from {
-    margin-right: 5px;
-    display: flex;
+    margin-right: 3px;
+    display: inline;
     color: #2a99ff;
-    position: relative;
     white-space: nowrap;
   }
 
   .last-message-content {
-    width: 90%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
+    display: inline;
+    word-wrap: break-word;
   }
 }
 
@@ -227,6 +226,7 @@
 
 .contacts-item {
   padding: 10px 10px !important;
+  padding-right: 15px !important;
 
   &.loading {
     height: auto !important;
@@ -238,7 +238,7 @@
   }
 
   @include _768 {
-    padding: 10px 17px !important;
+    padding: 10px 7px !important;
     padding-right: 0 !important;
   }
 

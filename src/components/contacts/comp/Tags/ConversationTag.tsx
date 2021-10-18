@@ -4,7 +4,7 @@ import { useStore } from "@/stores";
 import { styled } from "goober";
 
 type TProps = {
-  id: number;
+  id?: number;
   isButton: boolean;
 };
 

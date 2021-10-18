@@ -155,14 +155,11 @@
   }
 }
 
-.audio-holder {
-}
+.audio-holder {}
 
-.video-holder {
-}
+.video-holder {}
 
-.file-holder {
-}
+.file-holder {}
 
 .seting_menu_header {
   display: flex;
@@ -377,7 +374,8 @@
   justify-content: center;
   align-items: center;
   height: 30px;
-  margin: 25px 0;
+  margin-bottom: 25px;
+  margin-top: 13px;
   padding: 0 20px;
 }
 
@@ -519,10 +517,6 @@
     text-align: left;
   }
 
-  // @include _768 {
-  //   padding-left: 30px !important;
-  // }
-
   .avatar {
     order: 1;
   }
@@ -544,11 +538,14 @@
     align-items: center;
   }
 
+  .message-container {
+    margin: 0;
+    margin-right: 5px !important;
+  }
+
   .message-content {
-    min-width: 7.5em;
-    max-width: 40rem;
+    width: 100%;
     min-height: 40px;
-    margin-right: 0.25rem !important;
     background: $blue_soft !important;
     padding-left: 1rem !important;
     padding-right: 1rem;
@@ -669,7 +666,7 @@
   }
 
   .msg_menu-container {
-    position: absolute;
+    position: static;
     right: -35px;
     top: 0;
     height: 100%;
@@ -681,13 +678,25 @@
 
     .msg_menu {
       width: 100%;
-      height: 32px;
+      height: 30px;
+      width: 30px;
       display: flex;
       justify-content: center;
       align-items: flex-start;
       margin-bottom: auto;
       visibility: hidden;
       opacity: 0;
+      margin-top: -4px;
+
+      .dropdown-trigger {
+        color: $grey_lite;
+        font-size: 18px;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
     }
 
     .editted_icon {
@@ -721,6 +730,8 @@
 
   .message-container {
     position: relative;
+    margin: 0;
+    margin-left: 5px;
 
     &:hover .msg_menu {
       opacity: 1;
@@ -730,11 +741,9 @@
   }
 
   .message-content {
-    min-width: 70px;
-    max-width: 40rem;
+    width: 100%;
     min-height: 40px;
     font-size: 16px;
-    left: 5px;
     position: relative;
     padding-left: 5px;
     color: $black !important;
@@ -900,10 +909,6 @@
       position: relative;
     }
 
-    .msg_menu .dropdown-trigger {
-      color: $grey_default;
-    }
-
     .readed-status {
       position: absolute;
       right: 8px;
@@ -1030,7 +1035,7 @@
 .lock-scroll {
   overflow: hidden;
 
-  @supports not( -moz-appearance:none ) {
+  @supports not(-moz-appearance:none) {
     padding-right: 3px;
     box-sizing: content-box;
   }
@@ -1259,6 +1264,8 @@ a.message-link {
     .message-wrapper {
       padding: 0 10px;
     }
+
+
   }
 
   .message.self .message-container {

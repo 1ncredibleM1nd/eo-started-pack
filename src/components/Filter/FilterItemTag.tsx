@@ -26,28 +26,11 @@ export const FilterItemTag = observer(
           border-radius: 6px;
           cursor: pointer;
           transition: 0.2s;
-          background-color:
-            ${ !selected
+          background-color: ${ !selected
             ? "#E0E4E4"
             : color
             ? color
             : "#d4e9f7"};
-
-          @media (max-width: 1160px) {
-            width: calc(50% - 5px);
-          }
-
-          @media (max-width: 768px) {
-            width: calc(25% - 5px);
-          }
-
-          @media (max-width: 600px) {
-            width: calc(33% - 5px);
-          }
-
-          @media (max-width: 425px) {
-            width: calc(50% - 5px);
-          }
         `}
         onClick={() => onSelect()}
       >
