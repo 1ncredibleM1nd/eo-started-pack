@@ -153,7 +153,7 @@ export const SidebarAddTaskForm = observer(({ onCancel }: TProps) => {
               createTask();
             }}
           >
-            Поставить задачу
+            Добавить
           </Button>
           <Button
             type="link"
@@ -178,7 +178,7 @@ export const SidebarAddTaskForm = observer(({ onCancel }: TProps) => {
             `}
             onClick={() => cancelCreating()}
           >
-            Отменить
+            Отмена
           </Button>
         </div>
       </div>

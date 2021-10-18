@@ -62,7 +62,6 @@ export const SidebarTemplateAnswerAddTemplate = observer(() => {
       }
     }
   };
-
   return (
     <div>
       {visible ? (
@@ -129,7 +128,8 @@ export const SidebarTemplateAnswerAddTemplate = observer(() => {
             className={css`
               display: flex;
               justify-content: space-between;
-              align-items: center;
+              align-items: flex-start;
+              flex-wrap: wrap;
             `}
           >
             <Select
@@ -146,6 +146,13 @@ export const SidebarTemplateAnswerAddTemplate = observer(() => {
               }
               defaultValue={groupDefaultValue}
               onChange={(value) => setSelectGroupId(value)}
+              className={css`
+                margin-right: 10px;
+
+                @media (max-width: 1470px) {
+                  margin-bottom: 10px;
+                }
+              `}
             >
               {templateAnswerGroups.map((templateAnswerGroup) => (
                 <Option
