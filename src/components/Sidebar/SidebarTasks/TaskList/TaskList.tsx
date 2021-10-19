@@ -2,34 +2,21 @@ import { observer } from "mobx-react-lite";
 import TaskItem from "./TaskItem";
 import { css } from "goober";
 import { useStore } from "@/stores";
-import dayjs from "@/services/dayjs";
 
 export const TaskList = observer(() => {
-  const { contactStore, managersStore } = useStore();
+  const { contactStore } = useStore();
+
+  const renderTasks = contactStore.activeContact?.tasks?.map((task) => (
+    <TaskItem key={task.id} task={task} />
+  ));
+
   return (
     <div
       className={css`
         margin-top: 10px;
       `}
     >
-      {contactStore.activeContact?.tasks?.map((task) => {
-        return (
-          <TaskItem
-            key={task.id}
-            id={task.id}
-            name={task.content}
-            isDeadline={dayjs().unix() < task.timestampDateToComplete}
-            isDone={task.status === "completed"}
-            from={
-              managersStore.getById(task.creatorId)
-                ? managersStore.getById(task.creatorId).username
-                : "Менеджер удалён"
-            }
-            dateToComplete={task.timestampDateToComplete}
-            createdAt={task.createdAt}
-          />
-        );
-      })}
+      {renderTasks}
     </div>
   );
 });

@@ -1,8 +1,8 @@
 export interface ITask {
-  id: number | null;
+  id: number;
   content: string;
-  creatorId: number | null;
+  creatorId?: number;
   status: string;
-  createdAt: number | number[];
-  timestampDateToComplete: number | number[];
+  createdAt: number;
+  timestampDateToComplete: number;
 }

@@ -22,7 +22,7 @@ export class ManagersStore {
     }
   }
 
-  getById(id: number | null) {
+  getById(id?: number) {
     return this.managerList.find((manager) => manager.id === id);
   }
 }
