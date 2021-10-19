@@ -104,8 +104,6 @@ const Search = observer(() => {
           <FilterDialogStatus />
         </div>
       </div>
-
-      <FilterDialogStatus />
     </>
   );
 });

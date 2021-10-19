@@ -4,8 +4,6 @@ import { rootStore } from "..";
 import { getConversations } from "@/actions";
 import { User } from "@/stores/model/User";
 import { reverse, sortBy } from "lodash-es";
-import { TConversationDialogStatus } from "@/entities/Conversation";
-import { conversation } from "@/api";
 import { Task } from "@/stores/model/Task";
 import { TConversationDialogStatus } from "@/entities/Conversation";
 import { conversation } from "@/api";
