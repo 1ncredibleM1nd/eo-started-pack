@@ -7,6 +7,8 @@ import { reverse, sortBy } from "lodash-es";
 import { TConversationDialogStatus } from "@/entities/Conversation";
 import { conversation } from "@/api";
 import { Task } from "@/stores/model/Task";
+import { TConversationDialogStatus } from "@/entities/Conversation";
+import { conversation } from "@/api";
 
 export class ContactStore {
   contacts: Map<number, Conversation> = new Map();

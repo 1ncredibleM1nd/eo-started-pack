@@ -114,6 +114,11 @@
     width: 85%;
   }
 
+  &.unread,
+  &.unanswer {
+    width: 85%;
+  }
+
   .icon_comment {
     margin-right: 4px;
     align-self: center;

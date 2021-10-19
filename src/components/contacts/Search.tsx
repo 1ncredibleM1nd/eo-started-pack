@@ -101,6 +101,7 @@ const Search = observer(() => {
               <FilterChannels onChangeSocial={onChangeSocial} />
             </Collapse.Panel>
           </Collapse>
+          <FilterDialogStatus />
         </div>
       </div>
 

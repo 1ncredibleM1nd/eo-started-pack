@@ -7,6 +7,7 @@ import { MoreOutlined } from "@ant-design/icons";
 
 type TProps = {
   id: number;
+  color: string;
 };
 
 const SidebarTagContainer = styled("div")`
@@ -36,7 +37,7 @@ const SidebarTagMenu = styled("div")`
   }
 `;
 
-export const SidebarTag = observer(({ id }: TProps) => {
+export const SidebarTag = observer(({ id, color }: TProps) => {
   const { tagsStore, contactStore, sidebarStore } = useStore();
   const tag = tagsStore.getById([id])[0];
 
