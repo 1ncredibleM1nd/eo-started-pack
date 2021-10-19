@@ -1290,8 +1290,14 @@ a.message-link {
   }
 }
 
+// !!!WARNING  STYLE FOR SEARCH INPUT IN EMOJI
+
+.emoji-mart-search{
+  display: none;
+}
+
 // ---------------
-// UPDATE: message image grid and reply message grid 
+// UPDATE: message image grid and reply message grid
 // ---------------
 
 .message.self .message-content,
@@ -1356,3 +1362,8 @@ a.message-link {
   padding: 0.5rem 1rem;
   border-bottom: 1px solid #b4d4e9;
 }
+
+
+// Emodgi mart
+
+

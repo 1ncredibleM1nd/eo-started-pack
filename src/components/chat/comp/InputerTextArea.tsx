@@ -1,12 +1,15 @@
-import { css } from "goober";
+import React from "react";
+import { css, styled } from "goober";
 import { useRef } from "react";
 import { observer } from "mobx-react-lite";
 import { Input } from "antd";
 import { TextAreaRef, TextAreaProps } from "antd/lib/input/TextArea";
 import { useEffect } from "react";
-import Picker, { IEmojiData } from "emoji-picker-react";
 import { SmileOutlined } from "@ant-design/icons";
 import { Button, Dropdown } from "antd";
+import "emoji-mart/css/emoji-mart.css";
+// @ts-ignore
+import { Picker } from "emoji-mart-virtualized";
 
 type TProps = Pick<
   TextAreaProps,
@@ -15,6 +18,19 @@ type TProps = Pick<
   onChange: (value: string) => void;
   chatError?: { isError: boolean; commentError: string };
 };
+
+const PickerContainer = styled("div")`
+  @supports (-moz-appearance: none) {
+    .emoji-mart-scroll {
+      overflow-y: hidden !important;
+      margin-right: -5px !important;
+    }
+
+    .emoji-mart-scroll > div {
+      width: auto !important;
+    }
+  }
+`;
 
 export const InputerTextArea = observer(
   ({
@@ -31,20 +47,28 @@ export const InputerTextArea = observer(
     useEffect(() => {
       inputRef.current!.focus();
     }, [inputRef]);
-
-    const onEmojiClick = (event: React.MouseEvent, { emoji }: IEmojiData) => {
-      inputRef.current!.focus();
-      onChange(value + emoji);
-    };
-
     return (
       <>
         <Dropdown
           overlay={
-            <Picker onEmojiClick={onEmojiClick} native disableAutoFocus />
+            <PickerContainer>
+              <Picker
+                set="facebook"
+                emojiSize={24}
+                perLine={6}
+                sheetSize={32}
+                showPreview={false}
+                showSkinTones={false}
+                native={true}
+                onSelect={(emoji) => {
+                  inputRef.current!.focus();
+                  onChange(value + emoji.native);
+                }}
+              />
+            </PickerContainer>
           }
           overlayStyle={{ animationDelay: "0s", animationDuration: "0s" }}
-          placement="topRight"
+          placement="topLeft"
           trigger={["click"]}
         >
           <Button
@@ -83,6 +107,7 @@ export const InputerTextArea = observer(
           ref={inputRef}
           placeholder="Ваше сообщение"
           autoSize={autoSize}
+          tabIndex={1}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onPaste={onPaste}
