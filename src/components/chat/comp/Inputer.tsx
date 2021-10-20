@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import $ from "jquery";
 import FileUploadModal from "./FileUploadModal";
@@ -24,6 +24,22 @@ const Inputer = observer(() => {
   );
   const [fileOnHold, setFileOnHold] = useState([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [symbols, setSymbols] = useState(0);
+  const [sendEnabled, setSendEnabled] = useState(false);
+
+  // TODO: move logic to custom SendButton
+  useEffect(() => {
+    const hasText = draft[activeContact.id + status]?.length > 0;
+
+    const hasMaxMessageSymbols =
+      symbols > (activeContact?.restrictions.maxMessageSymbols ?? -1);
+
+    const hasMaxCommentSymbols =
+      currentChat?.activeMessage !== null &&
+      symbols > (activeContact?.restrictions.maxCommentSymbols ?? -1);
+
+    setSendEnabled(hasText && !hasMaxMessageSymbols && !hasMaxCommentSymbols);
+  }, [draft, currentChat?.activeMessage]);
 
   const resetInputAndKeys = () => {
     if (status !== "default") {
@@ -40,6 +56,7 @@ const Inputer = observer(() => {
   const onChange = useCallback(
     (name: string, value: string) => {
       setDraft({ ...draft, [name + status]: value });
+      setSymbols(value.length);
     },
     [draft, status]
   );
@@ -147,16 +164,14 @@ const Inputer = observer(() => {
           0
         );
       });
+
+      setSymbols(0);
     }
   };
 
   const openFileInput = () => {
     fileInputRef.current.click();
   };
-
-  let sendEnabled =
-    draft[activeContact.id + status] &&
-    draft[activeContact.id + status].length > 0;
 
   let chatError = {
     isError: false,
@@ -203,6 +218,8 @@ const Inputer = observer(() => {
           <>
             <ReplyCurrentMessage currentChat={currentChat} />
             <MessageTransmitter
+              currentChat={currentChat}
+              symbolsCount={symbols}
               sendMessage={sendMessage}
               acceptAttachments={acceptAttachments}
               acceptType={acceptType}

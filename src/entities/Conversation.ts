@@ -10,6 +10,13 @@ import { container } from "tsyringe";
 import { ITask } from "@/stores/interface/ITask";
 const RESET_TAGS = [0];
 
+export type TConversationRestrictions = {
+  cannotSend?: string;
+  cannotSendMessageInsta?: boolean;
+  maxMessageSymbols: number;
+  maxCommentSymbols: number;
+};
+
 export type TConversationDialogStatus =
   | ""
   | "unread"
@@ -29,7 +36,7 @@ class Conversation {
   // readed: boolean;
   dialogStatus: TConversationDialogStatus = "";
   chat: ChatStore;
-  restrictions: { cannotSend?: string; cannotSendMessageInsta?: boolean };
+  restrictions: TConversationRestrictions;
   templateAnswers: TemplateAnswersStore;
   manager_id: number | null;
   tasks: ITask[] | null = [];
@@ -57,7 +64,7 @@ class Conversation {
     sendFile?: boolean;
     linkSocialPage?: string;
     dialogStatus: TConversationDialogStatus;
-    restrictions: { cannotSend?: string; cannotSendMessageInsta?: boolean };
+    restrictions: TConversationRestrictions;
     manager_id: number;
     tasks: ITask[] | null;
   }) {
