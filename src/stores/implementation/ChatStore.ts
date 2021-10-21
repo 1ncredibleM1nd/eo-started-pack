@@ -57,7 +57,7 @@ export class ChatStore {
     this.setActiveMessage(null);
     return sendMessage(
       contactId,
-      message,
+      message || "",
       conversationSourceAccountId,
       schoolIds,
       files,
