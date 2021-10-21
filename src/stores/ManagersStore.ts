@@ -6,10 +6,13 @@ import { Managers } from "@/api/Managers";
 
 @singleton()
 export class ManagersStore {
-  constructor(private schools: SchoolsStore) {
+  constructor() {
     makeAutoObservable(this);
   }
+
   managerList: Manager[] = [];
+  noManagers: boolean = false;
+  chosenManagers: number[] = [];
 
   async load(schoolIds: number[]) {
     const { data: r } = await Managers.getAll(schoolIds);
@@ -24,5 +27,17 @@ export class ManagersStore {
 
   getById(id?: number) {
     return this.managerList.find((manager) => manager.id === id);
+  }
+
+  addChosenManager(managerId: number, checked: boolean) {
+    if (managerId === -1) {
+      this.noManagers = checked;
+    } else if (checked) {
+      this.chosenManagers.push(managerId);
+    } else {
+      this.chosenManagers = this.chosenManagers.filter(
+        (id) => id !== managerId
+      );
+    }
   }
 }

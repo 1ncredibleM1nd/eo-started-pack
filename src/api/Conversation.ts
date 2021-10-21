@@ -2,29 +2,36 @@ import { API } from "@/actions/axios";
 import { TConversationDialogStatus } from "@/entities/Conversation";
 import { AxiosResponse } from "axios";
 
+type TGetConversationsFilter = {
+  tags: string[];
+  noTags: boolean;
+  managers: number[];
+  noManagers: boolean;
+  sources: Object;
+  schoolIds: number[];
+  conversationId?: number;
+  dialogStatus?: TConversationDialogStatus;
+};
+
+type TGetConversationsSearch = {
+  query: string;
+};
+
+type TGetConversations = {
+  filter: TGetConversationsFilter;
+  search: TGetConversationsSearch;
+  page?: number;
+};
+
 export default class Conversation {
-  conversations(
-    query: string,
-    tags: string[],
-    noTags: boolean,
-    sources: Object,
-    schoolIds: number[],
-    page?: number,
-    conversationId?: number,
-    dialogStatus?: TConversationDialogStatus
-  ): Promise<AxiosResponse<any>> {
+  conversations({
+    filter,
+    search,
+    page,
+  }: TGetConversations): Promise<AxiosResponse<any>> {
     return API.post(`/conversation/get-conversations`, {
-      filter: {
-        sources,
-        schoolIds,
-        conversationId,
-        tags,
-        noTags,
-        dialogStatus,
-      },
-      search: {
-        query,
-      },
+      filter,
+      search,
       page,
     });
   }

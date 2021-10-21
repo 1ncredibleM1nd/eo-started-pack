@@ -12,10 +12,17 @@ import { FilterDialogStatus } from "../Filter/FilterDialogStatus";
 import { useState } from "react";
 import { css } from "goober";
 import { classnames } from "@/utils/styles";
+import FilterManagers from "@/components/Filter/FilterManagers";
 
 const Search = observer(() => {
-  const { contactStore, schoolsStore, tagsStore, sidebarStore, searchStore } =
-    useStore();
+  const {
+    contactStore,
+    schoolsStore,
+    tagsStore,
+    sidebarStore,
+    searchStore,
+    managersStore,
+  } = useStore();
   const history = useHistory();
   const [filterVisible, setFilterVisible] = useState(false);
 
@@ -50,6 +57,17 @@ const Search = observer(() => {
       await contactStore.setActiveContact(undefined);
       await tagsStore.load(schoolsStore.activeSchoolsIds);
       contactStore.refetch();
+    }
+  }
+
+  async function onChangeManager(id: number, checked: boolean) {
+    managersStore.addChosenManager(id, checked);
+    history.replace("");
+    sidebarStore.setOpened(false);
+    if (searchStore.running) {
+      searchStore.fetch();
+    } else {
+      await contactStore.refetch();
     }
   }
 
@@ -97,6 +115,7 @@ const Search = observer(() => {
           >
             <Collapse.Panel header="" key="filter">
               <FilterTags onChangeTags={onChangeTags} />
+              <FilterManagers onChangeManager={onChangeManager} />
               <FilterSchools onChangeSchool={onChangeSchool} />
               <FilterChannels onChangeSocial={onChangeSocial} />
             </Collapse.Panel>

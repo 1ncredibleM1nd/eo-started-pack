@@ -1,4 +1,3 @@
-import { contactStore } from "@/stores/implementation";
 import * as resolver from "../api/index";
 import { AxiosResponse } from "axios";
 import { notification } from "antd";
@@ -53,23 +52,22 @@ async function getConversations({
   const section = "contacts";
 
   try {
-    // TODO: remove directly usage rootStore, replace on params
-    const sources = rootStore.channelsStore.activeChannels.map(
-      (channel) => channel.id
-    );
-
-    const tags = rootStore.tagsStore.activeTags.map(({ name }) => name);
-
-    const response = await resolver.conversation.conversations(
-      contactStore.search,
-      tags,
-      rootStore.tagsStore.noTags,
-      sources,
-      schoolIds,
+    const response = await resolver.conversation.conversations({
+      filter: {
+        tags: rootStore.tagsStore.activeTags.map(({ name }) => name),
+        noTags: rootStore.tagsStore.noTags,
+        managers: rootStore.managersStore.chosenManagers,
+        noManagers: rootStore.managersStore.noManagers,
+        sources: rootStore.channelsStore.activeChannels.map(
+          (channel) => channel.id
+        ),
+        schoolIds,
+        conversationId,
+        dialogStatus,
+      },
+      search: { query: "" },
       page,
-      conversationId,
-      dialogStatus
-    );
+    });
 
     if (!isError(response, section, action, true)) {
       return response.data.data;
