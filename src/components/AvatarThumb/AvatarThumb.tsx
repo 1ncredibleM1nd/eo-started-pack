@@ -40,15 +40,32 @@ export const AvatarThumb = (props: TProps) => {
 
   if (img && !fallback) {
     return (
-      <Image
-        className={classnames("image-avatar", className)}
-        src={img}
-        height={size}
-        width={size}
-        alt=""
-        preview={false}
-        onError={() => setFallback(true)}
-      />
+      <div
+        className={classnames(
+          className,
+          css`
+            width: ${size}px;
+            height: ${size}px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          `
+        )}
+      >
+        <Image
+          className={classnames(
+            css`
+              border-radius: ${round ? "50%" : "0"};
+            `
+          )}
+          src={img}
+          height={size}
+          width={size}
+          alt=""
+          preview={false}
+          onError={() => setFallback(true)}
+        />
+      </div>
     );
   }
 
