@@ -122,7 +122,7 @@ class Conversation {
   ) {
     await this.chat.sendMessage(
       contactId,
-      content || "Files",
+      content,
       conversationSourceAccountId,
       schoolIds,
       files,
