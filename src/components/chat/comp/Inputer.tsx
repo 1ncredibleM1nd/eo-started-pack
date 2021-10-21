@@ -32,11 +32,11 @@ const Inputer = observer(() => {
     const hasText = draft[activeContact.id + status]?.length > 0;
 
     const hasMaxMessageSymbols =
-      symbols > (activeContact?.restrictions.maxMessageSymbols ?? -1);
+      symbols > activeContact?.restrictions.maxMessageSymbols;
 
     const hasMaxCommentSymbols =
       currentChat?.activeMessage !== null &&
-      symbols > (activeContact?.restrictions.maxCommentSymbols ?? -1);
+      symbols > activeContact?.restrictions.maxCommentSymbols;
 
     setSendEnabled(hasText && !hasMaxMessageSymbols && !hasMaxCommentSymbols);
   }, [draft, currentChat?.activeMessage]);
