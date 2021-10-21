@@ -2,9 +2,11 @@ import { observer } from "mobx-react-lite";
 import { Skeleton } from "antd";
 import { useStore } from "@/stores";
 import AvatarThumb from "@/components/AvatarThumb";
+import { useMediaQuery } from "react-responsive";
 
 const Chat = observer(() => {
   const { usersStore } = useStore();
+  const isTablet = useMediaQuery({ maxWidth: 1024 });
   const user = usersStore.user;
 
   if (!user) {
@@ -33,7 +35,7 @@ const Chat = observer(() => {
   return (
     <div className="start_chat_page">
       <AvatarThumb
-        size={200}
+        size={isTablet ? 150 : 200}
         img={user.avatar}
         round={true}
         textSizeRatio={1.75}
