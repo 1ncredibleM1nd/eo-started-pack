@@ -11,6 +11,7 @@ import { ITask } from "@/stores/interface/ITask";
 const RESET_TAGS = [0];
 
 export type TConversationRestrictions = {
+  canSendFile: boolean;
   cannotSend?: string;
   cannotSendMessageInsta?: boolean;
   maxMessageSymbols: number;

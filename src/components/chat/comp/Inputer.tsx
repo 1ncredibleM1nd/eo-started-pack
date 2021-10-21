@@ -196,7 +196,8 @@ const Inputer = observer(() => {
     chatError.commentError.commentText =
       "У вас есть возможность ответить ему под постом. Для этого выберите в диалоговом меню присланного комментария пункт «Ответить в комментарии»";
   }
-  let acceptAttachments = chatError.isError || !activeContact.sendFile;
+  let acceptAttachments =
+    chatError.isError || !activeContact?.restrictions.canSendFile;
 
   return (
     <div className={`inputer ${chatError.isError ? "has-error" : ""}`}>

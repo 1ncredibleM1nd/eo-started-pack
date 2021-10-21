@@ -54,7 +54,8 @@ export const MessageTransmitter = observer((props: TProps) => {
   const { cn } = useClassName("message-transmitter");
 
   const maxMessageSymbols =
-    currentChat.activeMessage?.entity.type === "comment"
+    currentChat.activeMessage &&
+    currentChat.activeMessage.entity.type === "comment"
       ? contactStore.activeContact?.restrictions.maxCommentSymbols
       : contactStore.activeContact?.restrictions.maxMessageSymbols;
 
