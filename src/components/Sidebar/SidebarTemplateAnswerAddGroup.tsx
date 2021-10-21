@@ -8,6 +8,7 @@ import { Icon } from "@/ui/Icon/Icon";
 import { templateAnswers as templateAnswerApi } from "@/api";
 import { TextAreaRef, TextAreaProps } from "antd/lib/input/TextArea";
 import ReactTestUtils from "react-dom/test-utils";
+import { useMediaQuery } from "react-responsive";
 
 interface DataNode {
   title: ReactNode;
@@ -23,12 +24,14 @@ const TreeContainer = styled("div")`
   }
 `;
 export const SidebarTemplateAnswerAddGroup = observer(() => {
-  const { templateAnswersStore, contactStore } = useStore();
+  const { templateAnswersStore, contactStore, sidebarStore } = useStore();
   const templateAnswerGroups = templateAnswersStore.getGroups() ?? [];
   const templateAnswers = templateAnswersStore.getTemplates() ?? [];
   const initTreeData: DataNode[] = [];
   const [edited, setEdited] = useState(false);
   const nameInputRef = useRef<TextAreaRef | null>(null);
+
+  const sidebarTakesAllSpace = useMediaQuery({ maxWidth: 992 });
 
   function updateTreeData(
     list: DataNode[],
@@ -99,8 +102,11 @@ export const SidebarTemplateAnswerAddGroup = observer(() => {
     const element = document.getElementById("textInputMessage");
     if (element) {
       element.value = text;
-      ReactTestUtils.Simulate.change(element);
+      if (sidebarTakesAllSpace) {
+        sidebarStore.setOpened(false);
+      }
       element.focus();
+      ReactTestUtils.Simulate.change(element);
     }
   };
 
