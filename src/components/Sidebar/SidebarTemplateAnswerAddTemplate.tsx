@@ -147,11 +147,8 @@ export const SidebarTemplateAnswerAddTemplate = observer(() => {
               defaultValue={groupDefaultValue}
               onChange={(value) => setSelectGroupId(value)}
               className={css`
-                margin-right: 10px;
-
-                @media (max-width: 1470px) {
-                  margin-bottom: 10px;
-                }
+                width: 100%;
+                margin-bottom: 10px;
               `}
             >
               {templateAnswerGroups.map((templateAnswerGroup) => (
@@ -172,7 +169,7 @@ export const SidebarTemplateAnswerAddTemplate = observer(() => {
               </Button>
               <Button
                 className={css`
-                  margin-left: 15px;
+                  margin-left: 5px;
                   padding: 3px 10px;
                   height: auto;
                   font-size: 12px;

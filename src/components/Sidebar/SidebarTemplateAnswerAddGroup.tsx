@@ -17,7 +17,11 @@ interface DataNode {
   children?: DataNode[];
   selectable?: boolean;
 }
-
+const TreeContainer = styled("div")`
+  .ant-tree-switcher-noop {
+    display: none;
+  }
+`;
 export const SidebarTemplateAnswerAddGroup = observer(() => {
   const { templateAnswersStore, contactStore } = useStore();
   const templateAnswerGroups = templateAnswersStore.getGroups() ?? [];
@@ -253,7 +257,7 @@ export const SidebarTemplateAnswerAddGroup = observer(() => {
               className="template-answer-element"
               onClick={() => insertTextToInput(templateAnswer.content)}
             >
-              <span>{templateAnswer.name}</span>
+              <span> {templateAnswer.name}</span>
               <Icon
                 name={"icon_delete"}
                 fill={"#607d8b"}
@@ -276,7 +280,7 @@ export const SidebarTemplateAnswerAddGroup = observer(() => {
                 ></div>
               ),
               key: "0-" + i + "-" + j + "-1",
-              icon: "",
+              icon: null,
               isLeaf: true,
               selectable: false,
             },
@@ -306,6 +310,20 @@ export const SidebarTemplateAnswerAddGroup = observer(() => {
 
   const [treeData, setTreeData] = useState(initTreeData);
 
+  let expandedKeysList: React.Key[];
+  expandedKeysList = [];
+
+  initTreeData.forEach((i) => {
+    expandedKeysList.push(i.key);
+  });
+
+  const [expandedKeys, setExpandedKeys] =
+    useState<React.Key[]>(expandedKeysList);
+
+  const onExpand = (keys: React.Key[]) => {
+    setExpandedKeys(keys);
+  };
+
   return (
     <div>
       <div
@@ -317,7 +335,15 @@ export const SidebarTemplateAnswerAddGroup = observer(() => {
         Быстрые фразы
       </div>
       <SidebarTemplateAddContainer />
-      <Tree showLine={false} showIcon={false} treeData={initTreeData} />
+      <TreeContainer>
+        <Tree
+          showLine={false}
+          showIcon={false}
+          treeData={initTreeData}
+          expandedKeys={expandedKeys}
+          onExpand={onExpand}
+        />
+      </TreeContainer>
     </div>
   );
 });

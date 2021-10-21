@@ -10,7 +10,7 @@ import { Icon } from "@/ui/Icon/Icon";
 import "./Sidebar.scss";
 import { SidebarManagerSelector } from "@/components/Sidebar/SidebarManagerSelector/SidebarManagerSelector";
 import SidebarTasks from "@/components/Sidebar/SidebarTasks";
-
+import { css } from "goober";
 const { TabPane } = Tabs;
 
 const SidebarWrapper = styled("div")`
@@ -35,14 +35,38 @@ const SidebarContent = styled("div")`
 `;
 
 const profileTabName = (
-  <>
-    <Icon fill={"currentColor"} name={"icon_profile"} /> Профиль
-  </>
+  <div
+    className={css`
+      display: flex;
+      align-items: center;
+    `}
+  >
+    <Icon fill={"currentColor"} name={"icon_profile"} />
+    <span
+      className={css`
+        transform: translateY(1px);
+      `}
+    >
+      Профиль
+    </span>
+  </div>
 );
 const tamplateTabName = (
-  <>
-    <Icon fill={"currentColor"} name={"icon_template"} /> Шаблоны
-  </>
+  <div
+    className={css`
+      display: flex;
+      align-items: center;
+    `}
+  >
+    <Icon fill={"currentColor"} name={"icon_template"} />
+    <span
+      className={css`
+        transform: translateY(1px);
+      `}
+    >
+      Шаблоны
+    </span>
+  </div>
 );
 
 export const Sidebar = observer(() => {
