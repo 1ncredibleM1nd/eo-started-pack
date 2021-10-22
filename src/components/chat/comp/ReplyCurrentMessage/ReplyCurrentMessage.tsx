@@ -6,7 +6,8 @@ import { CloseOutlined } from "@ant-design/icons";
 import { ChatStore } from "@/stores/implementation/ChatStore";
 import "./ReplyCurrentMessage.scss";
 import { useClassName } from "@/hooks/useClassName";
-
+import { css } from "goober";
+import { classnames } from "@/utils/styles";
 type TProps = {
   currentChat: ChatStore;
 };
@@ -18,8 +19,22 @@ export const ReplyCurrentMessage = observer((props: TProps) => {
     <div className={cn()}>
       {currentChat.activeMessage && (
         <div className={cn("selected-container")}>
-          <div className={cn({ position: "left" })}>
-            <span>
+          <div
+            className={classnames(
+              cn({ position: "left" }),
+              css`
+                max-width: calc(100% - 40px);
+              `
+            )}
+          >
+            <span
+              className={css`
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                display: block;
+              `}
+            >
               <ReactMarkdown
                 children={currentChat.activeMessage.content}
                 allowedElements={["a"]}
