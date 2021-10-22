@@ -39,13 +39,23 @@ export class ContactStore {
   async completeTask(id: number) {
     const completed = this.activeContact?.tasks?.find((task) => task.id === id);
     completed.status = "completed";
-    this.activeContact?.filterTasks(id);
     await conversation.setStatusTask(id, "completed");
   }
 
+  async restoreTask(id: number) {
+    const recoveringTask = this.activeContact?.tasks?.find(
+      (task) => task.id === id
+    );
+    recoveringTask.status = "active";
+    await conversation.setStatusTask(id, "active");
+  }
+
   async deleteTask(id: number) {
-    this.activeContact?.deleteTask(id);
-    await conversation.setStatusTask(id, "deleted");
+    const deletingTask = this.activeContact?.tasks?.find(
+      (task) => task.id === id
+    );
+    deletingTask.status = "archived";
+    await conversation.setStatusTask(id, "archived");
   }
 
   isLoaded = false;

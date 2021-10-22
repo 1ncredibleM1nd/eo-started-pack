@@ -1,14 +1,14 @@
 import { observer } from "mobx-react-lite";
 import { css } from "goober";
-import { useStore } from "@/stores";
+import { classnames } from "@/utils/styles";
 import TaskIcon from "./TaskIcon";
+import { useStore } from "@/stores";
 
 type TPropsTaskActions = {
+  status: string;
   id: number;
-  isDone: boolean;
 };
-
-const TaskActions = observer(({ id, isDone }: TPropsTaskActions) => {
+const TaskActions = observer(({ status, id }: TPropsTaskActions) => {
   const { contactStore } = useStore();
 
   return (
@@ -19,12 +19,47 @@ const TaskActions = observer(({ id, isDone }: TPropsTaskActions) => {
       `}
     >
       <TaskIcon
-        name={isDone ? "icon_task_done" : "icon_task"}
+        name={status === "active" ? "icon_task" : "icon_task_done"}
         size="xs"
         onClick={() => {
-          if (!isDone) contactStore.completeTask(id);
+          status === "active"
+            ? contactStore.completeTask(id)
+            : contactStore.restoreTask(id);
         }}
       />
+
+      {/*{!isDone ? (*/}
+      {/*  <TaskIcon*/}
+      {/*    name="icon_edit_task"*/}
+      {/*    size="xs"*/}
+      {/*    onClick={() => {*/}
+      {/*      alert("Изменить?");*/}
+      {/*    }}*/}
+      {/*    id="edit_task"*/}
+      {/*    className={css`*/}
+      {/*      margin-top: 5px;*/}
+      {/*      visibility: hidden;*/}
+      {/*      opacity: 0;*/}
+      {/*      transition: 0.2s;*/}
+
+      {/*      @media (max-width: 992px) {*/}
+      {/*        visibility: visible;*/}
+      {/*        opacity: 1;*/}
+      {/*      }*/}
+      {/*    `}*/}
+      {/*  />*/}
+      {/*) : null}*/}
+
+      {status === "active" ? (
+        <TaskIcon
+          name="icon_delete_task"
+          size="xs"
+          onClick={() => contactStore.deleteTask(id)}
+          className={css`
+            margin-top: auto;
+          `}
+        />
+      ) : null}
     </div>
   );
 });

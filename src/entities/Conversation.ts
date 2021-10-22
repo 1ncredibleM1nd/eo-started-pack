@@ -8,6 +8,7 @@ import { TemplateAnswersStore } from "@/stores/TemplateAnswersStore";
 import { container } from "tsyringe";
 
 import { ITask } from "@/stores/interface/ITask";
+import { sortBy, filter } from "lodash-es";
 const RESET_TAGS = [0];
 
 export type TConversationRestrictions = {
@@ -159,14 +160,28 @@ class Conversation {
     return this.id === sourceId || this.lastMessage.id === sourceId;
   }
 
-  deleteTask(id: number) {
-    this.tasks = this.tasks.filter((task) => task.id !== id);
-  }
+  //Realised with lodash
 
-  filterTasks(id: number) {
-    const completedTask = this.tasks?.find((task) => task.id === id);
-    this.tasks = this.tasks.filter((task) => completedTask.id !== task.id);
-    this.tasks?.push(completedTask);
+  get filtredTasks() {
+    if (this.tasks?.length === 0) {
+      return [];
+    } else if (this.tasks?.length === 1) {
+      return this.tasks;
+    }
+    return [
+      ...sortBy(
+        filter(this.tasks, ["status", "active"]),
+        "timestampDateToComplete"
+      ),
+      ...sortBy(
+        filter(this.tasks, ["status", "completed"]),
+        "timestampDateToComplete"
+      ),
+      ...sortBy(
+        filter(this.tasks, ["status", "archived"]),
+        "timestampDateToComplete"
+      ),
+    ];
   }
 }
 
