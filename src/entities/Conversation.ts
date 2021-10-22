@@ -34,7 +34,6 @@ class Conversation {
   schoolId: number;
   sendFile: boolean;
   linkSocialPage: string = "";
-  // readed: boolean;
   dialogStatus: TConversationDialogStatus = "";
   chat: ChatStore;
   restrictions: TConversationRestrictions;

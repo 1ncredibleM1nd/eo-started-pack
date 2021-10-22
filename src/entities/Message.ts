@@ -8,14 +8,13 @@ class Message {
   combineWithPrevious: boolean;
   social_media: string;
   content: string;
-  readed: boolean = false;
   smiles: Array<string> = [];
   reply: Message = null;
   edited: boolean = false;
   income: boolean;
-  attachments: Attachment[] | [];
   entity: Entity;
   user: User;
+  attachments: Attachment[] | [];
   timestamp: number;
   isLastMessage: boolean;
 
@@ -28,7 +27,6 @@ class Message {
     timestamp: number,
     entity: Entity,
     user: User,
-    readed?: boolean,
     attachments?: Attachment[]
   ) {
     makeAutoObservable(this);
@@ -41,7 +39,6 @@ class Message {
     this.timestamp = timestamp;
     this.entity = entity;
     this.user = user;
-    this.readed = readed ? readed : false;
     this.attachments = attachments.map((attachment) => ({
       ...attachment,
       isIframe: social_media === "vkontakte",
@@ -50,14 +47,6 @@ class Message {
 
   setCombineWithPrevious(key: boolean): void {
     this.combineWithPrevious = key;
-  }
-
-  readMessage(): void {
-    this.readed = true;
-  }
-
-  addSmile(smile: string): void {
-    this.smiles.push(smile);
   }
 
   editMessage(value: string): void {

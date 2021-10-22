@@ -222,7 +222,6 @@ export class ChatStore {
       current.timestamp,
       entity,
       user,
-      current.readed,
       current.attachments
     );
 
