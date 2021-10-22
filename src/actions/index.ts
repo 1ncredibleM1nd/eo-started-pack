@@ -3,6 +3,7 @@ import { AxiosResponse } from "axios";
 import { notification } from "antd";
 import { rootStore } from "@/stores";
 import { TConversationDialogStatus } from "@/entities/Conversation";
+import { TConversationTaskStatus } from "@/entities/ConversationTask";
 
 function messageError(
   message?: string,
@@ -77,6 +78,24 @@ async function getConversations({
   } catch (error) {
     messageError(error.toString() ?? action, section);
     return { items: [], page: 1 };
+  }
+}
+
+async function getConversation(conversationId: number) {
+  const action = "Ошибка получения контактов";
+  const section = "contacts";
+
+  try {
+    const response = await resolver.conversation.getById(conversationId);
+
+    if (!isError(response, section, action, true)) {
+      return response.data.data;
+    }
+
+    return [];
+  } catch (error) {
+    messageError(error.toString() ?? action, section);
+    return [];
   }
 }
 
@@ -217,6 +236,49 @@ async function getSchools() {
   }
 }
 
+async function getConversationTasks({
+  schoolIds,
+  page,
+  conversationId,
+  taskStatus,
+}: {
+  schoolIds: number[];
+  page?: number;
+  conversationId?: number;
+  taskStatus?: TConversationTaskStatus;
+}) {
+  const action = "Ошибка получения списка задач";
+  const section = "tasks";
+
+  try {
+    const response = await resolver.conversation.conversationTasks({
+      filter: {
+        tags: rootStore.tagsStore.activeTags.map(({ name }) => name),
+        noTags: rootStore.tagsStore.noTags,
+        managers: rootStore.managersStore.chosenManagers,
+        noManagers: rootStore.managersStore.noManagers,
+        sources: rootStore.channelsStore.activeChannels.map(
+          (channel) => channel.id
+        ),
+        schoolIds,
+        conversationId,
+        taskStatus,
+      },
+      search: { query: "" },
+      page,
+    });
+
+    if (!isError(response, section, action, true)) {
+      return response.data.data;
+    }
+
+    return { items: [], page: 1 };
+  } catch (error) {
+    messageError(error.toString() ?? action, section);
+    return { items: [], page: 1 };
+  }
+}
+
 export {
   sendMessage,
   getConversations,
@@ -225,4 +287,6 @@ export {
   setSession,
   getUserData,
   getSchools,
+  getConversationTasks,
+  getConversation,
 };

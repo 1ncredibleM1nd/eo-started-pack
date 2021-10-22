@@ -30,6 +30,10 @@ const ContactList = observer(() => {
       document.getElementById(`contacts_item_${id}`)?.scrollIntoView({
         block: "start",
       });
+      /*const el = document.getElementById("contact-tabs");
+      if (el) {
+        el.scrollTop = 0;
+      }*/
     }
   }, []);
 

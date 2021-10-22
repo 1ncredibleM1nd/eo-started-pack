@@ -22,6 +22,7 @@ const Search = observer(() => {
     sidebarStore,
     searchStore,
     managersStore,
+    taskStore,
   } = useStore();
   const history = useHistory();
   const [filterVisible, setFilterVisible] = useState(false);
@@ -31,9 +32,11 @@ const Search = observer(() => {
     sidebarStore.setOpened(false);
     if (searchStore.running) {
       searchStore.fetch();
+      taskStore.fetch();
     } else {
       await contactStore.setActiveContact(undefined);
       contactStore.refetch();
+      taskStore.refetch();
     }
   };
 
@@ -42,9 +45,11 @@ const Search = observer(() => {
     sidebarStore.setOpened(false);
     if (searchStore.running) {
       searchStore.fetch();
+      taskStore.fetch();
     } else {
       await contactStore.setActiveContact(undefined);
       contactStore.refetch();
+      taskStore.refetch();
     }
   };
 
@@ -53,10 +58,12 @@ const Search = observer(() => {
     sidebarStore.setOpened(false);
     if (searchStore.running) {
       searchStore.fetch();
+      taskStore.fetch();
     } else {
       await contactStore.setActiveContact(undefined);
       await tagsStore.load(schoolsStore.activeSchoolsIds);
       contactStore.refetch();
+      taskStore.refetch();
     }
   }
 
@@ -66,8 +73,10 @@ const Search = observer(() => {
     sidebarStore.setOpened(false);
     if (searchStore.running) {
       searchStore.fetch();
+      taskStore.fetch();
     } else {
       await contactStore.refetch();
+      taskStore.refetch();
     }
   }
 

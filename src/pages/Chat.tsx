@@ -7,6 +7,7 @@ import "@/styles/index.scss";
 import { useStore } from "@/stores";
 import { useLocationQuery } from "@/hooks/useLocationQuery";
 import { Sidebar } from "@/pages/Sidebar";
+import { ContactsTab } from "@/components/contacts/ContactsTab";
 
 const App = observer(() => {
   const { layoutStore, contactStore, sidebarStore } = useStore();
@@ -37,7 +38,7 @@ const App = observer(() => {
           xxl={6}
           style={{ height: "100%" }}
         >
-          <ContactsLayout />
+          <ContactsTab />
         </Col>
 
         <Col

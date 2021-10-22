@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import { Conversation } from "../../entities";
 import { rootStore } from "..";
-import { getConversations } from "@/actions";
+import { getConversations, getConversation } from "@/actions";
 import { User } from "@/stores/model/User";
 import { reverse, sortBy } from "lodash-es";
 import { Task } from "@/stores/model/Task";
@@ -179,6 +179,16 @@ export class ContactStore {
     }
 
     return undefined;
+  }
+
+  async loadContact(id: number) {
+    if (this.contacts.has(id)) {
+      return this.contacts.get(id);
+    } else {
+      const conversation = await getConversation(id);
+      this.addContact([conversation]);
+      return this.contacts.get(id);
+    }
   }
 
   hasContact(id: number) {

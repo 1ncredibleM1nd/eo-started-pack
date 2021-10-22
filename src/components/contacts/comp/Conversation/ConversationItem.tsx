@@ -73,7 +73,7 @@ export const ConversationItem = observer(
     };
 
     return (
-      <li
+      <div
         onClick={() => selectContact(contact)}
         className={`contacts-item contacts-item-${index} friends ${
           active && "active"
@@ -213,7 +213,7 @@ export const ConversationItem = observer(
             )}
           </ConversationWrapper>
         </div>
-      </li>
+      </div>
     );
   }
 );

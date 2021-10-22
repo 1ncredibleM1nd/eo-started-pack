@@ -5,4 +5,5 @@ export interface ITask {
   status: string;
   createdAt: number;
   timestampDateToComplete: number;
+  conversationId: number;
 }

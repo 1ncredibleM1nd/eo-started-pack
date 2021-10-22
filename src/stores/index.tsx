@@ -4,7 +4,7 @@ import { UsersStore } from "./UsersStore";
 import { SchoolsStore } from "./SchoolsStore";
 import { ChannelsStore } from "./ChannelsStore";
 import { SidebarStore } from "@/stores/SidebarStore";
-import { authStore, contactStore } from "@/stores/implementation";
+import { authStore, contactStore, taskStore } from "@/stores/implementation";
 import { action, makeAutoObservable } from "mobx";
 import { TagsStore } from "@/stores/TagsStore";
 import { TemplateAnswersStore } from "@/stores/TemplateAnswersStore";
@@ -18,6 +18,7 @@ import { ManagersStore } from "@/stores/ManagersStore";
 class RootStore {
   authStore = authStore; // TODO: wrap with di container
   contactStore = contactStore; // TODO: wrap with di container
+  taskStore = taskStore; // TODO: wrap with di container
   layoutStore = container.resolve(LayoutStore);
   sidebarStore = container.resolve(SidebarStore);
   tagsStore = container.resolve(TagsStore);
@@ -63,6 +64,7 @@ class RootStore {
     socket.on("joined", async () => {
       const query = new URLSearchParams(window.location.search);
       await this.contactStore.fetch(Number(query.get("im")));
+      await this.taskStore.fetch();
     });
 
     socket.on("conversation", async (data) => {

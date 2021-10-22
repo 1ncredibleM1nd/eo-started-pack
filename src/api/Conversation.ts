@@ -1,5 +1,6 @@
 import { API } from "@/actions/axios";
 import { TConversationDialogStatus } from "@/entities/Conversation";
+import { TConversationTaskStatus } from "@/entities/ConversationTask";
 import { AxiosResponse } from "axios";
 
 type TGetConversationsFilter = {
@@ -34,6 +35,10 @@ export default class Conversation {
       search,
       page,
     });
+  }
+
+  getById(conversationId: number): Promise<AxiosResponse<any>> {
+    return API.post(`/conversation/get-conversation`, { conversationId });
   }
 
   setTags(conversationId: number, tags: number[]) {
@@ -102,7 +107,6 @@ export default class Conversation {
   }
 
   // Tasks queries
-
   createTask(id: number, content: string, timeUp: Date) {
     return API.post("/conversation/create-task", {
       conversationId: id,
@@ -115,6 +119,18 @@ export default class Conversation {
     return API.post("/conversation/set-status-task", {
       conversationTaskId: id,
       status,
+    });
+  }
+
+  conversationTasks({
+    filter,
+    search,
+    page,
+  }: TGetConversations): Promise<AxiosResponse<any>> {
+    return API.post("/conversation/get-conversation-tasks", {
+      filter,
+      search,
+      page,
     });
   }
 }

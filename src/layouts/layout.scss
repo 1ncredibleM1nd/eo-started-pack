@@ -47,13 +47,30 @@
   width: 100%;
 }
 
-.contact_layout {
+.contact_layout,
+.conversation_task_layout {
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   width: 100%;
   border-right: 1px solid $grey_blue_lite;
+}
+
+.conversation_task_layout {
+  .task-list {
+    padding: 0;
+    height: 100%;
+    overflow: scroll;
+  }
+
+  .task-item {
+    padding: 0;
+  }
+
+  .task-school-icon {
+    margin-right: 5px;
+  }
 }
 
 .chat_layout {
