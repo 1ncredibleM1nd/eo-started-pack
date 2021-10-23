@@ -1,4 +1,4 @@
-import { TRequest } from "@/api";
+import { TRequest } from "@/api/request-builder";
 import { makeAutoObservable } from "mobx";
 
 export type TItemsQueryResponse<T> = {
@@ -84,7 +84,7 @@ export class ItemsQuery<T, I, O extends TItemsQueryResponse<T>> {
     this.setError(undefined);
 
     await this.method(this._request).then(
-      (data: O) => {
+      ({ data }) => {
         this._state = STATE.FULFILLED;
         this._data = data;
         this._hasNext = data.items?.length >= PAGE_ITEMS_COUNT;
@@ -106,7 +106,7 @@ export class ItemsQuery<T, I, O extends TItemsQueryResponse<T>> {
     this.setError(undefined);
 
     await this.method({ ...this._request, page: this.page + 1 }).then(
-      (data: O) => {
+      ({ data }) => {
         this._state = STATE.FULFILLED;
         this._data = {
           ...data,

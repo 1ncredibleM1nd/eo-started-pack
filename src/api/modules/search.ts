@@ -1,20 +1,22 @@
 import { Conversation } from "@/entities";
 import { TItemsQueryResponse } from "@/stores/model/ItemsQuery";
 import { User } from "@/stores/model/User";
-import { RequestBuilder } from "../request-builder";
+import { RequestBuilder, TResponse } from "../request-builder";
 import type {
   TSearchByMessageRequest,
   TSearchBySourceAccountRequest,
 } from "../types";
 
-const transformConversations = (output: TItemsQueryResponse<Conversation>) => {
-  if (!output.items?.length) {
-    return output;
+const transformConversations = ({
+  data,
+}: TResponse<TItemsQueryResponse<Conversation>>) => {
+  if (!data.items?.length) {
+    return data;
   }
 
   return {
-    ...output,
-    items: output.items.map(
+    ...data,
+    items: data.items.map(
       (conversation) =>
         new Conversation({
           id: conversation.id,

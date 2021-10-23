@@ -1,8 +1,12 @@
 import { API } from "@/actions/axios";
+import { AxiosResponse } from "axios";
 
+export type TResponseData<O> = { data: O & { error_message?: string } };
+export type TResponseExtra = { error: number; pid: string };
+export type TResponse<O> = TResponseData<O> & TResponseExtra;
 export type TRequest<I extends { [key: string]: any }, O> = (
   params: I
-) => Promise<O>;
+) => Promise<TResponse<O>>;
 
 export class RequestBuilder<I, O> {
   private path!: string;
@@ -19,9 +23,9 @@ export class RequestBuilder<I, O> {
     return this;
   }
 
-  private outputTransformer?: (output: any) => O;
+  private outputTransformer?: (output: TResponse<O>) => O;
 
-  withOutputTransformer(transformer: (output: any) => O) {
+  withOutputTransformer(transformer: (output: TResponse<O>) => O) {
     this.outputTransformer = transformer;
     return this;
   }
@@ -35,14 +39,17 @@ export class RequestBuilder<I, O> {
           ? this.inputTransformer(input)
           : input;
 
-      const output = await API.post(this.path, transformedInput);
+      const output = await API.post<I, AxiosResponse<TResponse<O>>>(
+        this.path,
+        transformedInput
+      );
 
-      const transformedOutput =
+      const transformedData =
         typeof this.outputTransformer === "function"
-          ? this.outputTransformer(output.data.data)
+          ? this.outputTransformer(output.data)
           : output.data.data;
 
-      return transformedOutput;
+      return { ...output.data, data: transformedData };
     };
   }
 }

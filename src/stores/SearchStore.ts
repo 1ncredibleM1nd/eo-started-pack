@@ -70,14 +70,14 @@ export class SearchStore {
         this.isLoaded = false;
 
         const request = {
-          search: {
-            query: this.searchQuery,
-          },
           filter: {
             sources: this.channels.activeChannels.map(({ id }) => id),
             schoolIds: this.schools.activeSchoolsIds,
             tags: this.tags.activeTags.map(({ name }) => name),
             noTags: this.tags.noTags,
+          },
+          search: {
+            query: this.searchQuery,
           },
           page: 1,
         };
