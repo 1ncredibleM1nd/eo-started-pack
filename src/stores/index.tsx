@@ -1,25 +1,26 @@
+import $ from "jquery";
 import { container } from "tsyringe";
 import { createContext, useContext, ReactNode } from "react";
+import { notification } from "antd";
 import { UsersStore } from "./UsersStore";
 import { SchoolsStore } from "./SchoolsStore";
 import { ChannelsStore } from "./ChannelsStore";
 import { SidebarStore } from "@/stores/SidebarStore";
-import { authStore, contactStore, taskStore } from "@/stores/implementation";
+import { AuthStore } from "@/stores/implementation/AuthStore";
+import { SearchStore } from "./SearchStore";
+import { LayoutStore } from "./LayoutStore";
+import { ManagersStore } from "@/stores/ManagersStore";
+import { contactStore, taskStore } from "@/stores/implementation";
 import { action, makeAutoObservable } from "mobx";
 import { TagsStore } from "@/stores/TagsStore";
 import { TemplateAnswersStore } from "@/stores/TemplateAnswersStore";
 import { socket } from "@/services/socket";
-import $ from "jquery";
-import { notification } from "antd";
-import { SearchStore } from "./SearchStore";
-import { LayoutStore } from "./LayoutStore";
-import { ManagersStore } from "@/stores/ManagersStore";
 import { API } from "@/actions/axios";
 
 class RootStore {
-  authStore = authStore; // TODO: wrap with di container
   contactStore = contactStore; // TODO: wrap with di container
   taskStore = taskStore; // TODO: wrap with di container
+  authStore = container.resolve(AuthStore);
   layoutStore = container.resolve(LayoutStore);
   sidebarStore = container.resolve(SidebarStore);
   tagsStore = container.resolve(TagsStore);
@@ -45,7 +46,7 @@ class RootStore {
           "Authorization"
         ] = `Bearer ${this.authStore.getToken()}`;
 
-        if (authStore.isFrame) {
+        if (this.authStore.isFrame) {
           request.headers["Timestamp"] = this.authStore.getTimestamp();
           request.headers["User"] = this.authStore.getUserId();
           request.headers["RentId"] = this.authStore.getRentId();

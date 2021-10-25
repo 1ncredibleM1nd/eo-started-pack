@@ -128,5 +128,3 @@ export class AuthStore {
     return true;
   }
 }
-
-export const authStore = new AuthStore();
