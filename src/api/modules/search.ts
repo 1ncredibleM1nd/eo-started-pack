@@ -1,7 +1,6 @@
 import { Conversation } from "@/entities";
-import { TItemsQueryResponse } from "@/stores/model/ItemsQuery";
 import { User } from "@/stores/model/User";
-import { RequestBuilder, TResponse } from "../request-builder";
+import { RequestBuilder, TItemsData, TResponse } from "../request-builder";
 import type {
   TSearchByMessageRequest,
   TSearchBySourceAccountRequest,
@@ -9,7 +8,7 @@ import type {
 
 const transformConversations = ({
   data,
-}: TResponse<TItemsQueryResponse<Conversation>>) => {
+}: TResponse<TItemsData<Conversation>>) => {
   if (!data.items?.length) {
     return data;
   }
@@ -43,7 +42,7 @@ const transformConversations = ({
 export default class Search {
   static bySourceAccount = new RequestBuilder<
     TSearchBySourceAccountRequest,
-    TItemsQueryResponse<Conversation>
+    TItemsData<Conversation>
   >()
     .withPath("/conversation/search-by-sourceaccount")
     .withOutputTransformer(transformConversations)
@@ -51,7 +50,7 @@ export default class Search {
 
   static byMessage = new RequestBuilder<
     TSearchByMessageRequest,
-    TItemsQueryResponse<Conversation>
+    TItemsData<Conversation>
   >()
     .withPath("/conversation/search-by-message")
     .withOutputTransformer(transformConversations)

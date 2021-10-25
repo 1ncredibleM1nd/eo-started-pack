@@ -7,6 +7,11 @@ export type TResponse<O> = TResponseData<O> & TResponseExtra;
 export type TRequest<I extends { [key: string]: any }, O> = (
   params: I
 ) => Promise<TResponse<O>>;
+export type TItemsData<T> = {
+  items: T[];
+  page: number;
+  count: number;
+};
 
 export class RequestBuilder<I, O> {
   private path!: string;

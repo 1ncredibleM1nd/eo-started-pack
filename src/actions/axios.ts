@@ -21,7 +21,7 @@ function CredentialsInterceptor(request) {
     request.headers["RentId"] = authStore.getRentId();
   }
 
-  request.url = `${authStore.isFrame ? "rest" : "v1"}/${request.url}`;
+  request.url = `${authStore.isFrame ? "rest" : "v1"}${request.url}`;
 
   return request;
 }

@@ -1,11 +1,5 @@
-import { TRequest } from "@/api/request-builder";
+import { TItemsData, TRequest } from "@/api/request-builder";
 import { makeAutoObservable } from "mobx";
-
-export type TItemsQueryResponse<T> = {
-  items: T[];
-  page: number;
-  count?: number;
-};
 
 const enum STATE {
   IDLE = "idle",
@@ -16,7 +10,7 @@ const enum STATE {
 
 const PAGE_ITEMS_COUNT = 20;
 
-export class ItemsQuery<T, I, O extends TItemsQueryResponse<T>> {
+export class ItemsQuery<T, I, O extends TItemsData<T>> {
   constructor(private readonly method: TRequest<I, O>) {
     makeAutoObservable(this);
   }
