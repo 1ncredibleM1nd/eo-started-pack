@@ -11,7 +11,9 @@ function messageError(
   description?: string
 ): void {
   console.error(message);
-  notification.error({ message, placement: "topRight" });
+  if (message.indexOf("Network Error") === -1) {
+    notification.error({ message, placement: "topRight" });
+  }
 }
 
 function isError(
