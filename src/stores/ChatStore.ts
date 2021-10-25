@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { contactStore } from "@/stores/ContactStore";
-import { getMessages, sendMessage } from "@/actions";
+import { getMessages, sendMessage } from "@/api/deprecated";
 import { Entity, Message } from "@/stores/model";
 import { rootStore } from "./index";
 import { uniqBy, sortBy } from "lodash-es";

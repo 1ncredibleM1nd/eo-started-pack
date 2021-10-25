@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { isLogged, setSession } from "@/actions";
+import { isLogged, setSession } from "@/api/deprecated";
 import { rootStore } from "./index";
 
 export class AuthStore {

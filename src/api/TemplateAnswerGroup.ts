@@ -1,4 +1,4 @@
-import { API } from "@/actions/axios";
+import { API } from "@/api/axios";
 
 export class TemplateAnswerGroup {
   static getAll(schoolId: number) {

@@ -16,7 +16,7 @@ import { contactStore } from "@/stores/ContactStore";
 import { TagsStore } from "@/stores/TagsStore";
 import { TemplateAnswersStore } from "@/stores/TemplateAnswersStore";
 import { socket } from "@/services/socket";
-import { API } from "@/actions/axios";
+import { API } from "@/api/axios";
 
 class RootStore {
   contactStore = contactStore; // TODO: wrap with di container
@@ -42,6 +42,13 @@ class RootStore {
 
   setupApi() {
     API.interceptors.request.use((request) => {
+      if (
+        request.url?.includes("v1/account/is-logged") ||
+        request.url?.includes("v1/account/set-session")
+      ) {
+        return request;
+      }
+
       if (request.headers) {
         request.headers[
           "Authorization"

@@ -1,6 +1,6 @@
-import * as resolver from "../api/index";
 import { AxiosResponse } from "axios";
 import { notification } from "antd";
+import * as resolver from "./index";
 import { rootStore } from "@/stores";
 import {
   TConversationDialogStatus,

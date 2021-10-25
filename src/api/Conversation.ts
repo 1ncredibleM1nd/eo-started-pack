@@ -1,4 +1,4 @@
-import { API } from "@/actions/axios";
+import { API } from "@/api/axios";
 import { TConversationDialogStatus } from "@/stores/model";
 import { AxiosResponse } from "axios";
 

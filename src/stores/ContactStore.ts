@@ -6,7 +6,7 @@ import {
   TConversationDialogStatus,
 } from "@/stores/model";
 import { rootStore } from "./index";
-import { getConversations, getConversation } from "@/actions";
+import { getConversations, getConversation } from "@/api/deprecated";
 import { reverse, sortBy } from "lodash-es";
 import { conversation } from "@/api";
 

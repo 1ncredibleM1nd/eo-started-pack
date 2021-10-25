@@ -1,4 +1,4 @@
-import { API } from "@/actions/axios";
+import { API } from "@/api/axios";
 import { AxiosResponse } from "axios";
 
 export type TResponseData<O> = { data: O & { error_message?: string } };

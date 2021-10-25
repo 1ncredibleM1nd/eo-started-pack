@@ -1,4 +1,4 @@
-import { API, AUTH } from "@/actions/axios";
+import { API } from "@/api/axios";
 import { AxiosResponse } from "axios";
 
 export type TApiUser = {
@@ -19,7 +19,7 @@ export default class Account {
   }
 
   isLogged() {
-    return AUTH.get("/account/is-logged");
+    return API.get("v1/account/is-logged");
   }
 
   setSession(sessionId: string): Promise<AxiosResponse<any>> {
@@ -27,7 +27,7 @@ export default class Account {
 
     formData.append("encrypted_session_data", sessionId);
 
-    return AUTH.post(`/account/set-session`, formData);
+    return API.post(`v1/account/set-session`, formData);
   }
 
   getSchools() {
