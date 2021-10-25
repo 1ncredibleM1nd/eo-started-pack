@@ -1,15 +1,16 @@
 import { observer } from "mobx-react-lite";
 import dayjs, { toCalendar } from "@/services/dayjs";
 import { Badge } from "antd";
-import { Message } from "@/entities";
+import {
+  Message,
+  Conversation,
+  TConversationDialogStatus,
+} from "@/stores/model";
 import ReactMarkdown from "react-markdown";
 import { Dropdown } from "antd";
 import { Icon } from "@/ui/Icon/Icon";
 import { useStore } from "@/stores";
 import { MoreOutlined } from "@ant-design/icons";
-import Conversation, {
-  TConversationDialogStatus,
-} from "@/entities/Conversation";
 import { css } from "goober";
 import { classnames } from "@/utils/styles";
 import ConversationTag from "@/components/contacts/comp/Tags";

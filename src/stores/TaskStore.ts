@@ -1,8 +1,7 @@
 import { makeAutoObservable } from "mobx";
-import { ConversationTask } from "../entities";
+import { ConversationTask, TConversationTaskStatus } from "@/stores/model";
 import { rootStore } from "./index";
 import { getConversationTasks } from "@/actions";
-import { TConversationTaskStatus } from "@/entities/ConversationTask";
 
 export class TaskStore {
   tasks: Map<number, ConversationTask> = new Map();

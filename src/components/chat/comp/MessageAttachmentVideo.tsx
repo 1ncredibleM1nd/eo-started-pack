@@ -11,7 +11,7 @@ import {
   ProgressControl,
 } from "video-react";
 import "video-react/dist/video-react.css";
-import { Attachment } from "@/entities";
+import { Attachment } from "@/stores/model";
 
 type TProps = { attachment: Attachment };
 

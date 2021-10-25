@@ -1,7 +1,6 @@
 import { singleton } from "tsyringe";
 import { makeAutoObservable } from "mobx";
-import { SchoolsStore } from "./SchoolsStore";
-import { Manager } from "@/stores/model/Manager";
+import { Manager } from "@/stores/model";
 import { Managers } from "@/api/Managers";
 
 @singleton()

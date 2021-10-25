@@ -2,8 +2,10 @@ import * as resolver from "../api/index";
 import { AxiosResponse } from "axios";
 import { notification } from "antd";
 import { rootStore } from "@/stores";
-import { TConversationDialogStatus } from "@/entities/Conversation";
-import { TConversationTaskStatus } from "@/entities/ConversationTask";
+import {
+  TConversationDialogStatus,
+  TConversationTaskStatus,
+} from "@/stores/model";
 
 function messageError(
   message?: string,

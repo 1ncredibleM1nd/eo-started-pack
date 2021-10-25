@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import IRole from "@/stores/interface/IRole";
-import Message from "./Message";
-import { User } from "@/stores/model/User";
+import { Message } from "./Message";
+import { User } from "@/stores/model";
 import { conversation } from "@/api";
 import { ChatStore } from "@/stores/ChatStore";
 import { TemplateAnswersStore } from "@/stores/TemplateAnswersStore";
@@ -26,7 +26,7 @@ export type TConversationDialogStatus =
   | "read"
   | "answer";
 
-class Conversation {
+export class Conversation {
   id: number;
   sourceAccountId: string;
   role: Array<IRole> = [];
@@ -184,5 +184,3 @@ class Conversation {
     ];
   }
 }
-
-export default Conversation;

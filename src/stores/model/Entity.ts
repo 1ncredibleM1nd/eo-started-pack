@@ -1,4 +1,4 @@
-class Entity {
+export class Entity {
   type: string;
   data: any;
 
@@ -7,5 +7,3 @@ class Entity {
     this.data = data;
   }
 }
-
-export default Entity;

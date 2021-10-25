@@ -5,12 +5,12 @@ import {
   TSearchBySourceAccountRequest,
 } from "@/api/types";
 import { debounce } from "lodash-es";
-import { ItemsQuery, TItemsQueryResponse } from "./model/ItemsQuery";
-import { Conversation } from "@/entities";
+import { Conversation, ItemsQuery } from "@/stores/model";
 import { ChannelsStore } from "./ChannelsStore";
 import { SchoolsStore } from "./SchoolsStore";
 import { TagsStore } from "./TagsStore";
 import { singleton } from "tsyringe";
+import { TItemsData } from "@/api/request-builder";
 
 @singleton()
 export class SearchStore {
@@ -28,13 +28,13 @@ export class SearchStore {
     this.searchByMessageQuery = new ItemsQuery<
       Conversation,
       TSearchByMessageRequest,
-      TItemsQueryResponse<Conversation>
+      TItemsData<Conversation>
     >(this.api.search.byMessage);
 
     this.searchBySourceAccountQuery = new ItemsQuery<
       Conversation,
       TSearchBySourceAccountRequest,
-      TItemsQueryResponse<Conversation>
+      TItemsData<Conversation>
     >(this.api.search.bySourceAccount);
 
     makeAutoObservable(this);

@@ -1,14 +1,9 @@
 import { makeAutoObservable } from "mobx";
 import { TaskStore } from "@/stores/TaskStore";
-import { ITask } from "@/stores/interface/ITask";
-
-type TProps = {
-  task: ITask;
-};
 
 export type TConversationTaskStatus = "" | "today" | "expired" | "later";
 
-class ConversationTask {
+export class ConversationTask {
   id: number;
   content: string;
   creatorId?: number;
@@ -63,5 +58,3 @@ class ConversationTask {
     this.schoolId = schoolId;
   }
 }
-
-export default ConversationTask;

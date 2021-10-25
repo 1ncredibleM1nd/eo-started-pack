@@ -1,6 +1,5 @@
 import { API } from "@/actions/axios";
-import { TConversationDialogStatus } from "@/entities/Conversation";
-import { TConversationTaskStatus } from "@/entities/ConversationTask";
+import { TConversationDialogStatus } from "@/stores/model";
 import { AxiosResponse } from "axios";
 
 type TGetConversationsFilter = {

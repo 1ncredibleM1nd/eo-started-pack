@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { Tag } from "@/stores/model/Tag";
+import { Tag } from "@/stores/model";
 
 export class SidebarSelectTags {
   tags = new Map<number, boolean>();

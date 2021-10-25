@@ -1,6 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
-import { User } from "@/stores/model/User";
+import { User } from "@/stores/model";
 
 type TProps = {
   user: User | null;

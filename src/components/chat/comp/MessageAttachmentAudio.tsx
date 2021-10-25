@@ -2,7 +2,7 @@ import React from "react";
 import { observer } from "mobx-react-lite";
 import AudioPlayer from "react-h5-audio-player";
 import "../AudioPlayer.scss";
-import { Attachment } from "@/entities";
+import { Attachment } from "@/stores/model";
 
 type TProps = { attachment: Attachment };
 

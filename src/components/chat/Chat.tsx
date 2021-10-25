@@ -4,7 +4,7 @@ import "./Chat.scss";
 import Inputer from "./comp/Inputer";
 import PuffLoader from "react-spinners/PuffLoader";
 import ChatPlaceholder from "./comp/ChatPlaceholder";
-import { Message } from "../../entities";
+import { Message } from "@/stores/model";
 import dayjs, { toCalendar } from "@/services/dayjs";
 import MessageComponent from "@/components/chat/comp/MessageComponent";
 import { useStore } from "@/stores";

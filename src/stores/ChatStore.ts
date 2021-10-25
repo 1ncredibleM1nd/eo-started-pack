@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import { contactStore } from "@/stores/ContactStore";
 import { getMessages, sendMessage } from "@/actions";
-import { Entity, Message } from "../entities";
+import { Entity, Message } from "@/stores/model";
 import { rootStore } from "./index";
 import { uniqBy, sortBy } from "lodash-es";
 

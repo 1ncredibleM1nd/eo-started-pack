@@ -10,7 +10,7 @@ import { MessageAttachmentLink } from "@/components/chat/comp/MessageAttachmentL
 import { css } from "goober";
 import { MessageAttachmentVoice } from "./MessageAttachmentVoice";
 import { MessageAttachmentAudio } from "./MessageAttachmentAudio";
-import { Attachment } from "@/entities";
+import { Attachment } from "@/stores/model";
 
 type TProps = {
   attachment: Attachment;

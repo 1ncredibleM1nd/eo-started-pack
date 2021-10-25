@@ -1,8 +1,7 @@
 import { singleton } from "tsyringe";
 import store from "store";
 import { makeAutoObservable } from "mobx";
-import { TemplateAnswer } from "@/stores/model/TemplateAnswer";
-import { TemplateAnswerGroup } from "@/stores/model/TemplateAnswerGroup";
+import { TemplateAnswer, TemplateAnswerGroup } from "@/stores/model";
 import { templateAnswers } from "@/api";
 import { Socket } from "@/services/socket";
 

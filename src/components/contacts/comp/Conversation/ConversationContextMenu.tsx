@@ -1,5 +1,5 @@
 import { Menu } from "antd";
-import { TConversationDialogStatus } from "@/entities/Conversation";
+import { TConversationDialogStatus } from "@/stores/model";
 
 type IProps = {
   status: string;

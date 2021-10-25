@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import { Checkbox, Popover } from "antd";
 import { css } from "goober";
 import { useStore } from "@/stores";
-import { Tag } from "@/stores/model/Tag";
+import { Tag } from "@/stores/model";
 import { useEffect, useState } from "react";
 import { SidebarSelectTags } from "@/stores/SidebarSelectTags";
 import { SidebarTagAddInput } from "@/components/Sidebar/SidebarTagAddInput";

@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import ReactMarkdown from "react-markdown";
 import { Menu, Dropdown } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
-import { Message } from "@/entities";
+import { Message } from "@/stores/model";
 import { MessageAttachment } from "./MessageAttachment";
 import dayjs from "@/services/dayjs";
 import { download } from "@/api/file";

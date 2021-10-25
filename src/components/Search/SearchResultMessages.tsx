@@ -1,4 +1,4 @@
-import { Conversation } from "@/entities";
+import { Conversation } from "@/stores/model";
 import { useMediaQuery } from "react-responsive";
 import { useStore } from "@/stores";
 import { observer } from "mobx-react-lite";

@@ -4,7 +4,7 @@ import { css } from "goober";
 import { Input } from "antd";
 import { Button } from "antd";
 import { TextAreaRef } from "antd/lib/input/TextArea";
-import { Task } from "@/stores/model/Task";
+import { Task } from "@/stores/model";
 import { useStore } from "@/stores";
 import { DatePicker } from "@/ui/DatePicker/DatePicker";
 import dayjs from "@/services/dayjs";

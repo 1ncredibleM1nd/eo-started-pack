@@ -1,9 +1,9 @@
 import { makeAutoObservable } from "mobx";
-import Entity from "./Entity";
-import Attachment from "./Attachment";
-import { User } from "@/stores/model/User";
+import { Entity } from "./Entity";
+import { Attachment } from "./Attachment";
+import { User } from "@/stores/model";
 
-class Message {
+export class Message {
   id: number;
   combineWithPrevious: boolean;
   social_media: string;
@@ -54,5 +54,3 @@ class Message {
     this.edited = true;
   }
 }
-
-export default Message;

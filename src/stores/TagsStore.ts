@@ -1,7 +1,7 @@
 import { singleton } from "tsyringe";
 import store from "store";
 import { makeAutoObservable } from "mobx";
-import { Tag } from "@/stores/model/Tag";
+import { Tag } from "@/stores/model";
 import { tags } from "@/api";
 import { filter, uniqBy } from "lodash-es";
 import { SchoolsStore } from "./SchoolsStore";

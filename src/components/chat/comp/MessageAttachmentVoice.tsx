@@ -6,7 +6,7 @@ import playCircle from "@iconify/icons-mdi/play-circle";
 import pauseCircle from "@iconify/icons-mdi/pause-circle";
 import dayjs from "@/services/dayjs";
 import "../VoicePlayer.scss";
-import { Attachment } from "@/entities";
+import { Attachment } from "@/stores/model";
 
 type TProps = { attachment: Attachment };
 

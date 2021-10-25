@@ -1,11 +1,13 @@
 import { makeAutoObservable } from "mobx";
-import { Conversation } from "../entities";
+import {
+  Task,
+  User,
+  Conversation,
+  TConversationDialogStatus,
+} from "@/stores/model";
 import { rootStore } from "./index";
 import { getConversations, getConversation } from "@/actions";
-import { User } from "@/stores/model/User";
 import { reverse, sortBy } from "lodash-es";
-import { Task } from "@/stores/model/Task";
-import { TConversationDialogStatus } from "@/entities/Conversation";
 import { conversation } from "@/api";
 
 export class ContactStore {
@@ -26,7 +28,7 @@ export class ContactStore {
   }
 
   async createTask(task: Task) {
-    this.activeContact.tasks.unshift(task);
+    this.activeContact?.tasks?.unshift(task);
     let { data } = await conversation.createTask(
       this.activeContact?.id,
       task.content,

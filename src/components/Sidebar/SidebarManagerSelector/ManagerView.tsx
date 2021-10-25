@@ -1,7 +1,7 @@
 import { css, styled } from "goober";
 import React from "react";
 import { observer } from "mobx-react-lite";
-import { Manager } from "@/stores/model/Manager";
+import { Manager } from "@/stores/model";
 import AvatarThumb from "@/components/AvatarThumb";
 
 type TProps = {

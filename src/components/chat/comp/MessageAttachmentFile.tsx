@@ -6,7 +6,7 @@ import {
 import * as fileApi from "@/api/file";
 import { Spin } from "antd";
 import { useState } from "react";
-import { Attachment } from "@/entities";
+import { Attachment } from "@/stores/model";
 
 type TProps = { attachment: Attachment };
 

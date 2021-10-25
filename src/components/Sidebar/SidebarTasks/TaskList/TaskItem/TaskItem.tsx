@@ -1,9 +1,9 @@
 import { observer } from "mobx-react-lite";
 import { css } from "goober";
 import TaskActions from "./TaskActions";
-import dayjs, { toCalendar } from "@/services/dayjs";
+import dayjs from "@/services/dayjs";
 import TaskItemFrom from "@/components/Sidebar/SidebarTasks/TaskList/TaskItem/TaskItemFrom";
-import { Manager } from "@/stores/model/Manager";
+import { Manager } from "@/stores/model";
 type TProps = {
   id: number;
   name: string;

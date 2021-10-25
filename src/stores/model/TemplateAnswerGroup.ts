@@ -1,5 +1,4 @@
 import { makeAutoObservable } from "mobx";
-import store from "store";
 
 export class TemplateAnswerGroup {
   id: number = -1;

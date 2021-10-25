@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { css } from "goober";
-import { Manager } from "@/stores/model/Manager";
+import { Manager } from "@/stores/model";
 import AvatarThumb from "@/components/AvatarThumb";
 
 type TProps = {

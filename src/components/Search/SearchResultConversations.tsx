@@ -1,5 +1,5 @@
 import { useMediaQuery } from "react-responsive";
-import { Conversation } from "@/entities";
+import { Conversation } from "@/stores/model";
 import { useStore } from "@/stores";
 import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router";

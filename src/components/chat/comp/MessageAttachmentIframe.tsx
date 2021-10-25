@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
 import { css } from "goober";
-import { Attachment } from "@/entities";
+import { Attachment } from "@/stores/model";
 
 type TProps = { attachment: Attachment };
 

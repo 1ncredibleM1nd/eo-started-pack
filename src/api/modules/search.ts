@@ -1,5 +1,4 @@
-import { Conversation } from "@/entities";
-import { User } from "@/stores/model/User";
+import { User, Conversation } from "@/stores/model";
 import { RequestBuilder, TItemsData, TResponse } from "../request-builder";
 import type {
   TSearchByMessageRequest,

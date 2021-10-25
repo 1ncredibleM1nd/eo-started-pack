@@ -1,4 +1,4 @@
-class Attachment {
+export class Attachment {
   type: string;
   data: any;
   url: string;
@@ -19,5 +19,3 @@ class Attachment {
     this.isIframe = isIframe;
   }
 }
-
-export default Attachment;
