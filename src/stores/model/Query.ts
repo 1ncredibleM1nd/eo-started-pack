@@ -1,5 +1,6 @@
 import { TRequest } from "@/api";
 import { makeAutoObservable } from "mobx";
+import { TResponse } from "@/api/request-builder";
 
 const enum STATE {
   IDLE = "idle",
@@ -71,7 +72,7 @@ export class Query<I, O> {
     this.setError(undefined);
   };
 
-  handleQueryFulfilled = (data: O) => {
+  handleQueryFulfilled = ({ data }: TResponse<O>) => {
     this._state = STATE.FULFILLED;
     this._data = data;
     this.setError(undefined);

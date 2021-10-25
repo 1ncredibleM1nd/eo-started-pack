@@ -14,7 +14,7 @@ export class Entity {
   type: TEntityType;
   data: any;
 
-  constructor(type: TEntityType, data: any = {}) {
+  constructor(type: TEntityType, data = {}) {
     this.type = type;
     this.data = data;
   }
