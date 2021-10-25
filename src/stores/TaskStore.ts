@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
-import { ConversationTask } from "../../entities";
-import { rootStore } from "..";
+import { ConversationTask } from "../entities";
+import { rootStore } from "./index";
 import { getConversationTasks } from "@/actions";
 import { TConversationTaskStatus } from "@/entities/ConversationTask";
 

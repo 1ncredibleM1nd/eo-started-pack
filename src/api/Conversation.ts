@@ -68,7 +68,7 @@ export default class Conversation {
     conversationSourceAccountId: string,
     schoolIds: Array<number>,
     files: Array<File>,
-    replyTo: string
+    replyTo?: number
   ): Promise<AxiosResponse<any>> {
     const formData = new FormData();
 

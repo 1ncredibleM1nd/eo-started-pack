@@ -3,7 +3,7 @@ import IRole from "@/stores/interface/IRole";
 import Message from "./Message";
 import { User } from "@/stores/model/User";
 import { conversation } from "@/api";
-import { ChatStore } from "@/stores/implementation/ChatStore";
+import { ChatStore } from "@/stores/ChatStore";
 import { TemplateAnswersStore } from "@/stores/TemplateAnswersStore";
 import { container } from "tsyringe";
 

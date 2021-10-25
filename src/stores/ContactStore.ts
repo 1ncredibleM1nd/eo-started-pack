@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
-import { Conversation } from "../../entities";
-import { rootStore } from "..";
+import { Conversation } from "../entities";
+import { rootStore } from "./index";
 import { getConversations, getConversation } from "@/actions";
 import { User } from "@/stores/model/User";
 import { reverse, sortBy } from "lodash-es";

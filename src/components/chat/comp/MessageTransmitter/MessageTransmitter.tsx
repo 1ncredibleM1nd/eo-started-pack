@@ -8,7 +8,7 @@ import { Icon } from "@/ui/Icon/Icon";
 import { useClassName } from "@/hooks/useClassName";
 import "./MessageTransmitter.scss";
 import { useStore } from "@/stores";
-import { ChatStore } from "@/stores/implementation/ChatStore";
+import { ChatStore } from "@/stores/ChatStore";
 import SymbolsCounter from "@/components/chat/comp/MessageTransmitter/SymbolsCounter";
 
 type TProps = {

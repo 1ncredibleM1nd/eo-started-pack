@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import ReactMarkdown from "react-markdown";
 import { TypesMessage } from "@/stores/classes";
 import { CloseOutlined } from "@ant-design/icons";
-import { ChatStore } from "@/stores/implementation/ChatStore";
+import { ChatStore } from "@/stores/ChatStore";
 import "./ReplyCurrentMessage.scss";
 import { useClassName } from "@/hooks/useClassName";
 import { css } from "goober";
@@ -51,7 +51,7 @@ export const ReplyCurrentMessage = observer((props: TProps) => {
           <div className={cn({ position: "right" })}>
             <CloseOutlined
               className={cn({ button: "close" })}
-              onClick={() => currentChat.setActiveMessage(null)}
+              onClick={() => currentChat.setActiveMessage(undefined)}
             />
           </div>
         </div>

@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { isLogged, setSession } from "@/actions";
-import { rootStore } from "..";
+import { rootStore } from "./index";
 
 export class AuthStore {
   loading = false;

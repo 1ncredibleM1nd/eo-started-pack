@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { TaskStore } from "@/stores/implementation/TaskStore";
+import { TaskStore } from "@/stores/TaskStore";
 import { ITask } from "@/stores/interface/ITask";
 
 type TProps = {

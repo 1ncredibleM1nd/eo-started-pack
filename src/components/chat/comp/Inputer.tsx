@@ -131,7 +131,7 @@ const Inputer = observer(() => {
         // case "edit":
         //   resetInputAndKeys();
         //   setStatus("default");
-        //   currentChat.setActiveMessage(null);
+        //   currentChat.setActiveMessage(undefined);
         //   currentChat.activeMessage.editMessage(
         //     draft[activeContact.id + status]
         //   );
@@ -140,7 +140,7 @@ const Inputer = observer(() => {
         // case "reply":
         //   setStatus("default");
         //
-        //   currentChat.setActiveMessage(null);
+        //   currentChat.setActiveMessage(undefined);
         //   currentChat.addMsg(
         //     message,
         //     user.id,

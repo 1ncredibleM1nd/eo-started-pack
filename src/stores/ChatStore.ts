@@ -1,16 +1,16 @@
 import { makeAutoObservable } from "mobx";
-import { contactStore } from "@/stores/implementation";
+import { contactStore } from "@/stores/ContactStore";
 import { getMessages, sendMessage } from "@/actions";
-import { Entity, Message } from "../../entities";
-import { rootStore } from "..";
+import { Entity, Message } from "../entities";
+import { rootStore } from "./index";
 import { uniqBy, sortBy } from "lodash-es";
 
 const MAX_MESSAGE_COUNT_ON_PAGE = 29;
 
 export class ChatStore {
   messages: Message[] = [];
-  activeMessage: Message;
   messageId?: number;
+  activeMessage?: Message;
 
   constructor() {
     makeAutoObservable(this);
@@ -54,14 +54,14 @@ export class ChatStore {
     files: Array<File>,
     activeMessage: Message
   ) {
-    this.setActiveMessage(null);
+    this.setActiveMessage(undefined);
     return sendMessage(
       contactId,
       message || "",
       conversationSourceAccountId,
       schoolIds,
       files,
-      activeMessage?.id ?? null
+      activeMessage?.id
     );
   }
 
@@ -167,7 +167,7 @@ export class ChatStore {
     this.messages.splice(index, 1);
   }
 
-  setActiveMessage(message: Message): void {
+  setActiveMessage(message?: Message): void {
     this.activeMessage = message;
   }
 

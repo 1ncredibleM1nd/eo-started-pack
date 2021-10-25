@@ -135,7 +135,7 @@ async function sendMessage(
   conversationSourceAccountId: string,
   schoolIds: Array<number>,
   files: Array<File>,
-  replyTo: string
+  replyTo?: number
 ) {
   const action = "Ошибка отправки сообщения";
   const section = "messages";
