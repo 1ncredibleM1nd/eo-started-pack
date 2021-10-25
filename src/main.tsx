@@ -4,7 +4,7 @@ import { render } from "react-dom";
 import { setup } from "goober";
 
 import App from "./App";
-import "@/images/icons/index";
+import "@/assets/icons/index";
 import "./styles/index.scss";
 import "./styles/ant/index.scss";
 import { RootStoreProvider } from "./stores";
