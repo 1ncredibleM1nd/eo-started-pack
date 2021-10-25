@@ -161,5 +161,3 @@ export class TaskStore {
     return await this.refetch();
   }
 }
-
-export const taskStore = new TaskStore();

@@ -1,17 +1,18 @@
 import $ from "jquery";
 import { container } from "tsyringe";
 import { createContext, useContext, ReactNode } from "react";
+import { action, makeAutoObservable } from "mobx";
 import { notification } from "antd";
-import { UsersStore } from "./UsersStore";
-import { SchoolsStore } from "./SchoolsStore";
-import { ChannelsStore } from "./ChannelsStore";
+import { UsersStore } from "@/stores/UsersStore";
+import { SchoolsStore } from "@/stores/SchoolsStore";
+import { ChannelsStore } from "@/stores/ChannelsStore";
 import { SidebarStore } from "@/stores/SidebarStore";
 import { AuthStore } from "@/stores/implementation/AuthStore";
-import { SearchStore } from "./SearchStore";
-import { LayoutStore } from "./LayoutStore";
+import { SearchStore } from "@/stores/SearchStore";
+import { LayoutStore } from "@/stores/LayoutStore";
 import { ManagersStore } from "@/stores/ManagersStore";
-import { contactStore, taskStore } from "@/stores/implementation";
-import { action, makeAutoObservable } from "mobx";
+import { TaskStore } from "@/stores/implementation/TaskStore";
+import { contactStore } from "@/stores/implementation";
 import { TagsStore } from "@/stores/TagsStore";
 import { TemplateAnswersStore } from "@/stores/TemplateAnswersStore";
 import { socket } from "@/services/socket";
@@ -19,7 +20,7 @@ import { API } from "@/actions/axios";
 
 class RootStore {
   contactStore = contactStore; // TODO: wrap with di container
-  taskStore = taskStore; // TODO: wrap with di container
+  taskStore = container.resolve(TaskStore);
   authStore = container.resolve(AuthStore);
   layoutStore = container.resolve(LayoutStore);
   sidebarStore = container.resolve(SidebarStore);
