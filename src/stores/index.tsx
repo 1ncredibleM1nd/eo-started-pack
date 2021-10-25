@@ -14,6 +14,7 @@ import { notification } from "antd";
 import { SearchStore } from "./SearchStore";
 import { LayoutStore } from "./LayoutStore";
 import { ManagersStore } from "@/stores/ManagersStore";
+import { API } from "@/actions/axios";
 
 class RootStore {
   authStore = authStore; // TODO: wrap with di container
@@ -32,6 +33,28 @@ class RootStore {
   constructor() {
     makeAutoObservable(this, {
       init: action.bound,
+    });
+
+    this.setupApi();
+  }
+
+  setupApi() {
+    API.interceptors.request.use((request) => {
+      if (request.headers) {
+        request.headers[
+          "Authorization"
+        ] = `Bearer ${this.authStore.getToken()}`;
+
+        if (authStore.isFrame) {
+          request.headers["Timestamp"] = this.authStore.getTimestamp();
+          request.headers["User"] = this.authStore.getUserId();
+          request.headers["RentId"] = this.authStore.getRentId();
+        }
+
+        request.url = `${this.authStore.isFrame ? "rest" : "v1"}${request.url}`;
+      }
+
+      return request;
     });
   }
 
