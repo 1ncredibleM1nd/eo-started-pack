@@ -13,29 +13,15 @@ const API = axios.create({
 
 // @ts-ignore forgive me for that
 function CredentialsInterceptor(request) {
-  let interlayer: string;
-
-  if (authStore.isFrame) {
-    interlayer = "/rest";
-  } else {
-    interlayer = "/v1";
-  }
-
   request.headers["Authorization"] = `Bearer ${authStore.getToken()}`;
 
   if (authStore.isFrame) {
     request.headers["Timestamp"] = authStore.getTimestamp();
-  }
-
-  if (authStore.isFrame) {
     request.headers["User"] = authStore.getUserId();
-  }
-
-  if (authStore.isFrame) {
     request.headers["RentId"] = authStore.getRentId();
   }
 
-  request.url = interlayer + request.url;
+  request.url = `${authStore.isFrame ? "rest" : "v1"}/${request.url}`;
 
   return request;
 }
