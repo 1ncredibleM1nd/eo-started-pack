@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import ReactMarkdown from "react-markdown";
-import { TypesMessage } from "@/stores/classes";
+import { Entity } from "@/stores/model";
 import { CloseOutlined } from "@ant-design/icons";
 import { ChatStore } from "@/stores/ChatStore";
 import "./ReplyCurrentMessage.scss";
@@ -43,9 +43,7 @@ export const ReplyCurrentMessage = observer((props: TProps) => {
               />
             </span>
             <div className={cn("type")}>
-              {TypesMessage.getTypeDescription(
-                currentChat.activeMessage.entity.type
-              )}
+              {Entity.stringifyType(currentChat.activeMessage.entity.type)}
             </div>
           </div>
           <div className={cn({ position: "right" })}>
