@@ -4,6 +4,7 @@ import { TTask } from "@/api/types";
 export class Task {
   id: number;
   name?: string;
+  avatar?: string;
   content: string;
   creatorId: number;
   status: string;
@@ -16,6 +17,7 @@ export class Task {
   constructor({
     id,
     name,
+    avatar,
     content,
     creator_id,
     status,
@@ -29,6 +31,7 @@ export class Task {
 
     this.id = id;
     this.name = name;
+    this.avatar = avatar;
     this.schoolId = school_id;
     this.conversationId = conversation_id;
     this.content = content;
