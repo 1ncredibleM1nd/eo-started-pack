@@ -37,7 +37,9 @@ export class Conversation {
   }
 
   getById(conversationId: number): Promise<AxiosResponse<any>> {
-    return API.post(`/conversation/get-conversation`, { conversationId });
+    return RequestBuilder.instance.post(`/conversation/get-conversation`, {
+      conversationId,
+    });
   }
 
   setTags(conversationId: number, tags: number[]) {
@@ -109,11 +111,15 @@ export class Conversation {
   }
 
   // Tasks queries
-  createTask(id: number, content: string, timeUp: Date) {
+  createTask(
+    conversationId: number,
+    content: string,
+    timestampDateToComplete: number
+  ) {
     return RequestBuilder.instance.post("/conversation/create-task", {
-      conversationId: id,
+      conversationId,
       content,
-      timestampDateToComplete: timeUp,
+      timestampDateToComplete,
     });
   }
 

@@ -12,7 +12,7 @@ export const TaskList = observer(() => {
         margin-top: 10px;
       `}
     >
-      {contactStore.activeContact?.filtredTasks.map((task) => {
+      {contactStore.activeContact?.filteredTasks.map((task) => {
         return (
           <TaskItem
             key={task.id}

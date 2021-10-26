@@ -2,23 +2,18 @@ import { observer } from "mobx-react-lite";
 import { css } from "goober";
 import { useStore } from "@/stores";
 import dayjs from "@/services/dayjs";
-import { ITask } from "@/stores/interface/ITask";
 import TaskActions from "@/components/Sidebar/SidebarTasks/TaskList/TaskItem/TaskActions";
 import AvatarThumb from "@/components/AvatarThumb";
 import { Icon } from "@/ui/Icon/Icon";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useInView } from "react-intersection-observer";
-
-type TProps = {
-  task: ITask;
-  selectContact: any;
-};
+import { Task } from "@/stores/model";
 
 export const ConversationTaskItem = observer(
-  ({ task, selectContact }: { task: TProps; selectContact: any }) => {
+  ({ task, selectContact }: { task: Task; selectContact: any }) => {
     const { managersStore, schoolsStore } = useStore();
     const manager = managersStore.getById(task.creatorId);
-    const isDone = task.status === "completed";
+
     const isDeadline = dayjs().unix() < task.timestampDateToComplete;
     const school = schoolsStore.getById(task.schoolId);
     const socialMedia = task.socialMedia;
@@ -169,7 +164,7 @@ export const ConversationTaskItem = observer(
             </span>
           </div>
         </div>
-        <TaskActions id={task.id} isDone={isDone} />
+        <TaskActions id={task.id} status={task.status} />
       </div>
     );
   }

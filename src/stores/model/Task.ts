@@ -1,28 +1,45 @@
 import { makeAutoObservable } from "mobx";
-import { ITask } from "@/stores/interface/ITask";
+import { TTask } from "@/api/types";
 
-export class Task implements ITask {
+export class Task {
   id: number;
+  name?: string;
   content: string;
   creatorId: number;
   status: string;
   createdAt: number;
   timestampDateToComplete: number;
+  conversationId: number;
+  socialMedia: string;
+  schoolId: number;
 
-  constructor(
-    id: number,
-    content: string,
-    creatorId: number,
-    status: string,
-    createdAt: number,
-    timestampDateToComplete: number
-  ) {
+  constructor({
+    id,
+    name,
+    content,
+    creator_id,
+    status,
+    created_at,
+    timestamp_date_to_complete,
+    conversation_id,
+    social_media,
+    school_id,
+  }: TTask) {
     makeAutoObservable(this);
+
     this.id = id;
+    this.name = name;
+    this.schoolId = school_id;
+    this.conversationId = conversation_id;
     this.content = content;
-    this.creatorId = creatorId;
     this.status = status;
-    this.createdAt = createdAt;
-    this.timestampDateToComplete = timestampDateToComplete;
+    this.socialMedia = social_media;
+    this.creatorId = creator_id;
+    this.createdAt = created_at;
+    this.timestampDateToComplete = timestamp_date_to_complete;
+  }
+
+  setStatus(status: string) {
+    this.status = status;
   }
 }

@@ -1,14 +1,31 @@
 import { makeAutoObservable } from "mobx";
-import { ConversationTask, TConversationTaskStatus } from "@/stores/model";
+import { Task } from "@/stores/model";
 import { RootStoreInstance } from "./index";
 import { getConversationTasks } from "@/api/deprecated";
+import { socket } from "@/api/socket";
+import { reverse, sortBy } from "lodash-es";
+import { TTask } from "@/api/types";
+
+type TConversationTaskStatus = "" | "today" | "expired" | "later";
 
 export class TaskStore {
-  tasks: Map<number, ConversationTask> = new Map();
+  tasks = new Map<number, Task>();
   taskStatus: TConversationTaskStatus = "";
 
   constructor(private readonly rootStore: RootStoreInstance) {
     makeAutoObservable(this);
+
+    socket.on("conversationTaskAdded", (data) => {
+      this.addTasks([data]);
+    });
+
+    socket.on("conversationTaskRemoved", (data) => {
+      this.removeTask(data.id);
+    });
+
+    socket.on("conversationTaskEdited", (data) => {
+      this.editTask(data);
+    });
   }
 
   isLoaded = false;
@@ -42,7 +59,9 @@ export class TaskStore {
   }
 
   get sortedTasks() {
-    return Array.from(this.tasks.values());
+    return reverse(
+      sortBy(Array.from(this.tasks.values()), "timestampDateToComplete")
+    );
   }
 
   async loadPrev() {
@@ -84,25 +103,10 @@ export class TaskStore {
     this.setPageLoading(false);
   }
 
-  addTasks(tasks: any[]) {
+  addTasks(tasks: TTask[]) {
     for (let task of tasks) {
       if (!this.tasks.has(task.id)) {
-        this.tasks.set(
-          task.id,
-          new ConversationTask({
-            id: task.id,
-            content: task.content,
-            creatorId: task.creatorId,
-            timestampDateToComplete: task.timestampDateToComplete,
-            taskStatus: "",
-            status: task.status,
-            conversationId: task.conversationId,
-            name: task.name,
-            avatar: task.avatar,
-            socialMedia: task.socialMedia,
-            schoolId: task.schoolId,
-          })
-        );
+        this.tasks.set(task.id, new Task(task));
       }
     }
   }
@@ -121,6 +125,11 @@ export class TaskStore {
 
   removeTask(id: number) {
     this.tasks.delete(id);
+  }
+
+  editTask(data: any) {
+    const task = this.tasks.get(data.id);
+    task?.setStatus(data.status);
   }
 
   async refetch() {

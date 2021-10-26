@@ -4,7 +4,6 @@ import { css } from "goober";
 import { Input } from "antd";
 import { Button } from "antd";
 import { TextAreaRef } from "antd/lib/input/TextArea";
-import { Task } from "@/stores/model";
 import { useStore } from "@/stores";
 import { DatePicker } from "@/ui/DatePicker/DatePicker";
 import dayjs from "@/services/dayjs";
@@ -14,7 +13,7 @@ type TProps = {
 };
 
 export const SidebarAddTaskForm = observer(({ onCancel }: TProps) => {
-  const { contactStore, usersStore } = useStore();
+  const { contactStore } = useStore();
   const [date, setDate] = useState(dayjs().add(1, "day"));
   const [taskContent, setTaskContent] = useState("");
   const inputRef = useRef<TextAreaRef | null>(null);
@@ -28,16 +27,11 @@ export const SidebarAddTaskForm = observer(({ onCancel }: TProps) => {
       return;
     }
 
-    const newTask = new Task(
-      1,
-      taskContent,
-      usersStore.user?.id,
-      "active",
-      dayjs().unix(),
-      dayjs(date).unix()
-    );
+    await contactStore.createTask({
+      content: taskContent,
+      timestampDateToComplete: dayjs(date).unix(),
+    });
 
-    await contactStore.createTask(newTask);
     setDate(dayjs().add(1, "day"));
     setTaskContent("");
     onCancel();

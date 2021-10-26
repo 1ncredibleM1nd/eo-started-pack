@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { useStore } from "@/stores";
 import { useInView } from "react-intersection-observer";
 import { ContactListLoader } from "./ContactListLoader/ContactListLoader";
-import { ConversationTaskItem } from "./comp/Conversation/ConversationTaskItem";
+import { ConversationTaskItem } from "./comp/Conversation/ConversationTask/ConversationTaskItem";
 import { useMediaQuery } from "react-responsive";
 
 const ConversationTaskList = observer(() => {

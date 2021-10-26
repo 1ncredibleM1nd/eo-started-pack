@@ -1,13 +1,13 @@
 import { makeAutoObservable } from "mobx";
 import IRole from "@/stores/interface/IRole";
 import { Message } from "./Message";
-import { User } from "@/stores/model";
+import { Task, User } from "@/stores/model";
 import { Api } from "@/api";
 import { ChatStore } from "@/stores/ChatStore";
 import { TemplateAnswersStore } from "@/stores/TemplateAnswersStore";
 
-import { ITask } from "@/stores/interface/ITask";
 import { sortBy, filter } from "lodash-es";
+import { TTask } from "@/api/types";
 const RESET_TAGS = [0];
 
 export type TConversationRestrictions = {
@@ -39,7 +39,7 @@ export class Conversation {
   restrictions: TConversationRestrictions;
   templateAnswers: TemplateAnswersStore;
   manager_id: number | null;
-  tasks: ITask[] | null = [];
+  tasks = new Map<number, Task>();
 
   constructor({
     id,
@@ -66,7 +66,7 @@ export class Conversation {
     dialogStatus: TConversationDialogStatus;
     restrictions: TConversationRestrictions;
     manager_id: number;
-    tasks: ITask[] | null;
+    tasks: TTask[];
   }) {
     makeAutoObservable(this);
 
@@ -84,7 +84,10 @@ export class Conversation {
     this.chat = new ChatStore();
     this.templateAnswers = new TemplateAnswersStore();
     this.addMessage(lastMessage);
-    this.tasks = tasks;
+
+    tasks.forEach((data) => {
+      this.tasks.set(data.id, new Task(data));
+    });
   }
 
   get readed() {
@@ -159,25 +162,23 @@ export class Conversation {
     return this.id === sourceId || this.lastMessage.id === sourceId;
   }
 
-  //Realised with lodash
+  get filteredTasks() {
+    const tasks = Array.from(this.tasks.values());
 
-  get filtredTasks() {
-    if (this.tasks?.length === 0) {
+    if (tasks?.length === 0) {
       return [];
-    } else if (this.tasks?.length === 1) {
-      return this.tasks;
+    } else if (tasks?.length === 1) {
+      return tasks;
     }
+
     return [
+      ...sortBy(filter(tasks, ["status", "active"]), "timestampDateToComplete"),
       ...sortBy(
-        filter(this.tasks, ["status", "active"]),
+        filter(tasks, ["status", "completed"]),
         "timestampDateToComplete"
       ),
       ...sortBy(
-        filter(this.tasks, ["status", "completed"]),
-        "timestampDateToComplete"
-      ),
-      ...sortBy(
-        filter(this.tasks, ["status", "archived"]),
+        filter(tasks, ["status", "archived"]),
         "timestampDateToComplete"
       ),
     ];

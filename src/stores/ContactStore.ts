@@ -5,10 +5,12 @@ import {
   Conversation,
   TConversationDialogStatus,
 } from "@/stores/model";
+import { Api } from "@/api";
 import { rootStore } from "./index";
 import { getConversations, getConversation } from "@/api/deprecated";
 import { reverse, sortBy } from "lodash-es";
-import { Api } from "@/api";
+import { socket } from "@/api/socket";
+import { TTask } from "@/api/types";
 
 export class ContactStore {
   contacts: Map<number, Conversation> = new Map();
@@ -17,6 +19,18 @@ export class ContactStore {
 
   constructor() {
     makeAutoObservable(this);
+
+    socket.on("conversationTaskAdded", (data: TTask) => {
+      this.activeContact?.tasks.set(data.id, new Task(data));
+    });
+
+    socket.on("conversationTaskRemoved", (data: TTask) => {
+      this.activeContact?.tasks.delete(data.id);
+    });
+
+    socket.on("conversationTaskEdited", (data: TTask) => {
+      this.activeContact?.tasks.set(data.id, new Task(data));
+    });
   }
 
   get activeContactId() {
@@ -27,36 +41,29 @@ export class ContactStore {
     this.activeContact?.changeManager(managerId);
   }
 
-  async createTask(task: Task) {
-    this.activeContact?.tasks?.unshift(task);
-    let { data } = await Api.conversation.createTask(
-      this.activeContact?.id,
-      task.content,
-      task.timestampDateToComplete
+  async createTask({
+    content,
+    timestampDateToComplete,
+  }: {
+    content: string;
+    timestampDateToComplete: number;
+  }) {
+    const { data } = await Api.conversation.createTask(
+      this.activeContact?.id ?? -1,
+      content,
+      timestampDateToComplete
     );
-
-    task.id = data.data.id;
   }
 
   async completeTask(id: number) {
-    const completed = this.activeContact?.tasks?.find((task) => task.id === id);
-    completed.status = "completed";
     await Api.conversation.setStatusTask(id, "completed");
   }
 
   async restoreTask(id: number) {
-    const recoveringTask = this.activeContact?.tasks?.find(
-      (task) => task.id === id
-    );
-    recoveringTask.status = "active";
     await Api.conversation.setStatusTask(id, "active");
   }
 
   async deleteTask(id: number) {
-    const deletingTask = this.activeContact?.tasks?.find(
-      (task) => task.id === id
-    );
-    deletingTask.status = "archived";
     await Api.conversation.setStatusTask(id, "archived");
   }
 
