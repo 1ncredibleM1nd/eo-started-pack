@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { notification } from "antd";
-import * as resolver from "./index";
+import { Api } from ".";
 import { rootStore } from "@/stores";
 import {
   TConversationDialogStatus,
@@ -57,7 +57,7 @@ async function getConversations({
   const section = "contacts";
 
   try {
-    const response = await resolver.conversation.conversations({
+    const response = await Api.conversation.conversations({
       filter: {
         tags: rootStore.tagsStore.activeTags.map(({ name }) => name),
         noTags: rootStore.tagsStore.noTags,
@@ -90,7 +90,7 @@ async function getConversation(conversationId: number) {
   const section = "contacts";
 
   try {
-    const response = await resolver.conversation.getById(conversationId);
+    const response = await Api.conversation.getById(conversationId);
 
     if (!isError(response, section, action, true)) {
       return response.data.data;
@@ -113,7 +113,7 @@ async function getMessages(
   const section = "messages";
 
   try {
-    const response = await resolver.conversation.messages(
+    const response = await Api.conversation.messages(
       schoolIds,
       conversationId,
       page,
@@ -143,7 +143,7 @@ async function sendMessage(
   const section = "messages";
 
   try {
-    const response = await resolver.conversation.sendMessage(
+    const response = await Api.conversation.sendMessage(
       conversationId,
       message,
       conversationSourceAccountId,
@@ -168,7 +168,7 @@ async function getUserData() {
   const section = "auth";
 
   try {
-    let response = await resolver.account.info();
+    let response = await Api.account.info();
 
     if (!isError(response, section, action, true)) {
       return response.data.data;
@@ -187,7 +187,7 @@ async function isLogged() {
   const section = "auth";
 
   try {
-    let response = await resolver.account.isLogged();
+    let response = await Api.account.isLogged();
 
     if (!isError(response, section, action, true)) {
       return response.data.data;
@@ -209,7 +209,7 @@ async function setSession(sessionId: string) {
   const section = "auth";
 
   try {
-    let response = await resolver.account.setSession(sessionId);
+    let response = await Api.account.setSession(sessionId);
 
     if (!isError(response, section, action, true)) {
       return response.data.data;
@@ -226,7 +226,7 @@ async function getSchools() {
   const section = "school";
 
   try {
-    let response = await resolver.account.getSchools();
+    let response = await Api.account.getSchools();
 
     if (!isError(response, section, action, true)) {
       return response.data.data;
@@ -255,7 +255,7 @@ async function getConversationTasks({
   const section = "tasks";
 
   try {
-    const response = await resolver.conversation.conversationTasks({
+    const response = await Api.conversation.conversationTasks({
       filter: {
         tags: rootStore.tagsStore.activeTags.map(({ name }) => name),
         noTags: rootStore.tagsStore.noTags,

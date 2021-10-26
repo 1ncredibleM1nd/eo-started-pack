@@ -1,13 +1,13 @@
 import { makeAutoObservable } from "mobx";
 import { ConversationTask, TConversationTaskStatus } from "@/stores/model";
-import { rootStore } from "./index";
+import { RootStoreInstance } from "./index";
 import { getConversationTasks } from "@/api/deprecated";
 
 export class TaskStore {
   tasks: Map<number, ConversationTask> = new Map();
   taskStatus: TConversationTaskStatus = "";
 
-  constructor() {
+  constructor(private readonly rootStore: RootStoreInstance) {
     makeAutoObservable(this);
   }
 
@@ -53,7 +53,7 @@ export class TaskStore {
     this.setPageLoading(true);
 
     const { items: tasks, page } = await getConversationTasks({
-      schoolIds: rootStore.schoolsStore.activeSchoolsIds,
+      schoolIds: this.rootStore.schoolsStore.activeSchoolsIds,
       page: this.prevPage - 1,
       taskStatus: this.taskStatus,
     });
@@ -73,7 +73,7 @@ export class TaskStore {
     this.setPageLoading(true);
 
     const { items: tasks, page } = await getConversationTasks({
-      schoolIds: rootStore.schoolsStore.activeSchoolsIds,
+      schoolIds: this.rootStore.schoolsStore.activeSchoolsIds,
       page: this.nextPage + 1,
       taskStatus: this.taskStatus,
     });
@@ -135,7 +135,7 @@ export class TaskStore {
 
   async fetch() {
     const { items: tasks, page } = await getConversationTasks({
-      schoolIds: rootStore.schoolsStore.activeSchoolsIds,
+      schoolIds: this.rootStore.schoolsStore.activeSchoolsIds,
       page: this.prevPage,
       taskStatus: this.taskStatus,
     });

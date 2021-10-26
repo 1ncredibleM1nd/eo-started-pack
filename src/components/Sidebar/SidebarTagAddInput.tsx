@@ -3,7 +3,7 @@ import { css } from "goober";
 import { Input } from "antd";
 import { useState } from "react";
 import { useStore } from "@/stores";
-import { tags as tagsApi } from "@/api";
+import { Api } from "@/api";
 
 type TProps = {
   onAdded?: any;
@@ -17,7 +17,7 @@ export const SidebarTagAddInput = observer(({ onAdded }: TProps) => {
     const trimmedTagName = tagName.trim();
 
     if (trimmedTagName !== "") {
-      const { data } = await tagsApi.add(
+      const { data } = await Api.tags.add(
         contactStore?.activeContact?.schoolId ?? -1,
         trimmedTagName
       );

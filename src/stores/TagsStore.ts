@@ -1,26 +1,24 @@
-import { singleton } from "tsyringe";
 import store from "store";
 import { makeAutoObservable } from "mobx";
 import { Tag } from "@/stores/model";
-import { tags } from "@/api";
+import { Api } from "@/api";
 import { filter, uniqBy } from "lodash-es";
-import { SchoolsStore } from "./SchoolsStore";
-import { Socket } from "@/services/socket";
+import { RootStoreInstance } from ".";
+import { socket } from "@/api/socket";
 
-@singleton()
 export class TagsStore {
-  constructor(private schools: SchoolsStore, private socket: Socket) {
+  constructor(private readonly rootStore: RootStoreInstance) {
     makeAutoObservable(this);
 
-    this.socket.on("tagAdded", (data) => {
+    socket.on("tagAdded", (data) => {
       this.add(data.id, data.school_id, data.name, data.color);
     });
 
-    this.socket.on("tagRemoved", (data) => {
+    socket.on("tagRemoved", (data) => {
       this.delete(data.id);
     });
 
-    this.socket.on("tagEdited", (data) => {
+    socket.on("tagEdited", (data) => {
       this.edit(data.id, data.name);
     });
   }
@@ -33,7 +31,7 @@ export class TagsStore {
   }
 
   async load(schoolIds: number[]) {
-    const { data: r } = await tags.getAll(schoolIds);
+    const { data: r } = await Api.tags.getAll(schoolIds);
     if (!r.error) {
       r.data.forEach((tag) => {
         this.tags.set(
@@ -107,7 +105,7 @@ export class TagsStore {
   get groupByName() {
     return uniqBy(
       filter(Array.from(this.tags.values()), (tag) =>
-        this.schools.isActive(tag.schoolId)
+        this.rootStore.schoolsStore.isActive(tag.schoolId)
       ),
       "name"
     ) as Tag[];

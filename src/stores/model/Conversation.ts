@@ -2,10 +2,9 @@ import { makeAutoObservable } from "mobx";
 import IRole from "@/stores/interface/IRole";
 import { Message } from "./Message";
 import { User } from "@/stores/model";
-import { conversation } from "@/api";
+import { Api } from "@/api";
 import { ChatStore } from "@/stores/ChatStore";
 import { TemplateAnswersStore } from "@/stores/TemplateAnswersStore";
-import { container } from "tsyringe";
 
 import { ITask } from "@/stores/interface/ITask";
 import { sortBy, filter } from "lodash-es";
@@ -83,7 +82,7 @@ export class Conversation {
     this.restrictions = restrictions;
     this.manager_id = manager_id;
     this.chat = new ChatStore();
-    this.templateAnswers = container.resolve(TemplateAnswersStore);
+    this.templateAnswers = new TemplateAnswersStore();
     this.addMessage(lastMessage);
     this.tasks = tasks;
   }
@@ -132,7 +131,7 @@ export class Conversation {
   }
   async changeManager(managerId: number | null) {
     this.manager_id = managerId;
-    const { data: r } = await conversation.setManager(this.id, managerId);
+    const { data: r } = await Api.conversation.setManager(this.id, managerId);
   }
 
   get lastMessage(): Message {
@@ -140,12 +139,12 @@ export class Conversation {
   }
 
   async addTag(tagIds: number[]) {
-    const { data } = await conversation.setTags(this.id, tagIds);
+    const { data } = await Api.conversation.setTags(this.id, tagIds);
   }
 
   async removeTag(id: number) {
     const filteredTags = this.tags.filter((tagId) => tagId !== id);
-    const { data } = await conversation.setTags(
+    const { data } = await Api.conversation.setTags(
       this.id,
       filteredTags.length > 0 ? filteredTags : RESET_TAGS
     );

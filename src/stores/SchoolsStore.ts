@@ -1,10 +1,8 @@
-import { singleton } from "tsyringe";
 import store from "store";
 import { School } from "./model/School";
-import { account } from "@/api";
+import { Api } from "@/api";
 import { makeAutoObservable } from "mobx";
 
-@singleton()
 export class SchoolsStore {
   schools: School[] = [];
 
@@ -25,7 +23,7 @@ export class SchoolsStore {
   }
 
   async init() {
-    const { data } = await account.getSchools();
+    const { data } = await Api.account.getSchools();
     Object.entries(data.data).forEach(([id, school]) => {
       this.schools.push(
         new School(

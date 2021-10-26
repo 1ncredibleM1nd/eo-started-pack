@@ -1,8 +1,9 @@
 import $ from "jquery";
-import { container } from "tsyringe";
 import { createContext, useContext, ReactNode } from "react";
 import { action, makeAutoObservable } from "mobx";
 import { notification } from "antd";
+import { API } from "@/api/axios";
+import { socket } from "@/api/socket";
 import { UsersStore } from "@/stores/UsersStore";
 import { SchoolsStore } from "@/stores/SchoolsStore";
 import { ChannelsStore } from "@/stores/ChannelsStore";
@@ -14,23 +15,19 @@ import { ManagersStore } from "@/stores/ManagersStore";
 import { TaskStore } from "@/stores/TaskStore";
 import { contactStore } from "@/stores/ContactStore";
 import { TagsStore } from "@/stores/TagsStore";
-import { TemplateAnswersStore } from "@/stores/TemplateAnswersStore";
-import { socket } from "@/services/socket";
-import { API } from "@/api/axios";
 
 class RootStore {
   contactStore = contactStore; // TODO: wrap with di container
-  taskStore = container.resolve(TaskStore);
-  authStore = container.resolve(AuthStore);
-  layoutStore = container.resolve(LayoutStore);
-  sidebarStore = container.resolve(SidebarStore);
-  tagsStore = container.resolve(TagsStore);
-  usersStore = container.resolve(UsersStore);
-  schoolsStore = container.resolve(SchoolsStore);
-  channelsStore = container.resolve(ChannelsStore);
-  searchStore = container.resolve(SearchStore);
-  templateAnswersStore = container.resolve(TemplateAnswersStore);
-  managersStore = container.resolve(ManagersStore);
+  taskStore = new TaskStore(this);
+  authStore = new AuthStore();
+  layoutStore = new LayoutStore();
+  sidebarStore = new SidebarStore();
+  tagsStore = new TagsStore(this);
+  usersStore = new UsersStore();
+  schoolsStore = new SchoolsStore();
+  channelsStore = new ChannelsStore();
+  searchStore = new SearchStore(this);
+  managersStore = new ManagersStore();
 
   constructor() {
     makeAutoObservable(this, {

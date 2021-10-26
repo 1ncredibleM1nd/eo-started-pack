@@ -23,7 +23,7 @@ type TGetConversations = {
   page?: number;
 };
 
-export default class Conversation {
+export class Conversation {
   conversations({
     filter,
     search,

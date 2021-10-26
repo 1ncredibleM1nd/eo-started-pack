@@ -8,7 +8,7 @@ import {
 import { rootStore } from "./index";
 import { getConversations, getConversation } from "@/api/deprecated";
 import { reverse, sortBy } from "lodash-es";
-import { conversation } from "@/api";
+import { Api } from "@/api";
 
 export class ContactStore {
   contacts: Map<number, Conversation> = new Map();
@@ -29,7 +29,7 @@ export class ContactStore {
 
   async createTask(task: Task) {
     this.activeContact?.tasks?.unshift(task);
-    let { data } = await conversation.createTask(
+    let { data } = await Api.conversation.createTask(
       this.activeContact?.id,
       task.content,
       task.timestampDateToComplete
@@ -41,7 +41,7 @@ export class ContactStore {
   async completeTask(id: number) {
     const completed = this.activeContact?.tasks?.find((task) => task.id === id);
     completed.status = "completed";
-    await conversation.setStatusTask(id, "completed");
+    await Api.conversation.setStatusTask(id, "completed");
   }
 
   async restoreTask(id: number) {
@@ -49,7 +49,7 @@ export class ContactStore {
       (task) => task.id === id
     );
     recoveringTask.status = "active";
-    await conversation.setStatusTask(id, "active");
+    await Api.conversation.setStatusTask(id, "active");
   }
 
   async deleteTask(id: number) {
@@ -57,7 +57,7 @@ export class ContactStore {
       (task) => task.id === id
     );
     deletingTask.status = "archived";
-    await conversation.setStatusTask(id, "archived");
+    await Api.conversation.setStatusTask(id, "archived");
   }
 
   isLoaded = false;
@@ -266,7 +266,7 @@ export class ContactStore {
   }
 
   async setDialogStatusById(id: number, status: TConversationDialogStatus) {
-    return await conversation.setDialogStatus(id, status);
+    return await Api.conversation.setDialogStatus(id, status);
   }
 }
 

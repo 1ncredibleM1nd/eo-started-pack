@@ -1,4 +1,3 @@
-import { Api } from "@/api";
 import { action, makeAutoObservable } from "mobx";
 import {
   TSearchByMessageRequest,
@@ -6,36 +5,28 @@ import {
 } from "@/api/types";
 import { debounce } from "lodash-es";
 import { Conversation, ItemsQuery } from "@/stores/model";
-import { ChannelsStore } from "./ChannelsStore";
-import { SchoolsStore } from "./SchoolsStore";
-import { TagsStore } from "./TagsStore";
-import { singleton } from "tsyringe";
 import { TItemsData } from "@/api/request-builder";
+import { RootStoreInstance } from ".";
+import { Api } from "@/api";
 
-@singleton()
 export class SearchStore {
   isLoaded = true;
   searchQuery = "";
   searchByMessageQuery;
   searchBySourceAccountQuery;
 
-  constructor(
-    private api: Api,
-    private tags: TagsStore,
-    private schools: SchoolsStore,
-    private channels: ChannelsStore
-  ) {
+  constructor(private readonly rootStore: RootStoreInstance) {
     this.searchByMessageQuery = new ItemsQuery<
       Conversation,
       TSearchByMessageRequest,
       TItemsData<Conversation>
-    >(this.api.search.byMessage);
+    >(Api.search.byMessage);
 
     this.searchBySourceAccountQuery = new ItemsQuery<
       Conversation,
       TSearchBySourceAccountRequest,
       TItemsData<Conversation>
-    >(this.api.search.bySourceAccount);
+    >(Api.search.bySourceAccount);
 
     makeAutoObservable(this);
   }
@@ -71,10 +62,12 @@ export class SearchStore {
 
         const request = {
           filter: {
-            sources: this.channels.activeChannels.map(({ id }) => id),
-            schoolIds: this.schools.activeSchoolsIds,
-            tags: this.tags.activeTags.map(({ name }) => name),
-            noTags: this.tags.noTags,
+            sources: this.rootStore.channelsStore.activeChannels.map(
+              ({ id }) => id
+            ),
+            schoolIds: this.rootStore.schoolsStore.activeSchoolsIds,
+            tags: this.rootStore.tagsStore.activeTags.map(({ name }) => name),
+            noTags: this.rootStore.tagsStore.noTags,
           },
           search: {
             query: this.searchQuery,

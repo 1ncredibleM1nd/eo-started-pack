@@ -13,7 +13,7 @@ export type TApiSchools = {
   data: { [id: string]: { logo: string; schoolName: string } };
 };
 
-export default class Account {
+export class Account {
   info() {
     return API.get<TApiUser>("/account/get-account");
   }

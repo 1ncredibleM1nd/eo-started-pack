@@ -1,9 +1,7 @@
-import { singleton } from "tsyringe";
 import { makeAutoObservable } from "mobx";
 import { Manager } from "@/stores/model";
 import { Managers } from "@/api/Managers";
 
-@singleton()
 export class ManagersStore {
   constructor() {
     makeAutoObservable(this);

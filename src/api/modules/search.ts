@@ -38,8 +38,8 @@ const transformConversations = ({
   };
 };
 
-export default class Search {
-  static bySourceAccount = new RequestBuilder<
+export class Search {
+  bySourceAccount = new RequestBuilder<
     TSearchBySourceAccountRequest,
     TItemsData<Conversation>
   >()
@@ -47,7 +47,7 @@ export default class Search {
     .withOutputTransformer(transformConversations)
     .build();
 
-  static byMessage = new RequestBuilder<
+  byMessage = new RequestBuilder<
     TSearchByMessageRequest,
     TItemsData<Conversation>
   >()

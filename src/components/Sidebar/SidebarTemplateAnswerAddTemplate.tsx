@@ -1,15 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores";
 import { css } from "goober";
-import { Select, Dropdown, Button, Input } from "antd";
-import { SmileOutlined } from "@ant-design/icons";
-import Picker, { IEmojiData } from "emoji-picker-react";
+import { Select, Button, Input } from "antd";
+import { IEmojiData } from "emoji-picker-react";
 import { useAntInputCursor } from "@/hooks/useAntInputCursor";
 import { Icon } from "@/ui/Icon/Icon";
 import TextArea from "rc-textarea";
-import { templateAnswers as templateAnswerApi } from "@/api";
-import { TextAreaRef, TextAreaProps } from "antd/lib/input/TextArea";
+import { Api } from "@/api";
 
 const { Option } = Select;
 
@@ -21,8 +19,9 @@ export const SidebarTemplateAnswerAddTemplate = observer(() => {
   const nameInputRef = useRef();
   const contentInputRef = useRef();
 
-  const { templateAnswersStore, contactStore } = useStore();
-  const templateAnswerGroups = templateAnswersStore.getGroups() ?? [];
+  const { contactStore } = useStore();
+  const templateAnswersStore = contactStore.activeContact?.templateAnswers;
+  const templateAnswerGroups = templateAnswersStore?.getGroups() ?? [];
 
   const groupDefaultValue =
     templateAnswerGroups.filter((element) => {
@@ -53,11 +52,15 @@ export const SidebarTemplateAnswerAddTemplate = observer(() => {
       contentInputRef.current?.focus();
       return;
     }
-    const response = await templateAnswerApi.add(selectGroupId, name, content);
+    const response = await Api.templateAnswers.add(
+      selectGroupId,
+      name,
+      content
+    );
     if (response) {
       const id = response.data?.data?.id ?? null;
       if (id) {
-        templateAnswersStore.add(id, name, selectGroupId, content);
+        templateAnswersStore?.add(id, name, selectGroupId, content);
         setVisible(false);
       }
     }

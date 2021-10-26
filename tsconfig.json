@@ -17,8 +17,6 @@
     "allowSyntheticDefaultImports": true,
 
     "useDefineForClassFields": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
 
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,

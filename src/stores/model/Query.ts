@@ -1,6 +1,5 @@
-import { TRequest } from "@/api";
 import { makeAutoObservable } from "mobx";
-import { TResponse } from "@/api/request-builder";
+import { TRequest, TResponse } from "@/api/request-builder";
 
 const enum STATE {
   IDLE = "idle",

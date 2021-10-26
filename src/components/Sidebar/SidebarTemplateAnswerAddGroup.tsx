@@ -1,12 +1,12 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useRef, useState } from "react";
 import { useStore } from "@/stores";
 import { observer } from "mobx-react-lite";
-import { CarryOutOutlined, FormOutlined } from "@ant-design/icons";
+import { CarryOutOutlined } from "@ant-design/icons";
 import { Tree, Input, Button, Popover } from "antd";
 import { css, styled } from "goober";
 import { Icon } from "@/ui/Icon/Icon";
-import { templateAnswers as templateAnswerApi } from "@/api";
-import { TextAreaRef, TextAreaProps } from "antd/lib/input/TextArea";
+import { Api } from "@/api";
+import { TextAreaRef } from "antd/lib/input/TextArea";
 import ReactTestUtils from "react-dom/test-utils";
 import { useMediaQuery } from "react-responsive";
 
@@ -24,9 +24,10 @@ const TreeContainer = styled("div")`
   }
 `;
 export const SidebarTemplateAnswerAddGroup = observer(() => {
-  const { templateAnswersStore, contactStore, sidebarStore } = useStore();
-  const templateAnswerGroups = templateAnswersStore.getGroups() ?? [];
-  const templateAnswers = templateAnswersStore.getTemplates() ?? [];
+  const { contactStore, sidebarStore } = useStore();
+  const templateAnswersStore = contactStore.activeContact?.templateAnswers;
+  const templateAnswerGroups = templateAnswersStore?.getGroups() ?? [];
+  const templateAnswers = templateAnswersStore?.getTemplates() ?? [];
   const initTreeData: DataNode[] = [];
   const [edited, setEdited] = useState(false);
   const nameInputRef = useRef<TextAreaRef | null>(null);
@@ -92,8 +93,8 @@ export const SidebarTemplateAnswerAddGroup = observer(() => {
   );
 
   const removeTemplateAnswer = async (id: number) => {
-    if (await templateAnswerApi.remove(id)) {
-      templateAnswersStore.delete(id);
+    if (await Api.templateAnswers.remove(id)) {
+      templateAnswersStore?.delete(id);
     }
   };
 
@@ -123,11 +124,11 @@ export const SidebarTemplateAnswerAddGroup = observer(() => {
 
       const schoolId = contactStore?.activeContact?.schoolId ?? -1;
 
-      const response = await templateAnswerApi.addGroup(schoolId, name);
+      const response = await Api.templateAnswers.addGroup(schoolId, name);
       if (response) {
         const id = response.data?.data?.id ?? null;
         if (id) {
-          templateAnswersStore.addGroup(id, name, true);
+          templateAnswersStore?.addGroup(id, name, true);
           setMenuVisible(false);
         }
       }
@@ -192,8 +193,10 @@ export const SidebarTemplateAnswerAddGroup = observer(() => {
       const [menuVisible, setMenuVisible] = useState(false);
 
       const removeTemplateAnswerGroup = async () => {
-        if (await templateAnswerApi.removeGroup(removeTemplateAnswerGroupId)) {
-          templateAnswersStore.deleteGroup(removeTemplateAnswerGroupId);
+        if (
+          await Api.templateAnswers.removeGroup(removeTemplateAnswerGroupId)
+        ) {
+          templateAnswersStore?.deleteGroup(removeTemplateAnswerGroupId);
         }
         setMenuVisible(false);
       };

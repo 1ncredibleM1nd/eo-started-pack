@@ -1,36 +1,34 @@
-import { singleton } from "tsyringe";
 import store from "store";
 import { makeAutoObservable } from "mobx";
 import { TemplateAnswer, TemplateAnswerGroup } from "@/stores/model";
-import { templateAnswers } from "@/api";
-import { Socket } from "@/services/socket";
+import { Api } from "@/api";
+import { socket } from "@/api/socket";
 
-@singleton()
 export class TemplateAnswersStore {
-  constructor(private socket: Socket) {
+  constructor() {
     makeAutoObservable(this);
 
-    this.socket.on("templateAnswerAdded", (data) => {
+    socket.on("templateAnswerAdded", (data) => {
       this.add(data.id, data.name, data.groupId, data.content);
     });
 
-    this.socket.on("templateAnswerRemoved", (data) => {
+    socket.on("templateAnswerRemoved", (data) => {
       this.delete(data.id);
     });
 
-    this.socket.on("templateAnswerEdited", (data) => {
+    socket.on("templateAnswerEdited", (data) => {
       this.edit(data.id, data.name, data.content);
     });
 
-    this.socket.on("templateAnswerGroupAdded", (data) => {
+    socket.on("templateAnswerGroupAdded", (data) => {
       this.addGroup(data.id, data.name, data.isDeletable);
     });
 
-    this.socket.on("templateAnswerGroupRemoved", (data) => {
+    socket.on("templateAnswerGroupRemoved", (data) => {
       this.deleteGroup(data.id);
     });
 
-    this.socket.on("templateAnswerGroupEdited", (data) => {
+    socket.on("templateAnswerGroupEdited", (data) => {
       this.editGroup(data.id, data.name);
     });
   }
@@ -41,9 +39,9 @@ export class TemplateAnswersStore {
   async load(schoolId: number) {
     store.set("templateAnswers", null);
     store.set("templateAnswerGroups", null);
-    this.templateAnswer?.clear();
+    this.templateAnswers?.clear();
     this.templateAnswerGroups?.clear();
-    const { data: r } = await templateAnswers.getAll(schoolId);
+    const { data: r } = await Api.templateAnswers.getAll(schoolId);
     if (!r.error) {
       r.data.forEach((templateAnswerGroup) => {
         this.templateAnswerGroups.set(
@@ -88,7 +86,7 @@ export class TemplateAnswersStore {
   }
 
   editRemote(id: number, name: string, content: string) {
-    return templateAnswers.edit(id, name, content);
+    return Api.templateAnswers.edit(id, name, content);
   }
 
   saveTemplateAnswers() {
@@ -120,7 +118,7 @@ export class TemplateAnswersStore {
   }
 
   editRemoteGroup(id: number, name: string) {
-    return templateAnswers.editGroup(id, name);
+    return Api.templateAnswers.editGroup(id, name);
   }
 
   saveTemplateAnswerGroups() {
