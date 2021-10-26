@@ -115,7 +115,7 @@ export class TaskStore {
     return undefined;
   }
 
-  haTaskt(id: number) {
+  hasTaskt(id: number) {
     return this.tasks.has(id);
   }
 
