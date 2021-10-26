@@ -65,7 +65,7 @@ export class RequestBuilder<I, O> {
 
       if (output.data.error) {
         notification.error({
-          message: output.data.data.error_message,
+          message: output.data.data.error_message ?? "Ошибка",
           placement: "topRight",
         });
 
