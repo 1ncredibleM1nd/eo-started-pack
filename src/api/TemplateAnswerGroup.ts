@@ -1,21 +1,29 @@
-import { API } from "@/api/axios";
+import { RequestBuilder } from "@/api/request-builder";
 
 export class TemplateAnswerGroup {
   static getAll(schoolId: number) {
-    return API.post("/template-answer/get-all", { schoolId });
+    return RequestBuilder.instance.post("/template-answer/get-all", {
+      schoolId,
+    });
   }
 
   static add(schoolId: number, name: string) {
-    return API.post("/template-answer/create", { schoolId, name });
+    return RequestBuilder.instance.post("/template-answer/create", {
+      schoolId,
+      name,
+    });
   }
 
   static remove(id: number) {
-    return API.post("/template-answer/delete", {
+    return RequestBuilder.instance.post("/template-answer/delete", {
       templateAnswerId: id,
     });
   }
 
   static edit(id: number, name: string) {
-    return API.post("/template-answer/edit", { templateAnswerId: id, name });
+    return RequestBuilder.instance.post("/template-answer/edit", {
+      templateAnswerId: id,
+      name,
+    });
   }
 }

@@ -1,39 +1,61 @@
-import { API } from "@/api/axios";
+import { RequestBuilder } from "@/api/request-builder";
 
 export class TemplateAnswers {
   getAll(schoolId: number) {
-    return API.post("/template-answer/get-all", { schoolId });
+    return RequestBuilder.instance.post("/template-answer/get-all", {
+      schoolId,
+    });
   }
 
   add(groupId: number, name: string, content: string) {
-    return API.post("/template-answer/create", { groupId, name, content });
+    return RequestBuilder.instance.post("/template-answer/create", {
+      groupId,
+      name,
+      content,
+    });
   }
 
   remove(id: number) {
-    return API.post("/template-answer/delete", { id });
+    return RequestBuilder.instance.post("/template-answer/delete", { id });
   }
 
   edit(id: number, name: string, content: string) {
-    return API.post("/template-answer/edit", { id, name, content });
+    return RequestBuilder.instance.post("/template-answer/edit", {
+      id,
+      name,
+      content,
+    });
   }
 
   getTemplates(groupId: number) {
-    return API.post("/template-answer/get-templates", { groupId });
+    return RequestBuilder.instance.post("/template-answer/get-templates", {
+      groupId,
+    });
   }
 
   addGroup(schoolId: number, name: string) {
-    return API.post("/template-answer/create-group", { schoolId, name });
+    return RequestBuilder.instance.post("/template-answer/create-group", {
+      schoolId,
+      name,
+    });
   }
 
   removeGroup(id: number) {
-    return API.post("/template-answer/delete-group", { id });
+    return RequestBuilder.instance.post("/template-answer/delete-group", {
+      id,
+    });
   }
 
   editGroup(id: number, name: string) {
-    return API.post("/template-answer/edit-group", { id, name });
+    return RequestBuilder.instance.post("/template-answer/edit-group", {
+      id,
+      name,
+    });
   }
 
   getGroups(schoolId: number) {
-    return API.post("/template-answer/get-groups", { schoolId });
+    return RequestBuilder.instance.post("/template-answer/get-groups", {
+      schoolId,
+    });
   }
 }

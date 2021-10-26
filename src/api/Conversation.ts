@@ -1,6 +1,6 @@
-import { API } from "@/api/axios";
-import { TConversationDialogStatus } from "@/stores/model";
 import { AxiosResponse } from "axios";
+import { TConversationDialogStatus } from "@/stores/model";
+import { RequestBuilder } from "@/api/request-builder";
 
 type TGetConversationsFilter = {
   tags: string[];
@@ -29,7 +29,7 @@ export class Conversation {
     search,
     page,
   }: TGetConversations): Promise<AxiosResponse<any>> {
-    return API.post(`/conversation/get-conversations`, {
+    return RequestBuilder.instance.post(`/conversation/get-conversations`, {
       filter,
       search,
       page,
@@ -41,7 +41,7 @@ export class Conversation {
   }
 
   setTags(conversationId: number, tags: number[]) {
-    return API.post("/conversation/set-tags", {
+    return RequestBuilder.instance.post("/conversation/set-tags", {
       conversationId,
       tags: tags.length > 0 ? tags : [0],
     });
@@ -53,7 +53,7 @@ export class Conversation {
     page: number,
     messageId?: number
   ): Promise<AxiosResponse<any>> {
-    return API.post(`/conversation/get-messages`, {
+    return RequestBuilder.instance.post(`/conversation/get-messages`, {
       page,
       conversationId,
       messageId,
@@ -88,26 +88,29 @@ export class Conversation {
 
     formData.append("conversationId", conversationId.toString());
 
-    return API.post(`/conversation/send-message`, formData);
+    return RequestBuilder.instance.post(`/conversation/send-message`, formData);
   }
 
   setManager(id: number, managerId: number | null) {
-    return API.post("/conversation/set-manager", {
+    return RequestBuilder.instance.post("/conversation/set-manager", {
       conversationId: id,
       managerId: managerId,
     });
   }
 
   setDialogStatus(id: number, status: TConversationDialogStatus) {
-    return API.post("/conversation/set-conversation-status", {
-      conversationId: id,
-      status,
-    });
+    return RequestBuilder.instance.post(
+      "/conversation/set-conversation-status",
+      {
+        conversationId: id,
+        status,
+      }
+    );
   }
 
   // Tasks queries
   createTask(id: number, content: string, timeUp: Date) {
-    return API.post("/conversation/create-task", {
+    return RequestBuilder.instance.post("/conversation/create-task", {
       conversationId: id,
       content,
       timestampDateToComplete: timeUp,
@@ -115,7 +118,7 @@ export class Conversation {
   }
 
   async setStatusTask(id: number, status: string) {
-    return API.post("/conversation/set-status-task", {
+    return RequestBuilder.instance.post("/conversation/set-status-task", {
       conversationTaskId: id,
       status,
     });
@@ -126,10 +129,13 @@ export class Conversation {
     search,
     page,
   }: TGetConversations): Promise<AxiosResponse<any>> {
-    return API.post("/conversation/get-conversation-tasks", {
-      filter,
-      search,
-      page,
-    });
+    return RequestBuilder.instance.post(
+      "/conversation/get-conversation-tasks",
+      {
+        filter,
+        search,
+        page,
+      }
+    );
   }
 }

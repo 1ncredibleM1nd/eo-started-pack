@@ -2,8 +2,8 @@ import $ from "jquery";
 import { createContext, useContext, ReactNode } from "react";
 import { action, makeAutoObservable } from "mobx";
 import { notification } from "antd";
-import { API } from "@/api/axios";
 import { socket } from "@/api/socket";
+import { contactStore } from "@/stores/ContactStore";
 import { UsersStore } from "@/stores/UsersStore";
 import { SchoolsStore } from "@/stores/SchoolsStore";
 import { ChannelsStore } from "@/stores/ChannelsStore";
@@ -13,8 +13,8 @@ import { SearchStore } from "@/stores/SearchStore";
 import { LayoutStore } from "@/stores/LayoutStore";
 import { ManagersStore } from "@/stores/ManagersStore";
 import { TaskStore } from "@/stores/TaskStore";
-import { contactStore } from "@/stores/ContactStore";
 import { TagsStore } from "@/stores/TagsStore";
+import { RequestBuilder } from "@/api/request-builder";
 
 class RootStore {
   contactStore = contactStore; // TODO: wrap with di container
@@ -34,11 +34,12 @@ class RootStore {
       init: action.bound,
     });
 
+    notification.config({ placement: "bottomRight", bottom: 50, duration: 3 });
     this.setupApi();
   }
 
   setupApi() {
-    API.interceptors.request.use((request) => {
+    RequestBuilder.instance.interceptors.request.use((request) => {
       if (
         request.url?.includes("v1/account/is-logged") ||
         request.url?.includes("v1/account/set-session")
@@ -65,7 +66,6 @@ class RootStore {
   }
 
   async init() {
-    notification.config({ placement: "bottomRight", bottom: 50, duration: 3 });
     await this.usersStore.init();
     await Promise.all([this.channelsStore.init(), this.schoolsStore.init()]);
     await this.tagsStore.load(this.schoolsStore.activeSchoolsIds);

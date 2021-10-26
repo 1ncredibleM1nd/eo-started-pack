@@ -1,5 +1,10 @@
 import { User, Conversation } from "@/stores/model";
-import { RequestBuilder, TItemsData, TResponse } from "../request-builder";
+import {
+  RequestBuilder,
+  TItemsData,
+  TResponse,
+  FALLBACK_DATA_ITEMS,
+} from "../request-builder";
 import type {
   TSearchByMessageRequest,
   TSearchBySourceAccountRequest,
@@ -45,6 +50,7 @@ export class Search {
   >()
     .withPath("/conversation/search-by-sourceaccount")
     .withOutputTransformer(transformConversations)
+    .withDataOnError(FALLBACK_DATA_ITEMS)
     .build();
 
   byMessage = new RequestBuilder<
@@ -53,5 +59,6 @@ export class Search {
   >()
     .withPath("/conversation/search-by-message")
     .withOutputTransformer(transformConversations)
+    .withDataOnError(FALLBACK_DATA_ITEMS)
     .build();
 }
