@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 import { Comment } from "../Comment";
-import { CommentsStore } from "@/stores/comments-store/comments-store";
+import { CommentsStore } from "@/stores/CommentsStore/CommentsStore";
 import { SidebarAddCommentButton } from "@/components/Comments/Sidebar/SidebarAddCommentButton";
 import { SidebarAddCommentForm } from "@/components/Comments/Sidebar/SidebarAddCommentForm";
 import { ContactListLoader } from "@/components/contacts/ContactListLoader/ContactListLoader";
