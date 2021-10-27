@@ -8,8 +8,14 @@ import "@/assets/icons/index";
 import "./styles/index.scss";
 import "./styles/ant/index.scss";
 import { RootStoreProvider } from "./stores";
+import { shouldForwardProp } from "goober/should-forward-prop";
 
-setup(createElement);
+setup(
+  createElement,
+  undefined,
+  undefined,
+  shouldForwardProp((prop) => prop !== "active")
+);
 
 render(
   <RootStoreProvider>
