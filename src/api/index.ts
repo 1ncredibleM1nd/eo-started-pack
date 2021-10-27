@@ -1,13 +1,15 @@
 import { Account } from "./Account";
-import { Conversation } from "./Conversation";
 import { Tags } from "./Tags";
-import { TemplateAnswers } from "./TemplateAnswers";
 import { Search } from "./modules/search";
+import { CommentApi } from "@/api/modules/comment";
+import { Conversation } from "./Conversation";
+import { TemplateAnswers } from "./TemplateAnswers";
 
 export const Api = {
   account: new Account(),
-  conversation: new Conversation(),
   tags: new Tags(),
-  templateAnswers: new TemplateAnswers(),
   search: new Search(),
+  comment: new CommentApi(),
+  conversation: new Conversation(),
+  templateAnswers: new TemplateAnswers(),
 };

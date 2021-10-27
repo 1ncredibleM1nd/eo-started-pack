@@ -42,9 +42,9 @@ export class RequestBuilder<I, O> {
     return this;
   }
 
-  private outputTransformer?: (output: TResponse<O>) => O;
+  private outputTransformer?: (output: TResponse<any>) => O;
 
-  withOutputTransformer(transformer: (output: TResponse<O>) => O) {
+  withOutputTransformer<T>(transformer: (output: TResponse<T>) => O) {
     this.outputTransformer = transformer;
     return this;
   }

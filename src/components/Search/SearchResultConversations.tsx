@@ -26,7 +26,7 @@ export const SearchResultConversations = observer(() => {
     searchBySourceAccountQuery.loadNext();
   };
 
-  const renderResult = searchBySourceAccountQuery?.items.map(
+  const renderResult = searchStore.sortedSearchContacts.map(
     (conversation: Conversation, index: number) => {
       if (!conversation) return null;
 

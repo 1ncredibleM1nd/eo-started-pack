@@ -1,6 +1,7 @@
 import { styled } from "goober";
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores";
+import { css } from "goober";
 import { SidebarHeader } from "@/components/Sidebar/SidebarHeader";
 import { SidebarUser } from "@/components/Sidebar/SidebarUser";
 import { SidebarTagList } from "@/components/Sidebar/SidebarTagList";
@@ -10,7 +11,7 @@ import { Icon } from "@/ui/Icon/Icon";
 import "./Sidebar.scss";
 import { SidebarManagerSelector } from "@/components/Sidebar/SidebarManagerSelector/SidebarManagerSelector";
 import SidebarTasks from "@/components/Sidebar/SidebarTasks";
-import { css } from "goober";
+import { SidebarCommentList } from "@/components/Comments/Sidebar/SidebarCommentList";
 const { TabPane } = Tabs;
 
 const SidebarWrapper = styled("div")`
@@ -24,8 +25,7 @@ const SidebarWrapper = styled("div")`
 
 const SidebarContent = styled("div")`
   height: 100vh;
-  padding: 0;
-  padding-bottom: 13px;
+  padding: 0 0 13px;
   overflow-y: scroll;
 
   @media (max-width: 480px) {
@@ -34,58 +34,59 @@ const SidebarContent = styled("div")`
   }
 `;
 
-const profileTabName = (
-  <div
-    className={css`
-      display: flex;
-      align-items: center;
-    `}
-  >
-    <Icon fill={"currentColor"} name={"icon_profile"} />
-    <span
+type TTabContentProps = {
+  title: string;
+  icon: string;
+};
+
+const TabContent = observer(({ icon, title }: TTabContentProps) => {
+  return (
+    <div
       className={css`
-        transform: translateY(1px);
+        display: flex;
+        align-items: center;
       `}
     >
-      Профиль
-    </span>
-  </div>
-);
-const tamplateTabName = (
-  <div
-    className={css`
-      display: flex;
-      align-items: center;
-    `}
-  >
-    <Icon fill={"currentColor"} name={"icon_template"} />
-    <span
-      className={css`
-        transform: translateY(1px);
-      `}
-    >
-      Шаблоны
-    </span>
-  </div>
-);
+      <Icon fill={"currentColor"} name={icon} />
+      <span
+        className={css`
+          transform: translateY(1px);
+        `}
+      >
+        {title}
+      </span>
+    </div>
+  );
+});
 
 export const Sidebar = observer(() => {
   const { contactStore } = useStore();
+
   return (
-    <SidebarWrapper>
+    <SidebarWrapper key={"sidebar_" + contactStore.activeContactId}>
       <SidebarHeader />
       <SidebarContent>
-        <Tabs type="card" className="side-bar-tabs">
-          <TabPane tab={profileTabName} key="1">
+        <Tabs type="card" className="side-bar-tabs" destroyInactiveTabPane>
+          <TabPane
+            tab={<TabContent title={"Профиль"} icon={"icon_profile"} />}
+            key={"tab-profile"}
+          >
             <SidebarUser />
             <SidebarTagList />
             <SidebarManagerSelector />
             <SidebarTasks />
           </TabPane>
-          <TabPane tab={tamplateTabName} key="2">
-            <SidebarTemplateAnswer
-              key={"st_" + contactStore.activeContact?.id}
-            />
+          <TabPane
+            tab={<TabContent title={"Шаблоны"} icon={"icon_template"} />}
+            key={"tab-template"}
+          >
+            <SidebarTemplateAnswer />
+          </TabPane>
+          <TabPane
+            tab={<TabContent title={"Комментарии"} icon={"icon_comment"} />}
+            key={"tab-comments"}
+          >
+            <SidebarCommentList conversationId={contactStore.activeContactId} />
           </TabPane>
         </Tabs>
       </SidebarContent>

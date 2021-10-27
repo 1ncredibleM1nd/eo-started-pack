@@ -53,13 +53,16 @@ export class ItemsQuery<T, I, O extends TItemsData<T>> {
     return this.state === STATE.PENDING;
   }
 
+  get isEmpty() {
+    return this.items.size <= 0;
+  }
+
   private _hasNext = true;
   get hasNext() {
     return this.count > 0 && this._hasNext;
   }
 
   private _error?: Error;
-
   get error() {
     return this._error;
   }
@@ -77,7 +80,7 @@ export class ItemsQuery<T, I, O extends TItemsData<T>> {
     this._state = STATE.PENDING;
     this.setError(undefined);
 
-    await this.method(this._request).then(
+    await this.method({ ...this._request, page: this.page }).then(
       ({ data }) => {
         this._state = STATE.FULFILLED;
         this._data = data;
@@ -89,6 +92,26 @@ export class ItemsQuery<T, I, O extends TItemsData<T>> {
         this.setError(error);
       }
     );
+  }
+
+  getItem(id: number) {
+    return this._data?.items.find((item) => id === item.id);
+  }
+
+  hasItem(id: number) {
+    return this._data?.items.some((item) => id === item.id);
+  }
+
+  removeItem(id: number) {
+    const removeIndex =
+      this._data?.items.findIndex((item) => id === item.id) ?? -1;
+    if (removeIndex > -1) {
+      this._data?.items.splice(removeIndex, 1);
+    }
+  }
+
+  addItem(item: T) {
+    this._data?.items.push(item);
   }
 
   async loadNext() {
@@ -106,6 +129,7 @@ export class ItemsQuery<T, I, O extends TItemsData<T>> {
           ...data,
           items: [...this.items, ...data.items],
         };
+
         this._hasNext = data.items?.length >= PAGE_ITEMS_COUNT;
         this.setError(undefined);
       },

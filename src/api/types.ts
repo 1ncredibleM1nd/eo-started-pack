@@ -29,6 +29,7 @@ export type TSearchBySourceAccountRequest = {
 export type TTask = {
   id: number;
   name?: string;
+  avatar?: string;
   school_id: number;
   conversation_id: number;
   content: string;

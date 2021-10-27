@@ -26,7 +26,7 @@ export const SearchResultMessages = observer(() => {
     searchByMessageQuery.loadNext();
   };
 
-  const renderResult = searchByMessageQuery?.items.map(
+  const renderResult = searchStore.sortedSearchMessages.map(
     (conversation: Conversation, index: number) => {
       if (!conversation) return null;
 

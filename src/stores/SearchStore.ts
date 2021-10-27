@@ -53,6 +53,14 @@ export class SearchStore {
     this.searchBySourceAccountQuery.reset();
   }
 
+  get sortedSearchMessages() {
+    return this.searchByMessageQuery.items;
+  }
+
+  get sortedSearchContacts() {
+    return this.searchBySourceAccountQuery.items;
+  }
+
   fetch = debounce(
     action("fetch", async () => {
       if (this.isEmpty) {
