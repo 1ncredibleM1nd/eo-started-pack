@@ -23,13 +23,21 @@ export const FilterManagerList = observer(({ onCheck }: TProps) => {
       `}
       direction="vertical"
     >
-      <Checkbox onChange={(ev) => onCheck(-1, ev.target.checked)}>
+      <Checkbox
+        checked={managersStore.noManagers}
+        onClick={() => managersStore.toggleNoManager()}
+        onChange={(ev) => onCheck(-1, ev.target.checked)}
+      >
         Без менеджера
       </Checkbox>
       {managersStore.managerList.map((manager) => {
         return (
           <Checkbox
+            checked={manager.selected}
             key={manager.id}
+            onClick={() => {
+              manager.setSelected(!manager.selected);
+            }}
             className={css`
               display: flex;
               align-items: center;
