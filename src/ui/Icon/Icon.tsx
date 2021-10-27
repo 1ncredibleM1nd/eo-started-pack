@@ -11,7 +11,7 @@ enum IconSize {
   xl = 36,
 }
 
-type TIconSize = keyof typeof IconSize;
+export type TIconSize = keyof typeof IconSize;
 
 export type TIconProps = {
   name: string;

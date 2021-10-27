@@ -1,8 +1,9 @@
 import { observer } from "mobx-react-lite";
 import { css } from "goober";
-import { classnames } from "@/utils/styles";
+import { Popconfirm } from "antd";
 import TaskIcon from "./TaskIcon";
 import { useStore } from "@/stores";
+import { SyntheticEvent } from "react";
 
 type TPropsTaskActions = {
   status: string;
@@ -22,7 +23,7 @@ const TaskActions = observer(({ status, id }: TPropsTaskActions) => {
         name={status === "active" ? "icon_task" : "icon_task_done"}
         size="xs"
         color={status === "completed" ? "#6fbb85" : "#607D8B"}
-        onClick={(e) => {
+        onClick={(e: SyntheticEvent) => {
           e.stopPropagation();
           status === "active"
             ? contactStore.completeTask(id)
@@ -53,17 +54,21 @@ const TaskActions = observer(({ status, id }: TPropsTaskActions) => {
       {/*) : null}*/}
 
       {status === "active" ? (
-        <TaskIcon
-          name="icon_delete_task"
-          size="xs"
-          onClick={(e) => {
-            e.stopPropagation();
-            contactStore.deleteTask(id);
-          }}
-          className={css`
-            margin-top: auto;
-          `}
-        />
+        <Popconfirm
+          placement="topLeft"
+          title="Удалить задачу?"
+          onConfirm={() => contactStore.deleteTask(id)}
+          okText="Да"
+          cancelText="Нет"
+        >
+          <TaskIcon
+            name="icon_delete_task"
+            size="xs"
+            className={css`
+              margin-top: auto;
+            `}
+          />
+        </Popconfirm>
       ) : null}
     </div>
   );

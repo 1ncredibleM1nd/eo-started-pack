@@ -171,10 +171,6 @@ export class Conversation {
         filter(tasks, ["status", "completed"]),
         "timestampDateToComplete"
       ),
-      ...sortBy(
-        filter(tasks, ["status", "archived"]),
-        "timestampDateToComplete"
-      ),
     ];
   }
 }

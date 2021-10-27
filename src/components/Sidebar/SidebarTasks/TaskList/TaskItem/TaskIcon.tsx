@@ -1,15 +1,15 @@
 import { observer } from "mobx-react-lite";
 import { css } from "goober";
-import { Icon } from "@/ui/Icon/Icon";
+import { Icon, TIconSize } from "@/ui/Icon/Icon";
 import { classnames } from "@/utils/styles";
 
 type TPropsIcon = {
-  name: string;
-  size?: string;
-  color?: string;
-  onClick: any;
-  className?: string;
   id?: string;
+  name: string;
+  size: TIconSize;
+  color?: string;
+  onClick?: () => void;
+  className?: string;
 };
 
 const TaskIcon = observer(
