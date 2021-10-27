@@ -1,5 +1,4 @@
 import { makeAutoObservable } from "mobx";
-import IRole from "@/stores/interface/IRole";
 import { Message } from "./Message";
 import { Task, User } from "@/stores/model";
 import { Api } from "@/api";
@@ -28,11 +27,9 @@ export type TConversationDialogStatus =
 export class Conversation {
   id: number;
   sourceAccountId: string;
-  role: Array<IRole> = [];
   activeSocial: string;
   user: User;
   schoolId: number;
-  sendFile: boolean;
   linkSocialPage: string = "";
   dialogStatus: TConversationDialogStatus = "";
   chat: ChatStore;
@@ -48,7 +45,6 @@ export class Conversation {
     user,
     tags,
     schoolId,
-    sendFile,
     linkSocialPage,
     dialogStatus = "",
     restrictions,
@@ -61,7 +57,6 @@ export class Conversation {
     user: User;
     tags: number[];
     schoolId?: number;
-    sendFile?: boolean;
     linkSocialPage?: string;
     dialogStatus: TConversationDialogStatus;
     restrictions: TConversationRestrictions;
@@ -76,7 +71,6 @@ export class Conversation {
     this.user = user;
     this.tags = tags;
     this.schoolId = schoolId;
-    this.sendFile = sendFile;
     this.linkSocialPage = linkSocialPage;
     this.dialogStatus = dialogStatus;
     this.restrictions = restrictions;
