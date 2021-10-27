@@ -12,11 +12,11 @@ const CommentFromContainer = styled("span")`
   align-items: center;
 `;
 
-const CommentFromName = styled<{ isActive?: boolean }>("span")`
+const CommentFromName = styled<{ active?: boolean }>("span")`
   display: block;
   color: #607d8b;
   font-size: 12px;
-  margin-left: ${(props) => (props.isActive ? "5px" : "0")};
+  margin-left: ${(props) => (props.active ? "5px" : "0")};
 `;
 
 export const CommentFrom = observer(({ from }: TProps) => {
@@ -31,12 +31,10 @@ export const CommentFrom = observer(({ from }: TProps) => {
           textSizeRatio={1.75}
           textLength={2}
         />
-        <CommentFromName isActive={true}>{from.username}</CommentFromName>
+        <CommentFromName active={true}>{from.username}</CommentFromName>
       </CommentFromContainer>
     );
   }
 
-  return (
-    <CommentFromName isActive={false}>{"Менеджер удалён"}</CommentFromName>
-  );
+  return <CommentFromName>{"Менеджер удалён"}</CommentFromName>;
 });
