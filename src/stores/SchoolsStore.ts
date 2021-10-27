@@ -18,6 +18,10 @@ export class SchoolsStore {
     return this.schools.find(({ id }) => schoolId === id);
   }
 
+  get activeSchoolsCount() {
+    return this.activeSchoolsIds.length;
+  }
+
   isActive(schoolId: number) {
     return this.getById(schoolId)?.active;
   }

@@ -37,4 +37,8 @@ export class ManagersStore {
       );
     }
   }
+
+  get activeManagersCount() {
+    return this.chosenManagers.length;
+  }
 }

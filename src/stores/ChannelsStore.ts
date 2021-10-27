@@ -17,6 +17,10 @@ export class ChannelsStore {
     return this.channels.filter(({ active }) => active);
   }
 
+  get activeChannelsCount() {
+    return this.activeChannels.length;
+  }
+
   async init() {
     const savedChannels = store.get("channels", {});
 

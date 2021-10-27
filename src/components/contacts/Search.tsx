@@ -17,6 +17,7 @@ import FilterManagers from "@/components/Filter/FilterManagers";
 const Search = observer(() => {
   const {
     contactStore,
+    channelsStore,
     schoolsStore,
     tagsStore,
     sidebarStore,
@@ -100,7 +101,14 @@ const Search = observer(() => {
             onClick={() => setFilterVisible(!filterVisible)}
           >
             <FilterButton
-              count={tagsStore.activeTagsCount}
+              count={
+                tagsStore.activeTagsCount +
+                managersStore.activeManagersCount +
+                schoolsStore.activeSchoolsCount +
+                channelsStore.activeChannelsCount +
+                (managersStore.noManagers ? 1 : 0) +
+                (tagsStore.noTags ? 1 : 0)
+              }
               visible={filterVisible}
             />
           </div>
