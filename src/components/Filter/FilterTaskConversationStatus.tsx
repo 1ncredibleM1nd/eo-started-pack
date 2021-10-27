@@ -64,6 +64,7 @@ export const FilterTaskConversationStatus = observer(() => {
         margin-top: 5px;
         padding-bottom: 6px;
         border-bottom: 1px solid #f4f5f6;
+        overflow-y: auto;
       `}
     >
       <FilterButton
@@ -89,6 +90,12 @@ export const FilterTaskConversationStatus = observer(() => {
         active={taskStore.taskStatus === "later"}
       >
         Позже
+      </FilterButton>
+      <FilterButton
+        onClick={() => taskStore.setTaskStatus("archive")}
+        active={taskStore.taskStatus === "archive"}
+      >
+        Архив
       </FilterButton>
     </div>
   );

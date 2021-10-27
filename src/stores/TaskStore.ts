@@ -3,10 +3,10 @@ import { Task } from "@/stores/model";
 import { RootStoreInstance } from "./index";
 import { getConversationTasks } from "@/api/deprecated";
 import { socket } from "@/api/socket";
-import { reverse, sortBy } from "lodash-es";
+import { filter, reverse, sortBy } from "lodash-es";
 import { TTask } from "@/api/types";
 
-type TConversationTaskStatus = "" | "today" | "expired" | "later";
+type TConversationTaskStatus = "" | "today" | "expired" | "later" | "archive";
 
 export class TaskStore {
   tasks = new Map<number, Task>();
@@ -59,8 +59,21 @@ export class TaskStore {
   }
 
   get sortedTasks() {
+    const isStatusArchived = this.taskStatus === "archive";
+
     return reverse(
-      sortBy(Array.from(this.tasks.values()), "timestampDateToComplete")
+      sortBy(
+        filter(Array.from(this.tasks.values()), (task) => {
+          const isTaskArchived =
+            task.status === "completed" || task.status === "archived";
+
+          return (
+            (!isStatusArchived && !isTaskArchived) ||
+            (isStatusArchived && isTaskArchived)
+          );
+        }),
+        "timestampDateToComplete"
+      )
     );
   }
 

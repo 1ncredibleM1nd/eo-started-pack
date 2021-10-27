@@ -14,7 +14,9 @@ export const ConversationTaskItem = observer(
     const { managersStore, schoolsStore } = useStore();
     const manager = managersStore.getById(task.creatorId);
 
-    const isDeadline = dayjs().unix() < task.timestampDateToComplete;
+    const isDeadline =
+      task.status === "completed" ||
+      dayjs().unix() < task.timestampDateToComplete;
     const school = schoolsStore.getById(task.schoolId);
     const socialMedia = task.socialMedia;
     const [moreBtnHide, setMoreBtnHide] = useState(true);

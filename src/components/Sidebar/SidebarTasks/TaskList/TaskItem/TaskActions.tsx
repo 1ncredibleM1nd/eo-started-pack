@@ -21,7 +21,9 @@ const TaskActions = observer(({ status, id }: TPropsTaskActions) => {
       <TaskIcon
         name={status === "active" ? "icon_task" : "icon_task_done"}
         size="xs"
-        onClick={() => {
+        color={status === "completed" ? "#6fbb85" : "#607D8B"}
+        onClick={(e) => {
+          e.stopPropagation();
           status === "active"
             ? contactStore.completeTask(id)
             : contactStore.restoreTask(id);
@@ -54,7 +56,10 @@ const TaskActions = observer(({ status, id }: TPropsTaskActions) => {
         <TaskIcon
           name="icon_delete_task"
           size="xs"
-          onClick={() => contactStore.deleteTask(id)}
+          onClick={(e) => {
+            e.stopPropagation();
+            contactStore.deleteTask(id);
+          }}
           className={css`
             margin-top: auto;
           `}

@@ -6,13 +6,14 @@ import { classnames } from "@/utils/styles";
 type TPropsIcon = {
   name: string;
   size?: string;
+  color?: string;
   onClick: any;
   className?: string;
   id?: string;
 };
 
 const TaskIcon = observer(
-  ({ name, size, onClick, className, id }: TPropsIcon) => {
+  ({ name, size, color, onClick, className, id }: TPropsIcon) => {
     return (
       <div
         className={classnames(
@@ -23,13 +24,14 @@ const TaskIcon = observer(
             display: flex;
             padding: 3px;
             box-sizing: content-box;
+            color: ${color};
           `,
           className
         )}
         onClick={onClick}
         id={id}
       >
-        <Icon name={name} size={size} />
+        <Icon name={name} size={size} fill="currentColor" />
       </div>
     );
   }
