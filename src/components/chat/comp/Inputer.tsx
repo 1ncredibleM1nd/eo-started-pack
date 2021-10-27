@@ -7,6 +7,8 @@ import { useStore } from "@/stores";
 import ReplyCurrentMessage from "@/components/chat/comp/ReplyCurrentMessage";
 import MessageTransmitter from "@/components/chat/comp/MessageTransmitter";
 import ErrorDialogInfo from "@/components/chat/comp/MessageTransmitter/ErrorDialogInfo";
+import { notification } from "antd";
+import { WarningOutlined } from "@ant-design/icons";
 const ALL_ACCEPT_TYPE = "file_extension|audio/*|video/*|image/*|media_type";
 const INSTAGRAM_ACCEPT_TYPE = "image/*";
 
@@ -89,6 +91,11 @@ const Inputer = observer(() => {
 
   const handleEnter = async (e: any) => {
     e.preventDefault();
+    const moreMessageLimit =
+      symbols > activeContact?.restrictions.maxMessageSymbols;
+    const moreCommentLimit =
+      currentChat?.activeMessage &&
+      symbols > activeContact?.restrictions.maxCommentSymbols;
 
     if (e.altKey || e.shiftKey || e.ctrlKey || e.metaKey) {
       const position = e.target.selectionEnd;
@@ -96,6 +103,14 @@ const Inputer = observer(() => {
       setDraft({
         ...draft,
         [activeContact.id + status]: e.target.value,
+      });
+    } else if (moreCommentLimit || moreMessageLimit) {
+      notification.open({
+        message: "Превышение числа символов",
+        description:
+          "Ваше сообщение не отправлено, так как превышено количество символов, разрешенное социальной сетью",
+        icon: <WarningOutlined style={{ color: "#ef8079" }} />,
+        placement: "topRight",
       });
     } else {
       clearFiles();
@@ -108,7 +123,6 @@ const Inputer = observer(() => {
   };
 
   const sendMessage = async () => {
-    // let message = draft[activeContact.id + status];
     if (
       (draft[activeContact.id + status] &&
         draft[activeContact.id + status].length) ||
