@@ -2,6 +2,13 @@
   "scss.validate": false,
   "css.validate": false,
   "less.validate": false,
+  "stylelint.enable": true,
+  "stylelint.validate": [
+    "css",
+    "less",
+    "scss",
+    "postcss"
+  ],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true,
     "source.fixAll.stylelint": true
